@@ -1,50 +1,111 @@
 import { fetchAllSpecies } from '$lib/fetchSpecies';
 import { fetchSpeciesDetails } from '$lib/fetchSpeciesDetails';
 
-let cachedData: { species: any[]; summary: any; lastUpdated: number } | null = null;
+interface SpeciesDetail {
+	id: string; // Stays as string, matching documentation for JSON response
+	scientificName: string;
+	commonName: string;
+	detections?: {
+		total: number;
+	};
+	wikipediaSummary?: string;
+	wikipediaUrl?: string;
+	ebirdUrl?: string;
+	latestDetectionAt?: string;
+	imageUrl?: string;
+}
 
-function loadFromLocalStorage() {
+interface Summary {
+	total_species: number;
+	total_detections: number;
+}
+
+interface CachedData {
+	species: SpeciesDetail[];
+	summary: Summary;
+	lastUpdated: number;
+}
+
+let cachedData: CachedData | null = null;
+const CACHE_KEY = 'birdnet:species';
+const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+
+function loadFromLocalStorage(): CachedData | null {
 	try {
-		const raw = localStorage.getItem('birdnet:species');
-		if (raw) return JSON.parse(raw);
-	} catch {}
+		if (typeof window !== 'undefined') {
+			const raw = localStorage.getItem(CACHE_KEY);
+			if (raw) return JSON.parse(raw) as CachedData;
+		}
+	} catch (e) {
+		console.error('Error loading from localStorage:', e);
+	}
 	return null;
 }
 
-function saveToLocalStorage(data: any) {
+function saveToLocalStorage(data: CachedData) {
 	try {
-		localStorage.setItem('birdnet:species', JSON.stringify(data));
-	} catch {}
+		if (typeof window !== 'undefined') {
+			localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+		}
+	} catch (e) {
+		console.error('Error saving to localStorage:', e);
+	}
 }
 
 export async function load({ fetch, depends }) {
-	depends('birdnet:species');
+	depends(CACHE_KEY);
 
 	if (typeof window !== 'undefined' && !cachedData) {
 		cachedData = loadFromLocalStorage();
 	}
+
+	if (cachedData && cachedData.lastUpdated) {
+		const now = Date.now();
+		if (now - cachedData.lastUpdated > TWENTY_FOUR_HOURS_MS) {
+			console.log('Cached Birdnet data is older than 24 hours. Refreshing.');
+			cachedData = null;
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem(CACHE_KEY);
+			}
+		}
+	}
+
 	if (cachedData) {
 		return { speciesData: Promise.resolve(cachedData) };
 	}
 
-	const speciesPromise = (async () => {
-		const species = await fetchAllSpecies({ fetch });
-		const summary = {
-			total_species: species.length,
-			total_detections: species.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
+	console.log('Fetching fresh Birdnet data.');
+	const speciesPromise = (async (): Promise<CachedData> => {
+		// Assuming 'speciesFromApi' is the raw result from fetchAllSpecies
+		// and it might have 'id' as a number.
+		const speciesFromApi = await fetchAllSpecies({ fetch });
+		const summary: Summary = {
+			total_species: speciesFromApi.length,
+			total_detections: speciesFromApi.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
 		};
-		const identifiers = species.map((s) => `${s.scientificName}_${s.commonName}`);
+		const identifiers = speciesFromApi.map((s) => `${s.scientificName}_${s.commonName}`);
 		const detailsMap = await fetchSpeciesDetails(identifiers, fetch);
-		const speciesWithDetails = species.map((s) => {
+
+		const speciesWithDetails: SpeciesDetail[] = speciesFromApi.map((s) => {
 			const key = `${s.scientificName}_${s.commonName}`;
+			const details = detailsMap[key] || {};
+			// Explicitly create the object matching SpeciesDetail
 			return {
-				...s,
-				...detailsMap[key]
+				...s, // 1. Spread other properties from s first
+				...details, // 2. Spread details from detailsMap
+				id: String(s.id) // 3. Ensure id is a string, this will overwrite s.id if it was numeric
 			};
 		});
-		const result = { species: speciesWithDetails, summary, lastUpdated: Date.now() };
+
+		const result: CachedData = {
+			species: speciesWithDetails,
+			summary,
+			lastUpdated: Date.now()
+		};
+
 		cachedData = result;
-		if (typeof window !== 'undefined') saveToLocalStorage(result);
+		saveToLocalStorage(result);
+
 		return result;
 	})();
 

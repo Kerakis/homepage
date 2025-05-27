@@ -170,7 +170,7 @@
 			{/each}
 		</div>
 	{:else}
-		<p>No birds detected yet!</p>
+		<p class="mt-10 text-center">Looks like I haven't seen that one yet!</p>
 	{/if}
 
 	<!-- Modal -->
