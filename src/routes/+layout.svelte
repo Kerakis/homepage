@@ -1,11 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import { page } from '$app/stores';
+	import { derived } from 'svelte/store';
 
-	// Initialize without accessing window
 	let darkMode = false;
-	let currentPath = ''; // Will be updated on mount
+
+	// Use a derived store for the current path
+	const currentPath = derived(page, ($page) => $page.url.pathname);
 
 	function updateDarkMode() {
 		darkMode = document.documentElement.classList.contains('dark');
@@ -23,12 +25,7 @@
 		updateDarkMode();
 	}
 
-	onMount(() => {
-		// Safe to use window only after the component mounts
-		currentPath = window.location.pathname;
-		updateDarkMode();
-	});
-
+	// No need for onMount to set currentPath anymore
 	export const prerender = true;
 </script>
 
@@ -53,19 +50,22 @@
 	<header class="container mx-auto px-4 py-8 md:py-16">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between">
 			<!-- Large stylized header -->
-			<h1
-				class="mb-8 transform font-mono text-6xl font-black tracking-tighter text-black transition-transform hover:skew-x-2 md:mb-0 md:text-8xl dark:text-white"
-			>
-				KERAKIS
-			</h1>
-
+			<a href="/" aria-label="Home">
+				<h1
+					class="transform text-6xl font-black tracking-tighter transition-all hover:skew-x-2 sm:text-2xl md:text-4xl lg:text-6xl xl:text-8xl dark:text-white"
+				>
+					KERAKIS
+				</h1>
+			</a>
 			<!-- Navigation section -->
 			<nav class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-8">
 				{#each ['PROJECTS', 'PHOTOS', 'BIRDNET'] as link}
 					<a
 						href={'/' + link.toLowerCase()}
-						class="text-lg font-medium text-black decoration-[--accent-red] decoration-2 underline-offset-8 transition-all hover:underline dark:text-white"
-						class:underline={currentPath === '/' + link.toLowerCase()}
+						class="nav-underline inline-block text-lg font-medium text-black dark:text-white {$currentPath ===
+						'/' + link.toLowerCase()
+							? 'active'
+							: ''}"
 					>
 						{link}
 					</a>

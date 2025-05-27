@@ -11,6 +11,12 @@
 	--color-primary: #1e40af;
 	--color-secondary: #9333ea;
 }
+/* Firefox */
+::-moz-selection {
+	background: var(--accent-red);
+	color: white;
+}
+
 :root {
 	--accent-red: #ff3333;
 }
@@ -54,11 +60,40 @@
 	color: white;
 }
 
-/* Firefox */
-::-moz-selection {
-	background: var(--accent-red);
-	color: white;
-}
 body {
 	font-family: var(--font-sans);
+}
+
+.nav-underline {
+	position: relative;
+	display: inline-block;
+}
+
+.nav-underline::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	background: var(--accent-red, #ff3333);
+	border-radius: 9999px;
+	transition:
+		left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transform: translateX(-50%);
+}
+
+.nav-underline:hover::after,
+.nav-underline.active::after {
+	left: 0;
+	width: 100%;
+	transform: none;
+}
+
+.nav-underline.active:hover::after {
+	left: 0;
+	width: 100%;
+	transform: none;
 }
