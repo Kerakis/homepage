@@ -1,3 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 @import 'tailwindcss';
 
+@theme {
+	--font-roboto: 'Roboto', sans-serif;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
+@theme {
+	--font-sans: 'Raleway', ui-sans-serif, system-ui, sans-serif;
+	--color-primary: #1e40af;
+	--color-secondary: #9333ea;
+}
+:root {
+	--accent-red: #ff3333;
+}
+
+/* Period styling */
+.text-content {
+	color: inherit;
+}
+
+.text-content span {
+	color: var(--accent-red);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: theme('colors.black');
+	border: 2px solid transparent;
+	background-clip: padding-box;
+	border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent-red);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+	background: theme('colors.white');
+}
+
+/* Selection styling */
+::selection {
+	background: var(--accent-red);
+	color: white;
+}
+
+/* Firefox */
+::-moz-selection {
+	background: var(--accent-red);
+	color: white;
+}
+body {
+	font-family: var(--font-sans);
+}
