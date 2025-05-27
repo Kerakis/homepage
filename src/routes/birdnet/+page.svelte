@@ -3,10 +3,10 @@
 	import { fetchDetections } from '$lib/fetchDetections';
 	import { onMount } from 'svelte';
 	import { writable, derived, type Writable } from 'svelte/store';
+	import BirdModal from './BirdModal.svelte';
 
 	let modalOpen = false;
 	let modalData: any = null;
-	let lastDetections: Array<{ timestamp: string; soundscape: { url: string } }> = [];
 	let wikiSummary = '';
 	let wikiUrl = '';
 	let ebirdUrl = '';
@@ -38,30 +38,48 @@
 		[]
 	);
 
-	let lastUpdated: number | null = null;
+	let detectionsCache: Record<
+		string,
+		Array<{ timestamp: string; soundscape: { url: string } }>
+	> = {};
+	let detectionsLoading = false;
 
 	async function openModal(bird: any) {
 		modalData = bird;
 		modalOpen = true;
-		lastDetections = [];
 		wikiSummary = bird.wikipediaSummary || '';
 		wikiUrl = bird.wikipediaUrl || '';
 		ebirdUrl = bird.ebirdUrl || '';
-
-		isLoading.set(true);
-		try {
-			lastDetections = await fetchDetections({ speciesId: bird.id, limit: 5, fetch });
-		} catch {}
-		isLoading.set(false);
+		const id = bird.id;
+		if (!detectionsCache[id]) {
+			detectionsLoading = true;
+			try {
+				detectionsCache[id] = await fetchDetections({ speciesId: id, limit: 5, fetch });
+			} catch {}
+			detectionsLoading = false;
+		}
 	}
 
-	function closeModal() {
+	function closeModalHandler() {
+		// Renamed to avoid confusion if there's a global 'closeModal'
+		console.log('[+page.svelte] closeModalHandler function called by on:close.');
 		modalOpen = false;
 		modalData = null;
-		lastDetections = [];
 		wikiSummary = '';
 		wikiUrl = '';
 		ebirdUrl = '';
+		// Log the state of modalOpen after changing it
+		console.log('[+page.svelte] modalOpen is now:', modalOpen);
+	}
+
+	function refreshBirdnet() {
+		if (typeof window !== 'undefined') localStorage.removeItem('birdnet:species');
+		detectionsCache = {}; // clear detection cache on refresh
+		loadBirdnetData();
+	}
+
+	function scrollToTop() {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	onMount(() => {
@@ -70,7 +88,14 @@
 			const raw = localStorage.getItem('birdnet:species');
 			if (raw) {
 				const cached = JSON.parse(raw);
-				birdnetData.set({ ...cached, loading: false, error: null });
+				// Ensure birdnetData store is updated correctly, including loading state
+				birdnetData.set({
+					species: cached.species,
+					summary: cached.summary,
+					lastUpdated: cached.lastUpdated,
+					loading: false,
+					error: null
+				});
 			} else {
 				loadBirdnetData();
 			}
@@ -78,15 +103,6 @@
 			loadBirdnetData();
 		}
 	});
-
-	function refreshBirdnet() {
-		if (typeof window !== 'undefined') localStorage.removeItem('birdnet:species');
-		loadBirdnetData();
-	}
-
-	function scrollToTop() {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
 </script>
 
 {#if $birdnetData.loading}
@@ -106,7 +122,6 @@
 {:else if $birdnetData.error}
 	<p class="text-red-600">Failed to load bird data: {$birdnetData.error}</p>
 {:else}
-	<!-- Use $birdnetData.species, $birdnetData.summary, $birdnetData.lastUpdated -->
 	{#key $birdnetData.species}
 		{@html (() => {
 			speciesStore.set($birdnetData.species);
@@ -171,47 +186,18 @@
 
 	<!-- Modal -->
 	{#if modalOpen && modalData}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-			<div class="relative w-full max-w-lg rounded-lg bg-white p-6 shadow-lg dark:bg-black">
-				<button
-					class="hover:text-accent-red absolute top-4 right-4 text-2xl text-gray-400"
-					on:click={closeModal}
-					aria-label="Close">&times;</button
-				>
-				<img
-					src={modalData.imageUrl}
-					alt={modalData.commonName}
-					class="mx-auto mb-4 h-40 w-40 rounded-full object-cover"
-				/>
-				<h2 class="mb-1 text-center text-2xl font-bold">{modalData.commonName}</h2>
-				<p class="mb-2 text-center text-gray-500 italic">{modalData.scientificName}</p>
-				<p class="mb-2 text-center">
-					<span class="font-bold">{modalData.detections?.total ?? 0}</span> detections
-				</p>
-				<h3 class="mt-4 mb-2 font-semibold">Last 5 Detections</h3>
-				<ul class="mb-4 space-y-2">
-					{#each lastDetections as det}
-						<li class="flex items-center gap-2">
-							<span class="text-xs text-gray-500">{new Date(det.timestamp).toLocaleString()}</span>
-							{#if det.soundscape?.url}
-								<audio controls src={det.soundscape.url} class="h-6"></audio>
-							{/if}
-						</li>
-					{/each}
-				</ul>
-				{#if wikiSummary}
-					<p class="mb-2">{wikiSummary}</p>
-				{/if}
-				<div class="mt-4 flex justify-center gap-4">
-					{#if wikiUrl}
-						<a href={wikiUrl} target="_blank" class="text-blue-600 underline">Wikipedia</a>
-					{/if}
-					{#if ebirdUrl}
-						<a href={ebirdUrl} target="_blank" class="text-green-600 underline">eBird</a>
-					{/if}
-				</div>
-			</div>
-		</div>
+		<BirdModal
+			bird={modalData}
+			detections={detectionsCache[modalData.id] || []}
+			loading={detectionsLoading}
+			{wikiSummary}
+			{wikiUrl}
+			{ebirdUrl}
+			on:close={() => {
+				console.log('[+page.svelte] Inline on:close triggered!');
+				closeModalHandler();
+			}}
+		/>
 	{/if}
 
 	<!-- Sticky, centered, compact bottom nav bar (Tailwind) -->

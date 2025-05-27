@@ -2,15 +2,28 @@ import { writable } from 'svelte/store';
 import { fetchAllSpecies } from '$lib/fetchSpecies';
 import { fetchSpeciesDetails } from '$lib/fetchSpeciesDetails';
 
+interface Species {
+	scientificName: string;
+	commonName: string;
+	detections?: {
+		total: number;
+	};
+}
+
+interface Summary {
+	total_species: number;
+	total_detections: number;
+}
+
 export const birdnetData = writable<{
-	species: any[];
-	summary: any;
+	species: Species[];
+	summary: Summary;
 	lastUpdated: number | null;
 	loading: boolean;
 	error: string | null;
 }>({
 	species: [],
-	summary: {},
+	summary: { total_species: 0, total_detections: 0 },
 	lastUpdated: null,
 	loading: true,
 	error: null
