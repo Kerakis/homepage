@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import { derived } from 'svelte/store';
+	import { onMount } from 'svelte';
 
 	let darkMode = false;
 
@@ -24,6 +25,10 @@
 		}
 		updateDarkMode();
 	}
+
+	onMount(() => {
+		updateDarkMode();
+	});
 
 	// No need for onMount to set currentPath anymore
 	export const prerender = true;
@@ -49,27 +54,47 @@
 	<!-- Main header section -->
 	<header class="container mx-auto px-4 py-8 md:py-16">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between">
-			<!-- Large stylized header -->
-			<a href="/" aria-label="Home">
-				<h1
-					class="transform text-6xl font-black tracking-tighter transition-all hover:skew-x-2 sm:text-2xl md:text-4xl lg:text-6xl xl:text-8xl dark:text-white"
-				>
-					KERAKIS
-				</h1>
-			</a>
+			<!-- Logo and Header side-by-side -->
+			<div class="mb-6 flex items-center space-x-4 md:mb-0">
+				<a href="/" aria-label="Home" class="group flex items-center">
+					<img
+						src="icon.png"
+						alt="Logo"
+						class="h-10 w-10 object-contain transition-all md:h-16 md:w-16 lg:h-28 lg:w-28 xl:h-36 xl:w-36
+        dark:drop-shadow-[0_0_1.5px_white]"
+						style="min-width:2.5rem;"
+					/>
+					<h1
+						class="ml-2 transform text-4xl font-black tracking-tighter transition-all group-hover:skew-x-2 md:text-4xl lg:text-6xl xl:text-8xl dark:text-white"
+					>
+						KERAKIS
+					</h1>
+				</a>
+			</div>
 			<!-- Navigation section -->
-			<nav class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-8">
+			<nav
+				class="mt-6 flex flex-col items-start space-y-4 md:mt-0 md:flex-row md:items-center md:space-y-0 md:space-x-8"
+			>
 				{#each ['PROJECTS', 'PHOTOS', 'BIRDNET'] as link}
 					<a
 						href={'/' + link.toLowerCase()}
-						class="nav-underline inline-block text-lg font-medium text-black dark:text-white {$currentPath ===
-						'/' + link.toLowerCase()
-							? 'active'
-							: ''}"
+						class="nav-underline inline-block text-lg font-medium text-black dark:text-white
+                {$currentPath === '/' + link.toLowerCase() ? 'active' : ''}"
 					>
 						{link}
 					</a>
 				{/each}
+
+				<!-- Dark/Light mode switcher -->
+				<button
+					on:click={toggleDarkMode}
+					class="relative inline-block overflow-hidden bg-black px-4 py-1 text-lg font-bold
+        tracking-widest text-white transition-colors focus:outline-none md:ml-8 md:-skew-y-5 dark:bg-white
+        dark:text-black"
+					aria-label="Toggle dark mode"
+				>
+					<span class="relative z-10">{darkMode ? 'LIGHT' : 'DARK'}</span>
+				</button>
 			</nav>
 		</div>
 	</header>
@@ -165,47 +190,6 @@
 					<img src="https://via.placeholder.com/24?text=MX" alt="Moxfield" class="h-6 w-6" />
 				</a>
 			</div>
-
-			<!-- Dark mode toggle -->
-			<button
-				on:click={toggleDarkMode}
-				class="rounded-full border border-black p-2 dark:border-white"
-				aria-label="Toggle dark mode"
-			>
-				{#if darkMode}
-					<!-- Sun icon for switching to Light Mode -->
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						class="h-6 w-6"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 3v1m0 16v1m8.66-8.66h1M3.34 12h1m9.32 7.66l.71.71M5.66 18.34l-.71.71m9.9-15.32l.71-.71M5.66 5.66l-.71-.71M12 5a7 7 0 100 14 7 7 0 000-14z"
-						/>
-					</svg>
-				{:else}
-					<!-- Moon icon for switching to Dark Mode -->
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						class="h-6 w-6"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
-						/>
-					</svg>
-				{/if}
-			</button>
 		</div>
 	</footer>
 </div>

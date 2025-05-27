@@ -1,6 +1,6 @@
 <script lang="ts">
 	const text =
-		"I'm Rob AKA Kerakis. Feel free to call me either. I'm a lot of things. Director of Community Relations. Goofball. Amateur wildlife photographer. Registered Vascular Interventional Technologist. Birder. UTK graduate. Nature lover. Occasional wannabe programmer. Cat and dog dad.";
+		"I'm Rob <span class='text-accent-red'>AKA</span> Kerakis. Feel free to call me either. I'm a lot of things. Director of Community Relations. Goofball. Amateur wildlife photographer. Registered Vascular Interventional Technologist. Birder. UTK graduate. Nature lover. Occasional wannabe programmer. Cat and dog dad.";
 	const segments = text
 		.split('.')
 		.filter(Boolean)
@@ -37,7 +37,7 @@
 			class="text-content font-mono text-2xl leading-relaxed tracking-tight sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl"
 		>
 			{#each segments as segment, i}
-				{segment}{#if i < segments.length - 1}<span class="text-accent-red">.</span>{' '}{/if}
+				{@html segment}{#if i < segments.length - 1}<span class="text-accent-red">.</span>{' '}{/if}
 			{/each}{#if text.trim().endsWith('.')}<span class="text-accent-red">.</span>{/if}
 		</p>
 	</div>
