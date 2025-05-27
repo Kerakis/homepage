@@ -1,14 +1,12 @@
 <script lang="ts">
 	import '../app.css';
 	import { fade } from 'svelte/transition';
-	import { page } from '$app/stores';
-	import { derived } from 'svelte/store';
+	import { page } from '$app/state';
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 
 	let darkMode = false;
-
-	// Use a derived store for the current path
-	const currentPath = derived(page, ($page) => $page.url.pathname);
+	let loading = false;
 
 	function updateDarkMode() {
 		darkMode = document.documentElement.classList.contains('dark');
@@ -28,10 +26,14 @@
 
 	onMount(() => {
 		updateDarkMode();
-	});
 
-	// No need for onMount to set currentPath anymore
-	export const prerender = true;
+		beforeNavigate(() => {
+			loading = true;
+		});
+		afterNavigate(() => {
+			loading = false;
+		});
+	});
 </script>
 
 <svelte:head>
@@ -51,6 +53,21 @@
 </svelte:head>
 
 <div class="min-h-screen bg-white dark:bg-black">
+	{#if loading}
+		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+			<svg
+				class="text-accent-red h-12 w-12 animate-spin"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+				></circle>
+				<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+			</svg>
+			<span class="ml-4 text-xl text-white">Loading...</span>
+		</div>
+	{/if}
 	<!-- Main header section -->
 	<header class="container mx-auto px-4 py-8 md:py-16">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -79,7 +96,7 @@
 					<a
 						href={'/' + link.toLowerCase()}
 						class="nav-underline inline-block text-lg font-medium text-black dark:text-white
-                {$currentPath === '/' + link.toLowerCase() ? 'active' : ''}"
+            {page.url.pathname === '/' + link.toLowerCase() ? 'active' : ''}"
 					>
 						{link}
 					</a>
