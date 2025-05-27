@@ -42,7 +42,6 @@
 		tick().then(() => {
 			const audio = audioRefs[i];
 			if (audio) {
-				// Remove Web Audio API gain boost due to CORS
 				audio.play();
 			}
 		});

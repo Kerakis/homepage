@@ -37,10 +37,6 @@
 </script>
 
 <svelte:head>
-	<!--
-    Inline script to set the initial theme before the page renders.
-    It respects the OS preference unless an explicit theme exists in localStorage.
-  -->
 	<script>
 		if (typeof window !== 'undefined') {
 			document.documentElement.classList.toggle(
@@ -121,7 +117,7 @@
 		<slot />
 	</main>
 
-	<!-- Footer with social links -->
+	<!-- Footer -->
 	<footer class="container mx-auto px-4 py-16">
 		<div class="flex flex-col items-center space-y-8">
 			<!-- Social links -->

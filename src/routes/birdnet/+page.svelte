@@ -60,16 +60,12 @@
 		}
 	}
 
-	function closeModalHandler() {
-		// Renamed to avoid confusion if there's a global 'closeModal'
-		console.log('[+page.svelte] closeModalHandler function called by on:close.');
+	function closeModal() {
 		modalOpen = false;
 		modalData = null;
 		wikiSummary = '';
 		wikiUrl = '';
 		ebirdUrl = '';
-		// Log the state of modalOpen after changing it
-		console.log('[+page.svelte] modalOpen is now:', modalOpen);
 	}
 
 	function refreshBirdnet() {
@@ -88,14 +84,7 @@
 			const raw = localStorage.getItem('birdnet:species');
 			if (raw) {
 				const cached = JSON.parse(raw);
-				// Ensure birdnetData store is updated correctly, including loading state
-				birdnetData.set({
-					species: cached.species,
-					summary: cached.summary,
-					lastUpdated: cached.lastUpdated,
-					loading: false,
-					error: null
-				});
+				birdnetData.set({ ...cached, loading: false, error: null });
 			} else {
 				loadBirdnetData();
 			}
@@ -193,10 +182,7 @@
 			{wikiSummary}
 			{wikiUrl}
 			{ebirdUrl}
-			on:close={() => {
-				console.log('[+page.svelte] Inline on:close triggered!');
-				closeModalHandler();
-			}}
+			on:close={closeModal}
 		/>
 	{/if}
 
