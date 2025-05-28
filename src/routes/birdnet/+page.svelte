@@ -129,7 +129,7 @@
 					loading: false,
 					error: null
 				});
-				refreshing = false; // <-- Set refreshing to false after data loads
+				refreshing = false;
 			}
 		});
 	}
@@ -163,7 +163,10 @@
 		})()}
 	{/key}
 
-	<h1 class="mb-4 text-center font-sans text-3xl font-bold">Backyard Bird Detections</h1>
+	<div class="m-auto mb-12 w-11/12 text-center">
+		<h1 class="mb-4 font-sans text-3xl font-bold">BirdNet</h1>
+		<p>These are the birds detected in my backyard using recording devices that run nonstop.</p>
+	</div>
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			<p class="text-lg">
@@ -263,7 +266,7 @@
 		/>
 	{/if}
 
-	<!-- Sticky, centered, compact bottom nav bar (Tailwind) -->
+	<!-- Bottom nav bar -->
 	<div
 		class="fixed bottom-4 left-1/2 z-40 flex w-auto max-w-md -translate-x-1/2 flex-row items-center justify-center gap-4 rounded-xl bg-neutral-900/95 px-4 py-2 text-base text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:text-lg"
 		class:opacity-0={modalOpen}
@@ -273,11 +276,11 @@
 		<button
 			on:click={scrollToTop}
 			aria-label="Back to top"
-			class="group rounded-lg bg-white p-2 text-xl text-black transition-colors"
+			class="group hover:bg-accent rounded-lg bg-white p-2 text-xl text-black transition-colors"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="group-hover:text-accent h-5 w-5 text-black transition-colors"
+				class="h-5 w-5 text-black transition-colors group-hover:text-white"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke="currentColor"
@@ -285,7 +288,7 @@
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
 			</svg>
 		</button>
-		<span class="truncate text-sm md:text-base">
+		<span class="min-w-[10.5rem] truncate text-center text-sm md:text-base">
 			{#if refreshing}
 				Refreshing Data
 			{:else if $birdnetData.lastUpdated}
@@ -300,7 +303,7 @@
 		<button
 			on:click={refreshBirdnet}
 			aria-label="Refresh bird data"
-			class="group flex items-center justify-center rounded-lg bg-white p-2 text-xl text-black transition-colors"
+			class="group hover:bg-accent flex items-center justify-center rounded-lg bg-white p-2 text-xl text-black transition-colors"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -308,7 +311,7 @@
 				viewBox="0 0 24 24"
 				stroke-width="1.5"
 				stroke="currentColor"
-				class="group-hover:text-accent h-5 w-5 text-black transition-colors"
+				class="h-5 w-5 text-black transition-colors group-hover:text-white"
 			>
 				<path
 					stroke-linecap="round"

@@ -118,7 +118,7 @@
 	</main>
 
 	<!-- Footer -->
-	<footer class="container mx-auto px-4 py-16">
+	<footer class="container mx-auto px-4 py-16 pb-32 md:pb-24">
 		<div class="flex flex-col items-center space-y-8">
 			<!-- Social links -->
 			<div class="flex flex-wrap justify-center gap-6">
