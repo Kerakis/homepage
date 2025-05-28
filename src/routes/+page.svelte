@@ -11,7 +11,7 @@
 	<!-- Left side - Massive Hello -->
 	<div class="p-8 md:w-2/5">
 		<h1
-			class="transform text-6xl font-black tracking-tighter transition-all hover:skew-x-2 sm:text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem]"
+			class="transform font-sans text-6xl font-black tracking-tighter transition-all hover:skew-x-2 sm:text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem]"
 		>
 			HELLO
 		</h1>

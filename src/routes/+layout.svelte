@@ -78,7 +78,7 @@
 						style="min-width:2.5rem;"
 					/>
 					<h1
-						class="ml-2 transform text-4xl font-black tracking-tighter transition-all group-hover:skew-x-2 md:text-4xl lg:text-6xl xl:text-8xl dark:text-white"
+						class="font-roboto ml-2 transform text-4xl font-black tracking-tighter transition-all group-hover:skew-x-2 md:text-4xl lg:text-6xl xl:text-8xl dark:text-white"
 					>
 						KERAKIS
 					</h1>
@@ -86,7 +86,7 @@
 			</div>
 			<!-- Navigation section -->
 			<nav
-				class="mt-6 flex flex-col items-start space-y-4 md:mt-0 md:flex-row md:items-center md:space-y-0 md:space-x-8"
+				class="mt-6 flex flex-col items-start space-y-4 font-sans md:mt-0 md:flex-row md:items-center md:space-y-0 md:space-x-8"
 			>
 				{#each ['PROJECTS', 'PHOTOS', 'BIRDNET'] as link}
 					<a
@@ -101,7 +101,7 @@
 				<!-- Dark/Light mode switcher -->
 				<button
 					on:click={toggleDarkMode}
-					class="relative inline-block overflow-hidden bg-black px-4 py-1 text-lg font-bold
+					class="relative inline-block overflow-hidden bg-black px-4 py-1 text-xs font-bold
         tracking-widest text-white transition-colors focus:outline-none md:ml-8 md:-skew-y-5 dark:bg-white
         dark:text-black"
 					aria-label="Toggle dark mode"
