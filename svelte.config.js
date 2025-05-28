@@ -8,10 +8,10 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			fallback: 'index.html' // enables SPA fallback routing for GitHub Pages
+			fallback: 'index.html'
 		}),
 		paths: {
-			base: dev ? '' : '/homepage' // change 'your-repo-name' to match your repository name
+			base: dev ? '' : '/homepage'
 		}
 	}
 };
