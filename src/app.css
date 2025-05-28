@@ -7,8 +7,9 @@
 	--font-roboto: 'Roboto', sans-serif;
 	--font-mono: 'Cutive Mono', monospace;
 	--font-sans: 'Raleway', ui-sans-serif, system-ui, sans-serif;
-	--color-primary: #1e40af;
-	--color-secondary: #9333ea;
+	--color-primary: #ffffff;
+	--color-secondary: #000000;
+	--color-accent: #ff3333;
 }
 /* Firefox */
 ::-moz-selection {
@@ -66,7 +67,7 @@
 }
 
 body {
-	@apply bg-white font-mono dark:bg-black;
+	@apply bg-white font-sans dark:bg-black;
 }
 
 .nav-underline {

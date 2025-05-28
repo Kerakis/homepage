@@ -15,6 +15,10 @@ interface Summary {
 	total_detections: number;
 }
 
+const stored =
+	typeof localStorage !== 'undefined' ? localStorage.getItem('birdnet:lastUpdated') : null;
+const initialLastUpdated = stored ? Number(stored) : null;
+
 export const birdnetData = writable<{
 	species: Species[];
 	summary: Summary;
@@ -24,9 +28,16 @@ export const birdnetData = writable<{
 }>({
 	species: [],
 	summary: { total_species: 0, total_detections: 0 },
-	lastUpdated: null,
+	lastUpdated: initialLastUpdated,
 	loading: true,
 	error: null
+});
+
+// When you update lastUpdated, also update localStorage:
+birdnetData.subscribe((value) => {
+	if (typeof localStorage !== 'undefined' && value.lastUpdated) {
+		localStorage.setItem('birdnet:lastUpdated', String(value.lastUpdated));
+	}
 });
 
 export async function loadBirdnetData() {

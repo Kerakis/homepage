@@ -1,7 +1,8 @@
 <script lang="ts">
+	export let data: { speciesData?: Promise<any> };
+
 	import { birdnetData, loadBirdnetData } from '$lib/stores/birdnet';
 	import { fetchDetections } from '$lib/fetchDetections';
-	import { onMount } from 'svelte';
 	import { writable, derived, type Writable } from 'svelte/store';
 	import BirdModal from './BirdModal.svelte';
 
@@ -42,6 +43,7 @@
 		Array<{ timestamp: string; soundscape: { url: string } }>
 	> = {};
 	let detectionsLoading = false;
+	let refreshing = false;
 
 	async function openModal(bird: any) {
 		modalData = bird;
@@ -54,7 +56,9 @@
 			detectionsLoading = true;
 			try {
 				detectionsCache[id] = await fetchDetections({ speciesId: id, limit: 5, fetch });
-			} catch {}
+			} catch (e) {
+				console.error('Failed to fetch detections:', e);
+			}
 			detectionsLoading = false;
 		}
 	}
@@ -68,8 +72,13 @@
 	}
 
 	function refreshBirdnet() {
-		if (typeof window !== 'undefined') localStorage.removeItem('birdnet:species');
-		detectionsCache = {}; // clear detection cache on refresh
+		refreshing = true;
+		if (typeof window !== 'undefined') {
+			localStorage.removeItem('birdnet:species');
+			localStorage.removeItem('birdnet:lastUpdated');
+		}
+		detectionsCache = {};
+		birdnetData.update((s) => ({ ...s, lastUpdated: null }));
 		loadBirdnetData();
 	}
 
@@ -77,23 +86,58 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	onMount(() => {
-		// Try to load from localStorage first
-		if (typeof window !== 'undefined') {
-			const raw = localStorage.getItem('birdnet:species');
-			if (raw) {
-				const cached = JSON.parse(raw);
-				birdnetData.set({ ...cached, loading: false, error: null });
-			} else {
-				loadBirdnetData();
+	/**
+	 * Formats a timestamp into a relative time string (e.g., "5m ago", "Yesterday", "3w ago").
+	 * @param {string | Date} timestamp - The date string or Date object to format.
+	 * @returns {string} A relative time string.
+	 */
+	function formatRelativeTime(timestamp: string | Date): string {
+		const now = new Date();
+		const then = new Date(timestamp);
+		const diffInSeconds = Math.floor((now.getTime() - then.getTime()) / 1000);
+
+		if (diffInSeconds < 2) return `now`;
+		if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+
+		const diffInMinutes = Math.floor(diffInSeconds / 60);
+		if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+		const diffInHours = Math.floor(diffInMinutes / 60);
+		if (diffInHours < 24) return `${diffInHours}h ago`;
+
+		const diffInDays = Math.floor(diffInHours / 24);
+		if (diffInDays === 1) return `Yesterday`;
+		if (diffInDays < 7) return `${diffInDays}d ago`;
+
+		const diffInWeeks = Math.floor(diffInDays / 7);
+		if (diffInWeeks < 5) return `${diffInWeeks}w ago`;
+
+		const diffInMonths = Math.floor(diffInDays / 30.44);
+		if (diffInMonths < 12) return `${diffInMonths}mo ago`;
+
+		const diffInYears = Math.floor(diffInDays / 365.25);
+		return `${diffInYears}y ago`;
+	}
+
+	$: if (data && data.speciesData) {
+		Promise.resolve(data.speciesData).then((resolved) => {
+			if (resolved && resolved.species) {
+				birdnetData.set({
+					species: resolved.species,
+					summary: resolved.summary,
+					lastUpdated: resolved.lastUpdated,
+					loading: false,
+					error: null
+				});
+				refreshing = false; // <-- Set refreshing to false after data loads
 			}
-		} else {
-			loadBirdnetData();
-		}
-	});
+		});
+	}
+
+	$: if (!$birdnetData.loading && refreshing) refreshing = false;
 </script>
 
-{#if $birdnetData.loading}
+{#if $birdnetData.loading && !$birdnetData.species.length}
 	<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
 		<svg
 			class="text-accent-red mb-4 h-12 w-12 animate-spin"
@@ -112,13 +156,15 @@
 {:else}
 	{#key $birdnetData.species}
 		{@html (() => {
+			// This ensures speciesStore is updated whenever $birdnetData.species changes
+			// which could come from +page.ts load function initially or refreshBirdnet.
 			speciesStore.set($birdnetData.species);
 			return '';
 		})()}
 	{/key}
 
-	<h1 class="font-roboto mb-10 text-center text-3xl font-bold">BACKYARD BIRD DETECTIONS</h1>
-	<div class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+	<h1 class="mb-4 text-center font-sans text-3xl font-bold">Backyard Bird Detections</h1>
+	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			<p class="text-lg">
 				Total species: <span class="font-bold"
@@ -131,14 +177,17 @@
 				>
 			</p>
 		</div>
-		<div class="flex gap-2">
+		<div class="flex flex-col gap-2 sm:flex-row sm:gap-2">
 			<input
 				type="text"
 				placeholder="Search species..."
-				class="rounded border px-2 py-1 dark:bg-black dark:text-white"
+				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
 				bind:value={$search}
 			/>
-			<select class="rounded border px-2 py-1 dark:bg-black dark:text-white" bind:value={$sortMode}>
+			<select
+				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+				bind:value={$sortMode}
+			>
 				<option value="last">Last Heard</option>
 				<option value="most">Most Visits</option>
 			</select>
@@ -146,34 +195,59 @@
 	</div>
 
 	{#if $filteredSpecies.length}
-		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			{#each $filteredSpecies as bird (bird.id)}
 				<button
 					type="button"
-					class="flex w-full flex-col items-center rounded-lg bg-white p-4 shadow transition hover:shadow-lg dark:bg-black"
+					class="group flex w-full flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 ease-in-out hover:scale-[1.03] hover:shadow-xl dark:bg-neutral-800 dark:shadow-neutral-100/5 dark:hover:shadow-neutral-100/10"
 					on:click={() => openModal(bird)}
 					aria-label={`Open details for ${bird.commonName}`}
 				>
-					<img
-						src={bird.imageUrl}
-						alt={bird.commonName}
-						class="mb-2 h-32 w-32 rounded-full object-cover"
-					/>
-					<h2 class="mb-1 text-lg font-semibold">{bird.commonName}</h2>
-					<p class="mb-1 text-sm text-gray-500 italic dark:text-gray-400">
-						{bird.scientificName}
-					</p>
-					<p class="mb-1 text-xs text-gray-400">
-						Last detected: {new Date(bird.latestDetectionAt).toLocaleString()}
-					</p>
-					<p class="bg-accent-red/10 text-accent-red mt-2 rounded px-2 py-1 font-bold">
-						{(bird.detections?.total ?? 0).toLocaleString()} detections
-					</p>
+					<div class="relative aspect-[4/3] w-full">
+						<img src={bird.imageUrl} alt={bird.commonName} class="h-full w-full object-cover" />
+						<div
+							class="absolute right-0.5 bottom-0.5 flex items-center rounded-md bg-black/60 px-2 py-1 text-xs text-white backdrop-blur-sm"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+								class="mr-1 h-4 w-4"
+							>
+								<path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+								<path
+									fill-rule="evenodd"
+									d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.404a1.65 1.65 0 010 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.404zM10 15a5 5 0 100-10 5 5 0 000 10z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+							<span>{(bird.detections?.total ?? 0).toLocaleString()}</span>
+						</div>
+					</div>
+					<div class="flex flex-grow flex-col p-3 text-left">
+						<h2
+							class="group-hover:text-accent-red dark:group-hover:text-accent-red-dark mb-0.5 truncate text-base font-semibold"
+						>
+							{bird.commonName}
+						</h2>
+						<p class="mb-1 truncate text-xs text-gray-600 italic dark:text-gray-400">
+							{bird.scientificName}
+						</p>
+						<p class="mt-auto pt-1 text-xs text-gray-500 dark:text-gray-400">
+							{formatRelativeTime(bird.latestDetectionAt)}
+						</p>
+					</div>
 				</button>
 			{/each}
 		</div>
+	{:else if $search.trim() !== ''}
+		<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
+			No birds found matching "<span class="font-semibold">{$search}</span>".
+		</p>
 	{:else}
-		<p class="mt-10 text-center">Looks like I haven't seen that one yet!</p>
+		<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
+			No bird data available.
+		</p>
 	{/if}
 
 	<!-- Modal -->
@@ -191,16 +265,19 @@
 
 	<!-- Sticky, centered, compact bottom nav bar (Tailwind) -->
 	<div
-		class="fixed bottom-4 left-1/2 z-50 flex w-auto max-w-md -translate-x-1/2 flex-row items-center justify-center gap-4 rounded-xl bg-neutral-900/95 px-4 py-2 text-base text-white shadow-lg md:text-lg"
+		class="fixed bottom-4 left-1/2 z-40 flex w-auto max-w-md -translate-x-1/2 flex-row items-center justify-center gap-4 rounded-xl bg-neutral-900/95 px-4 py-2 text-base text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:text-lg"
+		class:opacity-0={modalOpen}
+		class:pointer-events-none={modalOpen}
+		aria-hidden={modalOpen}
 	>
 		<button
 			on:click={scrollToTop}
 			aria-label="Back to top"
-			class="hover:bg-accent-red rounded bg-white p-2 text-xl text-black transition hover:text-white"
+			class="group rounded-lg bg-white p-2 text-xl text-black transition-colors"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5"
+				class="group-hover:text-accent h-5 w-5 text-black transition-colors"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke="currentColor"
@@ -209,9 +286,13 @@
 			</svg>
 		</button>
 		<span class="truncate text-sm md:text-base">
-			Last updated:
-			{#if $birdnetData.lastUpdated}
-				{new Date($birdnetData.lastUpdated).toLocaleTimeString()}
+			{#if refreshing}
+				Refreshing Data
+			{:else if $birdnetData.lastUpdated}
+				Last updated: {new Date($birdnetData.lastUpdated).toLocaleTimeString([], {
+					hour: 'numeric',
+					minute: '2-digit'
+				})}
 			{:else}
 				—
 			{/if}
@@ -219,20 +300,20 @@
 		<button
 			on:click={refreshBirdnet}
 			aria-label="Refresh bird data"
-			class="hover:bg-accent-red flex items-center justify-center rounded bg-white p-2 text-xl text-black transition hover:text-white"
+			class="group flex items-center justify-center rounded-lg bg-white p-2 text-xl text-black transition-colors"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5"
 				fill="none"
 				viewBox="0 0 24 24"
+				stroke-width="1.5"
 				stroke="currentColor"
+				class="group-hover:text-accent h-5 w-5 text-black transition-colors"
 			>
 				<path
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					stroke-width="2"
-					d="M4 4v5h.582M20 20v-5h-.581M5.42 19.418A9 9 0 0021 12.998M18.364 5.636A9 9 0 003 11.998"
+					d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
 				/>
 			</svg>
 		</button>
