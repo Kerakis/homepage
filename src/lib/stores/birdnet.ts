@@ -43,7 +43,7 @@ birdnetData.subscribe((value) => {
 export async function loadBirdnetData() {
 	birdnetData.update((d) => ({ ...d, loading: true, error: null }));
 	try {
-		const species = await fetchAllSpecies({ fetch });
+		const species = await fetchAllSpecies({ fetch, period: 'all' });
 		const summary = {
 			total_species: species.length,
 			total_detections: species.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)

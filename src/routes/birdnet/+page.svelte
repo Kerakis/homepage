@@ -3,18 +3,31 @@
 
 	import { birdnetData, loadBirdnetData } from '$lib/stores/birdnet';
 	import { fetchDetections } from '$lib/fetchDetections';
+	import { fetchStationStats } from '$lib/fetchStationStats';
+	import { fetchAllSpecies } from '$lib/fetchSpecies';
 	import { writable, derived, type Writable } from 'svelte/store';
+	import { fly } from 'svelte/transition';
 	import BirdModal from './BirdModal.svelte';
+	import { onDestroy } from 'svelte';
+	import { get } from 'svelte/store';
 
 	let modalOpen = false;
 	let modalData: any = null;
 	let wikiSummary = '';
 	let wikiUrl = '';
 	let ebirdUrl = '';
+	let liveLastUpdated: number | null = null;
 
 	const speciesStore: Writable<any[]> = writable([]);
-	const sortMode = writable<'last' | 'most'>('last');
+	const initialSortMode =
+		((typeof localStorage !== 'undefined' && localStorage.getItem('birdnet:sortMode')) as any) ||
+		'last';
+	const sortMode = writable<'last' | 'most'>(initialSortMode);
 	const search = writable('');
+	let displayMode: 'all' | '24h' | 'live' =
+		((typeof localStorage !== 'undefined' && localStorage.getItem('birdnet:displayMode')) as any) ||
+		'all';
+
 	const filteredSpecies = derived(
 		[speciesStore, sortMode, search],
 		([$species, $sortMode, $search]: [any[], string, string]) => {
@@ -45,13 +58,43 @@
 	let detectionsLoading = false;
 	let refreshing = false;
 
+	// For 24h mode
+	let stats24h = { total_species: 0, total_detections: 0 };
+
+	// For live mode
+	let liveDetections: any[] = [];
+	let liveInterval: ReturnType<typeof setInterval> | null = null;
+	let liveError = '';
+
+	let detections24h: number | null = null;
+	let detectionsAllTime: number = 0;
+	let detections24hLoading = false;
+
 	async function openModal(bird: any) {
-		modalData = bird;
+		const allTimeSpecies = get(birdnetData).species?.find((s: any) => s.id == bird.id);
+		const fullSpecies = allTimeSpecies || bird;
+		modalData = fullSpecies;
 		modalOpen = true;
-		wikiSummary = bird.wikipediaSummary || '';
-		wikiUrl = bird.wikipediaUrl || '';
-		ebirdUrl = bird.ebirdUrl || '';
-		const id = bird.id;
+		wikiSummary = fullSpecies.wikipediaSummary || '';
+		wikiUrl = fullSpecies.wikipediaUrl || '';
+		ebirdUrl = fullSpecies.ebirdUrl || '';
+
+		// Always set all-time detections
+		detectionsAllTime = allTimeSpecies?.detections?.total ?? fullSpecies.detections?.total ?? 0;
+
+		// Always fetch 24h detections for this species
+		detections24hLoading = true;
+		try {
+			const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+			const species24h = await fetchAllSpecies({ fetch, since });
+			const match = species24h?.find((s: any) => s.id == bird.id);
+			detections24h = match?.detections?.total ?? 0;
+		} catch {
+			detections24h = 0;
+		}
+		detections24hLoading = false;
+
+		const id = fullSpecies.id;
 		if (!detectionsCache[id]) {
 			detectionsLoading = true;
 			try {
@@ -71,6 +114,42 @@
 		ebirdUrl = '';
 	}
 
+	async function fetchAllLiveDetections({ fetch }: { fetch: typeof window.fetch }) {
+		let allDetections: any[] = [];
+		let cursor: number | undefined = undefined;
+		const now = new Date();
+		const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
+
+		const from = thirtyMinutesAgo.toISOString();
+		const to = now.toISOString();
+
+		let page = 1;
+		let lastDetectionId: number | undefined = undefined;
+		while (true) {
+			let url = `https://app.birdweather.com/api/v1/stations/5026/detections?limit=100&order=desc&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+			if (cursor !== undefined) url += `&cursor=${cursor}`;
+			const response = await fetch(url);
+			const data = await response.json();
+			const detections = data.detections || [];
+			if (detections.length === 0) break;
+
+			// Remove duplicate if present
+			if (lastDetectionId !== undefined && detections[0]?.id === lastDetectionId) {
+				detections.shift();
+			}
+
+			allDetections = [...allDetections, ...detections];
+
+			if (detections.length < 100) break;
+
+			const oldest = detections[detections.length - 1];
+			lastDetectionId = oldest?.id;
+			cursor = oldest?.id;
+			page++;
+		}
+		return allDetections;
+	}
+
 	function refreshBirdnet() {
 		refreshing = true;
 		if (typeof window !== 'undefined') {
@@ -86,11 +165,6 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	/**
-	 * Formats a timestamp into a relative time string (e.g., "5m ago", "Yesterday", "3w ago").
-	 * @param {string | Date} timestamp - The date string or Date object to format.
-	 * @returns {string} A relative time string.
-	 */
 	function formatRelativeTime(timestamp: string | Date): string {
 		const now = new Date();
 		const then = new Date(timestamp);
@@ -119,7 +193,45 @@
 		return `${diffInYears}y ago`;
 	}
 
-	$: if (data && data.speciesData) {
+	// --- Display Mode Logic ---
+
+	// 24h mode
+	$: if (displayMode === '24h') {
+		const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+		Promise.all([fetchAllSpecies({ fetch, since }), fetchStationStats({ fetch, since })])
+			.then(([species, stats]) => {
+				speciesStore.set(species);
+				stats24h = {
+					total_species: stats.species ?? 0,
+					total_detections: stats.detections ?? 0
+				};
+			})
+			.catch(() => {
+				stats24h = { total_species: 0, total_detections: 0 };
+			});
+	}
+
+	// Live mode
+	$: if (displayMode === 'live') {
+		const fetchLive = async () => {
+			liveError = '';
+			try {
+				const data = await fetchAllLiveDetections({ fetch });
+				liveDetections = data || [];
+				liveLastUpdated = Date.now();
+			} catch (e) {
+				liveError = 'Failed to fetch live detections';
+			}
+		};
+		fetchLive();
+		if (liveInterval) clearInterval(liveInterval);
+		liveInterval = setInterval(fetchLive, 30000);
+	} else {
+		if (liveInterval) clearInterval(liveInterval);
+	}
+
+	// All time mode (default)
+	$: if (displayMode === 'all' && data && data.speciesData) {
 		Promise.resolve(data.speciesData).then((resolved) => {
 			if (resolved && resolved.species) {
 				birdnetData.set({
@@ -129,15 +241,27 @@
 					loading: false,
 					error: null
 				});
+				speciesStore.set(resolved.species);
 				refreshing = false;
 			}
 		});
 	}
 
+	$: filteredLiveDetections = liveDetections.filter(
+		(d) =>
+			d.species?.commonName?.toLowerCase().includes($search.toLowerCase()) ||
+			d.species?.scientificName?.toLowerCase().includes($search.toLowerCase())
+	);
+
 	$: if (!$birdnetData.loading && refreshing) refreshing = false;
+	$: if (displayMode === 'live' && $sortMode !== 'last') sortMode.set('last');
+	$: if (typeof localStorage !== 'undefined') {
+		localStorage.setItem('birdnet:displayMode', displayMode);
+		localStorage.setItem('birdnet:sortMode', $sortMode);
+	}
 </script>
 
-{#if $birdnetData.loading && !$birdnetData.species.length}
+{#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
 	<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
 		<svg
 			class="text-accent-red mb-4 h-12 w-12 animate-spin"
@@ -169,16 +293,32 @@
 	</div>
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
-			<p class="text-lg">
-				Total species: <span class="font-bold"
-					>{$birdnetData.summary.total_species.toLocaleString()}</span
-				>
-			</p>
-			<p class="text-lg">
-				Total detections: <span class="font-bold"
-					>{$birdnetData.summary.total_detections.toLocaleString()}</span
-				>
-			</p>
+			{#if displayMode === '24h'}
+				<p class="text-lg">
+					Total species in the last 24h: <span class="font-bold">{stats24h.total_species}</span>
+				</p>
+				<p class="text-lg">
+					Total detections in the last 24h: <span class="font-bold"
+						>{stats24h.total_detections}</span
+					>
+				</p>
+			{:else if displayMode === 'live'}
+				<p class="text-lg">
+					Total detections in last 30 minutes: <span class="font-bold">{liveDetections.length}</span
+					>
+				</p>
+			{:else}
+				<p class="text-lg">
+					Total species: <span class="font-bold"
+						>{$birdnetData.summary.total_species.toLocaleString()}</span
+					>
+				</p>
+				<p class="text-lg">
+					Total detections: <span class="font-bold"
+						>{$birdnetData.summary.total_detections.toLocaleString()}</span
+					>
+				</p>
+			{/if}
 		</div>
 		<div class="flex flex-col gap-2 sm:flex-row sm:gap-2">
 			<input
@@ -188,16 +328,80 @@
 				bind:value={$search}
 			/>
 			<select
-				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white
+        {displayMode === 'live'
+					? 'cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-neutral-700 dark:text-neutral-400'
+					: ''}"
 				bind:value={$sortMode}
+				disabled={displayMode === 'live'}
+				style={displayMode === 'live' ? 'pointer-events: none; opacity: 0.7;' : ''}
 			>
 				<option value="last">Last Heard</option>
-				<option value="most">Most Visits</option>
+				{#if displayMode !== 'live'}
+					<option value="most">Most Visits</option>
+				{/if}
+			</select>
+			<select
+				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+				bind:value={displayMode}
+			>
+				<option value="all">All Time</option>
+				<option value="24h">Last 24h</option>
+				<option value="live">Live Mode</option>
 			</select>
 		</div>
 	</div>
 
-	{#if $filteredSpecies.length}
+	{#if displayMode === 'live'}
+		{#if liveError}
+			<p class="text-center text-lg text-red-600">{liveError}</p>
+		{:else if filteredLiveDetections.length}
+			<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				{#each filteredLiveDetections as detection (detection.id)}
+					<button
+						type="button"
+						class="group flex w-full flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 ease-in-out hover:scale-[1.03] hover:shadow-xl dark:bg-neutral-800 dark:shadow-neutral-100/5 dark:hover:shadow-neutral-100/10"
+						on:click={() => openModal(detection.species)}
+						aria-label={`Open details for ${detection.species?.commonName}`}
+						transition:fly={{ y: 20, duration: 300 }}
+					>
+						<div class="relative aspect-[4/3] w-full">
+							<img
+								src={detection.species?.imageUrl}
+								alt={detection.species?.commonName}
+								class="h-full w-full object-cover"
+							/>
+							<div
+								class="absolute right-0.5 bottom-0.5 flex items-center rounded-md bg-black/60 px-2 py-1 text-xs text-white backdrop-blur-sm"
+							>
+								<span>Confidence: {Math.round((detection.confidence ?? 0) * 100)}%</span>
+							</div>
+						</div>
+						<div class="flex flex-grow flex-col p-3 text-left">
+							<h2 class="mb-0.5 truncate text-base font-semibold">
+								{detection.species?.commonName}
+							</h2>
+							<p class="mb-1 truncate text-xs text-gray-600 italic dark:text-gray-400">
+								{detection.species?.scientificName}
+							</p>
+							<p class="mt-auto pt-1 text-xs text-gray-500 dark:text-gray-400">
+								{formatRelativeTime(detection.timestamp)}
+							</p>
+						</div>
+					</button>
+				{/each}
+			</div>
+		{:else if $search.trim() !== ''}
+			<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
+				No birds found matching "<span class="font-semibold">{$search}</span>" in the last 30
+				minutes.
+			</p>
+		{:else}
+			<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
+				No birds detected in the last 30 minutes.
+			</p>
+		{/if}
+	{:else if $filteredSpecies.length}
 		<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			{#each $filteredSpecies as bird (bird.id)}
 				<button
@@ -205,6 +409,7 @@
 					class="group flex w-full flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 ease-in-out hover:scale-[1.03] hover:shadow-xl dark:bg-neutral-800 dark:shadow-neutral-100/5 dark:hover:shadow-neutral-100/10"
 					on:click={() => openModal(bird)}
 					aria-label={`Open details for ${bird.commonName}`}
+					transition:fly={{ y: 20, duration: 300 }}
 				>
 					<div class="relative aspect-[4/3] w-full">
 						<img src={bird.imageUrl} alt={bird.commonName} class="h-full w-full object-cover" />
@@ -262,6 +467,9 @@
 			{wikiSummary}
 			{wikiUrl}
 			{ebirdUrl}
+			{detections24h}
+			{detectionsAllTime}
+			{detections24hLoading}
 			on:close={closeModal}
 		/>
 	{/if}
@@ -289,7 +497,12 @@
 			</svg>
 		</button>
 		<span class="min-w-[10.5rem] truncate text-center text-sm md:text-base">
-			{#if refreshing}
+			{#if displayMode === 'live' && liveLastUpdated}
+				Last updated: {new Date(liveLastUpdated).toLocaleTimeString([], {
+					hour: 'numeric',
+					minute: '2-digit'
+				})}
+			{:else if refreshing}
 				Refreshing Data
 			{:else if $birdnetData.lastUpdated}
 				Last updated: {new Date($birdnetData.lastUpdated).toLocaleTimeString([], {
@@ -303,7 +516,10 @@
 		<button
 			on:click={refreshBirdnet}
 			aria-label="Refresh bird data"
-			class="group hover:bg-accent flex items-center justify-center rounded-lg bg-white p-2 text-xl text-black transition-colors"
+			class="group hover:bg-accent flex items-center justify-center rounded-lg bg-white p-2 text-xl
+        text-black transition-colors
+        {displayMode === 'live' ? 'cursor-not-allowed' : ''}"
+			disabled={displayMode === 'live'}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -311,7 +527,9 @@
 				viewBox="0 0 24 24"
 				stroke-width="1.5"
 				stroke="currentColor"
-				class="h-5 w-5 text-black transition-colors group-hover:text-white"
+				class="h-5 w-5 transition-colors group-hover:text-white
+            {displayMode === 'live' ? 'animate-spin' : 'text-black'}"
+				style={displayMode === 'live' ? 'animation-duration: 2.5s;' : ''}
 			>
 				<path
 					stroke-linecap="round"

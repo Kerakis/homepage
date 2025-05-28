@@ -19,15 +19,22 @@ export async function fetchDetections({
 	stationId = STATION_ID,
 	lang = 'en',
 	limit = 5,
+	since,
+	order = 'desc',
 	fetch
 }: {
-	speciesId: number;
+	speciesId?: number;
 	stationId?: string;
 	lang?: string;
 	limit?: number;
+	since?: string;
+	order?: 'asc' | 'desc';
 	fetch: typeof window.fetch;
 }) {
-	const url = `${API_BASE_URL}/stations/${stationId}/detections?limit=${limit}&speciesId=${speciesId}&locale=${lang}&order=desc`;
+	let url = `${API_BASE_URL}/stations/${stationId}/detections?limit=${limit}&locale=${lang}&order=${order}`;
+	if (speciesId !== undefined) url += `&speciesId=${speciesId}`;
+	if (since) url += `&since=${since}`;
+
 	const response = await fetch(url);
 	if (!response.ok) {
 		const errorResponse = await response.json();

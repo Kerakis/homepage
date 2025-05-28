@@ -7,6 +7,9 @@
 	export let wikiSummary = '';
 	export let wikiUrl = '';
 	export let ebirdUrl = '';
+	export let detections24h: number | null = 0;
+	export let detectionsAllTime: number = 0;
+	export let detections24hLoading: boolean = false;
 	const dispatch = createEventDispatcher();
 
 	let showAudio: Record<number, boolean> = {};
@@ -117,7 +120,20 @@
 					{bird.scientificName}
 				</p>
 				<p class="mb-4 text-center text-sm text-gray-600 dark:text-neutral-300">
-					<span class="font-bold">{(bird.detections?.total ?? 0).toLocaleString()}</span> total detections
+					<span class="font-bold">
+						{#if detections24hLoading}
+							<span
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-gray-400 border-t-transparent align-middle"
+							></span>
+						{:else if detections24h !== null && detections24h !== undefined}
+							{detections24h.toLocaleString()}
+						{:else}
+							—
+						{/if}
+					</span>
+					detections in last 24h
+					<br />
+					<span class="font-bold">{detectionsAllTime.toLocaleString()}</span> detections all time
 				</p>
 
 				{#if wikiSummary}

@@ -25,16 +25,21 @@ type PageData = {
 export async function fetchAllSpecies({
 	stationId = STATION_ID,
 	lang = 'en',
+	since,
+	period,
 	fetch
 }: {
 	stationId?: string;
 	lang?: string;
+	since?: string;
 	period?: string;
 	fetch: typeof window.fetch;
 }) {
 	let allResults: Species[] = [];
 	let currentPage = 1;
-	const url = `${API_BASE_URL}/stations/${stationId}/species?locale=${lang}&period=all`;
+	let url = `${API_BASE_URL}/stations/${stationId}/species?locale=${lang}`;
+	if (since) url += `&since=${since}`;
+	if (period) url += `&period=${period}`;
 
 	while (true) {
 		const response = await fetch(`${url}&page=${currentPage}`);

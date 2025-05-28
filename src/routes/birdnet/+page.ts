@@ -78,7 +78,7 @@ export async function load({ fetch, depends }) {
 	const speciesPromise = (async (): Promise<CachedData> => {
 		// Assuming 'speciesFromApi' is the raw result from fetchAllSpecies
 		// and it might have 'id' as a number.
-		const speciesFromApi = await fetchAllSpecies({ fetch });
+		const speciesFromApi = await fetchAllSpecies({ fetch, period: 'all' });
 		const summary: Summary = {
 			total_species: speciesFromApi.length,
 			total_detections: speciesFromApi.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
