@@ -32,11 +32,6 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Prepare static output
-        run: |
-          mkdir build
-          cp -r .svelte-kit/output/client/* build/
-          cp -r .svelte-kit/output/prerendered/pages/* build/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
