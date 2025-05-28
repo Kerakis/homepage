@@ -81,7 +81,7 @@
 			<h2 class="mb-1 text-center text-2xl font-bold">{bird.commonName}</h2>
 			<p class="mb-2 text-center text-gray-500 italic">{bird.scientificName}</p>
 			<p class="mb-2 text-center">
-				<span class="font-bold">{bird.detections?.total ?? 0}</span> detections
+				<span class="font-bold">{(bird.detections?.total ?? 0).toLocaleString()}</span> detections
 			</p>
 			<h3 class="mt-4 mb-2 font-semibold">Last 5 Detections</h3>
 			{#if loading}

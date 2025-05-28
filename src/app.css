@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
 @import 'tailwindcss';
 
 @theme {
 	--font-roboto: 'Roboto', sans-serif;
+	--font-mono: 'Cutive Mono', monospace;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -68,6 +70,7 @@
 
 body {
 	font-family: var(--font-sans);
+	@apply bg-white dark:bg-black;
 }
 
 .nav-underline {

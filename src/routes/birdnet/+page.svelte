@@ -10,7 +10,6 @@
 	let wikiSummary = '';
 	let wikiUrl = '';
 	let ebirdUrl = '';
-	const isLoading = writable(false);
 
 	const speciesStore: Writable<any[]> = writable([]);
 	const sortMode = writable<'last' | 'most'>('last');
@@ -118,14 +117,18 @@
 		})()}
 	{/key}
 
-	<h1 class="mb-2 text-3xl font-bold">These are the birds in my yard</h1>
+	<h1 class="font-roboto mb-10 text-center text-3xl font-bold">BACKYARD BIRD DETECTIONS</h1>
 	<div class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			<p class="text-lg">
-				Total species: <span class="font-bold">{$birdnetData.summary.total_species}</span>
+				Total species: <span class="font-bold"
+					>{$birdnetData.summary.total_species.toLocaleString()}</span
+				>
 			</p>
 			<p class="text-lg">
-				Total detections: <span class="font-bold">{$birdnetData.summary.total_detections}</span>
+				Total detections: <span class="font-bold"
+					>{$birdnetData.summary.total_detections.toLocaleString()}</span
+				>
 			</p>
 		</div>
 		<div class="flex gap-2">
@@ -164,7 +167,7 @@
 						Last detected: {new Date(bird.latestDetectionAt).toLocaleString()}
 					</p>
 					<p class="bg-accent-red/10 text-accent-red mt-2 rounded px-2 py-1 font-bold">
-						{bird.detections?.total ?? 0} detections
+						{(bird.detections?.total ?? 0).toLocaleString()} detections
 					</p>
 				</button>
 			{/each}

@@ -65,7 +65,7 @@
 		</div>
 	{/if}
 	<!-- Main header section -->
-	<header class="container mx-auto px-4 py-8 md:py-16">
+	<header class="container mx-auto px-4 py-8 md:py-2">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between">
 			<!-- Logo and Header side-by-side -->
 			<div class="mb-6 flex items-center space-x-4 md:mb-0">
