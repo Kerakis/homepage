@@ -74,7 +74,6 @@ export async function load({ fetch, depends }) {
 		return { speciesData: Promise.resolve(cachedData) };
 	}
 
-	console.log('Fetching fresh Birdnet data.');
 	const speciesPromise = (async (): Promise<CachedData> => {
 		// Assuming 'speciesFromApi' is the raw result from fetchAllSpecies
 		// and it might have 'id' as a number.
