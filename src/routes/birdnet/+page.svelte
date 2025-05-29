@@ -60,6 +60,7 @@
 
 	// For 24h mode
 	let stats24h = { total_species: 0, total_detections: 0 };
+	let stats24hLoading = false;
 
 	// For live mode
 	let liveDetections: any[] = [];
@@ -197,6 +198,7 @@
 
 	// 24h mode
 	$: if (displayMode === '24h') {
+		stats24hLoading = true;
 		const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 		Promise.all([fetchAllSpecies({ fetch, since }), fetchStationStats({ fetch, since })])
 			.then(([species, stats]) => {
@@ -208,6 +210,9 @@
 			})
 			.catch(() => {
 				stats24h = { total_species: 0, total_detections: 0 };
+			})
+			.finally(() => {
+				stats24hLoading = false;
 			});
 	}
 
@@ -289,19 +294,25 @@
 
 	<div class="m-auto mb-12 w-11/12 text-center">
 		<h1 class="mb-4 font-sans text-3xl font-bold">BirdNet</h1>
-		<p>These are the birds detected in my backyard using recording devices that run nonstop.</p>
+		<p>These are the birds detected in my backyard using recording devices that run constantly.</p>
 	</div>
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			{#if displayMode === '24h'}
-				<p class="text-lg">
-					Total species in the last 24h: <span class="font-bold">{stats24h.total_species}</span>
-				</p>
-				<p class="text-lg">
-					Total detections in the last 24h: <span class="font-bold"
-						>{stats24h.total_detections}</span
-					>
-				</p>
+				{#if stats24hLoading}
+					<p class="text-lg text-gray-400">Loading 24h stats...</p>
+				{:else}
+					<p class="text-lg">
+						Total species in the last 24h: <span class="font-bold"
+							>{stats24h.total_species.toLocaleString()}</span
+						>
+					</p>
+					<p class="text-lg">
+						Total detections in the last 24h: <span class="font-bold"
+							>{stats24h.total_detections.toLocaleString()}</span
+						>
+					</p>
+				{/if}
 			{:else if displayMode === 'live'}
 				<p class="text-lg">
 					Total detections in last 30 minutes: <span class="font-bold">{liveDetections.length}</span
@@ -528,8 +539,8 @@
 				stroke-width="1.5"
 				stroke="currentColor"
 				class="h-5 w-5 transition-colors group-hover:text-white
-            {displayMode === 'live' ? 'animate-spin' : 'text-black'}"
-				style={displayMode === 'live' ? 'animation-duration: 2.5s;' : ''}
+            {displayMode === 'live' || refreshing ? 'animate-spin' : 'text-black'}"
+				style={displayMode === 'live' || refreshing ? 'animation-duration: 2.5s;' : ''}
 			>
 				<path
 					stroke-linecap="round"
