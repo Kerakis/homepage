@@ -71,17 +71,34 @@
 	let detectionsAllTime: number = 0;
 	let detections24hLoading = false;
 
-	async function openModal(bird: any) {
-		const allTimeSpecies = get(birdnetData).species?.find((s: any) => s.id == bird.id);
-		const fullSpecies = allTimeSpecies || bird;
-		modalData = fullSpecies;
-		modalOpen = true;
-		wikiSummary = fullSpecies.wikipediaSummary || '';
-		wikiUrl = fullSpecies.wikipediaUrl || '';
-		ebirdUrl = fullSpecies.ebirdUrl || '';
+	// 1. Always fetch and cache All Time species data at app start
+	let allTimeSpeciesList: any[] = [];
+	$: if (data && data.speciesData) {
+		Promise.resolve(data.speciesData).then((resolved) => {
+			if (resolved && resolved.species) {
+				allTimeSpeciesList = resolved.species;
+				birdnetData.set({
+					species: resolved.species,
+					summary: resolved.summary,
+					lastUpdated: resolved.lastUpdated,
+					loading: false,
+					error: null
+				});
+				speciesStore.set(resolved.species);
+				refreshing = false;
+			}
+		});
+	}
 
-		// Always set all-time detections
-		detectionsAllTime = allTimeSpecies?.detections?.total ?? fullSpecies.detections?.total ?? 0;
+	async function openModal(bird: any) {
+		// Always get the full species info from the allTimeSpeciesList
+		const canonical = allTimeSpeciesList.find((s) => s.id == bird.id) || bird;
+		modalData = { ...canonical, ...bird }; // Merge in any new stats from the current mode
+		modalOpen = true;
+		wikiSummary = canonical.wikipediaSummary || '';
+		wikiUrl = canonical.wikipediaUrl || '';
+		ebirdUrl = canonical.ebirdUrl || '';
+		detectionsAllTime = canonical?.detections?.total ?? bird.detections?.total ?? 0;
 
 		// Always fetch 24h detections for this species
 		detections24hLoading = true;
@@ -95,7 +112,7 @@
 		}
 		detections24hLoading = false;
 
-		const id = fullSpecies.id;
+		const id = canonical.id;
 		if (!detectionsCache[id]) {
 			detectionsLoading = true;
 			try {
@@ -407,6 +424,20 @@
 				No birds found matching "<span class="font-semibold">{$search}</span>" in the last 30
 				minutes.
 			</p>
+		{:else if liveDetections.length === 0 && !liveError}
+			<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
+				<svg
+					class="text-accent-red mb-4 h-12 w-12 animate-spin"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+				>
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+					></circle>
+					<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+				</svg>
+				<span>Loading...</span>
+			</div>
 		{:else}
 			<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
 				No birds detected in the last 30 minutes.
@@ -487,7 +518,7 @@
 
 	<!-- Bottom nav bar -->
 	<div
-		class="fixed bottom-4 left-1/2 z-40 flex w-auto max-w-md -translate-x-1/2 flex-row items-center justify-center gap-4 rounded-xl bg-neutral-900/95 px-4 py-2 text-base text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:text-lg"
+		class="fixed bottom-1 left-1/2 z-40 flex w-auto max-w-md -translate-x-1/2 flex-row items-center justify-center gap-2 rounded-lg bg-neutral-900/95 px-1.5 py-1 text-xs text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:bottom-4 md:px-4 md:py-2 md:text-lg"
 		class:opacity-0={modalOpen}
 		class:pointer-events-none={modalOpen}
 		aria-hidden={modalOpen}
@@ -499,7 +530,7 @@
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5 text-black transition-colors group-hover:text-white"
+				class="h-4 w-4 text-black transition-colors group-hover:text-white md:h-5 md:w-5"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke="currentColor"
@@ -538,7 +569,7 @@
 				viewBox="0 0 24 24"
 				stroke-width="1.5"
 				stroke="currentColor"
-				class="h-5 w-5 transition-colors group-hover:text-white
+				class="h-4 w-4 transition-colors group-hover:text-white md:h-5 md:w-5
             {displayMode === 'live' || refreshing ? 'animate-spin' : 'text-black'}"
 				style={displayMode === 'live' || refreshing ? 'animation-duration: 2.5s;' : ''}
 			>

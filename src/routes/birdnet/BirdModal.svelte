@@ -76,7 +76,7 @@
 
 {#if bird}
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-2 backdrop-blur-sm sm:p-4"
 		on:click={handleBackgroundClick}
 		tabindex="0"
 		role="dialog"
@@ -89,7 +89,7 @@
 		}}
 	>
 		<div
-			class="relative flex w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-neutral-800"
+			class="relative flex max-h-[100svh] w-full max-w-lg flex-col overflow-hidden overflow-y-auto rounded-xl bg-white shadow-2xl dark:bg-neutral-800"
 		>
 			<div class="p-6">
 				<button
@@ -191,11 +191,19 @@
 								{#if det.soundscape?.url}
 									{#if !showAudio[i]}
 										<button
-											class="bg-accent-red hover:bg-accent-red-dark rounded px-2.5 py-1 text-xs text-white transition-colors"
+											class="bg-accent-red hover:bg-accent-red-dark flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold transition-colors"
 											on:click={() => playDetection(i)}
 											aria-label={`Play sound from ${new Date(det.timestamp).toLocaleString()}`}
 										>
-											▶ Play
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-4 w-4 text-gray-500 dark:text-neutral-400"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+											>
+												<polygon points="3,2 17,10 3,18" />
+											</svg>
+											<span>Play</span>
 										</button>
 									{:else}
 										<audio
