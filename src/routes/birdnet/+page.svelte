@@ -316,34 +316,61 @@
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			{#if displayMode === '24h'}
-				{#if stats24hLoading}
-					<p class="text-lg text-gray-400">Loading 24h stats...</p>
-				{:else}
-					<p class="text-lg">
-						Total species in the last 24h: <span class="font-bold"
-							>{stats24h.total_species.toLocaleString()}</span
-						>
-					</p>
-					<p class="text-lg">
-						Total detections in the last 24h: <span class="font-bold"
-							>{stats24h.total_detections.toLocaleString()}</span
-						>
-					</p>
-				{/if}
+				<p class="text-lg">
+					Total species in the last 24h: <span class="font-bold"
+						>{#if stats24hLoading}
+							<span
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+							></span>
+						{:else}
+							{stats24h.total_species.toLocaleString()}
+						{/if}</span
+					>
+				</p>
+				<p class="text-lg">
+					Total detections in the last 24h: <span class="font-bold"
+						>{#if stats24hLoading}
+							<span
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+							></span>
+						{:else}
+							{stats24h.total_detections.toLocaleString()}
+						{/if}</span
+					>
+				</p>
 			{:else if displayMode === 'live'}
 				<p class="text-lg">
-					Total detections in last 30 minutes: <span class="font-bold">{liveDetections.length}</span
+					Total detections in last 30 minutes: <span class="font-bold"
+						>{#if liveDetections.length === 0 && !liveError}
+							<span
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+							></span>
+						{:else}
+							{liveDetections.length}
+						{/if}</span
 					>
 				</p>
 			{:else}
 				<p class="text-lg">
 					Total species: <span class="font-bold"
-						>{$birdnetData.summary.total_species.toLocaleString()}</span
+						>{#if $birdnetData.loading && $birdnetData.summary.total_species === 0}
+							<span
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+							></span>
+						{:else}
+							{$birdnetData.summary.total_species.toLocaleString()}
+						{/if}</span
 					>
 				</p>
 				<p class="text-lg">
 					Total detections: <span class="font-bold"
-						>{$birdnetData.summary.total_detections.toLocaleString()}</span
+						>{#if $birdnetData.loading && $birdnetData.summary.total_detections === 0}
+							<span
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+							></span>
+						{:else}
+							{$birdnetData.summary.total_detections.toLocaleString()}
+						{/if}</span
 					>
 				</p>
 			{/if}
