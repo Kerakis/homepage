@@ -101,7 +101,7 @@
 				<!-- Dark/Light mode switcher -->
 				<button
 					on:click={toggleDarkMode}
-					class="relative inline-block overflow-hidden bg-black px-4 py-1 text-xs font-bold
+					class="relative inline-block cursor-pointer overflow-hidden bg-black px-4 py-1 text-xs font-bold
         tracking-widest text-white transition-colors focus:outline-none md:ml-8 md:-skew-y-5 dark:bg-white
         dark:text-black"
 					aria-label="Toggle dark mode"

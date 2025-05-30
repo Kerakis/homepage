@@ -62,7 +62,6 @@ export async function load({ fetch, depends }) {
 	if (cachedData && cachedData.lastUpdated) {
 		const now = Date.now();
 		if (now - cachedData.lastUpdated > TWENTY_FOUR_HOURS_MS) {
-			console.log('Cached Birdnet data is older than 24 hours. Refreshing.');
 			cachedData = null;
 			if (typeof window !== 'undefined') {
 				localStorage.removeItem(CACHE_KEY);
@@ -74,7 +73,6 @@ export async function load({ fetch, depends }) {
 		return { speciesData: Promise.resolve(cachedData) };
 	}
 
-	console.log('Fetching fresh Birdnet data.');
 	const speciesPromise = (async (): Promise<CachedData> => {
 		// Assuming 'speciesFromApi' is the raw result from fetchAllSpecies
 		// and it might have 'id' as a number.
