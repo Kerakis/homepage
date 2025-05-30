@@ -197,32 +197,45 @@
 		}
 	}
 
+	let refreshStartTime = 0;
+
 	function refreshBirdnet() {
-		refreshing = true; // Always show refreshing state immediately
+		refreshStartTime = Date.now();
+		refreshing = true;
 
 		const now = Date.now();
 		if (displayMode !== 'live') {
-			// Check cooldown for non-live modes before proceeding
 			if (
 				lastManualOrAutoRefreshStartTime &&
 				now - lastManualOrAutoRefreshStartTime < REFRESH_COOLDOWN_MS
 			) {
-				// Optionally, keep the spinner for a short time to show feedback
 				setTimeout(() => {
 					refreshing = false;
 				}, 500);
-				return; // Exit if within cooldown
+				return;
 			}
 		}
 
-		lastManualOrAutoRefreshStartTime = now; // Record the start time of this refresh attempt
-		updateCooldownStatus(); // Update status immediately and start interval if needed
+		lastManualOrAutoRefreshStartTime = now;
+		updateCooldownStatus();
 
 		if (typeof window !== 'undefined') {
 			localStorage.removeItem('birdnet:species');
 		}
 		detectionsCache = {};
-		loadBirdnetData(); // This function (from the store) should handle updating lastUpdated
+		loadBirdnetData();
+	}
+
+	// Ensure refreshing is visible for at least 500ms
+	$: if (!$birdnetData.loading && refreshing) {
+		const elapsed = Date.now() - refreshStartTime;
+		if (elapsed < 500) {
+			setTimeout(() => {
+				refreshing = false;
+			}, 500 - elapsed);
+		} else {
+			refreshing = false;
+		}
 	}
 
 	function scrollToTop() {
