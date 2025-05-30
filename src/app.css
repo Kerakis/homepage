@@ -11,83 +11,69 @@
 	--color-secondary: #000000;
 	--color-accent: #ff3333;
 }
-/* Firefox */
+
 ::-moz-selection {
-	background: var(--accent-red);
-	color: white;
+	background: var(--color-accent);
+	color: var(--color-primary);
 }
 
-:root {
-	--accent-red: #ff3333;
-}
-
-/* Period styling */
 .text-content {
-	color: inherit;
+	@apply text-inherit;
 }
 
 .text-content span {
-	color: var(--accent-red);
+	@apply text-[var(--color-accent)];
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
 	width: 10px;
 }
 
-/* Light mode */
 ::-webkit-scrollbar-track {
 	background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-	background: theme('colors.black');
+	background: var(--color-secondary);
 	border: 2px solid transparent;
 	background-clip: padding-box;
-	border-radius: 9999px;
+	@apply rounded-full;
 }
 ::-webkit-scrollbar-thumb:hover {
-	background: var(--accent-red);
+	background: var(--color-accent);
 }
 
-/* Dark mode */
 .dark ::-webkit-scrollbar-track {
-	background: #000;
-}
-.dark ::-webkit-scrollbar-thumb {
-	background: #fff;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-	background: var(--accent-red);
+	background: var(--color-secondary);
 }
 
-/* Selection styling */
+.dark ::-webkit-scrollbar-thumb {
+	background: var(--color-primary);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+	background: var(--color-accent);
+}
+
 ::selection {
-	background: var(--accent-red);
-	color: white;
+	background: var(--color-accent);
+	color: var(--color-primary);
 }
 
 body {
-	@apply bg-white font-sans dark:bg-black;
+	@apply bg-[var(--color-primary)] font-[var(--font-sans)] dark:bg-[var(--color-secondary)];
 }
 
 .nav-underline {
-	position: relative;
-	display: inline-block;
+	@apply relative inline-block;
 }
 
 .nav-underline::after {
 	content: '';
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 0;
-	height: 2px;
-	background: var(--accent-red, #ff3333);
-	border-radius: 9999px;
+	@apply absolute bottom-0 left-0 h-[2px] w-0 rounded-full bg-[var(--color-accent)];
 	transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-underline:hover::after,
 .nav-underline.active::after {
-	width: 100%;
+	@apply w-full;
 }
