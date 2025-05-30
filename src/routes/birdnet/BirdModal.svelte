@@ -1,16 +1,45 @@
 <script lang="ts">
-	// Update this to Svelte 5 - this seems to be a problem for some reason
 	import { onMount, onDestroy, createEventDispatcher, tick } from 'svelte';
+	import { fetchAllSpecies } from '$lib/fetchSpecies';
+	import { fetchDetections } from '$lib/fetchDetections';
+
 	export let bird: any;
-	export let detections: Array<{ timestamp: string; soundscape: { url: string } }> = [];
-	export let loading = false;
-	export let wikiSummary = '';
-	export let wikiUrl = '';
-	export let ebirdUrl = '';
-	export let detections24h: number | null = 0;
 	export let detectionsAllTime: number = 0;
-	export let detections24hLoading: boolean = false;
 	const dispatch = createEventDispatcher();
+
+	let detections24h: number | null = null;
+	let detections24hLoading = true;
+	let detections: any[] = [];
+	let detectionsLoading = true;
+	let wikiSummary = '';
+	let wikiUrl = '';
+	let ebirdUrl = '';
+
+	onMount(async () => {
+		// Fetch 24h detections
+		try {
+			const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+			const species24hData = await fetchAllSpecies({ fetch, since });
+			const matchIn24h = species24hData?.find((s: any) => s.id == bird.id);
+			detections24h = matchIn24h?.detections?.total ?? 0;
+		} catch (e) {
+			detections24h = 0;
+		}
+		detections24hLoading = false;
+
+		// Fetch recent detections
+		try {
+			detections = await fetchDetections({ speciesId: bird.id, limit: 5, fetch });
+		} catch (e) {
+			detections = [];
+		}
+		detectionsLoading = false;
+
+		// Set wiki/ebird URLs if available
+		wikiSummary = bird.wikipediaSummary || '';
+		wikiUrl = bird.wikipediaUrl || '';
+		ebirdUrl = bird.ebirdUrl || '';
+	});
 
 	let showAudio: Record<number, boolean> = {};
 	let audioRefs: Array<HTMLAudioElement | null> = [];
@@ -152,7 +181,7 @@
 				<h3 class="mb-2 text-sm font-semibold text-gray-700 dark:text-neutral-200">
 					Recent Detections:
 				</h3>
-				{#if loading}
+				{#if detectionsLoading}
 					<div
 						class="flex flex-col items-center justify-center py-6 text-sm text-gray-500 dark:text-neutral-400"
 					>

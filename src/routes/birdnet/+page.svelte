@@ -10,6 +10,10 @@
 	import BirdModal from './BirdModal.svelte';
 	import { onDestroy } from 'svelte';
 	import { get } from 'svelte/store';
+	import { formatRelativeTime } from '$lib/utils/time';
+	import { fetchAllLiveDetections } from '$lib/fetchLiveDetections';
+	import { filteredSpecies } from '$lib/stores/birdnetFilters';
+	import { speciesStore, sortMode, search } from '$lib/stores/birdnet';
 
 	let modalOpen = false;
 	let modalData: any = null;
@@ -18,38 +22,9 @@
 	let ebirdUrl = '';
 	let liveLastUpdated: number | null = null;
 
-	const speciesStore: Writable<any[]> = writable([]);
-	const initialSortMode =
-		((typeof localStorage !== 'undefined' && localStorage.getItem('birdnet:sortMode')) as any) ||
-		'last';
-	const sortMode = writable<'last' | 'most'>(initialSortMode);
-	const search = writable('');
 	let displayMode: 'all' | '24h' | 'live' =
 		((typeof localStorage !== 'undefined' && localStorage.getItem('birdnet:displayMode')) as any) ||
 		'all';
-
-	const filteredSpecies = derived(
-		[speciesStore, sortMode, search],
-		([$species, $sortMode, $search]: [any[], string, string]) => {
-			let filtered = $species.filter(
-				(s: any) =>
-					s.commonName.toLowerCase().includes($search.toLowerCase()) ||
-					s.scientificName.toLowerCase().includes($search.toLowerCase())
-			);
-			if ($sortMode === 'last') {
-				filtered = filtered.sort(
-					(a: any, b: any) =>
-						new Date(b.latestDetectionAt).getTime() - new Date(a.latestDetectionAt).getTime()
-				);
-			} else {
-				filtered = filtered.sort(
-					(a: any, b: any) => (b.detections?.total ?? 0) - (a.detections?.total ?? 0)
-				);
-			}
-			return filtered;
-		},
-		[]
-	);
 
 	let detectionsCache: Record<
 		string,
@@ -89,19 +64,17 @@
 	}
 
 	async function openModal(bird: any) {
-		const currentBirdnetStoreState = get(birdnetData);
-		const canonicalDataFromStore = currentBirdnetStoreState.species.find(
-			(s: any) => s.id == bird.id
-		);
+		const allTimeSpecies = get(birdnetData).species;
+		const canonicalDataFromAllTime = allTimeSpecies.find((s: any) => s.id == bird.id);
 
-		modalData = { ...(canonicalDataFromStore || {}), ...bird };
+		modalData = { ...(canonicalDataFromAllTime || {}), ...bird };
 
 		modalOpen = true;
 		wikiSummary = modalData.wikipediaSummary || '';
 		wikiUrl = modalData.wikipediaUrl || '';
 		ebirdUrl = modalData.ebirdUrl || '';
 
-		detectionsAllTime = canonicalDataFromStore?.detections?.total ?? 0;
+		detectionsAllTime = canonicalDataFromAllTime?.detections?.total ?? bird.detections?.total ?? 0;
 
 		detections24hLoading = true;
 		try {
@@ -134,41 +107,6 @@
 		wikiSummary = '';
 		wikiUrl = '';
 		ebirdUrl = '';
-	}
-
-	async function fetchAllLiveDetections({ fetch }: { fetch: typeof window.fetch }) {
-		let allDetections: any[] = [];
-		let cursor: number | undefined = undefined;
-		const now = new Date();
-		const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
-
-		const from = thirtyMinutesAgo.toISOString();
-		const to = now.toISOString();
-
-		let page = 1;
-		let lastDetectionId: number | undefined = undefined;
-		while (true) {
-			let url = `https://app.birdweather.com/api/v1/stations/5026/detections?limit=100&order=desc&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
-			if (cursor !== undefined) url += `&cursor=${cursor}`;
-			const response = await fetch(url);
-			const data = await response.json();
-			const detections = data.detections || [];
-			if (detections.length === 0) break;
-
-			if (lastDetectionId !== undefined && detections[0]?.id === lastDetectionId) {
-				detections.shift();
-			}
-
-			allDetections = [...allDetections, ...detections];
-
-			if (detections.length < 100) break;
-
-			const oldest = detections[detections.length - 1];
-			lastDetectionId = oldest?.id;
-			cursor = oldest?.id;
-			page++;
-		}
-		return allDetections;
 	}
 
 	// Cooldown state variables
@@ -242,27 +180,6 @@
 		if (typeof window !== 'undefined') {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		}
-	}
-
-	function formatRelativeTime(timestamp: string | number | Date): string {
-		const date = new Date(timestamp);
-		const now = new Date();
-		const seconds = Math.round((now.getTime() - date.getTime()) / 1000);
-		const minutes = Math.round(seconds / 60);
-		const hours = Math.round(minutes / 60);
-		const days = Math.round(hours / 24);
-
-		if (seconds < 60) return `${seconds} sec ago`;
-		if (minutes < 60) return `${minutes} min ago`;
-		if (hours < 24) return `${hours} hr ago`;
-		if (days === 1) return `Yesterday`;
-		if (days < 7) return `${days} days ago`;
-
-		return date.toLocaleDateString(undefined, {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric'
-		});
 	}
 
 	// --- Display Mode Logic ---
@@ -646,18 +563,7 @@
 
 	<!-- Modal -->
 	{#if modalOpen && modalData}
-		<BirdModal
-			bird={modalData}
-			detections={detectionsCache[modalData.id] || []}
-			loading={detectionsLoading}
-			{wikiSummary}
-			{wikiUrl}
-			{ebirdUrl}
-			{detections24h}
-			{detectionsAllTime}
-			{detections24hLoading}
-			on:close={closeModal}
-		/>
+		<BirdModal bird={modalData} {detectionsAllTime} on:close={closeModal} />
 	{/if}
 
 	<!-- Bottom nav bar -->
