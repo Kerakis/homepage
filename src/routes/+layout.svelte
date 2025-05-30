@@ -122,11 +122,12 @@
 		<div class="flex flex-col items-center space-y-8">
 			<!-- Social Icons -->
 			<div
-				class="flex w-[240px] flex-wrap
+				class="flex w-[192px] flex-wrap
                 justify-center
-                gap-4
-                sm:w-[304px]
-                md:w-[560px]"
+                gap-6
+                sm:w-[264px]
+                md:w-[336px]
+                lg:w-[624px]"
 			>
 				<!-- BlueSky -->
 				<a
