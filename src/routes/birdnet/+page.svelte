@@ -368,11 +368,15 @@
 		<div class="flex flex-col gap-2 sm:flex-row sm:gap-2">
 			<input
 				type="text"
+				id="birdnet-search"
+				name="birdnet-search"
 				placeholder="Search species..."
 				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
 				bind:value={$search}
 			/>
 			<select
+				id="birdnet-sort"
+				name="birdnet-sort"
 				class="w-full rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white
         {displayMode === 'live'
 					? 'cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-neutral-700 dark:text-neutral-400'
@@ -387,6 +391,8 @@
 				{/if}
 			</select>
 			<select
+				id="birdnet-mode"
+				name="birdnet-mode"
 				class="w-full cursor-pointer rounded border px-3 py-2 sm:w-auto dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
 				bind:value={displayMode}
 			>
