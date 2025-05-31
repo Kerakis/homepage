@@ -26,10 +26,7 @@ interface Summary {
 	total_species: number;
 	total_detections: number;
 }
-
-const stored =
-	typeof localStorage !== 'undefined' ? localStorage.getItem('birdnet:lastUpdated') : null;
-const initialLastUpdated = stored ? Number(stored) : null;
+const initialLastUpdated = null;
 
 export const birdnetData = writable<{
 	species: Species[];
@@ -43,13 +40,6 @@ export const birdnetData = writable<{
 	lastUpdated: initialLastUpdated,
 	loading: true,
 	error: null
-});
-
-// When you update lastUpdated, also update localStorage:
-birdnetData.subscribe((value) => {
-	if (typeof localStorage !== 'undefined' && value.lastUpdated) {
-		localStorage.setItem('birdnet:lastUpdated', String(value.lastUpdated));
-	}
 });
 
 export async function loadBirdnetData() {
@@ -78,13 +68,6 @@ export async function loadBirdnetData() {
 			loading: false,
 			error: null
 		});
-		// Optionally cache in localStorage
-		if (typeof window !== 'undefined') {
-			localStorage.setItem(
-				'birdnet:species',
-				JSON.stringify({ species: speciesWithDetails, summary, lastUpdated })
-			);
-		}
 	} catch (e) {
 		birdnetData.update((d) => ({
 			...d,

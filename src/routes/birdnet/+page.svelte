@@ -62,26 +62,51 @@
 	// --- Display Mode Logic and all other logic remain unchanged ---
 
 	// 1. Always fetch and cache All Time species data at app start
-	$: if (data && data.speciesData) {
-		Promise.resolve(data.speciesData).then((resolved) => {
-			if (resolved && resolved.species) {
-				const current = get(birdnetData);
-				// Only update if the cache is newer or the store is empty
-				if (
-					!current.lastUpdated ||
-					(resolved.lastUpdated && resolved.lastUpdated > current.lastUpdated)
-				) {
+	$: if (
+		displayMode === 'all' &&
+		data &&
+		data.speciesData &&
+		(get(birdnetData).lastUpdated === null ||
+			get(birdnetData).species.length === 0 ||
+			get(birdnetData).error)
+	) {
+		Promise.resolve(data.speciesData)
+			.then((resolved) => {
+				if (resolved && resolved.species) {
+					const current = get(birdnetData);
+					// Only update if the cache is newer or the store is empty
+					if (
+						!current.lastUpdated ||
+						(resolved.lastUpdated && resolved.lastUpdated > current.lastUpdated)
+					) {
+						birdnetData.set({
+							species: resolved.species,
+							summary: resolved.summary,
+							lastUpdated: resolved.lastUpdated,
+							loading: false,
+							error: null
+						});
+						speciesStore.set(resolved.species);
+					}
+				} else {
 					birdnetData.set({
-						species: resolved.species,
-						summary: resolved.summary,
-						lastUpdated: resolved.lastUpdated,
+						species: [],
+						summary: { total_species: 0, total_detections: 0 },
+						lastUpdated: null,
 						loading: false,
-						error: null
+						error: 'No data received'
 					});
-					speciesStore.set(resolved.species);
 				}
-			}
-		});
+			})
+			.catch((e) => {
+				birdnetData.set({
+					species: [],
+					summary: { total_species: 0, total_detections: 0 },
+					lastUpdated: null,
+					loading: false,
+					error: 'Failed to load data'
+				});
+			});
 	}
 
 	async function openModal(bird: any) {
@@ -165,18 +190,36 @@
 		data.speciesData &&
 		get(birdnetData).lastUpdated === null // Only set if not already loaded/refreshed
 	) {
-		Promise.resolve(data.speciesData).then((resolved) => {
-			if (resolved && resolved.species) {
+		Promise.resolve(data.speciesData)
+			.then((resolved) => {
+				if (resolved && resolved.species) {
+					birdnetData.set({
+						species: resolved.species,
+						summary: resolved.summary,
+						lastUpdated: resolved.lastUpdated,
+						loading: false,
+						error: null
+					});
+					speciesStore.set(resolved.species);
+				} else {
+					birdnetData.set({
+						species: [],
+						summary: { total_species: 0, total_detections: 0 },
+						lastUpdated: null,
+						loading: false,
+						error: 'No data received'
+					});
+				}
+			})
+			.catch((e) => {
 				birdnetData.set({
-					species: resolved.species,
-					summary: resolved.summary,
-					lastUpdated: resolved.lastUpdated,
+					species: [],
+					summary: { total_species: 0, total_detections: 0 },
+					lastUpdated: null,
 					loading: false,
-					error: null
+					error: 'Failed to load data'
 				});
-				speciesStore.set(resolved.species);
-			}
-		});
+			});
 	}
 
 	let autoRefreshIntervalId: ReturnType<typeof setInterval> | null = null;
