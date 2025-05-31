@@ -1,0 +1,203 @@
+[
+  {
+    "section": "wildlife/birds",
+    "photos": [
+      {
+        "src": "/photos/wildlife/birds/Black and White Warbler.jpg",
+        "filename": "Black and White Warbler.jpg",
+        "title": "Black and White Warbler",
+        "date": "2025:05:14 10:06:23",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/2500",
+        "iso": 12800,
+        "gps": null
+      },
+      {
+        "src": "/photos/wildlife/birds/Black and White Warbler2.jpg",
+        "filename": "Black and White Warbler2.jpg",
+        "title": "Black and White Warbler2",
+        "date": "2025:05:14 10:07:23",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/500",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.639557,
+          "lon": -83.73878500000001
+        }
+      },
+      {
+        "src": "/photos/wildlife/birds/Blue-headed Virio.jpg",
+        "filename": "Blue-headed Virio.jpg",
+        "title": "Blue headed Virio",
+        "date": "2025:05:14 10:38:17",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/500",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.641057,
+          "lon": -83.744125
+        }
+      },
+      {
+        "src": "/photos/wildlife/birds/Hooded Warbler.jpg",
+        "filename": "Hooded Warbler.jpg",
+        "title": "Hooded Warbler",
+        "date": "2025:05:14 12:12:29",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/250",
+        "iso": 6400,
+        "gps": {
+          "lat": 35.63802,
+          "lon": -83.736992
+        }
+      },
+      {
+        "src": "/photos/wildlife/birds/Short-billed Dowitcher.jpeg",
+        "filename": "Short-billed Dowitcher.jpeg",
+        "title": "Short billed Dowitcher",
+        "date": "2025:05:16 11:22:58",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "800 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/1600",
+        "iso": 3200,
+        "gps": null
+      },
+      {
+        "src": "/photos/wildlife/birds/Worm-eating Warbler.jpg",
+        "filename": "Worm-eating Warbler.jpg",
+        "title": "Worm eating Warbler",
+        "date": "2025:05:14 10:39:37",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/400",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.641057,
+          "lon": -83.744125
+        }
+      }
+    ]
+  },
+  {
+    "section": "wildlife/bugs",
+    "photos": [
+      {
+        "src": "/photos/wildlife/bugs/American Green Crab Spider.jpeg",
+        "filename": "American Green Crab Spider.jpeg",
+        "title": "American Green Crab Spider",
+        "date": "2025:05:16 09:13:38",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/16.0",
+        "exposure": "1/250",
+        "iso": 200,
+        "gps": {
+          "lat": 35.954502,
+          "lon": -84.135117
+        }
+      },
+      {
+        "src": "/photos/wildlife/bugs/Crane Fly.jpg",
+        "filename": "Crane Fly.jpg",
+        "title": "Crane Fly",
+        "date": "2025:05:14 11:20:48",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "270 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/125",
+        "iso": 4000,
+        "gps": {
+          "lat": 35.643208,
+          "lon": -83.750748
+        }
+      },
+      {
+        "src": "/photos/wildlife/bugs/Cricket.jpg",
+        "filename": "Cricket.jpg",
+        "title": "Cricket",
+        "date": "2025:05:14 11:50:21",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/250",
+        "iso": 500,
+        "gps": {
+          "lat": 35.639920000000004,
+          "lon": -83.741248
+        }
+      },
+      {
+        "src": "/photos/wildlife/bugs/Moth.jpg",
+        "filename": "Moth.jpg",
+        "title": "Moth",
+        "date": "2025:05:14 11:21:56",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/250",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.643208,
+          "lon": -83.750748
+        }
+      },
+      {
+        "src": "/photos/wildlife/bugs/Spider.jpeg",
+        "filename": "Spider.jpeg",
+        "title": "Spider",
+        "date": "2025:05:24 13:30:25",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/320",
+        "iso": 1000,
+        "gps": {
+          "lat": 35.950932,
+          "lon": -84.167717
+        }
+      }
+    ]
+  },
+  {
+    "section": "wildlife/plants",
+    "photos": [
+      {
+        "src": "/photos/wildlife/plants/Plant.jpg",
+        "filename": "Plant.jpg",
+        "title": "Plant",
+        "date": "2025:05:14 11:18:02",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "200 mm",
+        "aperture": "f/6.3",
+        "exposure": "1/250",
+        "iso": 1250,
+        "gps": {
+          "lat": 35.643208,
+          "lon": -83.750748
+        }
+      }
+    ]
+  }
+]

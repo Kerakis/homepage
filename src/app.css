@@ -91,3 +91,24 @@ body {
 .nav-underline.active::after {
 	width: 100%;
 }
+
+
+.masonry {
+    column-count: 1;
+    column-gap: 1rem;
+}
+@media (min-width: 640px) {
+    .masonry {
+        column-count: 2;
+    }
+}
+@media (min-width: 1024px) {
+    .masonry {
+        column-count: 3;
+    }
+}
+.photo-thumb {
+    break-inside: avoid;
+    display: block;
+    width: 100%;
+}
