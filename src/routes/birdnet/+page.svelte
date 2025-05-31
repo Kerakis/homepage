@@ -357,11 +357,11 @@
 				clearTimeout(tooltipTimeout);
 				tooltipTimeout = null;
 			}
-			// Auto-hide tooltip after 1.5s on mobile tap
+			// Auto-hide tooltip after 2.5s on mobile tap
 			if ('ontouchstart' in window) {
 				tooltipTimeout = setTimeout(() => {
 					showTooltip = false;
-				}, 1500);
+				}, 2500);
 			}
 		} else {
 			if (cooldownInterval) {
@@ -664,7 +664,7 @@
 
 	<!-- Bottom nav bar -->
 	<div
-		class="fixed bottom-1 left-1/2 z-40 flex w-auto max-w-md -translate-x-1/2 flex-row items-center justify-center gap-2 rounded-lg bg-neutral-900/95 px-1.5 py-1 text-xs text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:bottom-4 md:px-4 md:py-2 md:text-lg"
+		class="fixed bottom-1 left-1/2 z-40 flex w-auto max-w-lg -translate-x-1/2 flex-row items-center justify-center gap-2 rounded-lg bg-neutral-900/95 px-1.5 py-1 text-xs text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:bottom-4 md:px-4 md:py-2 md:text-lg"
 		class:opacity-0={modalOpen}
 		class:pointer-events-none={modalOpen}
 		aria-hidden={modalOpen}
@@ -684,7 +684,7 @@
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
 			</svg>
 		</button>
-		<span>
+		<span class="whitespace-nowrap">
 			{#if displayMode === 'live' && liveLastUpdated}
 				Last updated: {new Date(liveLastUpdated).toLocaleTimeString([], {
 					hour: 'numeric',
