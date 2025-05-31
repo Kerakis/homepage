@@ -296,6 +296,10 @@
 		} else {
 			cooldownSecondsLeft = 0;
 		}
+		// Hide tooltip if cooldown is over
+		if (cooldownSecondsLeft === 0 && showTooltip) {
+			showTooltip = false;
+		}
 	}
 
 	function handleTooltip(show: boolean) {
@@ -310,11 +314,11 @@
 				clearTimeout(tooltipTimeout);
 				tooltipTimeout = null;
 			}
-			// Auto-hide tooltip after 2.5s on mobile tap
+			// Auto-hide tooltip after 1.5s on mobile tap
 			if ('ontouchstart' in window) {
 				tooltipTimeout = setTimeout(() => {
 					showTooltip = false;
-				}, 2500);
+				}, 1500);
 			}
 		} else {
 			if (cooldownInterval) {
