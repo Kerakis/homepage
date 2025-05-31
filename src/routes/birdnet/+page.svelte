@@ -13,6 +13,25 @@
 	import { get } from 'svelte/store';
 	import { fly } from 'svelte/transition';
 	import { liveDetectionsStore, filteredLiveDetections } from '$lib/stores/birdnetLiveFilters';
+	import { onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
+
+	onMount(() => {
+		const handleFocus = () => {
+			// Only refresh if not already loading or refreshing
+			if (!$birdnetData.loading && !refreshing) {
+				refreshBirdnet();
+			}
+		};
+		window.addEventListener('focus', handleFocus);
+		return () => window.removeEventListener('focus', handleFocus);
+	});
+
+	afterNavigate(() => {
+		if (!$birdnetData.loading && !refreshing) {
+			refreshBirdnet();
+		}
+	});
 
 	let modalOpen = false;
 	let modalData: any = null;
@@ -45,15 +64,21 @@
 	$: if (data && data.speciesData) {
 		Promise.resolve(data.speciesData).then((resolved) => {
 			if (resolved && resolved.species) {
-				birdnetData.set({
-					species: resolved.species,
-					summary: resolved.summary,
-					lastUpdated: resolved.lastUpdated,
-					loading: false,
-					error: null
-				});
-				speciesStore.set(resolved.species);
-				// refreshing = false; // This is handled by the reactive statement below based on $birdnetData.loading
+				const current = get(birdnetData);
+				// Only update if the cache is newer or the store is empty
+				if (
+					!current.lastUpdated ||
+					(resolved.lastUpdated && resolved.lastUpdated > current.lastUpdated)
+				) {
+					birdnetData.set({
+						species: resolved.species,
+						summary: resolved.summary,
+						lastUpdated: resolved.lastUpdated,
+						loading: false,
+						error: null
+					});
+					speciesStore.set(resolved.species);
+				}
 			}
 		});
 	}
@@ -148,17 +173,17 @@
 	}
 
 	let autoRefreshIntervalId: ReturnType<typeof setInterval> | null = null;
-	const AUTO_REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
-	function initiateAutoRefresh() {
-		if (autoRefreshIntervalId) {
-			clearInterval(autoRefreshIntervalId);
-		}
+	function initiateAutoRefresh(interval: number) {
+		if (autoRefreshIntervalId) clearInterval(autoRefreshIntervalId);
 		autoRefreshIntervalId = setInterval(() => {
-			if (displayMode !== 'live' && !refreshing) {
-				refreshBirdnet(); // Cooldown is handled within refreshBirdnet
+			if (displayMode === 'live') {
+				// Only refresh live data in live mode
+				if (!refreshing) refreshBirdnet();
+			} else if (!refreshing) {
+				refreshBirdnet();
 			}
-		}, AUTO_REFRESH_INTERVAL_MS);
+		}, interval);
 	}
 
 	function stopAutoRefresh() {
@@ -168,20 +193,14 @@
 		}
 	}
 
-	// Reactive block to manage auto-refresh and cooldown status based on displayMode
+	// Manage auto-refresh based on mode
 	$: {
 		if (typeof window !== 'undefined') {
-			if (displayMode === 'all' || displayMode === '24h') {
-				const currentBirdnetData = get(birdnetData);
-				if (
-					!refreshing &&
-					(currentBirdnetData.lastUpdated === null ||
-						Date.now() - currentBirdnetData.lastUpdated > AUTO_REFRESH_INTERVAL_MS)
-				) {
-					refreshBirdnet(); // Cooldown is handled within refreshBirdnet
-				}
-				initiateAutoRefresh();
-			} else if (displayMode === 'live') {
+			if (displayMode === 'live') {
+				initiateAutoRefresh(30_000); // 30 seconds
+			} else if (displayMode === 'all' || displayMode === '24h') {
+				initiateAutoRefresh(5 * 60_000); // 5 minutes
+			} else {
 				stopAutoRefresh();
 			}
 		}
@@ -193,30 +212,13 @@
 	let refreshing = false;
 
 	function refreshBirdnet() {
-		refreshStartTime = Date.now();
+		if (isWithinRefreshCooldown) return;
 		refreshing = true;
-
-		const now = Date.now();
-		if (displayMode !== 'live') {
-			if (
-				lastManualOrAutoRefreshStartTime &&
-				now - lastManualOrAutoRefreshStartTime < REFRESH_COOLDOWN_MS
-			) {
-				setTimeout(() => {
-					refreshing = false;
-				}, 500);
-				return;
-			}
-		}
-
-		lastManualOrAutoRefreshStartTime = now;
-		updateCooldownStatus();
-
-		if (typeof window !== 'undefined') {
-			localStorage.removeItem('birdnet:species');
-		}
-		detectionsCache = {};
 		loadBirdnetData();
+	}
+
+	$: if (!$birdnetData.loading && refreshing) {
+		refreshing = false;
 	}
 
 	// Ensure refreshing is visible for at least 500ms
@@ -237,31 +239,12 @@
 		}
 	}
 
-	// Cooldown state variables
-	let lastManualOrAutoRefreshStartTime: number | null = null;
 	const REFRESH_COOLDOWN_MS = 60 * 1000; // 1 minute cooldown
-	let isWithinRefreshCooldown = false;
-	let cooldownCheckInterval: ReturnType<typeof setInterval> | null = null;
 
-	function updateCooldownStatus() {
-		if (displayMode !== 'live' && lastManualOrAutoRefreshStartTime) {
-			const now = Date.now();
-			isWithinRefreshCooldown = now - lastManualOrAutoRefreshStartTime < REFRESH_COOLDOWN_MS;
-
-			if (!isWithinRefreshCooldown && cooldownCheckInterval) {
-				clearInterval(cooldownCheckInterval);
-				cooldownCheckInterval = null;
-			} else if (isWithinRefreshCooldown && !cooldownCheckInterval) {
-				cooldownCheckInterval = setInterval(updateCooldownStatus, 1000); // Check every second
-			}
-		} else {
-			isWithinRefreshCooldown = false; // Not in cooldown if in live mode or no refresh started
-			if (cooldownCheckInterval) {
-				clearInterval(cooldownCheckInterval);
-				cooldownCheckInterval = null;
-			}
-		}
-	}
+	$: isWithinRefreshCooldown =
+		typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0
+			? Date.now() - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS
+			: false;
 
 	$: if (!$birdnetData.loading && refreshing) refreshing = false;
 	$: if (displayMode === 'live' && $sortMode !== 'last') sortMode.set('last');
@@ -273,6 +256,11 @@
 	$: if (displayMode === 'all') {
 		speciesStore.set($birdnetData.species);
 	}
+
+	const STALE_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes
+
+	$: isStale =
+		$birdnetData.lastUpdated !== null && Date.now() - $birdnetData.lastUpdated > STALE_THRESHOLD_MS;
 </script>
 
 {#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
@@ -477,7 +465,12 @@
 					transition:fly={{ y: 20, duration: 300 }}
 				>
 					<div class="relative aspect-[4/3] w-full">
-						<img src={bird.imageUrl} alt={bird.commonName} class="h-full w-full object-cover" />
+						<img
+							src={bird.imageUrl}
+							alt={bird.commonName}
+							loading="lazy"
+							class="h-full w-full object-cover"
+						/>
 						<div
 							class="absolute right-0.5 bottom-0.5 flex items-center rounded-md bg-black/60 px-2 py-1 text-xs text-white backdrop-blur-sm"
 						>
@@ -550,13 +543,13 @@
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
 			</svg>
 		</button>
-		<span class="min-w-[10.5rem] truncate text-center text-sm md:text-base">
+		<span>
 			{#if displayMode === 'live' && liveLastUpdated}
 				Last updated: {new Date(liveLastUpdated).toLocaleTimeString([], {
 					hour: 'numeric',
 					minute: '2-digit'
 				})}
-			{:else if refreshing}
+			{:else if refreshing || isStale}
 				Refreshing Data
 			{:else if $birdnetData.lastUpdated}
 				Last updated: {new Date($birdnetData.lastUpdated).toLocaleTimeString([], {
