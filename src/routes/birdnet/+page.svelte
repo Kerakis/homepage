@@ -48,6 +48,7 @@
 	// For live mode
 	let liveInterval: ReturnType<typeof setInterval> | null = null;
 	let liveError = '';
+	let liveLoading = false;
 
 	// Modal-related
 	let detectionsAllTime: number = 0;
@@ -134,21 +135,23 @@
 	// Live mode
 	$: if (displayMode === 'live') {
 		const fetchLive = async () => {
+			liveLoading = true;
 			liveError = '';
 			try {
 				const data = await fetchAllLiveDetections({ fetch });
 				liveDetectionsStore.set(data || []);
-				liveLastUpdated = Date.now();
 			} catch (e) {
 				liveError = 'Failed to fetch live detections';
 				console.error(e);
+			} finally {
+				liveLoading = false;
 			}
 		};
 		fetchLive();
 		if (liveInterval) clearInterval(liveInterval);
-		liveInterval = setInterval(fetchLive, 30000); // Fetch every 30 seconds
+		liveInterval = setInterval(fetchLive, 30000);
 	} else {
-		if (liveInterval) clearInterval(liveInterval); // Clear interval if not in live mode
+		if (liveInterval) clearInterval(liveInterval);
 	}
 
 	// All time mode (default)
@@ -318,15 +321,15 @@
 				</p>
 			{:else if displayMode === 'live'}
 				<p class="text-lg">
-					Total detections in last 30 minutes: <span class="font-bold"
-						>{#if $liveDetectionsStore.length === 0 && !liveError}
+					Total detections in last 30 minutes: <span class="font-bold">
+						{#if liveLoading}
 							<span
 								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
 							></span>
 						{:else}
 							{$liveDetectionsStore.length}
-						{/if}</span
-					>
+						{/if}
+					</span>
 				</p>
 			{:else}
 				<p class="text-lg">
@@ -435,7 +438,7 @@
 				No birds found matching "<span class="font-semibold">{$search}</span>" in the last 30
 				minutes.
 			</p>
-		{:else if $liveDetectionsStore.length === 0 && !liveError}
+		{:else if liveLoading}
 			<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
 				<svg
 					class="text-accent-red mb-4 h-12 w-12 animate-spin"
