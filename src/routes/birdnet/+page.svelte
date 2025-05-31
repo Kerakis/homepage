@@ -140,6 +140,7 @@
 			try {
 				const data = await fetchAllLiveDetections({ fetch });
 				liveDetectionsStore.set(data || []);
+				liveLastUpdated = Date.now();
 			} catch (e) {
 				liveError = 'Failed to fetch live detections';
 				console.error(e);
@@ -151,7 +152,10 @@
 		if (liveInterval) clearInterval(liveInterval);
 		liveInterval = setInterval(fetchLive, 30000);
 	} else {
-		if (liveInterval) clearInterval(liveInterval);
+		if (liveInterval) {
+			clearInterval(liveInterval);
+			liveInterval = null;
+		}
 	}
 
 	// All time mode (default)
@@ -244,9 +248,21 @@
 
 	const REFRESH_COOLDOWN_MS = 60 * 1000; // 1 minute cooldown
 
+	let now = Date.now();
+	let nowInterval: ReturnType<typeof setInterval> | null = null;
+
+	onMount(() => {
+		nowInterval = setInterval(() => {
+			now = Date.now();
+		}, 250);
+		return () => {
+			if (nowInterval) clearInterval(nowInterval);
+		};
+	});
+
 	$: isWithinRefreshCooldown =
 		typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0
-			? Date.now() - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS
+			? now - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS
 			: false;
 
 	$: if (!$birdnetData.loading && refreshing) refreshing = false;
@@ -264,6 +280,73 @@
 
 	$: isStale =
 		$birdnetData.lastUpdated !== null && Date.now() - $birdnetData.lastUpdated > STALE_THRESHOLD_MS;
+
+	let showTooltip = false;
+	let tooltipTimeout: ReturnType<typeof setTimeout> | null = null;
+	let cooldownInterval: ReturnType<typeof setInterval> | null = null;
+	let cooldownCheckInterval: ReturnType<typeof setInterval> | null = null;
+	let cooldownSecondsLeft = 0;
+
+	function updateCooldownSecondsLeft() {
+		if (typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0) {
+			const left = Math.ceil(
+				(REFRESH_COOLDOWN_MS - (Date.now() - $birdnetData.lastUpdated)) / 1000
+			);
+			cooldownSecondsLeft = left > 0 ? left : 0;
+		} else {
+			cooldownSecondsLeft = 0;
+		}
+	}
+
+	function handleTooltip(show: boolean) {
+		showTooltip = show;
+		if (show) {
+			updateCooldownSecondsLeft();
+			if (cooldownInterval) clearInterval(cooldownInterval);
+			cooldownInterval = setInterval(() => {
+				updateCooldownSecondsLeft();
+			}, 250);
+			if (tooltipTimeout) {
+				clearTimeout(tooltipTimeout);
+				tooltipTimeout = null;
+			}
+			// Auto-hide tooltip after 2.5s on mobile tap
+			if ('ontouchstart' in window) {
+				tooltipTimeout = setTimeout(() => {
+					showTooltip = false;
+				}, 2500);
+			}
+		} else {
+			if (cooldownInterval) {
+				clearInterval(cooldownInterval);
+				cooldownInterval = null;
+			}
+			if (tooltipTimeout) {
+				clearTimeout(tooltipTimeout);
+				tooltipTimeout = null;
+			}
+		}
+	}
+
+	function getCooldownSecondsLeft() {
+		if (typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0) {
+			const left = Math.ceil(
+				(REFRESH_COOLDOWN_MS - (Date.now() - $birdnetData.lastUpdated)) / 1000
+			);
+			return left > 0 ? left : 0;
+		}
+		return 0;
+	}
+
+	onMount(() => {
+		cooldownCheckInterval = setInterval(() => {
+			// This will trigger Svelte reactivity for isWithinRefreshCooldown
+			// because it depends on $birdnetData.lastUpdated and Date.now()
+		}, 250);
+		return () => {
+			if (cooldownCheckInterval) clearInterval(cooldownCheckInterval);
+		};
+	});
 </script>
 
 {#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
@@ -393,6 +476,14 @@
 			</select>
 		</div>
 	</div>
+
+	<p class="my-5 text-center text-xs text-gray-500 dark:text-gray-400">
+		{#if displayMode === 'live'}
+			This page updates automatically every <b>30 seconds</b> in Live Mode.
+		{:else}
+			This page updates automatically every <b>5 minutes</b>.
+		{/if}
+	</p>
 
 	{#if displayMode === 'live'}
 		{#if liveError}
@@ -564,7 +655,20 @@
 			{/if}
 		</span>
 		<button
-			on:click={refreshBirdnet}
+			on:click={() => {
+				if (displayMode === 'live' || refreshing || isWithinRefreshCooldown) {
+					handleTooltip(true);
+				} else {
+					refreshBirdnet();
+				}
+			}}
+			on:mouseenter={() => {
+				if (displayMode === 'live' || refreshing || isWithinRefreshCooldown) handleTooltip(true);
+			}}
+			on:mouseleave={() => handleTooltip(false)}
+			on:touchstart={() => {
+				if (displayMode === 'live' || refreshing || isWithinRefreshCooldown) handleTooltip(true);
+			}}
 			aria-label="Refresh bird data"
 			class="group hover:bg-accent flex items-center justify-center rounded-lg bg-white p-2
         text-xl text-black transition-colors
@@ -572,6 +676,7 @@
 				? 'cursor-not-allowed opacity-60'
 				: 'cursor-pointer'}"
 			disabled={displayMode === 'live' || refreshing || isWithinRefreshCooldown}
+			style="position: relative;"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -589,6 +694,22 @@
 					d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
 				/>
 			</svg>
+			{#if showTooltip}
+				<div
+					class="absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded bg-neutral-800 px-3 py-2 text-xs text-white shadow-lg"
+					style="pointer-events: none;"
+				>
+					{#if displayMode === 'live'}
+						Live Mode refreshes automatically every 30 seconds.
+					{:else if refreshing}
+						Refreshing now...
+					{:else if isWithinRefreshCooldown}
+						Manual refresh is on cooldown ({cooldownSecondsLeft}s left).<br />
+						This helps prevent excessive API calls.<br />
+						Page updates automatically every 5 minutes.
+					{/if}
+				</div>
+			{/if}
 		</button>
 	</div>
 {/if}
