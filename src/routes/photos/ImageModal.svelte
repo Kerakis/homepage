@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
+	import { fade } from 'svelte/transition';
 
+	export let onClose: (() => void) | undefined;
+	export let onChange: ((index: number) => void) | undefined;
 	export let open: boolean;
 	export let photos: any[] = [];
 	export let index: number = 0;
@@ -11,21 +14,20 @@
 	let modalIndex = index;
 	let zoomed = false;
 	let touchStartX: number | null = null;
-
-	const dispatch = createEventDispatcher();
+	let imageLoaded = false;
 
 	$: modalPhoto = photos[modalIndex];
 
 	function closeModal() {
-		dispatch('close');
+		onClose?.();
 	}
 	function showPrev() {
 		modalIndex = (modalIndex - 1 + photos.length) % photos.length;
-		dispatch('change', { index: modalIndex });
+		onChange?.(modalIndex);
 	}
 	function showNext() {
 		modalIndex = (modalIndex + 1) % photos.length;
-		dispatch('change', { index: modalIndex });
+		onChange?.(modalIndex);
 	}
 	function handleTouchStart(e: TouchEvent) {
 		touchStartX = e.touches[0].clientX;
@@ -65,10 +67,11 @@
 {#if open && modalPhoto}
 	<div
 		bind:this={modalContainer}
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
 		role="dialog"
 		aria-modal="true"
 		tabindex="0"
+		transition:fade={{ duration: 250 }}
 		on:keydown={(e) => {
 			if (!zoomed) {
 				if (e.key === 'ArrowLeft') showPrev();
@@ -103,9 +106,6 @@
 			<div class="flex w-full items-center justify-between px-6 pt-6 pb-2">
 				{#if section}
 					<div class="flex items-center rounded-full bg-black/60 px-4 py-2 text-xs text-white">
-						<svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<circle cx="12" cy="12" r="10" stroke-width="2" />
-						</svg>
 						<span>{modalIndex + 1} / {section.photos.length}</span>
 					</div>
 				{/if}
@@ -226,9 +226,11 @@
 					<img
 						src={modalPhoto.src}
 						alt={modalPhoto.title}
-						class="max-h-full max-w-full object-contain select-none"
+						class="max-h-full max-w-full object-contain transition-opacity duration-300 select-none"
 						draggable="false"
 						tabindex="-1"
+						on:load={() => (imageLoaded = true)}
+						style="opacity: {imageLoaded ? 1 : 0}; transition: opacity 0.3s;"
 					/>
 				{/if}
 
@@ -290,7 +292,7 @@
 							on:click={(e) => {
 								e.preventDefault();
 								modalIndex = idx;
-								dispatch('change', { index: modalIndex });
+								onChange?.(modalIndex);
 								requestAnimationFrame(() => modalContainer && modalContainer.focus());
 							}}
 							tabindex="-1"

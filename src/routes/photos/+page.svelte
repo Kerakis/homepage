@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { goto, afterNavigate } from '$app/navigation';
-	import { ImageViewer } from 'svelte-image-viewer';
 	import { page } from '$app/state';
 	import ImageModal from './ImageModal.svelte';
 
@@ -18,6 +17,8 @@
 		iso?: number;
 		gps?: { lat: number; lon: number } | null;
 	}
+
+	const folderThumbCache = new Map<string, Photo>();
 
 	let gallery: { section: string; photos: Photo[] }[] = [];
 	let breadcrumbs: string[] = [];
@@ -84,7 +85,7 @@
 		const photoParam = params.get('photo');
 		if (modalParam && currentSection && photoParam !== null) {
 			const idx = parseInt(photoParam, 10);
-			if (!isNaN(idx) && currentSection.photos[idx]) {
+			if (!isNaN(idx) && currentSection?.photos && currentSection.photos[idx]) {
 				modalOpen = true;
 				modalPhoto = currentSection.photos[idx];
 				modalIndex = idx;
@@ -128,7 +129,7 @@
 		const params = new URLSearchParams(page.url.search);
 		params.set('modal', '1');
 		params.set('photo', i.toString());
-		goto(`${window.location.pathname}?${params.toString()}`);
+		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
 	}
 
 	function closeModal() {
@@ -191,6 +192,49 @@
 	onDestroy(() => {
 		document.body.style.overflow = '';
 	});
+
+	function formatDate(dateStr: string) {
+		const [year, month, day] = dateStr.split(/[: ]/);
+		const date = new Date(`${year}-${month}-${day}`);
+		return date.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' });
+	}
+
+	function getAllPhotosInSection(section: string) {
+		return gallery
+			.filter((s) => s.section === section || s.section.startsWith(section + '/'))
+			.flatMap((s) => s.photos ?? []);
+	}
+
+	function getDateRangeForSection(section: string) {
+		const photos = getAllPhotosInSection(section);
+		if (!photos.length) return '';
+		const dates = photos.map((p) => {
+			const [year, month, day] = p.date.split(/[: ]/);
+			return new Date(`${year}-${month}-${day}`);
+		});
+		const minDate = new Date(Math.min(...dates.map((d) => d.getTime())));
+		const maxDate = new Date(Math.max(...dates.map((d) => d.getTime())));
+		const formattedMin = minDate.toLocaleDateString(undefined, {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		});
+		const formattedMax = maxDate.toLocaleDateString(undefined, {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		});
+		return formattedMin === formattedMax ? formattedMin : `${formattedMin} – ${formattedMax}`;
+	}
+
+	function getRandomPhotoInSection(section: string) {
+		if (folderThumbCache.has(section)) return folderThumbCache.get(section);
+		const photos = getAllPhotosInSection(section);
+		if (!photos.length) return null;
+		const photo = photos[Math.floor(Math.random() * photos.length)];
+		folderThumbCache.set(section, photo);
+		return photo;
+	}
 </script>
 
 <!-- Breadcrumbs -->
@@ -220,23 +264,28 @@
 {#if subSections.length}
 	<!-- Show next-level sections as cards -->
 	<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-		{#each subSections as sub}
+		{#each subSections as sub (sub)}
+			{@const thumb = getRandomPhotoInSection(currentPath ? `${currentPath}/${sub}` : sub)}
 			<button
 				type="button"
 				class="cursor-pointer rounded border p-6 text-left shadow transition hover:bg-gray-800"
 				on:click={() => enterSection(sub)}
 			>
 				<div class="mb-2 text-xl font-bold">{sub.charAt(0).toUpperCase() + sub.slice(1)}</div>
-				{#if gallery.find((s) => s.section === (currentPath ? `${currentPath}/${sub}` : sub))?.photos[0]}
-					<img
-						src={gallery.find((s) => s.section === (currentPath ? `${currentPath}/${sub}` : sub))
-							?.photos[0]?.src}
-						alt={sub}
-						class="h-48 w-full rounded object-cover"
-					/>
+				{#if thumb}
+					<!-- Add overflow-hidden here -->
+					<div class="h-48 w-full overflow-hidden rounded">
+						<img
+							src={thumb.src}
+							alt={sub}
+							class="h-48 w-full object-cover transition-transform duration-100 ease-in-out hover:scale-105"
+						/>
+					</div>
 				{/if}
 				<div class="mt-2 text-xs text-gray-400">
 					{countPhotosInSection(currentPath ? `${currentPath}/${sub}` : sub)} photos
+					<br />
+					{getDateRangeForSection(currentPath ? `${currentPath}/${sub}` : sub)}
 				</div>
 			</button>
 		{/each}
@@ -250,9 +299,16 @@
 				class="photo-thumb mb-4 w-full cursor-pointer rounded border p-2 text-left shadow"
 				on:click={() => openModal(photo, i)}
 			>
-				<img src={photo.src} alt={photo.title} class="mb-2 w-full rounded" />
+				<!-- Add overflow-hidden here -->
+				<div class="mb-2 w-full overflow-hidden rounded">
+					<img
+						src={photo.src}
+						alt={photo.title}
+						class="w-full object-cover transition-transform duration-100 ease-in-out hover:scale-105"
+					/>
+				</div>
 				<div class="text-sm font-semibold">{photo.title}</div>
-				<div class="text-xs text-gray-500">{photo.date}</div>
+				<div class="text-xs text-gray-500">{formatDate(photo.date)}</div>
 			</button>
 		{/each}
 	</div>
@@ -265,11 +321,15 @@
 	photos={currentSection?.photos ?? []}
 	index={modalIndex}
 	section={currentSection}
-	on:close={closeModal}
-	on:change={(e) => {
-		modalIndex = e.detail.index;
+	onClose={closeModal}
+	onChange={(idx) => {
+		modalIndex = idx;
 		if (currentSection) {
-			modalPhoto = currentSection.photos[modalIndex];
+			if (currentSection.photos && currentSection.photos[modalIndex]) {
+				modalPhoto = currentSection.photos[modalIndex];
+			} else {
+				modalPhoto = null;
+			}
 		}
 	}}
 />
