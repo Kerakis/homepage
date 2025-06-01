@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
-	import { fade } from 'svelte/transition';
+	import { fade, scale, fly } from 'svelte/transition';
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
+	import { darkMode } from '$lib/stores/darkMode';
+	import { get } from 'svelte/store';
 
 	export let onClose: (() => void) | undefined;
 	export let onChange: ((index: number) => void) | undefined;
@@ -19,6 +21,26 @@
 	let imageLoaded = false;
 	let mapContainer: HTMLDivElement | null = null;
 	let map: L.Map | null = null;
+	let minimapContainer: HTMLDivElement | null = null;
+	let fullmapContainer: HTMLDivElement | null = null;
+	let minimap: L.Map | null = null;
+	let fullmap: L.Map | null = null;
+
+	let allPhotoMarkers: L.Marker[] = []; // <-- Add this line
+
+	let fullMap = false;
+	let minimapWidth = 192,
+		minimapHeight = 128; // default (w-48 h-32)
+	$: {
+		// Responsive sizing for minimap
+		if (window?.innerWidth > 900) {
+			minimapWidth = 320; // w-80
+			minimapHeight = 200; // h-50
+		} else {
+			minimapWidth = 192;
+			minimapHeight = 128;
+		}
+	}
 
 	$: modalPhoto = photos[modalIndex];
 
@@ -48,6 +70,25 @@
 		touchStartX = null;
 	}
 
+	function handleModalKeydown(e: KeyboardEvent) {
+		// Prevent arrow navigation when full map is open
+		if (fullMap) {
+			if (e.key === 'Escape') {
+				fullMap = false;
+				setTimeout(() => modalContainer && modalContainer.focus(), 0);
+			}
+			return;
+		}
+		if (!zoomed) {
+			if (e.key === 'ArrowLeft') showPrev();
+			if (e.key === 'ArrowRight') showNext();
+		}
+		if (e.key === 'Escape') {
+			closeModal();
+		}
+		setTimeout(() => modalContainer && modalContainer.focus(), 0);
+	}
+
 	// Prevent background scroll when modal is open
 	$: {
 		if (open) document.body.style.overflow = 'hidden';
@@ -61,19 +102,18 @@
 	$: if (open && modalContainer) {
 		setTimeout(() => modalContainer && modalContainer.focus(), 0);
 	}
-
-	// Keep modalIndex in sync with parent
-	$: if (index !== modalIndex) {
-		modalIndex = index;
+	$: if (fullMap && modalContainer) {
+		setTimeout(() => modalContainer && modalContainer.focus(), 0);
 	}
 
-	$: if (open && modalPhoto?.gps && mapContainer) {
-		// Clean up previous map
-		if (map) {
-			map.remove();
-			map = null;
+	// Map logic
+	$: if (open && modalPhoto?.gps && minimapContainer && !fullMap) {
+		// Clean up previous minimap
+		if (minimap) {
+			minimap.remove();
+			minimap = null;
 		}
-		map = L.map(mapContainer, {
+		minimap = L.map(minimapContainer, {
 			center: [modalPhoto.gps.lat, modalPhoto.gps.lon],
 			zoom: 12,
 			zoomControl: false,
@@ -86,11 +126,84 @@
 		});
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
-			attribution:
-				'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			className: 'map-tiles'
-		}).addTo(map);
-		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon]).addTo(map);
+		}).addTo(minimap);
+		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon]).addTo(minimap);
+	}
+
+	$: if (fullMap && modalPhoto?.gps && fullmapContainer && typeof window !== 'undefined') {
+		// Clean up previous fullmap
+		if (fullmap) {
+			fullmap.remove();
+			fullmap = null;
+		}
+		const isDark = get(darkMode);
+
+		fullmap = L.map(fullmapContainer, {
+			center: [modalPhoto.gps.lat, modalPhoto.gps.lon],
+			zoom: 16,
+			zoomControl: false, // We'll add our own
+			attributionControl: false, // We'll add our own
+			scrollWheelZoom: true,
+			dragging: true,
+			doubleClickZoom: true,
+			boxZoom: true,
+			keyboard: true
+		});
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			className: isDark ? 'map-tiles dark' : 'map-tiles'
+		}).addTo(fullmap);
+
+		// Custom zoom controls (styled, top left)
+		L.control.zoom({ position: 'topleft' }).addTo(fullmap);
+
+		// Remove previous markers
+		allPhotoMarkers.forEach((m: L.Marker) => m.remove());
+		allPhotoMarkers = [];
+
+		// Add all photo markers (guard for gps)
+		if (photos && Array.isArray(photos)) {
+			photos.forEach((photo) => {
+				if (!photo.gps || photo.gps.lat == null || photo.gps.lon == null) return;
+				const isCurrent = photo === modalPhoto;
+				const marker = L.marker([photo.gps.lat, photo.gps.lon], {
+					icon: L.icon({
+						iconUrl: isCurrent
+							? 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png'
+							: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+						iconSize: [25, 41],
+						iconAnchor: [12, 41],
+						popupAnchor: [1, -34],
+						shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+						shadowSize: [41, 41]
+					})
+				}).addTo(fullmap!);
+				allPhotoMarkers.push(marker);
+
+				// Only link if not current photo and section/filename exist
+				let popupHtml = `
+  <div class="flex flex-col items-center text-center max-w-xs">
+    <img src="${photo.src}" alt="${photo.title}" class="mb-2 rounded max-w-full" style="width:140px;" />
+    <strong class="text-lg font-bold mb-1">${photo.title}</strong>
+`;
+				if (!isCurrent && photo.section && photo.filename) {
+					popupHtml += `<a href="/photos?path=${encodeURIComponent(photo.section)}&modal=1&photo=${encodeURIComponent(photo.filename)}" class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700">View</a>`;
+				}
+				popupHtml += `</div>`;
+				marker.bindPopup(popupHtml, {
+					maxWidth: 320,
+					minWidth: 200,
+					className: isDark ? 'custom-popup dark' : 'custom-popup'
+				});
+				marker.bindPopup(popupHtml, { maxWidth: 260, minWidth: 180, className: 'custom-popup' });
+			});
+		}
+	}
+
+	// Sync modalIndex with parent prop
+	$: if (index !== undefined && index !== modalIndex) {
+		modalIndex = index;
 	}
 </script>
 
@@ -102,17 +215,7 @@
 		aria-modal="true"
 		tabindex="0"
 		transition:fade={{ duration: 250 }}
-		on:keydown={(e) => {
-			if (!zoomed) {
-				if (e.key === 'ArrowLeft') showPrev();
-				if (e.key === 'ArrowRight') showNext();
-			}
-			if (e.key === 'Escape') {
-				if (zoomed) zoomed = false;
-				else closeModal();
-			}
-			setTimeout(() => modalContainer && modalContainer.focus(), 0);
-		}}
+		on:keydown={handleModalKeydown}
 		on:click={() => setTimeout(() => modalContainer && modalContainer.focus(), 0)}
 	>
 		<!-- Overlay for closing modal -->
@@ -309,20 +412,65 @@
 			<!-- Map -->
 			{#if modalPhoto?.gps}
 				<div class="mt-2 flex justify-end">
-					<button
-						type="button"
-						class="h-32 w-48 cursor-pointer rounded border-0 bg-transparent p-0 shadow"
-						title="View all photos on map"
-						on:click={() =>
-							(window.location.href = `/map?lat=${modalPhoto.gps.lat}&lon=${modalPhoto.gps.lon}`)}
-						aria-label="View all photos on map"
-					>
+					{#if !fullMap}
+						<button
+							type="button"
+							class="cursor-pointer rounded border-0 bg-transparent p-0 shadow"
+							title="Expand map"
+							on:click={() => {
+								fullMap = true;
+								setTimeout(() => modalContainer && modalContainer.focus(), 0);
+							}}
+							aria-label="Expand map"
+							style="overflow:hidden;"
+						>
+							<div
+								bind:this={minimapContainer}
+								class="rounded"
+								style="pointer-events: none; width: {minimapWidth * 1.8}px; height: {minimapHeight *
+									1.5}px; transition: width 0.3s, height 0.3s;"
+								in:scale={{ duration: 200 }}
+								out:scale={{ duration: 200 }}
+							></div>
+						</button>
+					{:else}
 						<div
-							bind:this={mapContainer}
-							class="h-32 w-48 rounded"
-							style="pointer-events: none;"
-						></div>
-					</button>
+							class="fixed inset-0 z-[100] flex items-center justify-center bg-black/95"
+							style="backdrop-filter: blur(2px);"
+							in:fly={{ y: 40, duration: 250 }}
+							out:fly={{ y: 40, duration: 250 }}
+						>
+							<!-- X button always above map -->
+							<button
+								type="button"
+								class="fixed top-4 right-4 z-[200] rounded-full bg-black/40 p-2 text-white shadow-lg transition hover:bg-gray-700 sm:p-3"
+								title="Close map"
+								on:click={() => {
+									fullMap = false;
+									setTimeout(() => modalContainer && modalContainer.focus(), 0);
+								}}
+								aria-label="Close map"
+								style="transition: background 0.2s;"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-7 w-7"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
+							<div
+								bind:this={fullmapContainer}
+								class="z-[100] rounded shadow-lg"
+								style="background: #222; box-shadow: 0 0 32px #000a; width: 80vw; height: 80vh;"
+								class:!w-screen={window.innerWidth < 640}
+								class:!h-screen={window.innerWidth < 640}
+							></div>
+						</div>
+					{/if}
 				</div>
 			{/if}
 

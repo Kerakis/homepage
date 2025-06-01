@@ -12,7 +12,7 @@
 	</p>
 	<a
 		href="/"
-		class="bg-accent-red hover:bg-accent-red-dark dark:bg-accent-red-dark dark:hover:bg-accent-red rounded px-6 py-3 text-lg font-bold text-white shadow transition-colors"
+		class="bg-accent-red hover:bg-accent-red-dark dark:bg-accent-red-dark dark:hover:bg-accent-red rounded px-6 py-3 text-lg font-bold text-black shadow transition-colors dark:text-white"
 	>
 		Go Home
 	</a>

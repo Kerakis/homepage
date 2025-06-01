@@ -11,6 +11,37 @@
 	--color-secondary: #000000;
 	--color-accent: #ff3333;
 }
+
+:global(.leaflet-control-zoom) {
+	@apply overflow-hidden rounded-lg font-sans shadow-lg;
+}
+:global(.leaflet-control-zoom-in),
+:global(.leaflet-control-zoom-out) {
+	background: red !important;
+	color: white !important;
+}
+:global(.dark .leaflet-control-zoom-in),
+:global(.dark .leaflet-control-zoom-out) {
+	@apply bg-black text-white;
+}
+:global(.leaflet-control-zoom-in:hover),
+:global(.leaflet-control-zoom-out:hover) {
+	@apply bg-gray-200 text-black;
+}
+:global(.dark .leaflet-control-zoom-in:hover),
+:global(.dark .leaflet-control-zoom-out:hover) {
+	@apply bg-gray-700 text-white;
+}
+:global(.leaflet-control-zoom button) {
+	background: red !important;
+	color: white !important;
+	border: none !important;
+}
+:global(.dark .leaflet-control-zoom button) {
+	background: #111 !important;
+	color: #fff !important;
+}
+
 /* Firefox */
 ::-moz-selection {
 	background: var(--accent-red);
@@ -123,4 +154,18 @@ body {
 }
 .dark .leaflet-container {
 	background: #18181b !important; /* dark mode */
+}
+:global(.custom-popup) {
+	@apply rounded-lg bg-white p-4 font-sans text-base text-black shadow-lg;
+	max-width: 320px;
+}
+:global(.dark .custom-popup) {
+	@apply bg-black text-white;
+}
+:global(.custom-popup a) {
+	@apply mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700;
+}
+:global(.custom-popup img) {
+	@apply mb-2 max-w-full rounded;
+	width: 140px;
 }
