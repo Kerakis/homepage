@@ -4,12 +4,13 @@
 	import { page } from '$app/state';
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { darkMode } from '$lib/stores/darkMode';
 
-	let darkMode = false;
 	let loading = false;
 
 	function updateDarkMode() {
-		darkMode = document.documentElement.classList.contains('dark');
+		const isDark = document.documentElement.classList.contains('dark');
+		darkMode.set(isDark);
 	}
 
 	function toggleDarkMode(): void {

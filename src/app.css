@@ -19,6 +19,8 @@
 
 :root {
 	--accent-red: #ff3333;
+	--map-tiles-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3)
+		brightness(0.7);
 }
 
 /* Period styling */
@@ -92,23 +94,33 @@ body {
 	width: 100%;
 }
 
-
 .masonry {
-    column-count: 1;
-    column-gap: 1rem;
+	column-count: 1;
+	column-gap: 1rem;
 }
 @media (min-width: 640px) {
-    .masonry {
-        column-count: 2;
-    }
+	.masonry {
+		column-count: 2;
+	}
 }
 @media (min-width: 1024px) {
-    .masonry {
-        column-count: 3;
-    }
+	.masonry {
+		column-count: 3;
+	}
 }
 .photo-thumb {
-    break-inside: avoid;
-    display: block;
-    width: 100%;
+	break-inside: avoid;
+	display: block;
+	width: 100%;
+}
+
+.dark .map-tiles {
+	filter: var(--map-tiles-filter, none);
+}
+
+.leaflet-container {
+	background: #f3f4f6 !important; /* light mode */
+}
+.dark .leaflet-container {
+	background: #18181b !important; /* dark mode */
 }

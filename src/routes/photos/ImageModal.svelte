@@ -2,6 +2,8 @@
 	import { onDestroy } from 'svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade } from 'svelte/transition';
+	import L from 'leaflet';
+	import 'leaflet/dist/leaflet.css';
 
 	export let onClose: (() => void) | undefined;
 	export let onChange: ((index: number) => void) | undefined;
@@ -15,6 +17,8 @@
 	let zoomed = false;
 	let touchStartX: number | null = null;
 	let imageLoaded = false;
+	let mapContainer: HTMLDivElement | null = null;
+	let map: L.Map | null = null;
 
 	$: modalPhoto = photos[modalIndex];
 
@@ -61,6 +65,32 @@
 	// Keep modalIndex in sync with parent
 	$: if (index !== modalIndex) {
 		modalIndex = index;
+	}
+
+	$: if (open && modalPhoto?.gps && mapContainer) {
+		// Clean up previous map
+		if (map) {
+			map.remove();
+			map = null;
+		}
+		map = L.map(mapContainer, {
+			center: [modalPhoto.gps.lat, modalPhoto.gps.lon],
+			zoom: 12,
+			zoomControl: false,
+			attributionControl: false,
+			scrollWheelZoom: false,
+			dragging: false,
+			doubleClickZoom: false,
+			boxZoom: false,
+			keyboard: false
+		});
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution:
+				'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+			className: 'map-tiles'
+		}).addTo(map);
+		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon]).addTo(map);
 	}
 </script>
 
@@ -275,6 +305,26 @@
 					{modalPhoto.iso ? ` | ISO ${modalPhoto.iso}` : ''}
 				</div>
 			</div>
+
+			<!-- Map -->
+			{#if modalPhoto?.gps}
+				<div class="mt-2 flex justify-end">
+					<button
+						type="button"
+						class="h-32 w-48 cursor-pointer rounded border-0 bg-transparent p-0 shadow"
+						title="View all photos on map"
+						on:click={() =>
+							(window.location.href = `/map?lat=${modalPhoto.gps.lat}&lon=${modalPhoto.gps.lon}`)}
+						aria-label="View all photos on map"
+					>
+						<div
+							bind:this={mapContainer}
+							class="h-32 w-48 rounded"
+							style="pointer-events: none;"
+						></div>
+					</button>
+				</div>
+			{/if}
 
 			<!-- Filmstrip -->
 			{#if section && section.photos.length > 1}
