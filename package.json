@@ -22,6 +22,7 @@
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/leaflet": "^1.9.18",
+		"@types/leaflet.markercluster": "^1.5.5",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",
@@ -39,6 +40,7 @@
 		"exifreader": "^4.31.0",
 		"fast-glob": "^3.3.3",
 		"leaflet": "^1.9.4",
+		"leaflet.markercluster": "^1.5.3",
 		"svelte-image-viewer": "^4.0.0"
 	}
 }

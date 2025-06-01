@@ -2,8 +2,6 @@
 	import { onDestroy } from 'svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade, scale, fly } from 'svelte/transition';
-	import L from 'leaflet';
-	import 'leaflet/dist/leaflet.css';
 	import { darkMode } from '$lib/stores/darkMode';
 	import { get } from 'svelte/store';
 
@@ -19,23 +17,21 @@
 	let zoomed = false;
 	let touchStartX: number | null = null;
 	let imageLoaded = false;
-	let mapContainer: HTMLDivElement | null = null;
-	let map: L.Map | null = null;
 	let minimapContainer: HTMLDivElement | null = null;
 	let fullmapContainer: HTMLDivElement | null = null;
-	let minimap: L.Map | null = null;
-	let fullmap: L.Map | null = null;
+	let minimap: any = null;
+	let fullmap: any = null;
 
-	let allPhotoMarkers: L.Marker[] = []; // <-- Add this line
-
+	let allPhotoMarkers: any[] = [];
 	let fullMap = false;
 	let minimapWidth = 192,
-		minimapHeight = 128; // default (w-48 h-32)
+		minimapHeight = 128;
+
+	// Responsive minimap sizing
 	$: {
-		// Responsive sizing for minimap
-		if (window?.innerWidth > 900) {
-			minimapWidth = 320; // w-80
-			minimapHeight = 200; // h-50
+		if (typeof window !== 'undefined' && window.innerWidth > 900) {
+			minimapWidth = 320;
+			minimapHeight = 200;
 		} else {
 			minimapWidth = 192;
 			minimapHeight = 128;
@@ -43,6 +39,11 @@
 	}
 
 	$: modalPhoto = photos[modalIndex];
+
+	// Sync modalIndex with parent prop
+	$: if (index !== undefined && index !== modalIndex) {
+		modalIndex = index;
+	}
 
 	function closeModal() {
 		onClose?.();
@@ -69,9 +70,7 @@
 		}
 		touchStartX = null;
 	}
-
 	function handleModalKeydown(e: KeyboardEvent) {
-		// Prevent arrow navigation when full map is open
 		if (fullMap) {
 			if (e.key === 'Escape') {
 				fullMap = false;
@@ -106,9 +105,30 @@
 		setTimeout(() => modalContainer && modalContainer.focus(), 0);
 	}
 
-	// Map logic
-	$: if (open && modalPhoto?.gps && minimapContainer && !fullMap) {
-		// Clean up previous minimap
+	// --- DYNAMIC IMPORTS FOR LEAFLET & MARKERCLUSTER ---
+	let L: any = null;
+	let leafletLoaded = false;
+
+	$: if (
+		(open && modalPhoto?.gps && minimapContainer && !fullMap) ||
+		(fullMap && modalPhoto?.gps && fullmapContainer && typeof window !== 'undefined')
+	) {
+		if (typeof window !== 'undefined' && !leafletLoaded) {
+			(async () => {
+				const leaflet = await import('leaflet');
+				await import('leaflet/dist/leaflet.css');
+				// Assign Leaflet to window.L before importing markercluster
+				(window as any).L = leaflet.default;
+				await import('leaflet.markercluster');
+				await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
+				L = leaflet.default;
+				leafletLoaded = true;
+			})();
+		}
+	}
+
+	// --- MINIMAP LOGIC ---
+	$: if (leafletLoaded && open && modalPhoto?.gps && minimapContainer && !fullMap) {
 		if (minimap) {
 			minimap.remove();
 			minimap = null;
@@ -131,8 +151,14 @@
 		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon]).addTo(minimap);
 	}
 
-	$: if (fullMap && modalPhoto?.gps && fullmapContainer && typeof window !== 'undefined') {
-		// Clean up previous fullmap
+	// --- FULLMAP LOGIC WITH MARKERCLUSTER ---
+	$: if (
+		leafletLoaded &&
+		fullMap &&
+		modalPhoto?.gps &&
+		fullmapContainer &&
+		typeof window !== 'undefined'
+	) {
 		if (fullmap) {
 			fullmap.remove();
 			fullmap = null;
@@ -142,8 +168,8 @@
 		fullmap = L.map(fullmapContainer, {
 			center: [modalPhoto.gps.lat, modalPhoto.gps.lon],
 			zoom: 16,
-			zoomControl: false, // We'll add our own
-			attributionControl: false, // We'll add our own
+			zoomControl: false,
+			attributionControl: false,
 			scrollWheelZoom: true,
 			dragging: true,
 			doubleClickZoom: true,
@@ -155,14 +181,15 @@
 			className: isDark ? 'map-tiles dark' : 'map-tiles'
 		}).addTo(fullmap);
 
-		// Custom zoom controls (styled, top left)
 		L.control.zoom({ position: 'topleft' }).addTo(fullmap);
 
 		// Remove previous markers
-		allPhotoMarkers.forEach((m: L.Marker) => m.remove());
+		allPhotoMarkers.forEach((m: any) => m.remove());
 		allPhotoMarkers = [];
 
-		// Add all photo markers (guard for gps)
+		// --- Marker cluster group ---
+		const markerCluster = L.markerClusterGroup();
+
 		if (photos && Array.isArray(photos)) {
 			photos.forEach((photo) => {
 				if (!photo.gps || photo.gps.lat == null || photo.gps.lon == null) return;
@@ -178,15 +205,14 @@
 						shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 						shadowSize: [41, 41]
 					})
-				}).addTo(fullmap!);
+				});
 				allPhotoMarkers.push(marker);
 
-				// Only link if not current photo and section/filename exist
 				let popupHtml = `
-  <div class="flex flex-col items-center text-center max-w-xs">
-    <img src="${photo.src}" alt="${photo.title}" class="mb-2 rounded max-w-full" style="width:140px;" />
-    <strong class="text-lg font-bold mb-1">${photo.title}</strong>
-`;
+                    <div class="flex flex-col items-center text-center max-w-xs">
+                        <img src="${photo.src}" alt="${photo.title}" class="mb-2 rounded max-w-full" style="width:140px;" />
+                        <strong class="text-lg font-bold mb-1">${photo.title}</strong>
+                `;
 				if (!isCurrent && photo.section && photo.filename) {
 					popupHtml += `<a href="/photos?path=${encodeURIComponent(photo.section)}&modal=1&photo=${encodeURIComponent(photo.filename)}" class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700">View</a>`;
 				}
@@ -196,14 +222,12 @@
 					minWidth: 200,
 					className: isDark ? 'custom-popup dark' : 'custom-popup'
 				});
-				marker.bindPopup(popupHtml, { maxWidth: 260, minWidth: 180, className: 'custom-popup' });
+
+				markerCluster.addLayer(marker);
 			});
 		}
-	}
 
-	// Sync modalIndex with parent prop
-	$: if (index !== undefined && index !== modalIndex) {
-		modalIndex = index;
+		markerCluster.addTo(fullmap);
 	}
 </script>
 
