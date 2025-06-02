@@ -196,26 +196,15 @@ body {
 	margin: 0 !important;
 }
 
-:global(.custom-popup .leaflet-popup-tip) {
-	/* background-color: white !important; /* REMOVE this line, handled above */
-}
-
 :global(.custom-popup a.leaflet-popup-close-button) {
 	@apply opacity-70 hover:opacity-100; /* text color will be inherited or set by direct overrides */
 }
 
 /* Dark Mode Popup Styling (for .custom-popup specifics other than background) */
-:global(.dark .custom-popup .leaflet-popup-content-wrapper) {
-	/* background-color: #1a202c !important; /* REMOVE this line, handled above */
-}
 
 /* :global(.dark .custom-popup .leaflet-popup-content) { */
 /* @apply text-gray-200; /* This is fine, or let it be handled by direct override */
 /* } */
-
-:global(.dark .custom-popup .leaflet-popup-tip) {
-	/* background-color: #1a202c !important; /* REMOVE this line, handled above */
-}
 
 /* :global(.dark .custom-popup a.leaflet-popup-close-button) { */
 /* @apply text-gray-200 opacity-70 hover:opacity-100; /* This is fine */
@@ -226,11 +215,6 @@ body {
 	/* This should still work */
 	@apply mb-2 max-w-full rounded;
 	width: 140px;
-}
-
-:global(.custom-popup strong.text-lg) {
-	/* This should still work */
-	/* Title will inherit color from .leaflet-popup-content */
 }
 
 :global(.custom-popup a) {
