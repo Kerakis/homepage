@@ -671,7 +671,7 @@
 
 	<!-- Modal -->
 	{#if modalOpen && modalData}
-		<BirdModal bird={modalData} {detectionsAllTime} on:close={closeModal} />
+		<BirdModal bird={modalData} {detectionsAllTime} onClose={closeModal} />
 	{/if}
 
 	<!-- Bottom nav bar -->
@@ -702,7 +702,7 @@
 					hour: 'numeric',
 					minute: '2-digit'
 				})}
-			{:else if refreshing || isStale}
+			{:else if refreshing}
 				Refreshing Data
 			{:else if $birdnetData.lastUpdated}
 				Last updated: {new Date($birdnetData.lastUpdated).toLocaleTimeString([], {

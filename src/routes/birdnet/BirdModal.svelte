@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { onMount, onDestroy, createEventDispatcher, tick } from 'svelte';
+	import { onMount, onDestroy, tick } from 'svelte';
 	import { fetchAllSpecies } from '$lib/fetchSpecies';
 	import { fetchDetections } from '$lib/fetchDetections';
 
 	export let bird: any;
 	export let detectionsAllTime: number = 0;
-	const dispatch = createEventDispatcher();
+	export let onClose: () => void;
 
 	let detections24h: number | null = null;
 	let detections24hLoading = true;
@@ -38,7 +38,6 @@
 		// Set wiki/ebird URLs if available
 		wikiSummary = bird.wikipediaSummary || '';
 		wikiUrl = bird.wikipediaUrl || '';
-		ebirdUrl = bird.ebirdUrl || '';
 	});
 
 	let showAudio: Record<number, boolean> = {};
@@ -47,23 +46,23 @@
 
 	function handleBackgroundClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
-			dispatch('close');
+			if (onClose) onClose();
 		}
 	}
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
-			dispatch('close');
+			if (onClose) onClose();
 		}
 	}
 
 	function playDetection(i: number) {
 		// Reset all showAudio states
-		const newShowAudio: Record<number, boolean> = {}; // Keep as is for now, TS error handled separately
+		const newShowAudio: Record<number, boolean> = {};
 		for (const key in showAudio) {
-			newShowAudio[key] = false; // Keep as is
+			newShowAudio[key] = false;
 		}
-		newShowAudio[i] = true; // Keep as is
+		newShowAudio[i] = true;
 		showAudio = newShowAudio;
 
 		audioRefs.forEach((audio, idx) => {
@@ -113,7 +112,7 @@
 		aria-labelledby="bird-modal-title"
 		on:keydown={(e) => {
 			if (e.key === 'Enter' || e.key === ' ') {
-				dispatch('close');
+				if (onClose) onClose();
 			}
 		}}
 	>
@@ -123,7 +122,9 @@
 			<div class="p-6">
 				<button
 					class="absolute top-3 right-3 z-10 rounded-full bg-white/60 p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-200 hover:text-gray-700 dark:bg-neutral-700/60 dark:text-neutral-300 dark:hover:bg-neutral-600 dark:hover:text-white"
-					on:click={() => dispatch('close')}
+					on:click={() => {
+						if (onClose) onClose();
+					}}
 					aria-label="Close modal"
 				>
 					<svg
