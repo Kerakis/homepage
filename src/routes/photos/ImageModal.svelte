@@ -161,7 +161,7 @@
 	}
 
 	// --- DYNAMIC IMPORTS FOR LEAFLET & MARKERCLUSTER ---
-	let L: any = null;
+	let L: any = null; // This will hold the Leaflet instance
 	let leafletLoaded = false;
 
 	$: if (
@@ -170,13 +170,27 @@
 	) {
 		if (typeof window !== 'undefined' && !leafletLoaded) {
 			(async () => {
-				const leaflet = await import('leaflet');
+				const leafletModule = await import('leaflet'); // Import leaflet
 				await import('leaflet/dist/leaflet.css');
-				// Assign Leaflet to window.L before importing markercluster
-				(window as any).L = leaflet.default;
+
+				// Assign the imported Leaflet to window.L so markercluster can find and extend it
+				(window as any).L = leafletModule.default;
+
+				// Import markercluster plugin - this extends (window as any).L
 				await import('leaflet.markercluster');
-				await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
-				L = leaflet.default;
+
+				// Import MarkerCluster CSS (both files are usually needed)
+				await import('leaflet.markercluster/dist/MarkerCluster.css');
+				await import('leaflet.markercluster/dist/MarkerCluster.Default.css'); // For default styling and animations
+
+				// CRITICAL: Assign the (now extended by markercluster) L from window to your local L
+				if ((window as any).L && (window as any).L.markerClusterGroup) {
+					L = (window as any).L;
+				} else {
+					// Fallback or error if markercluster didn't extend window.L correctly
+					console.error('Leaflet.markercluster did not seem to initialize correctly on window.L');
+					L = leafletModule.default; // Use original as a fallback, but clustering might not work
+				}
 				leafletLoaded = true;
 			})();
 		}
@@ -217,6 +231,7 @@
 	// --- FULLMAP LOGIC WITH MARKERCLUSTER ---
 	$: if (
 		leafletLoaded &&
+		L &&
 		fullMap &&
 		modalPhoto?.gps &&
 		fullmapContainer &&
@@ -249,7 +264,9 @@
 		allPhotoMarkers.forEach((m: any) => m.remove());
 		allPhotoMarkers = [];
 
-		const markerCluster = L.markerClusterGroup();
+		const markerCluster = L.markerClusterGroup({
+			spiderfyOnMaxZoom: true
+		});
 
 		// Use allPhotos for the full map
 		const photoList = allPhotos.length ? allPhotos : photos;
