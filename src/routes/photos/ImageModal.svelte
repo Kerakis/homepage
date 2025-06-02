@@ -4,6 +4,7 @@
 	import { fade, scale, fly } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
 	import { get } from 'svelte/store';
+	import { browser } from '$app/environment';
 
 	export let allPhotos: Photo[] = [];
 
@@ -145,11 +146,19 @@
 
 	// Prevent background scroll when modal is open
 	$: {
-		if (open) document.body.style.overflow = 'hidden';
-		else document.body.style.overflow = '';
+		if (browser) {
+			if (open) {
+				document.body.style.overflow = 'hidden';
+			} else {
+				document.body.style.overflow = '';
+			}
+		}
 	}
+
 	onDestroy(() => {
-		document.body.style.overflow = '';
+		if (browser) {
+			document.body.style.overflow = '';
+		}
 	});
 
 	// Focus modal for keyboard navigation
@@ -170,26 +179,24 @@
 	) {
 		if (typeof window !== 'undefined' && !leafletLoaded) {
 			(async () => {
-				const leafletModule = await import('leaflet'); // Import leaflet
+				const leafletModule = await import('leaflet');
+				// IMPORT LEAFLET'S CSS FIRST
 				await import('leaflet/dist/leaflet.css');
 
-				// Assign the imported Leaflet to window.L so markercluster can find and extend it
 				(window as any).L = leafletModule.default;
-
-				// Import markercluster plugin - this extends (window as any).L
 				await import('leaflet.markercluster');
-
-				// Import MarkerCluster CSS (both files are usually needed)
+				// THEN MARKERCLUSTER'S CSS
 				await import('leaflet.markercluster/dist/MarkerCluster.css');
-				await import('leaflet.markercluster/dist/MarkerCluster.Default.css'); // For default styling and animations
+				await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
 
-				// CRITICAL: Assign the (now extended by markercluster) L from window to your local L
+				// Your app.css is global, so it should apply, but this order ensures
+				// Leaflet's base styles are set before your overrides try to apply.
+
 				if ((window as any).L && (window as any).L.markerClusterGroup) {
 					L = (window as any).L;
 				} else {
-					// Fallback or error if markercluster didn't extend window.L correctly
 					console.error('Leaflet.markercluster did not seem to initialize correctly on window.L');
-					L = leafletModule.default; // Use original as a fallback, but clustering might not work
+					L = leafletModule.default;
 				}
 				leafletLoaded = true;
 			})();
@@ -273,7 +280,7 @@
 		if (photoList && Array.isArray(photoList)) {
 			photoList.forEach((photo) => {
 				if (!photo.gps || photo.gps.lat == null || photo.gps.lon == null) return;
-				const isCurrent = photo === modalPhoto;
+				const isCurrent = modalPhoto && photo.src === modalPhoto.src; // New line
 				const marker = L.marker([photo.gps.lat, photo.gps.lon], {
 					icon: L.divIcon({
 						className: 'fa-marker-icon',

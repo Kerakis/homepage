@@ -2,6 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { goto, afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 	import ImageModal from './ImageModal.svelte';
 
 	interface Photo {
@@ -82,13 +83,27 @@
 	$: {
 		const params = page.url.searchParams;
 		const modalParam = params.has('modal');
-		const photoParam = params.get('photo');
-		if (modalParam && currentSection && photoParam !== null) {
-			const idx = parseInt(photoParam, 10);
-			if (!isNaN(idx) && currentSection?.photos && currentSection.photos[idx]) {
-				modalOpen = true;
-				modalPhoto = currentSection.photos[idx];
-				modalIndex = idx;
+		const photoFilenameParam = params.get('photo'); // Get the filename
+
+		if (modalParam && currentSection && photoFilenameParam !== null) {
+			// Find the photo by filename (or src if it's more unique/reliable)
+			const photoToOpen = currentSection.photos.find((p) => p.filename === photoFilenameParam);
+
+			if (photoToOpen) {
+				const idx = currentSection.photos.indexOf(photoToOpen);
+				if (idx !== -1) {
+					modalOpen = true;
+					modalPhoto = photoToOpen;
+					modalIndex = idx;
+				} else {
+					// Photo found but somehow not in the array, should not happen if find works
+					modalOpen = false;
+					modalPhoto = null;
+				}
+			} else {
+				// Photo with that filename not found in the current section
+				modalOpen = false;
+				modalPhoto = null;
 			}
 		} else {
 			modalOpen = false;
@@ -128,7 +143,7 @@
 		modalIndex = i;
 		const params = new URLSearchParams(page.url.search);
 		params.set('modal', '1');
-		params.set('photo', i.toString());
+		params.set('photo', photo.filename); // Changed from i.toString()
 		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
 	}
 
@@ -182,15 +197,21 @@
 
 	// Prevent background scroll when modal is open
 	$: {
-		if (modalOpen) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = '';
+		if (browser) {
+			// Add this check
+			if (modalOpen) {
+				document.body.style.overflow = 'hidden';
+			} else {
+				document.body.style.overflow = '';
+			}
 		}
 	}
 
 	onDestroy(() => {
-		document.body.style.overflow = '';
+		if (browser) {
+			// Add this check
+			document.body.style.overflow = '';
+		}
 	});
 
 	function formatDate(dateStr: string) {
@@ -319,7 +340,12 @@
 <ImageModal
 	open={modalOpen}
 	photos={currentSection?.photos ?? []}
-	allPhotos={gallery.flatMap((s) => s.photos)}
+	allPhotos={gallery.flatMap((sectionEntry) =>
+		sectionEntry.photos.map((photo) => ({
+			...photo,
+			section: sectionEntry.section
+		}))
+	)}
 	index={modalIndex}
 	section={currentSection}
 	onClose={closeModal}

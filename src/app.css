@@ -155,17 +155,85 @@ body {
 .dark .leaflet-container {
 	background: #18181b !important; /* dark mode */
 }
-:global(.custom-popup) {
-	@apply rounded-lg bg-white p-4 font-sans text-base text-black shadow-lg;
-	max-width: 320px;
-}
-:global(.dark .custom-popup) {
-	@apply bg-black text-white;
-}
+
 :global(.custom-popup a) {
 	@apply mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700;
 }
+
+/* Leaflet Popup Styling */
+/* Override Leaflet's default popup background directly */
+/* Light Mode */
+:global(body:not(.dark) .leaflet-popup-content-wrapper),
+:global(body:not(.dark) .leaflet-popup-tip) {
+	background-color: white !important;
+}
+
+:global(body:not(.dark) .leaflet-popup-content) {
+	@apply text-black; /* Assuming your custom-popup content already handles this */
+}
+
+/* Dark Mode */
+:global(body.dark .leaflet-popup-content-wrapper),
+:global(body.dark .leaflet-popup-tip) {
+	background-color: #1a202c !important; /* Your dark background color */
+}
+
+:global(body.dark .leaflet-popup-content) {
+	@apply text-gray-200; /* Assuming your custom-popup content already handles this */
+}
+
+/* Keep your .custom-popup rules for other things like padding, font, shadow, etc. */
+/* but the background is now handled by the more direct overrides above. */
+
+:global(.custom-popup .leaflet-popup-content-wrapper) {
+	@apply rounded-lg p-0 shadow-lg;
+	/* background-color: white !important; /* REMOVE this line, handled above */
+}
+
+:global(.custom-popup .leaflet-popup-content) {
+	@apply p-4 font-sans text-base; /* text-black/text-gray-200 handled by direct overrides */
+	max-width: 320px;
+	margin: 0 !important;
+}
+
+:global(.custom-popup .leaflet-popup-tip) {
+	/* background-color: white !important; /* REMOVE this line, handled above */
+}
+
+:global(.custom-popup a.leaflet-popup-close-button) {
+	@apply opacity-70 hover:opacity-100; /* text color will be inherited or set by direct overrides */
+}
+
+/* Dark Mode Popup Styling (for .custom-popup specifics other than background) */
+:global(.dark .custom-popup .leaflet-popup-content-wrapper) {
+	/* background-color: #1a202c !important; /* REMOVE this line, handled above */
+}
+
+/* :global(.dark .custom-popup .leaflet-popup-content) { */
+/* @apply text-gray-200; /* This is fine, or let it be handled by direct override */
+/* } */
+
+:global(.dark .custom-popup .leaflet-popup-tip) {
+	/* background-color: #1a202c !important; /* REMOVE this line, handled above */
+}
+
+/* :global(.dark .custom-popup a.leaflet-popup-close-button) { */
+/* @apply text-gray-200 opacity-70 hover:opacity-100; /* This is fine */
+/* } */
+
+/* Styles for your content inside the popup (image, title, link) */
 :global(.custom-popup img) {
+	/* This should still work */
 	@apply mb-2 max-w-full rounded;
 	width: 140px;
+}
+
+:global(.custom-popup strong.text-lg) {
+	/* This should still work */
+	/* Title will inherit color from .leaflet-popup-content */
+}
+
+:global(.custom-popup a) {
+	/* This is your "View" link, should still work */
+	@apply mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700;
 }
