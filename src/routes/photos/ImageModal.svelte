@@ -280,7 +280,7 @@
 		if (photoList && Array.isArray(photoList)) {
 			photoList.forEach((photo) => {
 				if (!photo.gps || photo.gps.lat == null || photo.gps.lon == null) return;
-				const isCurrent = modalPhoto && photo.src === modalPhoto.src; // New line
+				const isCurrent = modalPhoto && photo.src === modalPhoto.src;
 				const marker = L.marker([photo.gps.lat, photo.gps.lon], {
 					icon: L.divIcon({
 						className: 'fa-marker-icon',
@@ -290,6 +290,8 @@
 						popupAnchor: [0, -32]
 					})
 				});
+				// Add a custom property to the marker to identify it later
+				(marker as any).photoSrc = photo.src;
 				allPhotoMarkers.push(marker);
 
 				let popupHtml = `
@@ -312,6 +314,39 @@
 		}
 
 		markerCluster.addTo(fullmap);
+
+		// --- Auto-spiderfy logic for the cluster containing the current photo ---
+		if (modalPhoto && modalPhoto.src) {
+			// modalPhoto.gps is already checked by the reactive block
+			const currentPhotoMarkerInstance = allPhotoMarkers.find(
+				(m: any) => m.photoSrc === modalPhoto.src
+			);
+
+			if (currentPhotoMarkerInstance) {
+				// Use a timeout to allow Leaflet and MarkerCluster to fully initialize and render
+				setTimeout(() => {
+					// Ensure the map and cluster group still exist and the marker is part of the cluster
+					if (
+						fullmap &&
+						markerCluster &&
+						markerCluster.hasLayer &&
+						markerCluster.hasLayer(currentPhotoMarkerInstance)
+					) {
+						const parentCluster = markerCluster.getVisibleParent(currentPhotoMarkerInstance);
+						// Check if parentCluster is a valid cluster object, not the marker itself, and has spiderfy method
+						if (
+							parentCluster &&
+							parentCluster !== currentPhotoMarkerInstance &&
+							typeof parentCluster.spiderfy === 'function'
+						) {
+							parentCluster.spiderfy();
+							// Optional: If you want to ensure the cluster is centered after spiderfying:
+							// fullmap.panTo(parentCluster.getLatLng());
+						}
+					}
+				}, 150); // Delay in ms, can be adjusted if needed
+			}
+		}
 	}
 </script>
 
