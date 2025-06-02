@@ -319,6 +319,7 @@
 <ImageModal
 	open={modalOpen}
 	photos={currentSection?.photos ?? []}
+	allPhotos={gallery.flatMap((s) => s.photos)}
 	index={modalIndex}
 	section={currentSection}
 	onClose={closeModal}

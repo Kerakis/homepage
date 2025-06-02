@@ -13,7 +13,8 @@
         "aperture": "f/7.1",
         "exposure": "1/2500",
         "iso": 12800,
-        "gps": null
+        "gps": null,
+        "subject": "birds"
       },
       {
         "src": "/photos/wildlife/birds/Black and White Warbler2.jpg",
@@ -29,7 +30,8 @@
         "gps": {
           "lat": 35.639557,
           "lon": -83.73878500000001
-        }
+        },
+        "subject": "birds"
       },
       {
         "src": "/photos/wildlife/birds/Blue-headed Virio.jpg",
@@ -45,7 +47,8 @@
         "gps": {
           "lat": 35.641057,
           "lon": -83.744125
-        }
+        },
+        "subject": "birds"
       },
       {
         "src": "/photos/wildlife/birds/Hooded Warbler.jpg",
@@ -61,7 +64,8 @@
         "gps": {
           "lat": 35.63802,
           "lon": -83.736992
-        }
+        },
+        "subject": "birds"
       },
       {
         "src": "/photos/wildlife/birds/Short-billed Dowitcher.jpeg",
@@ -74,7 +78,8 @@
         "aperture": "f/9.0",
         "exposure": "1/1600",
         "iso": 3200,
-        "gps": null
+        "gps": null,
+        "subject": "birds"
       },
       {
         "src": "/photos/wildlife/birds/Worm-eating Warbler.jpg",
@@ -90,7 +95,8 @@
         "gps": {
           "lat": 35.641057,
           "lon": -83.744125
-        }
+        },
+        "subject": "birds"
       }
     ]
   },
@@ -111,7 +117,8 @@
         "gps": {
           "lat": 35.954502,
           "lon": -84.135117
-        }
+        },
+        "subject": "bugs"
       },
       {
         "src": "/photos/wildlife/bugs/Crane Fly.jpg",
@@ -127,7 +134,8 @@
         "gps": {
           "lat": 35.643208,
           "lon": -83.750748
-        }
+        },
+        "subject": "bugs"
       },
       {
         "src": "/photos/wildlife/bugs/Cricket.jpg",
@@ -143,7 +151,8 @@
         "gps": {
           "lat": 35.639920000000004,
           "lon": -83.741248
-        }
+        },
+        "subject": "bugs"
       },
       {
         "src": "/photos/wildlife/bugs/Moth.jpg",
@@ -159,7 +168,8 @@
         "gps": {
           "lat": 35.643208,
           "lon": -83.750748
-        }
+        },
+        "subject": "bugs"
       },
       {
         "src": "/photos/wildlife/bugs/Spider.jpeg",
@@ -175,7 +185,8 @@
         "gps": {
           "lat": 35.950932,
           "lon": -84.167717
-        }
+        },
+        "subject": "bugs"
       }
     ]
   },
@@ -196,7 +207,8 @@
         "gps": {
           "lat": 35.643208,
           "lon": -83.750748
-        }
+        },
+        "subject": "plants"
       }
     ]
   }

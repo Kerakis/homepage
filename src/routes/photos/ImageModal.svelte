@@ -5,6 +5,17 @@
 	import { darkMode } from '$lib/stores/darkMode';
 	import { get } from 'svelte/store';
 
+	export let allPhotos: Photo[] = [];
+
+	interface Photo {
+		gps?: { lat: number; lon: number } | null;
+		subject?: string;
+		section?: string;
+		filename?: string;
+		src?: string;
+		title?: string;
+	}
+
 	export let onClose: (() => void) | undefined;
 	export let onChange: ((index: number) => void) | undefined;
 	export let open: boolean;
@@ -26,6 +37,50 @@
 	let fullMap = false;
 	let minimapWidth = 192,
 		minimapHeight = 128;
+
+	const mushroomSVG = `
+<svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+  <ellipse cx="32" cy="32" rx="28" ry="16" fill="#22304a"/>
+  <ellipse cx="32" cy="32" rx="24" ry="12" fill="#fff" fill-opacity="0.1"/>
+  <ellipse cx="22" cy="38" rx="4" ry="4" fill="#fff" fill-opacity="0.8"/>
+  <ellipse cx="42" cy="36" rx="5" ry="5" fill="#fff" fill-opacity="0.8"/>
+  <ellipse cx="32" cy="24" rx="28" ry="16" fill="#22304a"/>
+  <ellipse cx="32" cy="24" rx="24" ry="12" fill="#fff" fill-opacity="0.1"/>
+  <ellipse cx="22" cy="30" rx="4" ry="4" fill="#fff" fill-opacity="0.8"/>
+  <ellipse cx="42" cy="28" rx="5" ry="5" fill="#fff" fill-opacity="0.8"/>
+  <rect x="24" y="32" width="16" height="18" rx="6" fill="#22304a"/>
+</svg>
+`;
+
+	function getIconClassForPhoto(photo: Photo) {
+		// You can expand this logic as needed
+		if (photo.subject === 'bugs') return 'fa-bug';
+		if (photo.subject === 'spiders') return 'fa-spider';
+		if (photo.subject === 'birds') return 'fa-crow';
+		if (photo.subject === 'plants' || photo.subject === 'flowers') return 'fa-seedling';
+		if (photo.subject === 'mammals') return 'fa-otter';
+		if (photo.subject === 'reptiles') return 'fa-dragon';
+		if (photo.subject === 'amphibians') return 'fa-frog';
+		if (photo.subject === 'fish') return 'fa-fish';
+		if (photo.subject === 'landscape') return 'fa-mountain';
+		if (photo.subject === 'architecture') return 'fa-building';
+		if (photo.subject === 'people') return 'fa-user';
+		if (photo.subject === 'vehicles') return 'fa-car';
+		if (photo.subject === 'food') return 'fa-utensils';
+		if (photo.subject === 'art') return 'fa-palette';
+		if (photo.subject === 'dogs') return 'fa-dog';
+		if (photo.subject === 'cats') return 'fa-cat';
+		if (photo.subject === 'night') return 'fa-moon';
+		return 'fa-image'; // default
+	}
+
+	function getMarkerHtml(photo: Photo, isCurrent: boolean) {
+		if (photo.subject === 'fungi' || photo.subject === 'mushrooms') {
+			return mushroomSVG;
+		}
+		const iconClass = getIconClassForPhoto(photo);
+		return `<i class="fa-solid ${iconClass}" style="font-size:2rem;color:${isCurrent ? '#e53e3e' : '#222'};text-shadow:0 2px 8px #000a"></i>`;
+	}
 
 	// Responsive minimap sizing
 	$: {
@@ -148,7 +203,15 @@
 			maxZoom: 19,
 			className: 'map-tiles'
 		}).addTo(minimap);
-		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon]).addTo(minimap);
+		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon], {
+			icon: L.divIcon({
+				className: 'fa-marker-icon',
+				html: getMarkerHtml(modalPhoto, true),
+				iconSize: [32, 32],
+				iconAnchor: [16, 32],
+				popupAnchor: [0, -32]
+			})
+		}).addTo(minimap);
 	}
 
 	// --- FULLMAP LOGIC WITH MARKERCLUSTER ---
@@ -183,27 +246,24 @@
 
 		L.control.zoom({ position: 'topleft' }).addTo(fullmap);
 
-		// Remove previous markers
 		allPhotoMarkers.forEach((m: any) => m.remove());
 		allPhotoMarkers = [];
 
-		// --- Marker cluster group ---
 		const markerCluster = L.markerClusterGroup();
 
-		if (photos && Array.isArray(photos)) {
-			photos.forEach((photo) => {
+		// Use allPhotos for the full map
+		const photoList = allPhotos.length ? allPhotos : photos;
+		if (photoList && Array.isArray(photoList)) {
+			photoList.forEach((photo) => {
 				if (!photo.gps || photo.gps.lat == null || photo.gps.lon == null) return;
 				const isCurrent = photo === modalPhoto;
 				const marker = L.marker([photo.gps.lat, photo.gps.lon], {
-					icon: L.icon({
-						iconUrl: isCurrent
-							? 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png'
-							: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-						iconSize: [25, 41],
-						iconAnchor: [12, 41],
-						popupAnchor: [1, -34],
-						shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-						shadowSize: [41, 41]
+					icon: L.divIcon({
+						className: 'fa-marker-icon',
+						html: getMarkerHtml(photo, isCurrent),
+						iconSize: [32, 32],
+						iconAnchor: [16, 32],
+						popupAnchor: [0, -32]
 					})
 				});
 				allPhotoMarkers.push(marker);
