@@ -17,13 +17,13 @@
 		filename?: string;
 		src?: string;
 		title?: string;
-		date?: string; // Added for EXIF block consistency
-		camera?: string; // Added for EXIF block consistency
-		lens?: string; // Added for EXIF block consistency
-		focalLength?: string; // Added for EXIF block consistency
-		aperture?: string; // Added for EXIF block consistency
-		exposure?: string; // Added for EXIF block consistency
-		iso?: number; // Added for EXIF block consistency
+		date?: string;
+		camera?: string;
+		lens?: string;
+		focalLength?: string;
+		aperture?: string;
+		exposure?: string;
+		iso?: number;
 	}
 
 	export let onClose: (() => void) | undefined;
@@ -31,7 +31,7 @@
 	export let open: boolean;
 	export let photos: Photo[] = []; // Changed from any[]
 	export let index: number = 0;
-	export let section: { photos: Photo[]; name?: string } | null = null; // Typed section
+	export let section: { photos: Photo[]; name?: string } | null = null;
 
 	let modalContainer: HTMLDivElement | null = null;
 	let modalIndex = index;
@@ -41,14 +41,13 @@
 	let minimapContainer: HTMLDivElement | null = null;
 	let fullmapContainer: HTMLDivElement | null = null;
 	let minimap: any = null;
-	let fullmap: any = null; // This will be the Leaflet map instance for the full map
+	let fullmap: any = null;
 
 	let allPhotoMarkers: any[] = [];
-	let fullMap = false; // Local state for full map visibility
+	let fullMap = false;
 	let minimapWidth = 192,
 		minimapHeight = 128;
 
-	// Variable to store map state read from URL to initialize the map
 	let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
 
 	const mushroomSVG = `
@@ -87,12 +86,20 @@
 	}
 
 	function getMarkerHtml(photo: Photo, isCurrent: boolean) {
+		const outlineColor = '#FFF'; // Always use white outline
+
 		if (photo.subject === 'fungi' || photo.subject === 'mushrooms') {
-			return mushroomSVG;
+			const svgOutlineStyle = `filter: drop-shadow(-1px -1px 0 ${outlineColor}) drop-shadow(1px -1px 0 ${outlineColor}) drop-shadow(-1px 1px 0 ${outlineColor}) drop-shadow(1px 1px 0 ${outlineColor});`;
+			return `<span style="display: inline-block; line-height: 1; ${svgOutlineStyle}">${mushroomSVG}</span>`;
 		}
+
 		const iconClass = getIconClassForPhoto(photo);
-		const color = isCurrent ? '#e53e3e' : get(darkMode) ? '#ccc' : '#222';
-		return `<i class="fa-solid ${iconClass}" style="font-size:2rem;color:${color};text-shadow:0 1px 3px rgba(0,0,0,0.4)"></i>`;
+		// Non-current icons will use '#222' fill, current ones '#e53e3e'
+		const iconFillColor = isCurrent ? '#e53e3e' : '#222';
+
+		const faOutlineStyle = `text-shadow: -1px -1px 0 ${outlineColor}, 1px -1px 0 ${outlineColor}, -1px 1px 0 ${outlineColor}, 1px 1px 0 ${outlineColor};`;
+
+		return `<i class="fa-solid ${iconClass}" style="font-size:2rem; color:${iconFillColor}; ${faOutlineStyle}"></i>`;
 	}
 
 	$: modalPhoto = photos[modalIndex];
