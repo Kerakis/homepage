@@ -40,6 +40,7 @@
 	let displayMode: 'all' | '24h' | 'live' =
 		((typeof localStorage !== 'undefined' && localStorage.getItem('birdnet:displayMode')) as any) ||
 		'all';
+	let previousDisplayMode = displayMode; // Initialize previousDisplayMode
 
 	// For 24h mode
 	let stats24h = { total_species: 0, total_detections: 0 };
@@ -263,15 +264,15 @@
 
 	function refreshBirdnet() {
 		if (isWithinRefreshCooldown) return;
+		if (refreshing) return; // Prevent re-entrant refresh calls
+
 		refreshing = true;
+		refreshStartTime = Date.now(); // Set refresh start time
 		loadBirdnetData();
 	}
 
-	$: if (!$birdnetData.loading && refreshing) {
-		refreshing = false;
-	}
-
-	// Ensure refreshing is visible for at least 500ms
+	// This $: block is the one that ensures refreshing is visible for at least 500ms
+	// The simpler one that was at excerpt line 303 will be removed.
 	$: if (!$birdnetData.loading && refreshing) {
 		const elapsed = Date.now() - refreshStartTime;
 		if (elapsed < 500) {
@@ -298,17 +299,28 @@
 		nowInterval = setInterval(() => {
 			now = Date.now();
 		}, 250);
+
 		return () => {
 			if (nowInterval) clearInterval(nowInterval);
 		};
 	});
+
+	// New reactive block to handle switching out of live mode
+	$: {
+		if (previousDisplayMode === 'live' && (displayMode === 'all' || displayMode === '24h')) {
+			if (!$birdnetData.loading && !refreshing) {
+				// Check if not already processing
+				refreshBirdnet();
+			}
+		}
+		previousDisplayMode = displayMode;
+	}
 
 	$: isWithinRefreshCooldown =
 		typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0
 			? now - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS
 			: false;
 
-	$: if (!$birdnetData.loading && refreshing) refreshing = false;
 	$: if (displayMode === 'live' && $sortMode !== 'last') sortMode.set('last');
 	$: if (typeof localStorage !== 'undefined') {
 		localStorage.setItem('birdnet:displayMode', displayMode);
