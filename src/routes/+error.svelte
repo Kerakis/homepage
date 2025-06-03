@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex min-h-[70vh] flex-col items-center justify-center px-4 py-16">
-	<h1 class="text-accent-red dark:text-accent-red-dark mb-4 text-7xl font-black tracking-tight">
+	<h1 class="dark:text-accent-dark text-accent mb-4 text-7xl font-black tracking-tight">
 		{status}
 	</h1>
 	<p class="mb-6 text-center font-mono text-2xl text-black dark:text-white">

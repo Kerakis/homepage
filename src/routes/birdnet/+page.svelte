@@ -267,9 +267,9 @@
 </script>
 
 {#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
-	<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
+	<div class="text-accent flex flex-col items-center justify-center py-16 text-2xl">
 		<svg
-			class="text-accent-red mb-4 h-12 w-12 animate-spin"
+			class="text-accent mb-4 h-12 w-12 animate-spin"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
 			viewBox="0 0 24 24"
@@ -389,7 +389,7 @@
 							</div>
 						</div>
 						<div class="flex flex-grow flex-col p-3 text-left">
-							<h2 class="mb-0.5 truncate text-base font-semibold">
+							<h2 class="group-hover:text-accent mb-0.5 truncate text-base font-semibold">
 								{detection.species?.commonName}
 							</h2>
 							<p class="mb-1 truncate text-xs text-gray-600 italic dark:text-gray-400">
@@ -445,7 +445,7 @@
 					</div>
 					<div class="flex flex-grow flex-col p-3 text-left">
 						<h2
-							class="group-hover:text-accent-red dark:group-hover:text-accent-red-dark mb-0.5 truncate text-base font-semibold"
+							class="dark:group-hover:text-accent-dark group-hover:text-accent mb-0.5 truncate text-base font-semibold"
 						>
 							{bird.commonName}
 						</h2>

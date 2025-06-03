@@ -53,7 +53,7 @@
 	{#if loading}
 		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
 			<svg
-				class="text-accent-red h-12 w-12 animate-spin"
+				class="text-accent h-12 w-12 animate-spin"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				viewBox="0 0 24 24"

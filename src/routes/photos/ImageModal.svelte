@@ -282,6 +282,9 @@
 					newParams.delete('mapview');
 				} else {
 					newParams.set('fullmap', '1');
+					if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
+					if (section?.name) newParams.set('path', section.name);
+					else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
 				}
 				goto(`${page.url.pathname}?${newParams.toString()}`, {
 					replaceState: true,
@@ -456,8 +459,8 @@
 					popupHtml += `</div>`;
 					marker.bindPopup(popupHtml, {
 						maxWidth: 320,
-						minWidth: 200,
-						className: isDark ? 'custom-popup dark' : 'custom-popup'
+						minWidth: 200
+						// className: isDark ? 'custom-popup dark' : 'custom-popup' // This isn't doing anything currently. CSS issues.
 					});
 					markerCluster.addLayer(marker);
 				});
@@ -642,24 +645,22 @@
 							title={fullMap ? 'Hide map (M)' : 'Show map (M)'}
 							on:click={() => {
 								const newFullMapState = !fullMap;
+								const newParams = new URLSearchParams(page.url.search);
 								if (!newFullMapState) {
-									const newParams = new URLSearchParams(page.url.search);
 									newParams.delete('fullmap');
 									newParams.delete('mapview');
-									goto(`${page.url.pathname}?${newParams.toString()}`, {
-										replaceState: true,
-										noScroll: true,
-										keepFocus: true
-									});
 								} else {
-									const newParams = new URLSearchParams(page.url.search);
 									newParams.set('fullmap', '1');
-									goto(`${page.url.pathname}?${newParams.toString()}`, {
-										replaceState: true,
-										noScroll: true,
-										keepFocus: true
-									});
+									// Always set the current photo and path!
+									if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
+									if (section?.name) newParams.set('path', section.name);
+									else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
 								}
+								goto(`${page.url.pathname}?${newParams.toString()}`, {
+									replaceState: true,
+									noScroll: true,
+									keepFocus: true
+								});
 								setTimeout(() => modalContainer?.focus(), 0);
 							}}
 							aria-label={fullMap ? 'Hide map' : 'Show map'}

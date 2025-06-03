@@ -1,3 +1,6 @@
+/* ---------------------------------------------------
+   Imports & Theme Variables
+--------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
 @import 'tailwindcss';
@@ -12,63 +15,35 @@
 	--color-accent: #ff3333;
 }
 
-:global(.leaflet-control-zoom) {
-	@apply overflow-hidden rounded-lg font-sans shadow-lg;
-}
-:global(.leaflet-control-zoom-in),
-:global(.leaflet-control-zoom-out) {
-	background: red !important;
-	color: white !important;
-}
-:global(.dark .leaflet-control-zoom-in),
-:global(.dark .leaflet-control-zoom-out) {
-	@apply bg-black text-white;
-}
-:global(.leaflet-control-zoom-in:hover),
-:global(.leaflet-control-zoom-out:hover) {
-	@apply bg-gray-200 text-black;
-}
-:global(.dark .leaflet-control-zoom-in:hover),
-:global(.dark .leaflet-control-zoom-out:hover) {
-	@apply bg-gray-700 text-white;
-}
-:global(.leaflet-control-zoom button) {
-	background: red !important;
-	color: white !important;
-	border: none !important;
-}
-:global(.dark .leaflet-control-zoom button) {
-	background: #111 !important;
-	color: #fff !important;
-}
-
-/* Firefox */
-::-moz-selection {
-	background: var(--accent-red);
-	color: white;
-}
-
 :root {
-	--accent-red: #ff3333;
 	--map-tiles-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3)
 		brightness(0.7);
 }
 
-/* Period styling */
-.text-content {
-	color: inherit;
+/* ---------------------------------------------------
+   Base & Global Styles
+--------------------------------------------------- */
+body {
+	@apply bg-white font-sans dark:bg-black;
 }
 
-.text-content span {
-	color: var(--accent-red);
+/* Selection Styling */
+::selection {
+	background: var(--color-accent);
+	color: white;
+}
+::-moz-selection {
+	background: var(--color-accent);
+	color: white;
 }
 
-/* Scrollbar styling */
+/* ---------------------------------------------------
+   Scrollbar Styling
+--------------------------------------------------- */
+/* Main Scrollbar */
 ::-webkit-scrollbar {
 	width: 10px;
 }
-
-/* Light mode */
 ::-webkit-scrollbar-track {
 	background: transparent;
 }
@@ -79,10 +54,10 @@
 	border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-	background: var(--accent-red);
+	background: var(--color-accent);
 }
 
-/* Dark mode */
+/* Dark Mode Scrollbar */
 .dark ::-webkit-scrollbar-track {
 	background: #000;
 }
@@ -90,41 +65,28 @@
 	background: #fff;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-	background: var(--accent-red);
+	background: var(--color-accent);
 }
 
-/* Selection styling */
-::selection {
-	background: var(--accent-red);
-	color: white;
+/* Filmstrip Scrollbar */
+.filmstrip::-webkit-scrollbar {
+	height: 3px;
+}
+.filmstrip::-webkit-scrollbar-track {
+	background: transparent;
+}
+.filmstrip::-webkit-scrollbar-thumb {
+	background-color: #fff !important;
+	border: 0px;
+	border-radius: 1px;
+}
+.filmstrip::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-accent) !important;
 }
 
-body {
-	@apply bg-white font-sans dark:bg-black;
-}
-
-.nav-underline {
-	position: relative;
-	display: inline-block;
-}
-
-.nav-underline::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 0;
-	height: 2px;
-	background: var(--accent-red, #ff3333);
-	border-radius: 9999px;
-	transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-underline:hover::after,
-.nav-underline.active::after {
-	width: 100%;
-}
-
+/* ---------------------------------------------------
+   Layout Utilities
+--------------------------------------------------- */
 .masonry {
 	column-count: 1;
 	column-gap: 1rem;
@@ -145,106 +107,42 @@ body {
 	width: 100%;
 }
 
+/* ---------------------------------------------------
+   Components & Custom Classes
+--------------------------------------------------- */
+/* Navigation underline effect */
+.nav-underline {
+	position: relative;
+	display: inline-block;
+}
+.nav-underline::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	background: var(--color-accent, #ff3333);
+	border-radius: 9999px;
+	transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-underline:hover::after,
+.nav-underline.active::after {
+	width: 100%;
+}
+
+/* ---------------------------------------------------
+   Third-Party/Leaflet Overrides
+--------------------------------------------------- */
+/* Map Tiles (Dark Mode) */
 .dark .map-tiles {
 	filter: var(--map-tiles-filter, none);
 }
 
+/* Leaflet Container Background */
 .leaflet-container {
-	background: #f3f4f6 !important; /* light mode */
+	background: #f3f4f6 !important;
 }
 .dark .leaflet-container {
-	background: #18181b !important; /* dark mode */
-}
-
-:global(.custom-popup a) {
-	@apply mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700;
-}
-
-/* Leaflet Popup Styling */
-/* Override Leaflet's default popup background directly */
-/* Light Mode */
-:global(body:not(.dark) .leaflet-popup-content-wrapper),
-:global(body:not(.dark) .leaflet-popup-tip) {
-	background-color: white !important;
-}
-
-:global(body:not(.dark) .leaflet-popup-content) {
-	@apply text-black; /* Assuming your custom-popup content already handles this */
-}
-
-/* Dark Mode */
-:global(body.dark .leaflet-popup-content-wrapper),
-:global(body.dark .leaflet-popup-tip) {
-	background-color: #1a202c !important; /* Your dark background color */
-}
-
-:global(body.dark .leaflet-popup-content) {
-	@apply text-gray-200; /* Assuming your custom-popup content already handles this */
-}
-
-/* Keep your .custom-popup rules for other things like padding, font, shadow, etc. */
-/* but the background is now handled by the more direct overrides above. */
-
-:global(.custom-popup .leaflet-popup-content-wrapper) {
-	@apply rounded-lg p-0 shadow-lg;
-	/* background-color: white !important; /* REMOVE this line, handled above */
-}
-
-:global(.custom-popup .leaflet-popup-content) {
-	@apply p-4 font-sans text-base; /* text-black/text-gray-200 handled by direct overrides */
-	max-width: 320px;
-	margin: 0 !important;
-}
-
-:global(.custom-popup a.leaflet-popup-close-button) {
-	@apply opacity-70 hover:opacity-100; /* text color will be inherited or set by direct overrides */
-}
-/* Red hover/active border for thumbnails */
-:global(.filmstrip-thumb-active) {
-	border-color: var(--color-accent) !important;
-	box-shadow: 0 0 0 2px var(--color-accent);
-}
-:global(.filmstrip-thumb:hover) {
-	border-color: var(--color-accent);
-}
-
-/* --- TINY RED FILMSTRIP SCROLLBAR --- */
-:global(.overflow-x-auto)::-webkit-scrollbar {
-	height: 2px !important;
-	width: 2px !important;
-	background: transparent !important;
-}
-:global(.overflow-x-auto)::-webkit-scrollbar-thumb {
-	background: #ff3333 !important;
-	border-radius: 2px !important;
-}
-:global(.overflow-x-auto)::-webkit-scrollbar-track {
-	background: #222 !important;
-}
-:global(.overflow-x-auto) {
-	scrollbar-color: #ff3333 #222 !important; /* For Firefox */
-	scrollbar-width: thin !important;
-}
-
-/* Styles for your content inside the popup (image, title, link) */
-:global(.custom-popup img) {
-	/* This should still work */
-	@apply mb-2 max-w-full rounded;
-	width: 140px;
-}
-
-:global(.custom-popup a) {
-	/* This is your "View" link, should still work */
-	@apply mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700;
-}
-
-.filmstrip::-webkit-scrollbar {
-	height: 4px;
-}
-.filmstrip::-webkit-scrollbar-thumb {
-	background-color: #888;
-	border-radius: 2px;
-}
-.filmstrip::-webkit-scrollbar-thumb:hover {
-	background-color: #555;
+	background: #18181b !important;
 }
