@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade, scale, fly } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
@@ -16,6 +16,7 @@
 		section?: string;
 		filename?: string;
 		src?: string;
+		thumbnailSrc?: string;
 		title?: string;
 		date?: string;
 		camera?: string;
@@ -29,7 +30,7 @@
 	export let onClose: (() => void) | undefined;
 	export let onChange: ((index: number) => void) | undefined;
 	export let open: boolean;
-	export let photos: Photo[] = []; // Changed from any[]
+	export let photos: Photo[] = [];
 	export let index: number = 0;
 	export let section: { photos: Photo[]; name?: string } | null = null;
 
@@ -42,11 +43,12 @@
 	let fullmapContainer: HTMLDivElement | null = null;
 	let minimap: any = null;
 	let fullmap: any = null;
-
+	let filmstripElement: HTMLDivElement;
+	let previousModalPhotoSrc: string | undefined = undefined;
 	let allPhotoMarkers: any[] = [];
 	let fullMap = false;
-	let minimapWidth = 192,
-		minimapHeight = 128;
+	let minimapWidth = 256,
+		minimapHeight = 160;
 
 	let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
 
@@ -86,7 +88,7 @@
 	}
 
 	function getMarkerHtml(photo: Photo, isCurrent: boolean) {
-		const outlineColor = '#FFF'; // Always use white outline
+		const outlineColor = '#FFF';
 
 		if (photo.subject === 'fungi' || photo.subject === 'mushrooms') {
 			const svgOutlineStyle = `filter: drop-shadow(-1px -1px 0 ${outlineColor}) drop-shadow(1px -1px 0 ${outlineColor}) drop-shadow(-1px 1px 0 ${outlineColor}) drop-shadow(1px 1px 0 ${outlineColor});`;
@@ -94,11 +96,8 @@
 		}
 
 		const iconClass = getIconClassForPhoto(photo);
-		// Non-current icons will use '#222' fill, current ones '#e53e3e'
 		const iconFillColor = isCurrent ? '#e53e3e' : '#222';
-
 		const faOutlineStyle = `text-shadow: -1px -1px 0 ${outlineColor}, 1px -1px 0 ${outlineColor}, -1px 1px 0 ${outlineColor}, 1px 1px 0 ${outlineColor};`;
-
 		return `<i class="fa-solid ${iconClass}" style="font-size:2rem; color:${iconFillColor}; ${faOutlineStyle}"></i>`;
 	}
 
@@ -107,6 +106,17 @@
 	$: if (index !== undefined && index !== modalIndex) {
 		modalIndex = index;
 		imageLoaded = false;
+	}
+
+	$: if (open && modalPhoto && modalContainer && browser) {
+		if (modalPhoto.src !== previousModalPhotoSrc) {
+			setTimeout(() => {
+				modalContainer?.focus();
+			}, 50);
+			previousModalPhotoSrc = modalPhoto.src;
+		}
+	} else if (!open && browser) {
+		previousModalPhotoSrc = undefined;
 	}
 
 	function updateMapUrlParams(mapInstance: any | null) {
@@ -157,7 +167,6 @@
 			if (!fullMap) {
 				fullMap = true;
 			}
-
 			const mapViewStr = params.get('mapview');
 			if (mapViewStr) {
 				const parts = mapViewStr.split(',');
@@ -209,6 +218,7 @@
 		}
 		onClose?.();
 	}
+
 	function showPrev() {
 		modalIndex = (modalIndex - 1 + photos.length) % photos.length;
 		onChange?.(modalIndex);
@@ -233,7 +243,7 @@
 	}
 	function handleModalKeydown(e: KeyboardEvent) {
 		if (fullMap) {
-			if (e.key === 'Escape') {
+			if (e.key === 'Escape' || e.key === 'm' || e.key === 'M') {
 				const newParams = new URLSearchParams(page.url.search);
 				newParams.delete('fullmap');
 				newParams.delete('mapview');
@@ -253,6 +263,25 @@
 			if (e.key === 'ArrowLeft') showPrev();
 			if (e.key === 'ArrowRight') showNext();
 		}
+		if (e.key === 'm' || e.key === 'M') {
+			if (modalPhoto?.gps) {
+				const newFullMapState = !fullMap;
+				const newParams = new URLSearchParams(page.url.search);
+				if (!newFullMapState) {
+					newParams.delete('fullmap');
+					newParams.delete('mapview');
+				} else {
+					newParams.set('fullmap', '1');
+				}
+				goto(`${page.url.pathname}?${newParams.toString()}`, {
+					replaceState: true,
+					noScroll: true,
+					keepFocus: true
+				});
+				setTimeout(() => modalContainer?.focus(), 0);
+				e.preventDefault();
+			}
+		}
 		if (e.key === 'Escape') {
 			if (zoomed) {
 				zoomed = false;
@@ -265,8 +294,14 @@
 	$: if (browser) document.body.style.overflow = open ? 'hidden' : '';
 	onDestroy(() => {
 		if (browser) document.body.style.overflow = '';
-		if (fullmap) fullmap.remove();
-		if (minimap) minimap.remove();
+		if (fullmap) {
+			fullmap.remove();
+			fullmap = null;
+		}
+		if (minimap) {
+			minimap.remove();
+			minimap = null;
+		}
 	});
 
 	$: if (open && modalContainer) {
@@ -280,13 +315,14 @@
 	let L: any = null;
 	let leafletLoaded = false;
 
+	// Load Leaflet library
 	$: if (
 		browser &&
 		open &&
 		modalPhoto?.gps &&
-		((minimapContainer && !fullMap) || (fullmapContainer && fullMap)) &&
 		!leafletLoaded &&
-		!L
+		!L &&
+		(minimapContainer || fullmapContainer)
 	) {
 		import('leaflet/dist/leaflet.css');
 		import('leaflet.markercluster/dist/MarkerCluster.css');
@@ -318,6 +354,7 @@
 			});
 	}
 
+	// Create or update minimap
 	$: if (leafletLoaded && L && open && modalPhoto?.gps && minimapContainer && !fullMap) {
 		if (minimap) minimap.remove();
 		minimap = L.map(minimapContainer, {
@@ -346,6 +383,7 @@
 		}).addTo(minimap);
 	}
 
+	// Full map logic
 	$: if (leafletLoaded && L && modalPhoto?.gps && fullmapContainer) {
 		if (fullMap && !fullmap) {
 			const isDark = get(darkMode);
@@ -379,30 +417,31 @@
 			allPhotoMarkers.forEach((m: any) => m.remove());
 			allPhotoMarkers = [];
 			const markerCluster = L.markerClusterGroup({ spiderfyOnMaxZoom: true });
-			const photoList = allPhotos.length ? allPhotos : photos;
+
+			const photoList = allPhotos;
 
 			if (photoList?.length) {
-				photoList.forEach((photo) => {
-					if (!photo.gps) return;
-					const isCurrent = modalPhoto?.src === photo.src;
-					const marker = L.marker([photo.gps.lat, photo.gps.lon], {
+				photoList.forEach((p) => {
+					if (!p.gps) return;
+					const isCurrent = modalPhoto?.src === p.src;
+					const marker = L.marker([p.gps.lat, p.gps.lon], {
 						icon: L.divIcon({
 							className: 'fa-marker-icon',
-							html: getMarkerHtml(photo, isCurrent),
+							html: getMarkerHtml(p, isCurrent),
 							iconSize: [32, 32],
 							iconAnchor: [16, 32],
 							popupAnchor: [0, -32]
 						})
 					});
-					(marker as any).photoSrc = photo.src;
+					(marker as any).photoSrc = p.src;
 					allPhotoMarkers.push(marker);
 					let popupHtml = `<div class="flex flex-col items-center text-center max-w-xs">
-						<img src="${photo.src ?? ''}" alt="${photo.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" />
-						<strong class="text-lg font-bold mb-1">${photo.title || 'Untitled'}</strong>`;
-					if (!isCurrent && photo.section && photo.filename) {
-						popupHtml += `<a href="/photos?path=${encodeURIComponent(photo.section)}&modal=1&photo=${encodeURIComponent(photo.filename)}"
-							class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
-							style="color: white !important;">View</a>`;
+                        <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
+                        <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>`;
+					if (!isCurrent && p.section && p.filename) {
+						popupHtml += `<a href="/photos?path=${encodeURIComponent(p.section)}&modal=1&photo=${encodeURIComponent(p.filename)}"
+                            class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
+                            style="color: white !important;">View</a>`;
 					}
 					popupHtml += `</div>`;
 					marker.bindPopup(popupHtml, {
@@ -464,6 +503,34 @@
 			fullmap = null;
 		}
 	}
+
+	$: if (
+		browser &&
+		open &&
+		filmstripElement &&
+		photos.length > 0 &&
+		modalIndex >= 0 &&
+		modalIndex < photos.length
+	) {
+		const activeThumb = filmstripElement.children[modalIndex] as HTMLElement;
+		if (activeThumb && typeof activeThumb.scrollIntoView === 'function') {
+			setTimeout(() => {
+				activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+			}, 50);
+		}
+	}
+
+	let hoveredIdx: number | null = null;
+
+	let isMobile = false;
+	onMount(() => {
+		function checkMobile() {
+			isMobile = window.innerWidth < 640;
+		}
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		return () => window.removeEventListener('resize', checkMobile);
+	});
 </script>
 
 {#if open && modalPhoto}
@@ -504,6 +571,7 @@
 							zoomed = !zoomed;
 						}}
 						aria-label={zoomed ? 'Disable zoom/pan' : 'Enable zoom/pan'}
+						title={zoomed ? 'Disable zoom/pan' : 'Enable zoom/pan'}
 					>
 						{#if zoomed}
 							<svg
@@ -584,6 +652,7 @@
 						class="flex items-center justify-center rounded-full bg-black/60 p-3 text-xl text-white transition hover:bg-gray-700"
 						on:click={closeModal}
 						aria-label="Close"
+						title="Close"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -684,6 +753,7 @@
 						tabindex="-1"
 						on:load={() => (imageLoaded = true)}
 						style="transition: opacity 0.3s;"
+						loading="lazy"
 					/>
 				{/if}
 
@@ -714,105 +784,125 @@
 				{/if}
 			</div>
 
-			<div class="w-full bg-black/70 p-4 text-white dark:bg-black/80">
-				<div class="text-lg font-bold">{modalPhoto.title}</div>
-				{#if modalPhoto.date}<div class="text-sm">{modalPhoto.date}</div>{/if}
-				<div class="mt-1 text-xs">
-					{#if modalPhoto.camera}{modalPhoto.camera}{/if}
-					{#if modalPhoto.lens}{modalPhoto.camera ? ' | ' : ''}{modalPhoto.lens}{/if}
-					{#if modalPhoto.focalLength}{modalPhoto.camera || modalPhoto.lens
-							? ' | '
-							: ''}{modalPhoto.focalLength}{/if}
-					{#if modalPhoto.aperture}{modalPhoto.camera || modalPhoto.lens || modalPhoto.focalLength
-							? ' | '
-							: ''}{modalPhoto.aperture}{/if}
-					{#if modalPhoto.exposure}{modalPhoto.camera ||
-						modalPhoto.lens ||
-						modalPhoto.focalLength ||
-						modalPhoto.aperture
-							? ' | '
-							: ''}{modalPhoto.exposure}{/if}
-					{#if modalPhoto.iso}{modalPhoto.camera ||
-						modalPhoto.lens ||
-						modalPhoto.focalLength ||
-						modalPhoto.aperture ||
-						modalPhoto.exposure
-							? ' | '
-							: ''}ISO {modalPhoto.iso}{/if}
-				</div>
-			</div>
-
-			{#if modalPhoto?.gps}
-				<div class="mt-auto flex justify-end border-t border-gray-700 p-1 dark:border-gray-800">
-					{#if !fullMap}
-						<button
-							type="button"
-							class="cursor-pointer rounded border-0 bg-transparent p-0 shadow"
-							title="Expand map"
-							on:click={() => {
-								const newParams = new URLSearchParams(page.url.search);
-								if (newParams.get('fullmap') !== '1') {
+			<!-- DESKTOP: EXIF + Minimap block -->
+			{#if !isMobile}
+				<div
+					class="flex w-full flex-col items-start justify-between gap-4 bg-black/70 p-4 text-white sm:flex-row sm:items-end dark:bg-black/80"
+				>
+					<div class="min-w-0 flex-1">
+						<div class="text-lg font-bold">{modalPhoto.title}</div>
+						{#if modalPhoto.date}<div class="text-sm">{modalPhoto.date}</div>{/if}
+						<div class="mt-1 text-xs break-words">
+							{#if modalPhoto.camera}{modalPhoto.camera}{/if}
+							{#if modalPhoto.lens}{modalPhoto.camera ? ' | ' : ''}{modalPhoto.lens}{/if}
+							{#if modalPhoto.focalLength}{modalPhoto.camera || modalPhoto.lens
+									? ' | '
+									: ''}{modalPhoto.focalLength}{/if}
+							{#if modalPhoto.aperture}{modalPhoto.camera ||
+								modalPhoto.lens ||
+								modalPhoto.focalLength
+									? ' | '
+									: ''}{modalPhoto.aperture}{/if}
+							{#if modalPhoto.exposure}{modalPhoto.camera ||
+								modalPhoto.lens ||
+								modalPhoto.focalLength ||
+								modalPhoto.aperture
+									? ' | '
+									: ''}{modalPhoto.exposure}{/if}
+							{#if modalPhoto.iso}{modalPhoto.camera ||
+								modalPhoto.lens ||
+								modalPhoto.focalLength ||
+								modalPhoto.aperture ||
+								modalPhoto.exposure
+									? ' | '
+									: ''}ISO {modalPhoto.iso}{/if}
+						</div>
+					</div>
+					{#if modalPhoto?.gps}
+						<div class="mt-4 sm:mt-0 sm:ml-4">
+							<button
+								type="button"
+								class="cursor-pointer rounded border-0 bg-transparent p-0 shadow"
+								title="Expand map"
+								on:click={() => {
+									const newParams = new URLSearchParams(page.url.search);
 									newParams.set('fullmap', '1');
+									if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
+									if (section?.name) newParams.set('path', section.name);
+									else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
+									newParams.delete('mapview');
 									goto(`${page.url.pathname}?${newParams.toString()}`, {
 										replaceState: true,
 										noScroll: true,
 										keepFocus: true
 									});
-								}
-								setTimeout(() => modalContainer?.focus(), 0);
-							}}
-							aria-label="Expand map"
-							style="overflow:hidden;"
-						>
-							<div
-								bind:this={minimapContainer}
-								class="rounded"
-								style="width:{minimapWidth}px; height:{minimapHeight}px; background: #333;"
-								in:scale={{ duration: 200 }}
-								out:scale={{ duration: 200 }}
+									setTimeout(() => modalContainer?.focus(), 0);
+								}}
+								aria-label="Expand map"
+								style="overflow:hidden;"
 							>
-								{#if !leafletLoaded && browser}<div
-										class="flex h-full w-full items-center justify-center text-xs text-gray-400"
-									>
-										Loading map...
-									</div>{/if}
-							</div>
-						</button>
+								<div
+									bind:this={minimapContainer}
+									class="rounded"
+									style="width:{minimapWidth}px; height:{minimapHeight}px; background: #333;"
+									in:scale={{ duration: 200 }}
+									out:scale={{ duration: 200 }}
+								>
+									{#if !leafletLoaded && browser && !fullMap}
+										<div
+											class="flex h-full w-full items-center justify-center text-xs text-gray-400"
+										>
+											Loading map...
+										</div>
+									{/if}
+								</div>
+							</button>
+						</div>
 					{/if}
 				</div>
 			{/if}
 
-			{#if section && section.photos?.length > 1}
-				<div
-					class="flex w-full items-center justify-center gap-2 overflow-x-auto bg-black/70 px-4 py-2 dark:bg-black/80"
-					style="z-index:20;"
-				>
-					{#each section.photos as thumb, idx (thumb.src)}
-						<button
-							type="button"
-							class="mx-1 cursor-pointer rounded border-2 transition-all"
-							style="border-color: {idx === modalIndex
+			<div
+				bind:this={filmstripElement}
+				class="flex w-full items-center justify-center gap-2 overflow-x-auto bg-black/70 px-4 py-2 dark:bg-black/80"
+				style="z-index:20; white-space: nowrap;"
+			>
+				{#each section?.photos ?? [] as thumb, idx (thumb.src)}
+					<button
+						type="button"
+						class="mx-1 flex-shrink-0 cursor-pointer rounded border-2 transition-all"
+						style="border-color: {idx === modalIndex
+							? 'var(--color-accent)'
+							: hoveredIdx === idx
 								? 'var(--color-accent)'
 								: '#444'}; outline: none;"
-							on:click={(e) => {
-								e.preventDefault();
-								modalIndex = idx;
-								onChange?.(modalIndex);
-								requestAnimationFrame(() => modalContainer?.focus());
-							}}
-							tabindex="-1"
-							aria-label={`Go to photo ${idx + 1}`}
-						>
-							<img
-								src={thumb.src}
-								alt={thumb.title}
-								class="h-12 w-auto rounded object-cover"
-								style="opacity: {idx === modalIndex ? 1 : 0.6}; border-radius: 4px;"
-							/>
-						</button>
-					{/each}
-				</div>
-			{/if}
+						on:click={(e) => {
+							e.preventDefault();
+							modalIndex = idx;
+							onChange?.(modalIndex);
+							requestAnimationFrame(() => modalContainer?.focus());
+						}}
+						tabIndex="-1"
+						aria-label={`Go to photo ${idx + 1}`}
+						id={`filmstrip-thumb-${idx}`}
+						on:mouseenter={() => (hoveredIdx = idx)}
+						on:mouseleave={() => (hoveredIdx = null)}
+					>
+						<img
+							src={thumb.thumbnailSrc ?? thumb.src}
+							alt={thumb.title}
+							class="h-12 w-auto rounded object-cover"
+							style="opacity: {idx === modalIndex
+								? 1
+								: 0.6}; border-radius: 4px; border: 2px solid transparent; box-shadow: {idx ===
+							modalIndex
+								? '0 0 0 2px var(--color-accent)'
+								: 'none'}; transition: border-color 0.15s, box-shadow 0.15s;"
+							loading="lazy"
+						/>
+					</button>
+				{/each}
+			</div>
 		</div>
 
 		{#if fullMap && modalPhoto?.gps}

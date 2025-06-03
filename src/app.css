@@ -199,16 +199,32 @@ body {
 :global(.custom-popup a.leaflet-popup-close-button) {
 	@apply opacity-70 hover:opacity-100; /* text color will be inherited or set by direct overrides */
 }
+/* Red hover/active border for thumbnails */
+:global(.filmstrip-thumb-active) {
+	border-color: var(--color-accent) !important;
+	box-shadow: 0 0 0 2px var(--color-accent);
+}
+:global(.filmstrip-thumb:hover) {
+	border-color: var(--color-accent);
+}
 
-/* Dark Mode Popup Styling (for .custom-popup specifics other than background) */
-
-/* :global(.dark .custom-popup .leaflet-popup-content) { */
-/* @apply text-gray-200; /* This is fine, or let it be handled by direct override */
-/* } */
-
-/* :global(.dark .custom-popup a.leaflet-popup-close-button) { */
-/* @apply text-gray-200 opacity-70 hover:opacity-100; /* This is fine */
-/* } */
+/* --- TINY RED FILMSTRIP SCROLLBAR --- */
+:global(.overflow-x-auto)::-webkit-scrollbar {
+	height: 2px !important;
+	width: 2px !important;
+	background: transparent !important;
+}
+:global(.overflow-x-auto)::-webkit-scrollbar-thumb {
+	background: #ff3333 !important;
+	border-radius: 2px !important;
+}
+:global(.overflow-x-auto)::-webkit-scrollbar-track {
+	background: #222 !important;
+}
+:global(.overflow-x-auto) {
+	scrollbar-color: #ff3333 #222 !important; /* For Firefox */
+	scrollbar-width: thin !important;
+}
 
 /* Styles for your content inside the popup (image, title, link) */
 :global(.custom-popup img) {
