@@ -524,9 +524,12 @@
 	) {
 		const activeThumb = filmstripElement.children[modalIndex] as HTMLElement;
 		if (activeThumb && typeof activeThumb.scrollIntoView === 'function') {
-			setTimeout(() => {
-				activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-			}, 50);
+			// Use scrollIntoView to center the active thumbnail
+			activeThumb.scrollIntoView({
+				behavior: 'smooth',
+				inline: 'center',
+				block: 'nearest'
+			});
 		}
 	}
 
@@ -535,7 +538,7 @@
 	let isMobile = false;
 	onMount(() => {
 		function checkMobile() {
-			isMobile = window.innerWidth < 640;
+			isMobile = window.innerWidth < 1100;
 		}
 		checkMobile();
 		window.addEventListener('resize', checkMobile);
@@ -546,7 +549,7 @@
 {#if open && modalPhoto}
 	<div
 		bind:this={modalContainer}
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-2 sm:p-6"
 		role="dialog"
 		aria-modal="true"
 		tabindex="0"
@@ -787,11 +790,10 @@
 						<img
 							src={modalPhoto.src}
 							alt={modalPhoto?.title ?? 'Photo'}
-							class="max-h-full max-w-full object-contain select-none"
+							class="modal-image max-h-[calc(100vh-18rem)] max-w-[calc(100vw-6rem)] object-contain transition-opacity duration-300 select-none md:max-h-[calc(100vh-22rem)] md:max-w-[calc(100vw-10rem)] lg:max-h-[calc(100vh-24rem)] lg:max-w-[calc(100vw-16rem)]"
 							draggable="false"
 							tabindex="-1"
 							on:load={() => (imageLoaded = true)}
-							style="transition: opacity 0.3s; max-height: 80vh; max-width: 80vw;"
 							loading="lazy"
 						/>
 					</div>
@@ -906,7 +908,7 @@
 			<div
 				bind:this={filmstripElement}
 				class="filmstrip flex w-full items-center justify-center gap-2 overflow-x-auto bg-black/70 px-4 py-2 dark:bg-black/80"
-				style="z-index:20; white-space: nowrap; scroll-padding: 1rem;"
+				style="z-index:20; white-space: nowrap; padding-left: 2rem; padding-right: 2rem;"
 			>
 				{#each section?.photos ?? [] as thumb, idx (thumb.src)}
 					<button
@@ -923,7 +925,7 @@
 							onChange?.(modalIndex);
 							requestAnimationFrame(() => modalContainer?.focus());
 						}}
-						tabIndex="-1"
+						tabindex="-1"
 						aria-label={`Go to photo ${idx + 1}`}
 						id={`filmstrip-thumb-${idx}`}
 						on:mouseenter={() => (hoveredIdx = idx)}
