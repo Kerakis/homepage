@@ -237,3 +237,14 @@ body {
 	/* This is your "View" link, should still work */
 	@apply mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700;
 }
+
+.filmstrip::-webkit-scrollbar {
+	height: 4px;
+}
+.filmstrip::-webkit-scrollbar-thumb {
+	background-color: #888;
+	border-radius: 2px;
+}
+.filmstrip::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+}
