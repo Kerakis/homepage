@@ -5,6 +5,7 @@
 	import type { Photo } from '$lib/types/photoTypes';
 	import { getMarkerHtml } from '$lib/utils/photoUtils';
 	import { fly } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	export let allPhotos: Photo[] = [];
 	export let currentPhoto: Photo;
@@ -25,7 +26,7 @@
 		L = leafletModule.default || leafletModule;
 		await import('leaflet.markercluster/dist/MarkerCluster.css');
 		await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
-		await import('leaflet.markercluster'); // <-- This is the key line!
+		await import('leaflet.markercluster');
 		leafletLoaded = true;
 
 		if (fullmapContainer && L) {
@@ -76,9 +77,16 @@
                     <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
                     <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>`;
 				if (!isCurrent && p.section && p.filename) {
-					popupHtml += `<a href="/photos?path=${encodeURIComponent(p.section)}&modal=1&photo=${encodeURIComponent(p.filename)}"
-                        class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
-                        style="color: white !important;">View</a>`;
+					popupHtml += `<button
+    type="button"
+    class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
+    style="color: white !important;"
+    data-photo-src="${p.src}"
+    data-photo-section="${p.section}"
+    data-photo-filename="${p.filename}"
+>
+    View
+</button>`;
 				}
 				popupHtml += `</div>`;
 				marker.bindPopup(popupHtml, {
@@ -96,6 +104,44 @@
 				const center = fullmap.getCenter();
 				const zoom = fullmap.getZoom();
 				onMapViewChange?.(center.lat, center.lng, zoom);
+			});
+			fullmap.on('popupopen', (e: any) => {
+				const popupEl = e.popup.getElement();
+				if (!popupEl) return;
+				const viewBtn = popupEl.querySelector('button[data-photo-src]');
+				if (viewBtn) {
+					viewBtn.onclick = async (evt: MouseEvent) => {
+						evt.preventDefault();
+						const src = viewBtn.getAttribute('data-photo-src');
+						const section = viewBtn.getAttribute('data-photo-section');
+						const filename = viewBtn.getAttribute('data-photo-filename');
+						if (!src || !section || !filename) return;
+
+						// Preload the image
+						const img = new window.Image();
+						img.src = src;
+						await new Promise((resolve, reject) => {
+							img.onload = resolve;
+							img.onerror = reject;
+						});
+
+						// Now update the URL and close the map
+						const params = new URLSearchParams(window.location.search);
+						params.set('photo', filename);
+						params.set('path', section);
+						params.delete('fullmap');
+						params.delete('mapview');
+						const url = `${window.location.pathname}?${params.toString()}`;
+
+						// Use SvelteKit's goto to update the modal and close the map after navigation
+						await goto(url, {
+							replaceState: true,
+							noScroll: true,
+							keepFocus: true
+						});
+						onClose?.();
+					};
+				}
 			});
 		}
 	});
