@@ -1,0 +1,140 @@
+<script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
+	import { get } from 'svelte/store';
+	import { darkMode } from '$lib/stores/darkMode';
+	import type { Photo } from '$lib/types/photoTypes';
+	import { getMarkerHtml } from '$lib/utils/photoUtils';
+
+	export let allPhotos: Photo[] = [];
+	export let currentPhoto: Photo;
+	export let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
+	export let onClose: (() => void) | undefined;
+	export let onMapViewChange: ((lat: number, lon: number, zoom: number) => void) | undefined;
+
+	let fullmapContainer: HTMLDivElement | null = null;
+	let fullmap: any = null;
+	let L: any = null;
+	let leafletLoaded = false;
+	let allPhotoMarkers: any[] = [];
+
+	onMount(async () => {
+		if (!currentPhoto?.gps) return;
+		await import('leaflet/dist/leaflet.css');
+		const leafletModule = await import('leaflet');
+		L = leafletModule.default || leafletModule;
+		await import('leaflet.markercluster/dist/MarkerCluster.css');
+		await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
+		await import('leaflet.markercluster'); // <-- This is the key line!
+		leafletLoaded = true;
+
+		if (fullmapContainer && L) {
+			const initialCenter = targetMapViewFromUrl
+				? [targetMapViewFromUrl.lat, targetMapViewFromUrl.lon]
+				: currentPhoto.gps
+					? [currentPhoto.gps.lat, currentPhoto.gps.lon]
+					: [0, 0];
+			const initialZoom = targetMapViewFromUrl ? targetMapViewFromUrl.zoom : 16;
+
+			fullmap = L.map(fullmapContainer, {
+				center: initialCenter,
+				zoom: initialZoom,
+				zoomControl: false,
+				attributionControl: false,
+				scrollWheelZoom: true,
+				dragging: true,
+				doubleClickZoom: true,
+				boxZoom: true,
+				keyboard: true
+			});
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 19,
+				className: get(darkMode) ? 'map-tiles dark' : 'map-tiles'
+			}).addTo(fullmap);
+			L.control.zoom({ position: 'topleft' }).addTo(fullmap);
+
+			allPhotoMarkers.forEach((m: any) => m.remove());
+			allPhotoMarkers = [];
+			const markerCluster = L.markerClusterGroup({ spiderfyOnMaxZoom: true });
+
+			allPhotos.forEach((p) => {
+				if (!p.gps) return;
+				const isCurrent = currentPhoto?.src === p.src;
+				const marker = L.marker([p.gps.lat, p.gps.lon], {
+					icon: L.divIcon({
+						className: 'fa-marker-icon',
+						html: getMarkerHtml(p, isCurrent),
+						iconSize: [32, 32],
+						iconAnchor: [16, 32],
+						popupAnchor: [0, -32]
+					})
+				});
+				(marker as any).photoSrc = p.src;
+				allPhotoMarkers.push(marker);
+				let popupHtml = `<div class="flex flex-col items-center text-center max-w-xs">
+                    <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
+                    <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>`;
+				if (!isCurrent && p.section && p.filename) {
+					popupHtml += `<a href="/photos?path=${encodeURIComponent(p.section)}&modal=1&photo=${encodeURIComponent(p.filename)}"
+                        class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
+                        style="color: white !important;">View</a>`;
+				}
+				popupHtml += `</div>`;
+				marker.bindPopup(popupHtml, {
+					maxWidth: 320,
+					minWidth: 200
+				});
+				markerCluster.addLayer(marker);
+			});
+			markerCluster.addTo(fullmap);
+
+			fullmap.whenReady(() => {
+				fullmap.invalidateSize();
+			});
+			fullmap.on('moveend zoomend', () => {
+				const center = fullmap.getCenter();
+				const zoom = fullmap.getZoom();
+				onMapViewChange?.(center.lat, center.lng, zoom);
+			});
+		}
+	});
+
+	onDestroy(() => {
+		if (fullmap) {
+			fullmap.remove();
+			fullmap = null;
+		}
+	});
+</script>
+
+<div
+	class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80"
+	style="backdrop-filter: blur(2px);"
+>
+	<button
+		type="button"
+		class="fixed top-4 right-4 z-[70] rounded-full bg-black/40 p-2 text-white shadow-lg transition hover:bg-gray-700 sm:p-3"
+		title="Close map (Esc or M)"
+		on:click={onClose}
+		aria-label="Close map"
+		style="transition: background 0.2s;"
+	>
+		<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+			><path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M6 18L18 6M6 6l12 12"
+			/></svg
+		>
+	</button>
+	<div
+		bind:this={fullmapContainer}
+		class="z-[65] h-[100vh] w-[100vw] rounded shadow-lg sm:h-[80vh] sm:w-[80vw]"
+		style="background: #222; box-shadow: 0 0 32px #000a;"
+	>
+		{#if !leafletLoaded}
+			<div class="flex h-full w-full items-center justify-center text-gray-300">Loading map...</div>
+		{/if}
+	</div>
+</div>

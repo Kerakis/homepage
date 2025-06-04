@@ -176,3 +176,18 @@ export function countPhotosInSection(
 ): number {
 	return getAllPhotosInSection(gallery, section).length;
 }
+
+// Marker HTML generation
+export function getMarkerHtml(photo: Photo, isCurrent: boolean): string {
+	const outlineColor = '#FFF';
+
+	if (photo.subject === 'fungi' || photo.subject === 'mushrooms') {
+		const svgOutlineStyle = `filter: drop-shadow(-1px -1px 0 ${outlineColor}) drop-shadow(1px -1px 0 ${outlineColor}) drop-shadow(-1px 1px 0 ${outlineColor}) drop-shadow(1px 1px 0 ${outlineColor});`;
+		return `<span style="display: inline-block; line-height: 1; ${svgOutlineStyle}">${MUSHROOM_SVG}</span>`;
+	}
+
+	const iconClass = getIconClassForPhoto(photo);
+	const iconFillColor = isCurrent ? '#e53e3e' : '#222';
+	const faOutlineStyle = `text-shadow: -1px -1px 0 ${outlineColor}, 1px -1px 0 ${outlineColor}, -1px 1px 0 ${outlineColor}, 1px 1px 0 ${outlineColor};`;
+	return `<i class="fa-solid ${iconClass}" style="font-size:2rem; color:${iconFillColor}; ${faOutlineStyle}"></i>`;
+}

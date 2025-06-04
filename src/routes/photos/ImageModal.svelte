@@ -2,6 +2,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import ExifModal from '$lib/components/ExifModal.svelte';
 	import Filmstrip from '$lib/components/Filmstrip.svelte';
+	import PhotoMinimap from '$lib/components/PhotoMinimap.svelte';
+	import PhotoFullmap from '$lib/components/PhotoFullmap.svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade, scale, fly } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
@@ -800,45 +802,26 @@
 						</div>
 					</div>
 					{#if modalPhoto?.gps}
-						<div class="mt-4 sm:mt-0 sm:ml-4">
-							<button
-								type="button"
-								class="cursor-pointer rounded border-0 bg-transparent p-0 shadow"
-								title="Expand map"
-								on:click={() => {
-									const newParams = new URLSearchParams(page.url.search);
-									newParams.set('fullmap', '1');
-									if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
-									if (section?.name) newParams.set('path', section.name);
-									else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
-									newParams.delete('mapview');
-									goto(`${page.url.pathname}?${newParams.toString()}`, {
-										replaceState: true,
-										noScroll: true,
-										keepFocus: true
-									});
-									setTimeout(() => modalContainer?.focus(), 0);
-								}}
-								aria-label="Expand map"
-								style="overflow:hidden;"
-							>
-								<div
-									bind:this={minimapContainer}
-									class="rounded"
-									style="width:{minimapWidth}px; height:{minimapHeight}px; background: #333;"
-									in:scale={{ duration: 200 }}
-									out:scale={{ duration: 200 }}
-								>
-									{#if !leafletLoaded && browser && !fullMap}
-										<div
-											class="flex h-full w-full items-center justify-center text-xs text-gray-400"
-										>
-											Loading map...
-										</div>
-									{/if}
-								</div>
-							</button>
-						</div>
+						<PhotoMinimap
+							photo={modalPhoto}
+							width={minimapWidth}
+							height={minimapHeight}
+							onExpand={() => {
+								// Open the full map (update URL as before)
+								const newParams = new URLSearchParams(page.url.search);
+								newParams.set('fullmap', '1');
+								if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
+								if (section?.name) newParams.set('path', section.name);
+								else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
+								newParams.delete('mapview');
+								goto(`${page.url.pathname}?${newParams.toString()}`, {
+									replaceState: true,
+									noScroll: true,
+									keepFocus: true
+								});
+								setTimeout(() => modalContainer?.focus(), 0);
+							}}
+						/>
 					{/if}
 				</div>
 			{/if}
@@ -851,53 +834,27 @@
 		</div>
 
 		{#if fullMap && modalPhoto?.gps}
-			<div
-				class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80"
-				style="backdrop-filter: blur(2px);"
-				in:fly={{ y: 40, duration: 250 }}
-				out:fly={{ y: 40, duration: 250 }}
-			>
-				<button
-					type="button"
-					class="fixed top-4 right-4 z-[70] rounded-full bg-black/40 p-2 text-white shadow-lg transition hover:bg-gray-700 sm:p-3"
-					title="Close map (Esc or M)"
-					on:click={() => {
-						const newParams = new URLSearchParams(page.url.search);
-						newParams.delete('fullmap');
-						newParams.delete('mapview');
-						goto(`${page.url.pathname}?${newParams.toString()}`, {
-							replaceState: true,
-							noScroll: true,
-							keepFocus: true
-						});
-						setTimeout(() => modalContainer?.focus(), 0);
-					}}
-					aria-label="Close map"
-					style="transition: background 0.2s;"
-				>
-					<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/></svg
-					>
-				</button>
-				<div
-					bind:this={fullmapContainer}
-					class="z-[65] rounded shadow-lg"
-					style="background: #222; box-shadow: 0 0 32px #000a; width: 80vw; height: 80vh;"
-					class:!w-screen={typeof window !== 'undefined' && window.innerWidth < 640}
-					class:!h-screen={typeof window !== 'undefined' && window.innerWidth < 640}
-				>
-					{#if !leafletLoaded && browser}<div
-							class="flex h-full w-full items-center justify-center text-gray-300"
-						>
-							Loading map...
-						</div>{/if}
-				</div>
-			</div>
+			<PhotoFullmap
+				{allPhotos}
+				currentPhoto={modalPhoto}
+				{targetMapViewFromUrl}
+				onClose={() => {
+					// Close the map (update URL as before)
+					const newParams = new URLSearchParams(page.url.search);
+					newParams.delete('fullmap');
+					newParams.delete('mapview');
+					goto(`${page.url.pathname}?${newParams.toString()}`, {
+						replaceState: true,
+						noScroll: true,
+						keepFocus: true
+					});
+					setTimeout(() => modalContainer?.focus(), 0);
+				}}
+				onMapViewChange={(lat, lon, zoom) => {
+					// Optional: update targetMapViewFromUrl or URL params if you want to sync map view
+					targetMapViewFromUrl = { lat, lon, zoom };
+				}}
+			/>
 		{/if}
 
 		<ExifModal bind:showExif={showExifStore} {modalPhoto} />
