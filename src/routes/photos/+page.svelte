@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
 	import ImageModal from './ImageModal.svelte';
-	import type { Photo } from '$lib/utils/photoUtils';
+	import type { Photo } from '$lib/types/photoTypes';
 	import {
 		formatMonthYear,
 		getRandomPhotoInSection,

@@ -1,19 +1,4 @@
-export interface Photo {
-	gps?: { lat: number; lon: number } | null;
-	subject?: string;
-	section?: string;
-	filename?: string;
-	src?: string;
-	thumbnailSrc?: string;
-	title?: string;
-	date?: string;
-	camera?: string;
-	lens?: string;
-	focalLength?: string;
-	aperture?: string;
-	exposure?: string;
-	iso?: number;
-}
+import type { Photo } from '$lib/types/photoTypes';
 
 // List of valid photo subjects
 export const PHOTO_SUBJECTS = [
@@ -38,6 +23,61 @@ export const PHOTO_SUBJECTS = [
 	'fungi',
 	'mushrooms'
 ];
+
+// Returns the FontAwesome icon class for a photo subject
+export function getIconClassForPhoto(photo: { subject?: string }): string {
+	switch (photo.subject) {
+		case 'bugs':
+			return 'fa-bug';
+		case 'spiders':
+			return 'fa-spider';
+		case 'birds':
+			return 'fa-crow';
+		case 'plants':
+		case 'flowers':
+			return 'fa-seedling';
+		case 'mammals':
+			return 'fa-otter';
+		case 'reptiles':
+			return 'fa-dragon';
+		case 'amphibians':
+			return 'fa-frog';
+		case 'fish':
+			return 'fa-fish';
+		case 'landscape':
+			return 'fa-mountain';
+		case 'architecture':
+			return 'fa-building';
+		case 'people':
+			return 'fa-user';
+		case 'vehicles':
+			return 'fa-car';
+		case 'food':
+			return 'fa-utensils';
+		case 'art':
+			return 'fa-palette';
+		case 'dogs':
+			return 'fa-dog';
+		case 'cats':
+			return 'fa-cat';
+		case 'night':
+			return 'fa-moon';
+		default:
+			return 'fa-image';
+	}
+}
+
+export const MUSHROOM_SVG = `<svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+  <ellipse cx="32" cy="32" rx="28" ry="16" fill="#22304a"/>
+  <ellipse cx="32" cy="32" rx="24" ry="12" fill="#fff" fill-opacity="0.1"/>
+  <ellipse cx="22" cy="38" rx="4" ry="4" fill="#fff" fill-opacity="0.8"/>
+  <ellipse cx="42" cy="36" rx="5" ry="5" fill="#fff" fill-opacity="0.8"/>
+  <ellipse cx="32" cy="24" rx="28" ry="16" fill="#22304a"/>
+  <ellipse cx="32" cy="24" rx="24" ry="12" fill="#fff" fill-opacity="0.1"/>
+  <ellipse cx="22" cy="30" rx="4" ry="4" fill="#fff" fill-opacity="0.8"/>
+  <ellipse cx="42" cy="28" rx="5" ry="5" fill="#fff" fill-opacity="0.8"/>
+  <rect x="24" y="32" width="16" height="18" rx="6" fill="#22304a"/>
+</svg>`;
 
 // Type guard
 export function isPhoto(obj: unknown): obj is Photo {

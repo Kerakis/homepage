@@ -1,15 +1,20 @@
 <script lang="ts">
-	import { onMount, afterUpdate } from 'svelte';
-	import type { Photo } from '$lib/utils/photoUtils';
+	import { onMount } from 'svelte';
+	import type { Photo } from '$lib/types/photoTypes';
 
-	export let photos: Photo[] = [];
-	export let currentIndex: number = 0;
-	export let onChangeIndex: (index: number) => void;
+	const {
+		photos = [],
+		currentIndex = 0,
+		onChangeIndex
+	} = $props<{
+		photos?: Photo[];
+		currentIndex?: number;
+		onChangeIndex: (index: number) => void;
+	}>();
 
-	let filmstripElement: HTMLDivElement;
-	let hoveredIdx: number | null = null;
+	let filmstripElement = $state<HTMLDivElement | null>(null);
+	let hoveredIdx = $state<number | null>(null);
 
-	// Scroll active thumbnail into view
 	function scrollActiveThumbnail() {
 		if (
 			filmstripElement &&
@@ -32,8 +37,7 @@
 		scrollActiveThumbnail();
 	});
 
-	afterUpdate(() => {
-		// This ensures scrolling happens after currentIndex prop updates and DOM reflects it
+	$effect(() => {
 		scrollActiveThumbnail();
 	});
 </script>
@@ -55,7 +59,7 @@
 					: hoveredIdx === idx
 						? 'var(--color-accent)'
 						: '#444'}; outline: none;"
-				on:click={(e) => {
+				onclick={(e) => {
 					e.preventDefault();
 					onChangeIndex(idx);
 				}}
@@ -63,8 +67,8 @@
 				aria-label={`Go to photo ${idx + 1}${thumb.title ? ': ' + thumb.title : ''}`}
 				aria-current={idx === currentIndex ? 'true' : 'false'}
 				id={`filmstrip-thumb-${idx}`}
-				on:mouseenter={() => (hoveredIdx = idx)}
-				on:mouseleave={() => (hoveredIdx = null)}
+				onmouseenter={() => (hoveredIdx = idx)}
+				onmouseleave={() => (hoveredIdx = null)}
 			>
 				<img
 					src={thumb.thumbnailSrc ?? thumb.src}

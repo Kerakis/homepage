@@ -9,7 +9,8 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import type { Photo } from '$lib/utils/photoUtils';
+	import type { Photo } from '$lib/types/photoTypes';
+	import { getIconClassForPhoto, MUSHROOM_SVG } from '$lib/utils/photoUtils';
 
 	export let allPhotos: Photo[] = [];
 
@@ -37,47 +38,12 @@
 	let showExifStore = writable(false);
 	let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
 
-	const mushroomSVG = `
-<svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-  <ellipse cx="32" cy="32" rx="28" ry="16" fill="#22304a"/>
-  <ellipse cx="32" cy="32" rx="24" ry="12" fill="#fff" fill-opacity="0.1"/>
-  <ellipse cx="22" cy="38" rx="4" ry="4" fill="#fff" fill-opacity="0.8"/>
-  <ellipse cx="42" cy="36" rx="5" ry="5" fill="#fff" fill-opacity="0.8"/>
-  <ellipse cx="32" cy="24" rx="28" ry="16" fill="#22304a"/>
-  <ellipse cx="32" cy="24" rx="24" ry="12" fill="#fff" fill-opacity="0.1"/>
-  <ellipse cx="22" cy="30" rx="4" ry="4" fill="#fff" fill-opacity="0.8"/>
-  <ellipse cx="42" cy="28" rx="5" ry="5" fill="#fff" fill-opacity="0.8"/>
-  <rect x="24" y="32" width="16" height="18" rx="6" fill="#22304a"/>
-</svg>
-`;
-
-	function getIconClassForPhoto(photo: Photo) {
-		if (photo.subject === 'bugs') return 'fa-bug';
-		if (photo.subject === 'spiders') return 'fa-spider';
-		if (photo.subject === 'birds') return 'fa-crow';
-		if (photo.subject === 'plants' || photo.subject === 'flowers') return 'fa-seedling';
-		if (photo.subject === 'mammals') return 'fa-otter';
-		if (photo.subject === 'reptiles') return 'fa-dragon';
-		if (photo.subject === 'amphibians') return 'fa-frog';
-		if (photo.subject === 'fish') return 'fa-fish';
-		if (photo.subject === 'landscape') return 'fa-mountain';
-		if (photo.subject === 'architecture') return 'fa-building';
-		if (photo.subject === 'people') return 'fa-user';
-		if (photo.subject === 'vehicles') return 'fa-car';
-		if (photo.subject === 'food') return 'fa-utensils';
-		if (photo.subject === 'art') return 'fa-palette';
-		if (photo.subject === 'dogs') return 'fa-dog';
-		if (photo.subject === 'cats') return 'fa-cat';
-		if (photo.subject === 'night') return 'fa-moon';
-		return 'fa-image'; // default
-	}
-
 	function getMarkerHtml(photo: Photo, isCurrent: boolean) {
 		const outlineColor = '#FFF';
 
 		if (photo.subject === 'fungi' || photo.subject === 'mushrooms') {
 			const svgOutlineStyle = `filter: drop-shadow(-1px -1px 0 ${outlineColor}) drop-shadow(1px -1px 0 ${outlineColor}) drop-shadow(-1px 1px 0 ${outlineColor}) drop-shadow(1px 1px 0 ${outlineColor});`;
-			return `<span style="display: inline-block; line-height: 1; ${svgOutlineStyle}">${mushroomSVG}</span>`;
+			return `<span style="display: inline-block; line-height: 1; ${svgOutlineStyle}">${MUSHROOM_SVG}</span>`;
 		}
 
 		const iconClass = getIconClassForPhoto(photo);
