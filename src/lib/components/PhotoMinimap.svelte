@@ -4,6 +4,7 @@
 	import { darkMode } from '$lib/stores/darkMode';
 	import type { Photo } from '$lib/types/photoTypes';
 	import { getMarkerHtml } from '$lib/utils/photoUtils';
+	import { scale } from 'svelte/transition';
 
 	export let photo: Photo;
 	export let width: number = 256;
@@ -64,6 +65,8 @@
 	style="width:{width}px; height:{height}px; background: #333; cursor: pointer;"
 	class="rounded"
 	bind:this={minimapContainer}
+	in:scale={{ duration: 200 }}
+	out:scale={{ duration: 200 }}
 	onclick={onExpand}
 	onkeydown={(e) => {
 		if (e.key === 'Enter' || e.key === ' ') onExpand?.();

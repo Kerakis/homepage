@@ -4,6 +4,7 @@
 	import { darkMode } from '$lib/stores/darkMode';
 	import type { Photo } from '$lib/types/photoTypes';
 	import { getMarkerHtml } from '$lib/utils/photoUtils';
+	import { fly } from 'svelte/transition';
 
 	export let allPhotos: Photo[] = [];
 	export let currentPhoto: Photo;
@@ -110,6 +111,8 @@
 <div
 	class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80"
 	style="backdrop-filter: blur(2px);"
+	in:fly={{ y: 40, duration: 250 }}
+	out:fly={{ y: 40, duration: 250 }}
 >
 	<button
 		type="button"

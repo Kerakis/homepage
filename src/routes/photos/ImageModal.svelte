@@ -5,7 +5,7 @@
 	import PhotoMinimap from '$lib/components/PhotoMinimap.svelte';
 	import PhotoFullmap from '$lib/components/PhotoFullmap.svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
-	import { fade, scale, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
 	import { get, writable } from 'svelte/store';
 	import { browser } from '$app/environment';
