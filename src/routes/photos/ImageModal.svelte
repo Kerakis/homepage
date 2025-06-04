@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import ExifModal from '$lib/components/ExifModal.svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade, scale, fly } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
-	import { get } from 'svelte/store';
+	import { get, writable } from 'svelte/store'; // MODIFIED: Added writable
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -49,7 +50,7 @@
 	let fullMap = false;
 	let minimapWidth = 256,
 		minimapHeight = 160;
-	let showExif = false;
+	let showExifStore = writable(false); // MODIFIED: Changed to a writable store
 	let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
 
 	const mushroomSVG = `
@@ -242,10 +243,10 @@
 		touchStartX = null;
 	}
 	function handleModalKeydown(e: KeyboardEvent) {
-		if (showExif) {
+		if (get(showExifStore)) {
 			if (e.key === 'Escape') {
-				showExif = false;
-				e.stopPropagation(); // Prevent the event from propagating to the main modal
+				showExifStore.set(false);
+				e.stopPropagation();
 				return;
 			}
 		}
@@ -584,7 +585,7 @@
 					{#if isMobile}
 						<button
 							class="flex items-center justify-center rounded-full bg-black/60 p-3 text-white transition hover:bg-gray-700"
-							on:click={() => (showExif = true)}
+							on:click={() => showExifStore.set(true)}
 							aria-label="Show EXIF data"
 							title="Show EXIF data"
 						>
@@ -998,73 +999,7 @@
 				</div>
 			</div>
 		{/if}
-	</div>
-{/if}
 
-{#if showExif}
-	<div
-		class="fixed inset-0 z-60 flex items-center justify-center bg-black/80"
-		role="dialog"
-		tabindex="-1"
-		aria-modal="true"
-		on:click={() => (showExif = false)}
-		on:keydown={(e) => {
-			if (e.key === 'Escape') {
-				showExif = false;
-				e.stopPropagation(); // Prevent the event from propagating to the main modal
-			}
-		}}
-		aria-label="Close EXIF modal"
-	>
-		<div
-			role="button"
-			tabindex="0"
-			class="relative w-11/12 max-w-md rounded bg-black/90 p-6 text-white shadow-lg"
-			on:click|stopPropagation
-			aria-label="EXIF Data Modal"
-			on:keydown={(e) => {
-				if (e.key === 'Escape') {
-					showExif = false;
-					e.stopPropagation(); // Prevent the event from propagating to the main modal
-				}
-			}}
-		>
-			<!-- Close Button -->
-			<button
-				class="absolute top-2 right-2 rounded-full bg-black/60 p-2 text-white hover:bg-gray-700"
-				on:click={() => (showExif = false)}
-				aria-label="Close EXIF modal"
-				title="Close"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M6 18L18 6M6 6l12 12"
-					/>
-				</svg>
-			</button>
-
-			<!-- EXIF Data -->
-			<h2 class="mb-4 text-lg font-bold">EXIF Data</h2>
-			<ul class="space-y-2 text-sm">
-				{#if modalPhoto.camera}<li><strong>Camera:</strong> {modalPhoto.camera}</li>{/if}
-				{#if modalPhoto.lens}<li><strong>Lens:</strong> {modalPhoto.lens}</li>{/if}
-				{#if modalPhoto.focalLength}<li>
-						<strong>Focal Length:</strong>
-						{modalPhoto.focalLength}
-					</li>{/if}
-				{#if modalPhoto.aperture}<li><strong>Aperture:</strong> {modalPhoto.aperture}</li>{/if}
-				{#if modalPhoto.exposure}<li><strong>Exposure:</strong> {modalPhoto.exposure}</li>{/if}
-				{#if modalPhoto.iso}<li><strong>ISO:</strong> {modalPhoto.iso}</li>{/if}
-			</ul>
-		</div>
+		<ExifModal bind:showExif={showExifStore} {modalPhoto} />
 	</div>
 {/if}
