@@ -19,15 +19,7 @@
 
 	onMount(() => {
 		scrollActiveThumbnail();
-		updateContainerWidth();
-		window.addEventListener('resize', updateContainerWidth);
 	});
-
-	function updateContainerWidth() {
-		if (filmstripElement) {
-			containerWidth = filmstripElement.offsetWidth;
-		}
-	}
 
 	$effect(() => {
 		scrollActiveThumbnail();
