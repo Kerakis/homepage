@@ -125,7 +125,6 @@
 							img.onerror = reject;
 						});
 
-						// Now update the URL and close the map
 						const params = new URLSearchParams(window.location.search);
 						params.set('photo', filename);
 						params.set('path', section);
@@ -133,7 +132,6 @@
 						params.delete('mapview');
 						const url = `${window.location.pathname}?${params.toString()}`;
 
-						// Use SvelteKit's goto to update the modal and close the map after navigation
 						await goto(url, {
 							replaceState: false,
 							noScroll: true,
