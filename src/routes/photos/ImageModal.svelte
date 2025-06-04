@@ -1,38 +1,23 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import ExifModal from '$lib/components/ExifModal.svelte';
+	import Filmstrip from '$lib/components/Filmstrip.svelte'; // IMPORT Filmstrip component
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade, scale, fly } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
-	import { get, writable } from 'svelte/store'; // MODIFIED: Added writable
+	import { get, writable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import type { Photo } from '$lib/utils/photoUtils';
 
 	export let allPhotos: Photo[] = [];
-
-	interface Photo {
-		gps?: { lat: number; lon: number } | null;
-		subject?: string;
-		section?: string;
-		filename?: string;
-		src?: string;
-		thumbnailSrc?: string;
-		title?: string;
-		date?: string;
-		camera?: string;
-		lens?: string;
-		focalLength?: string;
-		aperture?: string;
-		exposure?: string;
-		iso?: number;
-	}
 
 	export let onClose: (() => void) | undefined;
 	export let onChange: ((index: number) => void) | undefined;
 	export let open: boolean;
-	export let photos: Photo[] = [];
-	export let index: number = 0;
+	export let photos: Photo[] = []; // This will be passed to Filmstrip
+	export let index: number = 0; // This will be modalIndex, passed as currentIndex
 	export let section: { photos: Photo[]; name?: string } | null = null;
 
 	let modalContainer: HTMLDivElement | null = null;
@@ -44,7 +29,6 @@
 	let fullmapContainer: HTMLDivElement | null = null;
 	let minimap: any = null;
 	let fullmap: any = null;
-	let filmstripElement: HTMLDivElement;
 	let previousModalPhotoSrc: string | undefined = undefined;
 	let allPhotoMarkers: any[] = [];
 	let fullMap = false;
@@ -107,6 +91,7 @@
 	$: if (index !== undefined && index !== modalIndex) {
 		modalIndex = index;
 		imageLoaded = false;
+		// The Filmstrip component will handle its own scrolling via afterUpdate
 	}
 
 	$: if (open && modalPhoto && modalContainer && browser) {
@@ -518,26 +503,11 @@
 		}
 	}
 
-	$: if (
-		browser &&
-		open &&
-		filmstripElement &&
-		photos.length > 0 &&
-		modalIndex >= 0 &&
-		modalIndex < photos.length
-	) {
-		const activeThumb = filmstripElement.children[modalIndex] as HTMLElement;
-		if (activeThumb && typeof activeThumb.scrollIntoView === 'function') {
-			// Use scrollIntoView to center the active thumbnail
-			activeThumb.scrollIntoView({
-				behavior: 'smooth',
-				inline: 'center',
-				block: 'nearest'
-			});
-		}
+	function handleFilmstripChange(newIndex: number) {
+		modalIndex = newIndex;
+		onChange?.(modalIndex);
+		requestAnimationFrame(() => modalContainer?.focus());
 	}
-
-	let hoveredIdx: number | null = null;
 
 	let isMobile = false;
 	onMount(() => {
@@ -907,47 +877,11 @@
 				</div>
 			{/if}
 
-			<div
-				bind:this={filmstripElement}
-				class="filmstrip flex w-full items-center justify-center gap-2 overflow-x-auto bg-black/70 px-4 py-2 dark:bg-black/80"
-				style="z-index:20; white-space: nowrap; padding-left: 2rem; padding-right: 2rem;"
-			>
-				{#each section?.photos ?? [] as thumb, idx (thumb.src)}
-					<button
-						type="button"
-						class="mx-1 flex-shrink-0 cursor-pointer rounded border-2 transition-all"
-						style="border-color: {idx === modalIndex
-							? 'var(--color-accent)'
-							: hoveredIdx === idx
-								? 'var(--color-accent)'
-								: '#444'}; outline: none;"
-						on:click={(e) => {
-							e.preventDefault();
-							modalIndex = idx;
-							onChange?.(modalIndex);
-							requestAnimationFrame(() => modalContainer?.focus());
-						}}
-						tabindex="-1"
-						aria-label={`Go to photo ${idx + 1}`}
-						id={`filmstrip-thumb-${idx}`}
-						on:mouseenter={() => (hoveredIdx = idx)}
-						on:mouseleave={() => (hoveredIdx = null)}
-					>
-						<img
-							src={thumb.thumbnailSrc ?? thumb.src}
-							alt={thumb.title}
-							class="h-12 w-auto rounded object-cover"
-							style="opacity: {idx === modalIndex
-								? 1
-								: 0.6}; border-radius: 4px; border: 2px solid transparent; box-shadow: {idx ===
-							modalIndex
-								? '0 0 0 2px var(--color-accent)'
-								: 'none'}; transition: border-color 0.15s, box-shadow 0.15s;"
-							loading="lazy"
-						/>
-					</button>
-				{/each}
-			</div>
+			<Filmstrip
+				photos={section?.photos ?? []}
+				currentIndex={modalIndex}
+				onChangeIndex={handleFilmstripChange}
+			/>
 		</div>
 
 		{#if fullMap && modalPhoto?.gps}
