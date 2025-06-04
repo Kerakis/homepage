@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import ExifModal from '$lib/components/ExifModal.svelte';
-	import Filmstrip from '$lib/components/Filmstrip.svelte'; // IMPORT Filmstrip component
+	import Filmstrip from '$lib/components/Filmstrip.svelte';
 	import { ImageViewer } from 'svelte-image-viewer';
 	import { fade, scale, fly } from 'svelte/transition';
 	import { darkMode } from '$lib/stores/darkMode';
@@ -16,8 +16,8 @@
 	export let onClose: (() => void) | undefined;
 	export let onChange: ((index: number) => void) | undefined;
 	export let open: boolean;
-	export let photos: Photo[] = []; // This will be passed to Filmstrip
-	export let index: number = 0; // This will be modalIndex, passed as currentIndex
+	export let photos: Photo[] = [];
+	export let index: number = 0;
 	export let section: { photos: Photo[]; name?: string } | null = null;
 
 	let modalContainer: HTMLDivElement | null = null;
@@ -34,8 +34,9 @@
 	let fullMap = false;
 	let minimapWidth = 256,
 		minimapHeight = 160;
-	let showExifStore = writable(false); // MODIFIED: Changed to a writable store
+	let showExifStore = writable(false);
 	let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
+	let pendingMapClose = false;
 
 	const mushroomSVG = `
 <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
@@ -99,10 +100,21 @@
 			setTimeout(() => {
 				modalContainer?.focus();
 			}, 50);
-			previousModalPhotoSrc = modalPhoto.src;
 		}
 	} else if (!open && browser) {
 		previousModalPhotoSrc = undefined;
+	}
+
+	$: if (fullMap && imageLoaded && modalPhoto?.src !== previousModalPhotoSrc) {
+		const newParams = new URLSearchParams(page.url.search);
+		newParams.delete('fullmap');
+		newParams.delete('mapview');
+		goto(`${page.url.pathname}?${newParams.toString()}`, {
+			replaceState: true,
+			noScroll: true,
+			keepFocus: true
+		});
+		previousModalPhotoSrc = modalPhoto?.src;
 	}
 
 	function updateMapUrlParams(mapInstance: any | null) {
@@ -438,9 +450,9 @@
                         <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
                         <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>`;
 					if (!isCurrent && p.section && p.filename) {
-						popupHtml += `<a href="/photos?path=${encodeURIComponent(p.section)}&modal=1&photo=${encodeURIComponent(p.filename)}"
-                            class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
-                            style="color: white !important;">View</a>`;
+						popupHtml += `<a href="/photos?path=${encodeURIComponent(p.section)}&modal=1&photo=${encodeURIComponent(p.filename)}&fullmap=1"
+    class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
+    style="color: white !important;">View</a>`;
 					}
 					popupHtml += `</div>`;
 					marker.bindPopup(popupHtml, {
