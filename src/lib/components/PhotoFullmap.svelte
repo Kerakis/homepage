@@ -135,7 +135,7 @@
 
 						// Use SvelteKit's goto to update the modal and close the map after navigation
 						await goto(url, {
-							replaceState: true,
+							replaceState: false,
 							noScroll: true,
 							keepFocus: true
 						});
