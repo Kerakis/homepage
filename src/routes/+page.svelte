@@ -7,6 +7,10 @@
 		.map((segment) => segment.trim());
 </script>
 
+<svelte:head>
+	<title>Kerakis // Rob Upchurch</title>
+</svelte:head>
+
 <div class="flex min-h-[70vh] flex-col items-center md:flex-row md:justify-between md:gap-8">
 	<!-- Left side - Massive Hello -->
 	<div class="p-8 md:w-2/5">

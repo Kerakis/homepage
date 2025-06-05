@@ -3,6 +3,10 @@
 	export let status;
 </script>
 
+<svelte:head>
+	<title>Kerakis // Error</title>
+</svelte:head>
+
 <div class="flex min-h-[70vh] flex-col items-center justify-center px-4 py-16">
 	<h1 class="dark:text-accent-dark text-accent mb-4 text-7xl font-black tracking-tight">
 		{status}

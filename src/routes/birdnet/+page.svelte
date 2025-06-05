@@ -266,6 +266,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Kerakis // Birdnet</title>
+</svelte:head>
+
 {#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
 	<div class="text-accent flex flex-col items-center justify-center py-16 text-2xl">
 		<svg

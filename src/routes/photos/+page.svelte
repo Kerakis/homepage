@@ -171,6 +171,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Kerakis // Photos</title>
+</svelte:head>
+
 <!-- Breadcrumbs -->
 <nav class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
 	{#if currentPath}
@@ -202,7 +206,7 @@
 {#if subSections.length}
 	<!-- Show next-level sections as cards -->
 	<div
-		class="grid gap-6 justify-center"
+		class="grid justify-center gap-6"
 		style="grid-template-columns: repeat(auto-fill, minmax(342px, 342px)); justify-content: center;"
 	>
 		{#each subSections as sub (sub)}
@@ -263,7 +267,7 @@
 {:else if currentSection}
 	<!-- Show photos in this section -->
 	<div
-		class="grid gap-6 justify-center"
+		class="grid justify-center gap-6"
 		style="grid-template-columns: repeat(auto-fill, minmax(342px, 342px)); justify-content: center;"
 	>
 		{#each currentSection.photos as photo, i (photo.src)}

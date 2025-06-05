@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Kerakis // Projects</title>
+</svelte:head>
+
 <header class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
 	<span class="font-bold">Projects</span>
 	<span class="text-accent mx-2">—</span>
