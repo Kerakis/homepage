@@ -3,7 +3,7 @@
 	import { get } from 'svelte/store';
 	import { darkMode } from '$lib/stores/darkMode';
 	import type { Photo } from '$lib/types/photoTypes';
-	import { getMarkerHtml } from '$lib/utils/photoUtils';
+	import { getMarkerHtml, getPhotoPopupHtml } from '$lib/utils/photoUtils';
 	import { fly } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 
@@ -28,6 +28,7 @@
 		await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
 		await import('leaflet.markercluster');
 		leafletLoaded = true;
+		const isDark = get(darkMode);
 
 		if (fullmapContainer && L) {
 			const initialCenter = targetMapViewFromUrl
@@ -73,25 +74,11 @@
 				});
 				(marker as any).photoSrc = p.src;
 				allPhotoMarkers.push(marker);
-				let popupHtml = `<div class="flex flex-col items-center text-center max-w-xs">
-                    <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
-                    <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>`;
-				if (!isCurrent && p.section && p.filename) {
-					popupHtml += `<button
-    type="button"
-    class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
-    style="color: white !important;"
-    data-photo-src="${p.src}"
-    data-photo-section="${p.section}"
-    data-photo-filename="${p.filename}"
->
-    View
-</button>`;
-				}
-				popupHtml += `</div>`;
+				let popupHtml = getPhotoPopupHtml(p, isCurrent, true);
 				marker.bindPopup(popupHtml, {
 					maxWidth: 320,
-					minWidth: 200
+					minWidth: 200,
+					className: isDark ? 'leaflet-popup-dark' : 'leaflet-popup-light'
 				});
 				markerCluster.addLayer(marker);
 			});

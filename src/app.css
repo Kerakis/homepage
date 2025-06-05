@@ -132,8 +132,9 @@ body {
 }
 
 /* ---------------------------------------------------
-   Third-Party/Leaflet Overrides
+   Leaflet Overrides
 --------------------------------------------------- */
+
 /* Map Tiles (Dark Mode) */
 .dark .map-tiles {
 	filter: var(--map-tiles-filter, none);
@@ -145,4 +146,22 @@ body {
 }
 .dark .leaflet-container {
 	background: #18181b !important;
+}
+
+/* Popup Content */
+.leaflet-popup-content-wrapper {
+	background: #fff !important;
+	color: #222 !important;
+	border-radius: 12px !important;
+	box-shadow: 0 2px 12px #000a !important;
+}
+.leaflet-popup-tip {
+	background: #fff !important;
+}
+
+/* Dark mode override */
+.leaflet-popup-dark .leaflet-popup-content-wrapper,
+.leaflet-popup-dark .leaflet-popup-tip {
+	background: #222 !important;
+	color: #fff !important;
 }

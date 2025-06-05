@@ -191,3 +191,27 @@ export function getMarkerHtml(photo: Photo, isCurrent: boolean): string {
 	const faOutlineStyle = `text-shadow: -1px -1px 0 ${outlineColor}, 1px -1px 0 ${outlineColor}, -1px 1px 0 ${outlineColor}, 1px 1px 0 ${outlineColor};`;
 	return `<i class="fa-solid ${iconClass}" style="font-size:2rem; color:${iconFillColor}; ${faOutlineStyle}"></i>`;
 }
+
+export function getPhotoPopupHtml(p: Photo, isCurrent: boolean, isButton: boolean = false) {
+	return `
+        <div class="flex flex-col items-center text-center max-w-xs">
+            <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}"
+                class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
+            <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>
+            ${
+							isButton && p.section && p.filename && !isCurrent
+								? `<button
+                        type="button"
+                        class="mt-2 inline-block rounded border border-neutral-900 bg-neutral-700 px-4 py-2 font-bold text-white shadow transition hover:bg-neutral-900 dark:border-white dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-300 cursor-pointer"
+                        style="min-width: 80px;"
+                        data-photo-src="${p.src}"
+                        data-photo-section="${p.section}"
+                        data-photo-filename="${p.filename}"
+                    >
+                        View
+                    </button>`
+								: ''
+						}
+        </div>
+    `;
+}

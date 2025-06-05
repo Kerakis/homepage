@@ -172,19 +172,14 @@
 </script>
 
 <!-- Breadcrumbs -->
-<nav class="mb-6 text-sm text-gray-400" aria-label="Breadcrumb">
+<nav class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
 	{#if currentPath}
-		<button type="button" on:click={goHome} class="text-accent-red hover:underline"
-			>Photo Gallery</button
+		<button type="button" on:click={goHome} class="text-black dark:text-white">Photo Gallery</button
 		>
 		{#each breadcrumbs as crumb, i}
 			<span>/</span>
 			{#if i < breadcrumbs.length - 1}
-				<button
-					type="button"
-					on:click={() => goToBreadcrumb(i)}
-					class="text-accent-red hover:underline"
-				>
+				<button type="button" on:click={() => goToBreadcrumb(i)} class="text-black dark:text-white">
 					{crumb.charAt(0).toUpperCase() + crumb.slice(1)}
 				</button>
 			{:else}

@@ -15,8 +15,6 @@
 	let filmstripElement = $state<HTMLDivElement | null>(null);
 	let hoveredIdx = $state<number | null>(null);
 
-	let containerWidth = $state(0);
-
 	onMount(() => {
 		scrollActiveThumbnail();
 	});

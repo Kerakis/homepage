@@ -12,7 +12,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import type { Photo } from '$lib/types/photoTypes';
-	import { getIconClassForPhoto, MUSHROOM_SVG } from '$lib/utils/photoUtils';
+	import { getIconClassForPhoto, MUSHROOM_SVG, getPhotoPopupHtml } from '$lib/utils/photoUtils';
 
 	export let allPhotos: Photo[] = [];
 
@@ -402,19 +402,13 @@
 					});
 					(marker as any).photoSrc = p.src;
 					allPhotoMarkers.push(marker);
-					let popupHtml = `<div class="flex flex-col items-center text-center max-w-xs">
-                        <img src="${p.thumbnailSrc ?? p.src}" alt="${p.title || 'Photo'}" class="mb-2 rounded max-w-full" style="width:140px;" loading="lazy" />
-                        <strong class="text-lg font-bold mb-1">${p.title || 'Untitled'}</strong>`;
-					if (!isCurrent && p.section && p.filename) {
-						popupHtml += `<a href="/photos?path=${encodeURIComponent(p.section)}&modal=1&photo=${encodeURIComponent(p.filename)}"
-                            class="mt-2 inline-block rounded bg-red-600 px-4 py-2 font-bold text-white no-underline transition hover:bg-red-700"
-                            style="color: white !important;">View</a>`;
-					}
-					popupHtml += `</div>`;
+					const isDark = get(darkMode); // get current mode from your store
+
+					let popupHtml = getPhotoPopupHtml(p, isCurrent, false);
 					marker.bindPopup(popupHtml, {
 						maxWidth: 320,
-						minWidth: 200
-						// className: isDark ? 'custom-popup dark' : 'custom-popup' // This isn't doing anything currently. CSS issues.
+						minWidth: 200,
+						className: isDark ? 'leaflet-popup-dark' : 'leaflet-popup-light'
 					});
 					markerCluster.addLayer(marker);
 				});
