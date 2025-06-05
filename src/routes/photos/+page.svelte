@@ -122,7 +122,7 @@
 		const params = new URLSearchParams(page.url.search);
 		params.set('modal', '1');
 		params.set('photo', photo.filename ?? ''); // Changed from i.toString()
-		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
+		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: false });
 	}
 
 	function closeModal() {
