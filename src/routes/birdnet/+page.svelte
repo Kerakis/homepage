@@ -292,10 +292,13 @@
 		})()}
 	{/key}
 
-	<div class="m-auto mb-12 w-11/12 text-center">
-		<h1 class="mb-4 font-sans text-3xl font-bold">BirdNet</h1>
-		<p>These are the birds detected in my backyard using recording devices that run constantly.</p>
-	</div>
+	<header class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
+		<span class="font-bold">BirdNet</span>
+		<span class="text-accent mx-2">—</span>
+		<span>
+			These are the birds detected in my backyard using recording devices that run constantly.
+		</span>
+	</header>
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			{#if displayMode === '24h'}
