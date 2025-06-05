@@ -5,6 +5,7 @@
 	import type { Photo } from '$lib/types/photoTypes';
 	import { getMarkerHtml } from '$lib/utils/photoUtils';
 	import { scale } from 'svelte/transition';
+	import { browser } from '$app/environment';
 
 	export let photo: Photo;
 	export let width: number = 256;
@@ -15,17 +16,32 @@
 	let minimap: any = null;
 	let L: any = null;
 	let leafletLoaded = false;
+	let currentMapPhotoSrc: string | undefined = undefined;
+
+	async function initializeLeaflet() {
+		if (L || !browser) return;
+		try {
+			await import('leaflet/dist/leaflet.css');
+			const leafletModule = await import('leaflet');
+			L = leafletModule.default || leafletModule;
+			leafletLoaded = true;
+		} catch (error) {
+			console.error('Failed to load Leaflet:', error);
+			leafletLoaded = false;
+		}
+	}
 
 	onMount(async () => {
-		if (!photo?.gps) return;
-		await import('leaflet/dist/leaflet.css');
-		const leafletModule = await import('leaflet');
-		L = leafletModule.default || leafletModule;
-		await import('leaflet.markercluster/dist/MarkerCluster.css');
-		await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
-		leafletLoaded = true;
+		await initializeLeaflet();
+	});
 
-		if (minimapContainer && L) {
+	$: if (browser && L && leafletLoaded && minimapContainer) {
+		if (photo?.gps && (!minimap || currentMapPhotoSrc !== photo.src)) {
+			if (minimap) {
+				minimap.remove();
+				minimap = null;
+			}
+
 			minimap = L.map(minimapContainer, {
 				center: [photo.gps.lat, photo.gps.lon],
 				zoom: 12,
@@ -50,14 +66,31 @@
 					popupAnchor: [0, -32]
 				})
 			}).addTo(minimap);
+			currentMapPhotoSrc = photo.src;
+
+			minimap.whenReady(() => {
+				setTimeout(() => {
+					if (minimap) minimap.invalidateSize();
+				}, 50);
+			});
+		} else if (!photo?.gps && minimap) {
+			minimap.remove();
+			minimap = null;
+			currentMapPhotoSrc = undefined;
 		}
-	});
+	} else if (minimap && (!L || !leafletLoaded || !minimapContainer)) {
+		minimap.remove();
+		minimap = null;
+		currentMapPhotoSrc = undefined;
+	}
 
 	onDestroy(() => {
 		if (minimap) {
 			minimap.remove();
 			minimap = null;
 		}
+
+		currentMapPhotoSrc = undefined;
 	});
 </script>
 
@@ -75,7 +108,11 @@
 	tabindex="0"
 	aria-label="Expand map"
 >
-	{#if !leafletLoaded}
+	{#if !photo?.gps}
+		<div class="flex h-full w-full items-center justify-center text-xs text-gray-400">
+			No GPS data for this photo.
+		</div>
+	{:else if !leafletLoaded && browser}
 		<div class="flex h-full w-full items-center justify-center text-xs text-gray-400">
 			Loading map...
 		</div>
