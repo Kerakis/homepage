@@ -174,8 +174,10 @@
 <!-- Breadcrumbs -->
 <nav class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
 	{#if currentPath}
-		<button type="button" on:click={goHome} class="cursor-pointer text-black dark:text-white"
-			>Photo Gallery</button
+		<button
+			type="button"
+			on:click={goHome}
+			class="nav-underline cursor-pointer text-black dark:text-white">Photo Gallery</button
 		>
 		{#each breadcrumbs as crumb, i}
 			<span class="text-accent mx-1">/</span>
@@ -183,7 +185,7 @@
 				<button
 					type="button"
 					on:click={() => goToBreadcrumb(i)}
-					class="cursor-pointer text-black dark:text-white"
+					class="nav-underline cursor-pointer text-black dark:text-white"
 				>
 					{crumb.charAt(0).toUpperCase() + crumb.slice(1)}
 				</button>
@@ -199,7 +201,10 @@
 <!-- Section or Photo Grid -->
 {#if subSections.length}
 	<!-- Show next-level sections as cards -->
-	<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+	<div
+		class="grid gap-6 justify-center"
+		style="grid-template-columns: repeat(auto-fill, minmax(342px, 342px)); justify-content: center;"
+	>
 		{#each subSections as sub (sub)}
 			{@const thumb = getRandomPhotoInSection(
 				gallery,
@@ -212,7 +217,7 @@
 			)}
 			<button
 				type="button"
-				class="group relative h-80 cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
+				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
 				on:click={() => enterSection(sub)}
 				aria-label={`View section ${sub}`}
 			>
@@ -257,22 +262,23 @@
 	</div>
 {:else if currentSection}
 	<!-- Show photos in this section -->
-	<div class="masonry">
+	<div
+		class="grid gap-6 justify-center"
+		style="grid-template-columns: repeat(auto-fill, minmax(342px, 342px)); justify-content: center;"
+	>
 		{#each currentSection.photos as photo, i (photo.src)}
 			<button
 				type="button"
-				class="photo-thumb group relative mb-4 w-full cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
+				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
 				on:click={() => openModal(photo, i)}
 				aria-label={`View photo ${photo.title}`}
 			>
-				<!-- Image fills the button directly -->
 				<img
 					src={photo.thumbnailSrc ?? photo.src}
 					alt={photo.title}
-					class="block w-full object-cover transition-transform duration-150 ease-in-out group-hover:scale-105"
+					class="absolute inset-0 h-full w-full object-cover transition-transform duration-150 ease-in-out group-hover:scale-105"
 					loading="lazy"
 				/>
-
 				<!-- Combined Text Area at the bottom -->
 				<div class="absolute right-0 bottom-0 left-0 bg-black/50 p-3 text-white">
 					<div class="flex items-end justify-between gap-2">
