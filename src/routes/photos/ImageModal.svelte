@@ -769,30 +769,130 @@
 					<div class="min-w-0 flex-1">
 						<div class="text-lg font-bold">{modalPhoto.title}</div>
 						{#if modalPhoto.date}<div class="text-sm">{modalPhoto.date}</div>{/if}
-						<div class="mt-1 text-xs break-words">
-							{#if modalPhoto.camera}{modalPhoto.camera}{/if}
-							{#if modalPhoto.lens}{modalPhoto.camera ? ' | ' : ''}{modalPhoto.lens}{/if}
-							{#if modalPhoto.focalLength}{modalPhoto.camera || modalPhoto.lens
-									? ' | '
-									: ''}{modalPhoto.focalLength}{/if}
-							{#if modalPhoto.aperture}{modalPhoto.camera ||
-								modalPhoto.lens ||
-								modalPhoto.focalLength
-									? ' | '
-									: ''}{modalPhoto.aperture}{/if}
-							{#if modalPhoto.exposure}{modalPhoto.camera ||
-								modalPhoto.lens ||
-								modalPhoto.focalLength ||
-								modalPhoto.aperture
-									? ' | '
-									: ''}{modalPhoto.exposure}{/if}
-							{#if modalPhoto.iso}{modalPhoto.camera ||
-								modalPhoto.lens ||
-								modalPhoto.focalLength ||
-								modalPhoto.aperture ||
-								modalPhoto.exposure
-									? ' | '
-									: ''}ISO {modalPhoto.iso}{/if}
+						<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+							{#if modalPhoto.camera}
+								<span class="flex items-center gap-1">
+									<i class="fa-solid fa-camera text-accent text-[1.5rem]"></i>
+									<span class="font-semibold">{modalPhoto.camera}</span>
+								</span>
+							{/if}
+							{#if modalPhoto.lens}
+								<span class="flex items-center gap-1">
+									<svg
+										class="text-accent h-7 w-7"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<rect
+											x="3"
+											y="6"
+											width="14"
+											height="12"
+											rx="1"
+											stroke="currentColor"
+											fill="none"
+										/>
+										<rect
+											x="17"
+											y="6"
+											width="2"
+											height="12"
+											rx="0.5"
+											stroke="currentColor"
+											fill="none"
+										/>
+										<rect
+											x="19"
+											y="6"
+											width="2"
+											height="12"
+											rx="0.5"
+											stroke="currentColor"
+											fill="none"
+										/>
+										<rect
+											x="2"
+											y="9"
+											width="1"
+											height="6"
+											rx="0.5"
+											stroke="currentColor"
+											fill="none"
+										/>
+									</svg>
+									{modalPhoto.lens}
+								</span>
+							{/if}
+							{#if modalPhoto.focalLength}
+								<span class="flex items-center gap-1">
+									<svg
+										class="text-accent h-6 w-6"
+										viewBox="0 0 512 512"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="32"
+									>
+										<path
+											d="M409.313 70.688l56.010-31.803-13.56-23.905-424.608 241.12 431.837 240.956 13.386-23.997-50.714-28.294c32.801-47.379 117.729-201.089-12.351-374.077zM397.548 431.296l-70.231-39.188c31.803-18.050 54.288-71.394 54.288-136.118 0-66.373-23.666-120.688-56.762-137.336l60.363-34.276c124.38 162.616 41.012 306.503 12.342 346.92zM303.385 140.772c23.997 0 50.733 47.315 50.733 115.219s-26.736 115.219-50.733 115.219-50.742-47.315-50.742-115.219 26.746-115.219 50.742-115.219zM242.519 165.4c-10.894 24.482-17.373 55.891-17.373 90.59 0 33.635 6.13 64.129 16.428 88.281l-158.382-88.391 159.327-90.479z"
+											stroke="currentColor"
+											fill="none"
+										/>
+									</svg>
+									{modalPhoto.focalLength}
+								</span>
+							{/if}
+							{#if modalPhoto.aperture}
+								<span class="flex items-center gap-1">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="feather text-accent feather-aperture"
+										><circle cx="12" cy="12" r="10"></circle><line
+											x1="14.31"
+											y1="8"
+											x2="20.05"
+											y2="17.94"
+										></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line
+											x1="7.38"
+											y1="12"
+											x2="13.12"
+											y2="2.06"
+										></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line
+											x1="14.31"
+											y1="16"
+											x2="2.83"
+											y2="16"
+										></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg
+									>
+									{modalPhoto.aperture}
+								</span>
+							{/if}
+							{#if modalPhoto.exposure}
+								<span class="flex items-center gap-1">
+									<i class="fa-solid fa-stopwatch text-accent text-[1.5rem]"></i>
+									{modalPhoto.exposure}
+								</span>
+							{/if}
+							{#if modalPhoto.iso}
+								<span class="flex items-center gap-1 whitespace-nowrap">
+									<svg class="text-accent h-7 w-7" viewBox="0 0 24 24">
+										<path
+											d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5.5 7.5h2v-2H9v2h2V9H9v2H7.5V9h-2V7.5zM19 19H5L19 5v14zm-2-2v-1.5h-5V17h5z"
+											fill="var(--color-accent)"
+										></path>
+									</svg>
+									ISO {modalPhoto.iso}
+								</span>
+							{/if}
 						</div>
 					</div>
 					{#if modalPhoto?.gps}
