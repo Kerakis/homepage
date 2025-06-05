@@ -13,6 +13,7 @@ const THUMBNAILS_DIR = path.join(process.cwd(), 'static/photos_thumbnails');
 const OUTPUT_FILE = path.join(PHOTOS_DIR, 'photos.json');
 
 const THUMBNAIL_WIDTH = 600;
+const MAX_LONG_EDGE = 1800;
 
 function getField(tags, ...fields) {
 	for (const f of fields) {
@@ -65,10 +66,115 @@ async function retryUnlink(filePath, maxRetries = 5, retryDelayMs = 500) {
 
 async function main() {
 	const entries = await fg(['**/*.{jpg,jpeg,png,JPG,JPEG,PNG}'], { cwd: PHOTOS_DIR, dot: false });
+
+	// Also scan for existing WebP files that might be missing from photos.json
+	const existingWebPFiles = await fg(['**/*.webp'], { cwd: PHOTOS_DIR, dot: false });
+
+	// Load existing gallery data if it exists
+	let existingGallery = [];
+	if (fs.existsSync(OUTPUT_FILE)) {
+		try {
+			const existingData = fs.readFileSync(OUTPUT_FILE, 'utf8');
+			existingGallery = JSON.parse(existingData);
+			console.log(`Loaded existing gallery data with ${existingGallery.length} sections.`);
+		} catch (err) {
+			console.warn(`Failed to load existing gallery data: ${err.message}`);
+		}
+	}
+
+	// Convert existing gallery to sections object for easier manipulation
 	const sections = {};
+	for (const gallerySection of existingGallery) {
+		sections[gallerySection.section] = gallerySection.photos || [];
+	}
 
-	console.log(`Found ${entries.length} images to process.`);
+	// Check for existing WebP files that are missing from photos.json
+	console.log(`Checking ${existingWebPFiles.length} existing WebP files...`);
+	for (const webpEntry of existingWebPFiles) {
+		const parts = webpEntry.split('/');
+		const webpFilename = parts.pop();
+		const baseName = path.parse(webpFilename).name;
+		const sectionPathParts = [...parts];
+		const section = parts.length > 0 ? parts.join('/') : 'Uncategorized';
+		const webpPath = `/photos/${webpEntry.replace(/\\/g, '/')}`;
 
+		// Skip thumbnails (they end with _thumb)
+		if (baseName.endsWith('_thumb')) continue;
+
+		// Check if this WebP file is already in the gallery data
+		const existsInGallery = sections[section]?.some((photo) => photo.src === webpPath);
+
+		if (!existsInGallery) {
+			console.log(`Found orphaned WebP file: ${webpEntry} - adding to gallery data`);
+
+			// Try to get EXIF data from the WebP file
+			const absPathToWebP = path.join(PHOTOS_DIR, webpEntry);
+			let tags = {};
+			try {
+				tags = await getExif(absPathToWebP);
+			} catch (exifError) {
+				console.warn(`  Could not read EXIF from WebP file ${absPathToWebP}: ${exifError.message}`);
+			}
+
+			// Check if thumbnail exists
+			const thumbnailWebPName = `${baseName}_thumb.webp`;
+			const thumbnailRelativePath = path.join(...sectionPathParts, thumbnailWebPName);
+			const thumbnailAbsolutePath = path.join(THUMBNAILS_DIR, thumbnailRelativePath);
+			const thumbnailWebPath = `/photos_thumbnails/${thumbnailRelativePath.replace(/\\/g, '/')}`;
+
+			// Create thumbnail if it doesn't exist
+			if (!fs.existsSync(thumbnailAbsolutePath)) {
+				try {
+					fs.mkdirSync(path.dirname(thumbnailAbsolutePath), { recursive: true });
+					await sharp(absPathToWebP)
+						.resize({ width: THUMBNAIL_WIDTH })
+						.webp({ lossless: true })
+						.toFile(thumbnailAbsolutePath);
+					console.log(`  Generated missing thumbnail: ${thumbnailAbsolutePath}`);
+				} catch (err) {
+					console.error(`  Error generating thumbnail for ${absPathToWebP}:`, err);
+					continue;
+				}
+			}
+
+			const exif = tags.exif || {};
+			const camera = getField(exif, 'Model');
+			const lens = getField(exif, 'LensModel');
+			const focalLength = getField(exif, 'FocalLength');
+			const aperture = getField(exif, 'FNumber');
+			const exposure = getField(exif, 'ExposureTime');
+			const iso = getField(exif, 'ISOSpeedRatings');
+			const date = getField(exif, 'DateTimeOriginal', 'DateTime');
+			const gps = getGPS(tags);
+			let subject = null;
+			if (section.includes('/')) {
+				subject = section.split('/').pop();
+			} else {
+				subject = section;
+			}
+
+			if (!sections[section]) sections[section] = [];
+			sections[section].push({
+				src: webpPath,
+				thumbnailSrc: thumbnailWebPath,
+				filename: webpFilename,
+				title: getField(tags, 'ImageDescription') || baseName.replace(/[_-]/g, ' '),
+				date,
+				camera,
+				lens,
+				focalLength,
+				aperture,
+				exposure,
+				iso,
+				gps,
+				subject
+			});
+		}
+	}
+
+	console.log(`Found ${entries.length} source images to process.`);
+
+	// Continue with existing logic for processing new images...
 	for (const entry of entries) {
 		const parts = entry.split('/');
 		const originalFilenameWithExt = parts.pop();
@@ -76,6 +182,15 @@ async function main() {
 		const sectionPathParts = [...parts];
 		const section = parts.length > 0 ? parts.join('/') : 'Uncategorized';
 		const absPathToOriginal = path.join(PHOTOS_DIR, entry);
+
+		// Check if this photo already exists in the gallery data
+		const expectedWebPName = `${originalBaseName}.webp`;
+		const expectedWebPPath = `/photos/${path.join(...sectionPathParts, expectedWebPName).replace(/\\/g, '/')}`;
+
+		if (sections[section]?.some((photo) => photo.src === expectedWebPPath)) {
+			console.log(`  Skipping ${originalFilenameWithExt} - already exists in gallery data.`);
+			continue;
+		}
 
 		console.log(`Processing: ${absPathToOriginal}`);
 
@@ -113,7 +228,15 @@ async function main() {
 
 		let fullConversionSuccess = false;
 		try {
-			await sharp(absPathToOriginal).webp({ lossless: true }).toFile(fullWebPAbsolutePath); // Already lossless
+			await sharp(absPathToOriginal)
+				.resize({
+					width: MAX_LONG_EDGE,
+					height: MAX_LONG_EDGE,
+					fit: 'inside',
+					withoutEnlargement: true
+				})
+				.webp({ lossless: true })
+				.toFile(fullWebPAbsolutePath);
 			console.log(`  Generated lossless WebP: ${fullWebPAbsolutePath}`);
 			fullConversionSuccess = true;
 		} catch (err) {
