@@ -9,12 +9,17 @@
 		formatMonthYear,
 		getRandomPhotoInSection,
 		getMonthYearDateRangeForSection,
-		countPhotosInSection
+		countPhotosInSection,
+		parseExifDate,
+		isValidDate
 	} from '$lib/utils/photoUtils';
 
 	const folderThumbCache = new Map<string, Photo>();
 
 	let gallery: { section: string; photos: Photo[] }[] = [];
+	let currentPath = '';
+	let currentSection: { section: string; photos: Photo[] } | undefined;
+	let subSections: string[] = [];
 	let breadcrumbs: string[] = [];
 	let modalOpen = false;
 	let modalIndex = 0;
@@ -74,14 +79,6 @@
 	// Sort photos by date (most recent first) when displaying them
 	$: sortedPhotos =
 		currentSection?.photos.slice().sort((a, b) => {
-			// Parse EXIF date format (YYYY:MM:DD HH:MM:SS) or handle null dates
-			const parseExifDate = (dateStr: string | null | undefined): Date => {
-				if (!dateStr) return new Date(0); // Use epoch for null dates
-				// Convert EXIF format (2025:05:14 12:56:48) to ISO format
-				const isoFormat = dateStr.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3');
-				return new Date(isoFormat);
-			};
-
 			const dateA = parseExifDate(a.date);
 			const dateB = parseExifDate(b.date);
 
@@ -97,10 +94,6 @@
 			// Both dates are valid, sort by date (newest first)
 			return dateB.getTime() - dateA.getTime();
 		}) || [];
-
-	function isValidDate(date: Date): boolean {
-		return date instanceof Date && !isNaN(date.getTime()) && date.getTime() > 0;
-	}
 
 	$: if (browser) {
 		const params = page.url.searchParams;

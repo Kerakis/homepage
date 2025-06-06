@@ -137,7 +137,7 @@
 					aria-label="BlueSky"
 					class="transform text-black transition-transform hover:scale-110 dark:text-white"
 				>
-					<i class="fa-brands fa-bluesky text-5xl"></i>
+					<i class="fa-brands fa-bluesky text-5xl" aria-hidden="true"></i>
 				</a>
 				<!-- Instagram -->
 				<a
@@ -146,7 +146,7 @@
 					aria-label="Instagram"
 					class="transform text-black transition-transform hover:scale-110 dark:text-white"
 				>
-					<i class="fa-brands fa-instagram text-5xl"></i>
+					<i class="fa-brands fa-instagram text-5xl" aria-hidden="true"></i>
 				</a>
 				<!-- Flickr -->
 				<a
@@ -155,7 +155,7 @@
 					aria-label="Flickr"
 					class="transform text-black transition-transform hover:scale-110 dark:text-white"
 				>
-					<i class="fa-brands fa-flickr text-5xl"></i>
+					<i class="fa-brands fa-flickr text-5xl" aria-hidden="true"></i>
 				</a>
 				<!-- Reddit -->
 				<a
@@ -164,7 +164,7 @@
 					aria-label="Reddit"
 					class="transform text-black transition-transform hover:scale-110 dark:text-white"
 				>
-					<i class="fa-brands fa-reddit text-5xl"></i>
+					<i class="fa-brands fa-reddit text-5xl" aria-hidden="true"></i>
 				</a>
 				<!-- eBird -->
 				<a
@@ -180,6 +180,7 @@
 						xmlns="http://www.w3.org/2000/svg"
 						shape-rendering="geometricPrecision"
 						text-rendering="geometricPrecision"
+						aria-hidden="true"
 					>
 						<path
 							d="M17.6242 76.7446C17.773 78.0834 18.2936 79.1247 19.1844 79.8668C20.077 80.6089 21.1546 80.9807 22.4173 80.9807C23.5312 80.9807 24.467 80.7524 25.2229 80.2923C25.9788 79.8357 26.6413 79.2597 27.2104 78.5643L30.4069 80.9807C29.3656 82.2694 28.2015 83.1861 26.9146 83.731C25.626 84.2776 24.275 84.5492 22.8636 84.5492C21.5265 84.5492 20.2621 84.326 19.0737 83.8798C17.8837 83.4335 16.8562 82.8021 15.9879 81.984C15.1213 81.1676 14.4329 80.1816 13.9261 79.0296C13.4192 77.8776 13.165 76.5959 13.165 75.1827C13.165 73.7695 13.4192 72.4878 13.9261 71.3358C14.4346 70.1838 15.1213 69.1996 15.9879 68.3831C16.8545 67.565 17.8837 66.9336 19.0737 66.4873C20.2621 66.0411 21.5265 65.8179 22.8636 65.8179C24.1021 65.8179 25.2368 66.0359 26.2642 66.4683C27.2917 66.9025 28.1721 67.5286 28.9038 68.3451C29.6337 69.1632 30.2045 70.1717 30.6128 71.3738C31.021 72.576 31.2268 73.9563 31.2268 75.5183V76.7446H17.626H17.6242ZM26.7658 73.4011C26.7416 72.0882 26.3317 71.0538 25.5395 70.2979C24.7455 69.542 23.6437 69.165 22.2322 69.165C20.8934 69.165 19.8348 69.549 19.0547 70.317C18.2746 71.085 17.7972 72.1141 17.6242 73.4028H26.7658V73.4011Z"
@@ -215,6 +216,7 @@
 						viewBox="0 0 300 300"
 						class="h-12 w-12 text-black dark:text-white"
 						shape-rendering="geometricPrecision"
+						aria-hidden="true"
 					>
 						<path
 							fill="currentColor"
@@ -241,7 +243,7 @@
 					aria-label="Discord"
 					class="transform text-black transition-transform hover:scale-110 dark:text-white"
 				>
-					<i class="fa-brands fa-discord text-5xl"></i>
+					<i class="fa-brands fa-discord text-5xl" aria-hidden="true"></i>
 				</a>
 				<!-- GitHub -->
 				<a
@@ -250,7 +252,7 @@
 					aria-label="GitHub"
 					class="transform text-black transition-transform hover:scale-110 dark:text-white"
 				>
-					<i class="fa-brands fa-github text-5xl"></i>
+					<i class="fa-brands fa-github text-5xl" aria-hidden="true"></i>
 				</a>
 				<!-- Moxfield -->
 				<a
@@ -267,6 +269,7 @@
 						xmlns="http://www.w3.org/2000/svg"
 						class="h-12 w-12"
 						shape-rendering="geometricPrecision"
+						aria-hidden="true"
 					>
 						<path
 							fill-rule="evenodd"
