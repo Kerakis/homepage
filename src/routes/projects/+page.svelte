@@ -1,7 +1,14 @@
-<div class="m-auto mb-12 w-11/12 text-center">
-	<h1 class="mb-4 font-sans text-3xl font-bold">Projects</h1>
-	<p>These are some personal projects of mine - some useful, some creative, and others silly.</p>
-</div>
+<svelte:head>
+	<title>Kerakis // Projects</title>
+</svelte:head>
+
+<header class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
+	<span class="font-bold">Projects</span>
+	<span class="text-accent mx-2">—</span>
+	<span>
+		These are some personal projects of mine – some useful, some creative, and others silly.
+	</span>
+</header>
 <div class="m-auto mt-5 grid w-11/12 grid-cols-1 gap-5 sm:grid-cols-2">
 	<a href="https://parallels.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div

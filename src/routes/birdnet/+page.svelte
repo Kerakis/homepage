@@ -408,10 +408,14 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Kerakis // Birdnet</title>
+</svelte:head>
+
 {#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
-	<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
+	<div class="text-accent flex flex-col items-center justify-center py-16 text-2xl">
 		<svg
-			class="text-accent-red mb-4 h-12 w-12 animate-spin"
+			class="text-accent mb-4 h-12 w-12 animate-spin"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
 			viewBox="0 0 24 24"
@@ -432,10 +436,13 @@
 		})()}
 	{/key}
 
-	<div class="m-auto mb-12 w-11/12 text-center">
-		<h1 class="mb-4 font-sans text-3xl font-bold">BirdNet</h1>
-		<p>These are the birds detected in my backyard using recording devices that run constantly.</p>
-	</div>
+	<header class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
+		<span class="font-bold">BirdNet</span>
+		<span class="text-accent mx-2">—</span>
+		<span>
+			These are the birds detected in my backyard using recording devices that run constantly.
+		</span>
+	</header>
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 		<div>
 			{#if displayMode === '24h'}
@@ -570,7 +577,7 @@
 							</div>
 						</div>
 						<div class="flex flex-grow flex-col p-3 text-left">
-							<h2 class="mb-0.5 truncate text-base font-semibold">
+							<h2 class="group-hover:text-accent mb-0.5 truncate text-base font-semibold">
 								{detection.species?.commonName}
 							</h2>
 							<p class="mb-1 truncate text-xs text-gray-600 italic dark:text-gray-400">
@@ -645,7 +652,7 @@
 					</div>
 					<div class="flex flex-grow flex-col p-3 text-left">
 						<h2
-							class="group-hover:text-accent-red dark:group-hover:text-accent-red-dark mb-0.5 truncate text-base font-semibold"
+							class="dark:group-hover:text-accent-dark group-hover:text-accent mb-0.5 truncate text-base font-semibold"
 						>
 							{bird.commonName}
 						</h2>
