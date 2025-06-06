@@ -27,20 +27,22 @@
 	});
 
 	function updatePathVars() {
-		currentPath = page.url.searchParams.get('path') || '';
-		currentSection = gallery.find((s) => s.section === currentPath);
-		breadcrumbs = currentPath ? currentPath.split('/') : [];
-		subSections = Array.from(
-			new Set(
-				gallery
-					.filter((s) => s.section.startsWith(currentPath) && s.section !== currentPath)
-					.map((s) => {
-						const rest = s.section.slice(currentPath.length).replace(/^\//, '');
-						return rest.split('/')[0];
-					})
-					.filter(Boolean)
-			)
-		);
+		if (browser) {
+			currentPath = page.url.searchParams.get('path') || '';
+			currentSection = gallery.find((s) => s.section === currentPath);
+			breadcrumbs = currentPath ? currentPath.split('/') : [];
+			subSections = Array.from(
+				new Set(
+					gallery
+						.filter((s) => s.section.startsWith(currentPath) && s.section !== currentPath)
+						.map((s) => {
+							const rest = s.section.slice(currentPath.length).replace(/^\//, '');
+							return rest.split('/')[0];
+						})
+						.filter(Boolean)
+				)
+			);
+		}
 	}
 
 	afterNavigate(() => {
@@ -48,7 +50,7 @@
 	});
 
 	// Reactively update currentPath from the URL
-	$: currentPath = page.url.searchParams.get('path') || '';
+	$: currentPath = browser ? page.url.searchParams.get('path') || '' : '';
 
 	// Find photos at the current path (if any)
 	$: currentSection = gallery.find((s) => s.section === currentPath);
@@ -100,7 +102,7 @@
 		return date instanceof Date && !isNaN(date.getTime()) && date.getTime() > 0;
 	}
 
-	$: {
+	$: if (browser) {
 		const params = page.url.searchParams;
 		const modalParam = params.has('modal');
 		const photoFilenameParam = params.get('photo'); // Get the filename
@@ -127,6 +129,7 @@
 	}
 
 	function enterSection(section: string) {
+		if (!browser) return;
 		const newPath = currentPath ? `${currentPath}/${section}` : section;
 		const params = new URLSearchParams(page.url.search);
 		params.set('path', newPath);
@@ -134,6 +137,7 @@
 	}
 
 	function goToBreadcrumb(idx: number) {
+		if (!browser) return;
 		const newPath = breadcrumbs.slice(0, idx + 1).join('/');
 		const params = new URLSearchParams(page.url.search);
 		params.set('path', newPath);
@@ -141,21 +145,24 @@
 	}
 
 	function goHome() {
+		if (!browser) return;
 		const params = new URLSearchParams(page.url.search);
 		params.delete('path');
 		goto(`${window.location.pathname}?${params.toString()}`);
 	}
 
 	function openModal(photo: Photo, i: number) {
+		if (!browser) return;
 		modalOpen = true;
 		modalIndex = i;
 		const params = new URLSearchParams(page.url.search);
 		params.set('modal', '1');
-		params.set('photo', photo.filename ?? ''); // Changed from i.toString()
+		params.set('photo', photo.filename ?? '');
 		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: false });
 	}
 
 	function closeModal() {
+		if (!browser) return;
 		modalOpen = false;
 		const params = new URLSearchParams(page.url.search);
 		if (params.has('modal')) {
