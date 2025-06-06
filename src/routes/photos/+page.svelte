@@ -56,7 +56,7 @@
 	// Update breadcrumbs whenever currentPath changes
 	$: breadcrumbs = currentPath ? currentPath.split('/') : [];
 
-	// Find all unique next-level sections at the current path
+	// Find all unique next-level sections at the current path and sort alphabetically
 	$: subSections = Array.from(
 		new Set(
 			gallery
@@ -67,24 +67,54 @@
 				})
 				.filter(Boolean)
 		)
-	);
+	).sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+
+	// Sort photos by date (most recent first) when displaying them
+	$: sortedPhotos =
+		currentSection?.photos.slice().sort((a, b) => {
+			// Parse EXIF date format (YYYY:MM:DD HH:MM:SS) or handle null dates
+			const parseExifDate = (dateStr: string | null | undefined): Date => {
+				if (!dateStr) return new Date(0); // Use epoch for null dates
+				// Convert EXIF format (2025:05:14 12:56:48) to ISO format
+				const isoFormat = dateStr.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3');
+				return new Date(isoFormat);
+			};
+
+			const dateA = parseExifDate(a.date);
+			const dateB = parseExifDate(b.date);
+
+			// If both dates are invalid or epoch, fall back to filename comparison
+			if (!isValidDate(dateA) && !isValidDate(dateB)) {
+				return (a.filename || '').localeCompare(b.filename || '');
+			}
+
+			// If one date is invalid, prioritize the valid one
+			if (!isValidDate(dateA)) return 1;
+			if (!isValidDate(dateB)) return -1;
+
+			// Both dates are valid, sort by date (newest first)
+			return dateB.getTime() - dateA.getTime();
+		}) || [];
+
+	function isValidDate(date: Date): boolean {
+		return date instanceof Date && !isNaN(date.getTime()) && date.getTime() > 0;
+	}
 
 	$: {
 		const params = page.url.searchParams;
 		const modalParam = params.has('modal');
 		const photoFilenameParam = params.get('photo'); // Get the filename
 
-		if (modalParam && currentSection && photoFilenameParam !== null) {
-			// Find the photo by filename (or src if it's more unique/reliable)
-			const photoToOpen = currentSection.photos.find((p) => p.filename === photoFilenameParam);
+		if (modalParam && sortedPhotos.length > 0 && photoFilenameParam !== null) {
+			// Find the photo by filename in the SORTED photos array
+			const photoToOpen = sortedPhotos.find((p) => p.filename === photoFilenameParam);
 
 			if (photoToOpen) {
-				const idx = currentSection.photos.indexOf(photoToOpen);
+				const idx = sortedPhotos.indexOf(photoToOpen);
 				if (idx !== -1) {
 					modalOpen = true;
 					modalIndex = idx;
 				} else {
-					// Photo found but somehow not in the array, should not happen if find works
 					modalOpen = false;
 				}
 			} else {
@@ -136,18 +166,18 @@
 	}
 
 	function showPrev() {
-		if (!currentSection) return;
-		modalIndex = (modalIndex - 1 + currentSection.photos.length) % currentSection.photos.length;
+		if (!sortedPhotos.length) return;
+		modalIndex = (modalIndex - 1 + sortedPhotos.length) % sortedPhotos.length;
 		const params = new URLSearchParams(page.url.search);
-		params.set('photo', modalIndex.toString());
+		params.set('photo', sortedPhotos[modalIndex].filename ?? '');
 		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
 	}
 
 	function showNext() {
-		if (!currentSection) return;
-		modalIndex = (modalIndex + 1) % currentSection.photos.length;
+		if (!sortedPhotos.length) return;
+		modalIndex = (modalIndex + 1) % sortedPhotos.length;
 		const params = new URLSearchParams(page.url.search);
-		params.set('photo', modalIndex.toString());
+		params.set('photo', sortedPhotos[modalIndex].filename ?? '');
 		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
 	}
 
@@ -270,7 +300,7 @@
 		class="grid justify-center gap-6"
 		style="grid-template-columns: repeat(auto-fill, minmax(342px, 342px)); justify-content: center;"
 	>
-		{#each currentSection.photos as photo, i (photo.src)}
+		{#each sortedPhotos as photo, i (photo.src)}
 			<button
 				type="button"
 				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
@@ -305,7 +335,7 @@
 
 <ImageModal
 	open={modalOpen}
-	photos={currentSection?.photos ?? []}
+	photos={sortedPhotos}
 	allPhotos={gallery.flatMap((sectionEntry) =>
 		sectionEntry.photos.map((p) => ({
 			...p,
@@ -313,7 +343,7 @@
 		}))
 	)}
 	index={modalIndex}
-	section={currentSection ? { photos: currentSection.photos, name: currentSection.section } : null}
+	section={currentSection ? { photos: sortedPhotos, name: currentSection.section } : null}
 	onClose={closeModal}
 	onChange={(idx) => {
 		modalIndex = idx;

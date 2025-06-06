@@ -236,6 +236,7 @@ async function main() {
 					withoutEnlargement: true
 				})
 				.webp({ lossless: true })
+				.keepExif()
 				.toFile(fullWebPAbsolutePath);
 			console.log(`  Generated lossless WebP: ${fullWebPAbsolutePath}`);
 			fullConversionSuccess = true;
