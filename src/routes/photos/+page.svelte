@@ -165,22 +165,6 @@
 		}
 	}
 
-	function showPrev() {
-		if (!sortedPhotos.length) return;
-		modalIndex = (modalIndex - 1 + sortedPhotos.length) % sortedPhotos.length;
-		const params = new URLSearchParams(page.url.search);
-		params.set('photo', sortedPhotos[modalIndex].filename ?? '');
-		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
-	}
-
-	function showNext() {
-		if (!sortedPhotos.length) return;
-		modalIndex = (modalIndex + 1) % sortedPhotos.length;
-		const params = new URLSearchParams(page.url.search);
-		params.set('photo', sortedPhotos[modalIndex].filename ?? '');
-		goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
-	}
-
 	// Prevent background scroll when modal is open
 	$: {
 		if (browser) {

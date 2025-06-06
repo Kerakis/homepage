@@ -69,6 +69,7 @@ async function main() {
 
 	// Also scan for existing WebP files that might be missing from photos.json
 	const existingWebPFiles = await fg(['**/*.webp'], { cwd: PHOTOS_DIR, dot: false });
+	const existingThumbnails = await fg(['**/*.webp'], { cwd: THUMBNAILS_DIR, dot: false });
 
 	// Load existing gallery data if it exists
 	let existingGallery = [];
@@ -88,8 +89,98 @@ async function main() {
 		sections[gallerySection.section] = gallerySection.photos || [];
 	}
 
+	// Create a set of expected WebP files based on source images
+	const expectedWebPFiles = new Set();
+	const expectedThumbnails = new Set();
+
+	for (const entry of entries) {
+		const parts = entry.split('/');
+		const originalFilenameWithExt = parts.pop();
+		const originalBaseName = path.parse(originalFilenameWithExt).name;
+		const sectionPathParts = [...parts];
+
+		// Expected WebP and thumbnail paths
+		const expectedWebPName = `${originalBaseName}.webp`;
+		const expectedThumbnailName = `${originalBaseName}_thumb.webp`;
+		const expectedWebPPath = path.join(...sectionPathParts, expectedWebPName);
+		const expectedThumbnailPath = path.join(...sectionPathParts, expectedThumbnailName);
+
+		expectedWebPFiles.add(expectedWebPPath.replace(/\\/g, '/'));
+		expectedThumbnails.add(expectedThumbnailPath.replace(/\\/g, '/'));
+	}
+
+	// Clean up orphaned WebP files
+	console.log('Cleaning up orphaned WebP files...');
+	for (const webpFile of existingWebPFiles) {
+		const normalizedPath = webpFile.replace(/\\/g, '/');
+		if (!normalizedPath.endsWith('_thumb.webp') && !expectedWebPFiles.has(normalizedPath)) {
+			const fullPath = path.join(PHOTOS_DIR, webpFile);
+			try {
+				await fsp.unlink(fullPath);
+				console.log(`  Removed orphaned WebP: ${fullPath}`);
+			} catch (err) {
+				console.error(`  Failed to remove orphaned WebP ${fullPath}:`, err.message);
+			}
+		}
+	}
+
+	// Clean up orphaned thumbnails
+	console.log('Cleaning up orphaned thumbnails...');
+	for (const thumbFile of existingThumbnails) {
+		const normalizedPath = thumbFile.replace(/\\/g, '/');
+		if (!expectedThumbnails.has(normalizedPath)) {
+			const fullPath = path.join(THUMBNAILS_DIR, thumbFile);
+			try {
+				await fsp.unlink(fullPath);
+				console.log(`  Removed orphaned thumbnail: ${fullPath}`);
+			} catch (err) {
+				console.error(`  Failed to remove orphaned thumbnail ${fullPath}:`, err.message);
+			}
+		}
+	}
+
+	// Clean up orphaned entries from gallery data - BE MORE CAREFUL HERE
+	console.log('Cleaning up orphaned gallery entries...');
+	for (const [sectionName, photos] of Object.entries(sections)) {
+		const validPhotos = photos.filter((photo) => {
+			if (!photo.src) return false;
+
+			// Extract the WebP path from photo.src (remove /photos/ prefix)
+			const webpRelativePath = photo.src.replace(/^\/photos\//, '');
+
+			// Check if this WebP file actually exists in our existingWebPFiles list
+			const webpExists = existingWebPFiles.some(
+				(existingFile) => existingFile.replace(/\\/g, '/') === webpRelativePath
+			);
+
+			// Also check if there's a corresponding source file
+			const hasSourceFile = entries.some((entry) => {
+				const entryBaseName = path.parse(entry).name;
+				const photoBaseName = path.parse(webpRelativePath).name;
+				return entryBaseName === photoBaseName;
+			});
+
+			// Keep the photo if either the WebP exists OR there's a source file
+			if (!webpExists && !hasSourceFile) {
+				console.log(`  Removing gallery entry for missing file: ${photo.src}`);
+				return false;
+			}
+			return true;
+		});
+
+		if (validPhotos.length !== photos.length) {
+			sections[sectionName] = validPhotos;
+		}
+
+		// Remove empty sections
+		if (validPhotos.length === 0) {
+			delete sections[sectionName];
+			console.log(`  Removed empty section: ${sectionName}`);
+		}
+	}
+
 	// Check for existing WebP files that are missing from photos.json
-	console.log(`Checking ${existingWebPFiles.length} existing WebP files...`);
+	console.log(`Checking ${existingWebPFiles.length} existing WebP files for orphans...`);
 	for (const webpEntry of existingWebPFiles) {
 		const parts = webpEntry.split('/');
 		const webpFilename = parts.pop();
@@ -97,9 +188,16 @@ async function main() {
 		const sectionPathParts = [...parts];
 		const section = parts.length > 0 ? parts.join('/') : 'Uncategorized';
 		const webpPath = `/photos/${webpEntry.replace(/\\/g, '/')}`;
+		const absPathToWebP = path.join(PHOTOS_DIR, webpEntry);
 
 		// Skip thumbnails (they end with _thumb)
 		if (baseName.endsWith('_thumb')) continue;
+
+		// First, check if the WebP file actually exists on disk
+		if (!fs.existsSync(absPathToWebP)) {
+			console.log(`  WebP file referenced but missing on disk: ${absPathToWebP} - skipping`);
+			continue;
+		}
 
 		// Check if this WebP file is already in the gallery data
 		const existsInGallery = sections[section]?.some((photo) => photo.src === webpPath);
@@ -108,7 +206,6 @@ async function main() {
 			console.log(`Found orphaned WebP file: ${webpEntry} - adding to gallery data`);
 
 			// Try to get EXIF data from the WebP file
-			const absPathToWebP = path.join(PHOTOS_DIR, webpEntry);
 			let tags = {};
 			try {
 				tags = await getExif(absPathToWebP);
@@ -138,14 +235,14 @@ async function main() {
 			}
 
 			const exif = tags.exif || {};
-			const camera = getField(exif, 'Model');
-			const lens = getField(exif, 'LensModel');
-			const focalLength = getField(exif, 'FocalLength');
-			const aperture = getField(exif, 'FNumber');
-			const exposure = getField(exif, 'ExposureTime');
-			const iso = getField(exif, 'ISOSpeedRatings');
-			const date = getField(exif, 'DateTimeOriginal', 'DateTime');
-			const gps = getGPS(tags);
+			const camera = getField(exif, 'Model') || null;
+			const lens = getField(exif, 'LensModel') || null;
+			const focalLength = getField(exif, 'FocalLength') || null;
+			const aperture = getField(exif, 'FNumber') || null;
+			const exposure = getField(exif, 'ExposureTime') || null;
+			const iso = getField(exif, 'ISOSpeedRatings') || null;
+			const date = getField(exif, 'DateTimeOriginal', 'DateTime') || null;
+			const gps = getGPS(tags) || null;
 			let subject = null;
 			if (section.includes('/')) {
 				subject = section.split('/').pop();
