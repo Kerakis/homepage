@@ -2,22 +2,31 @@ import { writable } from 'svelte/store';
 import { fetchAllSpecies } from '$lib/fetchSpecies';
 import { fetchSpeciesDetails } from '$lib/fetchSpeciesDetails';
 
-interface Species {
-	scientificName: string;
+export type Species = {
+	id: string;
 	commonName: string;
+	scientificName: string;
+	color?: string;
+	imageUrl?: string;
+	thumbnailUrl?: string;
+	wikipediaUrl?: string;
+	wikipediaSummary?: string;
+	ebirdUrl?: string;
 	detections?: {
 		total: number;
+		almostCertain?: number;
+		veryLikely?: number;
+		uncertain?: number;
+		unlikely?: number;
 	};
-}
+	latestDetectionAt: string;
+};
 
 interface Summary {
 	total_species: number;
 	total_detections: number;
 }
-
-const stored =
-	typeof localStorage !== 'undefined' ? localStorage.getItem('birdnet:lastUpdated') : null;
-const initialLastUpdated = stored ? Number(stored) : null;
+const initialLastUpdated = null;
 
 export const birdnetData = writable<{
 	species: Species[];
@@ -31,13 +40,6 @@ export const birdnetData = writable<{
 	lastUpdated: initialLastUpdated,
 	loading: true,
 	error: null
-});
-
-// When you update lastUpdated, also update localStorage:
-birdnetData.subscribe((value) => {
-	if (typeof localStorage !== 'undefined' && value.lastUpdated) {
-		localStorage.setItem('birdnet:lastUpdated', String(value.lastUpdated));
-	}
 });
 
 export async function loadBirdnetData() {
@@ -54,7 +56,8 @@ export async function loadBirdnetData() {
 			const key = `${s.scientificName}_${s.commonName}`;
 			return {
 				...s,
-				...detailsMap[key]
+				...detailsMap[key],
+				id: String(s.id) // Set id last to guarantee it's a string
 			};
 		});
 		const lastUpdated = Date.now();
@@ -65,13 +68,6 @@ export async function loadBirdnetData() {
 			loading: false,
 			error: null
 		});
-		// Optionally cache in localStorage
-		if (typeof window !== 'undefined') {
-			localStorage.setItem(
-				'birdnet:species',
-				JSON.stringify({ species: speciesWithDetails, summary, lastUpdated })
-			);
-		}
 	} catch (e) {
 		birdnetData.update((d) => ({
 			...d,
@@ -80,3 +76,7 @@ export async function loadBirdnetData() {
 		}));
 	}
 }
+
+export const speciesStore = writable<Species[]>([]);
+export const sortMode = writable<'last' | 'most'>('last');
+export const search = writable('');

@@ -1,16 +1,44 @@
 <script lang="ts">
-	// Update this to Svelte 5 - this seems to be a problem for some reason
-	import { onMount, onDestroy, createEventDispatcher, tick } from 'svelte';
+	import { onMount, onDestroy, tick } from 'svelte';
+	import { fetchAllSpecies } from '$lib/fetchSpecies';
+	import { fetchDetections } from '$lib/fetchDetections';
+
 	export let bird: any;
-	export let detections: Array<{ timestamp: string; soundscape: { url: string } }> = [];
-	export let loading = false;
-	export let wikiSummary = '';
-	export let wikiUrl = '';
-	export let ebirdUrl = '';
-	export let detections24h: number | null = 0;
 	export let detectionsAllTime: number = 0;
-	export let detections24hLoading: boolean = false;
-	const dispatch = createEventDispatcher();
+	export let onClose: () => void;
+
+	let detections24h: number | null = null;
+	let detections24hLoading = true;
+	let detections: any[] = [];
+	let detectionsLoading = true;
+	let wikiSummary = '';
+	let wikiUrl = '';
+	let ebirdUrl = '';
+
+	onMount(async () => {
+		// Fetch 24h detections
+		try {
+			const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+			const species24hData = await fetchAllSpecies({ fetch, since });
+			const matchIn24h = species24hData?.find((s: any) => s.id == bird.id);
+			detections24h = matchIn24h?.detections?.total ?? 0;
+		} catch (e) {
+			detections24h = 0;
+		}
+		detections24hLoading = false;
+
+		// Fetch recent detections
+		try {
+			detections = await fetchDetections({ speciesId: bird.id, limit: 5, fetch });
+		} catch (e) {
+			detections = [];
+		}
+		detectionsLoading = false;
+
+		// Set wiki/ebird URLs if available
+		wikiSummary = bird.wikipediaSummary || '';
+		wikiUrl = bird.wikipediaUrl || '';
+	});
 
 	let showAudio: Record<number, boolean> = {};
 	let audioRefs: Array<HTMLAudioElement | null> = [];
@@ -18,23 +46,23 @@
 
 	function handleBackgroundClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
-			dispatch('close');
+			if (onClose) onClose();
 		}
 	}
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
-			dispatch('close');
+			if (onClose) onClose();
 		}
 	}
 
 	function playDetection(i: number) {
 		// Reset all showAudio states
-		const newShowAudio: Record<number, boolean> = {}; // Keep as is for now, TS error handled separately
+		const newShowAudio: Record<number, boolean> = {};
 		for (const key in showAudio) {
-			newShowAudio[key] = false; // Keep as is
+			newShowAudio[key] = false;
 		}
-		newShowAudio[i] = true; // Keep as is
+		newShowAudio[i] = true;
 		showAudio = newShowAudio;
 
 		audioRefs.forEach((audio, idx) => {
@@ -76,7 +104,7 @@
 
 {#if bird}
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-2 backdrop-blur-sm sm:p-4"
 		on:click={handleBackgroundClick}
 		tabindex="0"
 		role="dialog"
@@ -84,17 +112,19 @@
 		aria-labelledby="bird-modal-title"
 		on:keydown={(e) => {
 			if (e.key === 'Enter' || e.key === ' ') {
-				dispatch('close');
+				if (onClose) onClose();
 			}
 		}}
 	>
 		<div
-			class="relative flex w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-neutral-800"
+			class="relative flex max-h-[100svh] w-full max-w-lg flex-col overflow-hidden overflow-y-auto rounded-xl bg-white shadow-2xl dark:bg-neutral-800"
 		>
 			<div class="p-6">
 				<button
 					class="absolute top-3 right-3 z-10 rounded-full bg-white/60 p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-200 hover:text-gray-700 dark:bg-neutral-700/60 dark:text-neutral-300 dark:hover:bg-neutral-600 dark:hover:text-white"
-					on:click={() => dispatch('close')}
+					on:click={() => {
+						if (onClose) onClose();
+					}}
 					aria-label="Close modal"
 				>
 					<svg
@@ -152,7 +182,7 @@
 				<h3 class="mb-2 text-sm font-semibold text-gray-700 dark:text-neutral-200">
 					Recent Detections:
 				</h3>
-				{#if loading}
+				{#if detectionsLoading}
 					<div
 						class="flex flex-col items-center justify-center py-6 text-sm text-gray-500 dark:text-neutral-400"
 					>
@@ -191,11 +221,19 @@
 								{#if det.soundscape?.url}
 									{#if !showAudio[i]}
 										<button
-											class="bg-accent-red hover:bg-accent-red-dark rounded px-2.5 py-1 text-xs text-white transition-colors"
+											class="bg-accent-red hover:bg-accent-red-dark flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold transition-colors"
 											on:click={() => playDetection(i)}
 											aria-label={`Play sound from ${new Date(det.timestamp).toLocaleString()}`}
 										>
-											▶ Play
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-4 w-4 text-gray-500 dark:text-neutral-400"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+											>
+												<polygon points="3,2 17,10 3,18" />
+											</svg>
+											<span>Play</span>
 										</button>
 									{:else}
 										<audio

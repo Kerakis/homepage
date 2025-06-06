@@ -1,5 +1,5 @@
 export type SpeciesDetails = {
-	id: number;
+	id: string;
 	commonName: string;
 	scientificName: string;
 	color: string;

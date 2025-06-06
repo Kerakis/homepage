@@ -1,21 +1,5 @@
 import { API_BASE_URL, STATION_ID } from '$lib/birdweatherConfig';
-
-export type Species = {
-	id: number;
-	commonName: string;
-	scientificName: string;
-	color: string;
-	imageUrl: string;
-	thumbnailUrl: string;
-	detections: {
-		total: number;
-		almostCertain: number;
-		veryLikely: number;
-		uncertain: number;
-		unlikely: number;
-	};
-	latestDetectionAt: string;
-};
+import type { Species } from '$lib/stores/birdnet';
 
 type PageData = {
 	species: Species[];
