@@ -64,6 +64,17 @@ async function retryUnlink(filePath, maxRetries = 5, retryDelayMs = 500) {
 	return false;
 }
 
+// Add this helper function after the existing helper functions
+function cleanFilenameForTitle(filename) {
+	// Remove file extension and replace underscores with spaces
+	let cleaned = path.parse(filename).name.replace(/_/g, ' ');
+
+	// Remove trailing numbers (like "Black-Bellied Whistling Ducks2" -> "Black-Bellied Whistling Ducks")
+	cleaned = cleaned.replace(/\d+$/, '').trim();
+
+	return cleaned;
+}
+
 async function main() {
 	const entries = await fg(['**/*.{jpg,jpeg,png,JPG,JPEG,PNG}'], { cwd: PHOTOS_DIR, dot: false });
 
@@ -255,7 +266,7 @@ async function main() {
 				src: webpPath,
 				thumbnailSrc: thumbnailWebPath,
 				filename: webpFilename,
-				title: getField(tags, 'ImageDescription') || baseName.replace(/_/g, ' '),
+				title: getField(tags, 'ImageDescription') || cleanFilenameForTitle(webpFilename),
 				date,
 				camera,
 				lens,
@@ -373,9 +384,11 @@ async function main() {
 		const gps = getGPS(tags);
 		let subject = null;
 		if (section.includes('/')) {
-			subject = section.split('/').pop();
+			// Clean the subject name by removing trailing numbers
+			const rawSubject = section.split('/').pop();
+			subject = rawSubject ? cleanFilenameForTitle(rawSubject) : null;
 		} else {
-			subject = section;
+			subject = cleanFilenameForTitle(section);
 		}
 
 		if (!sections[section]) sections[section] = [];
@@ -383,7 +396,7 @@ async function main() {
 			src: fullWebPWebPath,
 			thumbnailSrc: thumbnailWebPath,
 			filename: fullWebPName,
-			title: getField(tags, 'ImageDescription') || originalBaseName.replace(/_/g, ' '),
+			title: getField(tags, 'ImageDescription') || cleanFilenameForTitle(originalFilenameWithExt),
 			date,
 			camera,
 			lens,
