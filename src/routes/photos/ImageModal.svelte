@@ -895,28 +895,31 @@
 							{/if}
 						</div>
 					</div>
-					{#if modalPhoto?.gps}
-						<PhotoMinimap
-							photo={modalPhoto}
-							width={minimapWidth}
-							height={minimapHeight}
-							onExpand={() => {
-								// Open the full map (update URL as before)
-								const newParams = new URLSearchParams(page.url.search);
-								newParams.set('fullmap', '1');
-								if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
-								if (section?.name) newParams.set('path', section.name);
-								else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
-								newParams.delete('mapview');
-								goto(`${page.url.pathname}?${newParams.toString()}`, {
-									replaceState: true,
-									noScroll: true,
-									keepFocus: true
-								});
-								setTimeout(() => modalContainer?.focus(), 0);
-							}}
-						/>
-					{/if}
+					<!-- Always reserve space for minimap to prevent layout shift -->
+					<div class="flex-shrink-0" style="width: {minimapWidth}px; height: {minimapHeight}px;">
+						{#if modalPhoto?.gps}
+							<PhotoMinimap
+								photo={modalPhoto}
+								width={minimapWidth}
+								height={minimapHeight}
+								onExpand={() => {
+									// Open the full map (update URL as before)
+									const newParams = new URLSearchParams(page.url.search);
+									newParams.set('fullmap', '1');
+									if (modalPhoto?.filename) newParams.set('photo', modalPhoto.filename);
+									if (section?.name) newParams.set('path', section.name);
+									else if (modalPhoto?.section) newParams.set('path', modalPhoto.section);
+									newParams.delete('mapview');
+									goto(`${page.url.pathname}?${newParams.toString()}`, {
+										replaceState: true,
+										noScroll: true,
+										keepFocus: true
+									});
+									setTimeout(() => modalContainer?.focus(), 0);
+								}}
+							/>
+						{/if}
+					</div>
 				</div>
 			{/if}
 
