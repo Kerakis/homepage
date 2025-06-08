@@ -12,7 +12,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import type { Photo } from '$lib/types/photoTypes';
-	import { getIconClassForPhoto, MUSHROOM_SVG, getPhotoPopupHtml } from '$lib/utils/photoUtils';
+	import { getPhotoPopupHtml, getMarkerHtml } from '$lib/utils/photoUtils';
 	import { formatMonthYear } from '$lib/utils/photoUtils';
 
 	export let allPhotos: Photo[] = [];
@@ -35,24 +35,41 @@
 	let fullmap: any = null;
 	let previousModalPhotoSrc: string | undefined = undefined;
 	let allPhotoMarkers: any[] = [];
+	let markerCluster: any = null; // Cache the cluster
 	let fullMap = false;
 	let minimapWidth = 256,
 		minimapHeight = 160;
 	let showExifStore = writable(false);
 	let targetMapViewFromUrl: { lat: number; lon: number; zoom: number } | null = null;
+	let mapInitialized = false; // Track initialization state
+	let currentMapPhotoSrc: string | undefined = undefined;
 
-	function getMarkerHtml(photo: Photo, isCurrent: boolean) {
-		const outlineColor = '#FFF';
+	// Add these simple protection functions
+	function handleContextMenu(e: MouseEvent) {
+		e.preventDefault();
+		return false;
+	}
 
-		if (photo.subject === 'fungi' || photo.subject === 'mushrooms') {
-			const svgOutlineStyle = `filter: drop-shadow(-1px -1px 0 ${outlineColor}) drop-shadow(1px -1px 0 ${outlineColor}) drop-shadow(-1px 1px 0 ${outlineColor}) drop-shadow(1px 1px 0 ${outlineColor});`;
-			return `<span style="display: inline-block; line-height: 1; ${svgOutlineStyle}">${MUSHROOM_SVG}</span>`;
-		}
+	function handleDragStart(e: DragEvent) {
+		e.preventDefault();
+		return false;
+	}
 
-		const iconClass = getIconClassForPhoto(photo);
-		const iconFillColor = isCurrent ? '#e53e3e' : '#222';
-		const faOutlineStyle = `text-shadow: -1px -1px 0 ${outlineColor}, 1px -1px 0 ${outlineColor}, -1px 1px 0 ${outlineColor}, 1px 1px 0 ${outlineColor};`;
-		return `<i class="fa-solid ${iconClass}" style="font-size:2rem; color:${iconFillColor}; ${faOutlineStyle}"></i>`;
+	function handleLongPress(e: TouchEvent) {
+		// Prevent long press context menu on mobile
+		let longPressTimer = setTimeout(() => {
+			e.preventDefault();
+		}, 500);
+
+		const target = e.target as HTMLElement;
+
+		const cleanup = () => {
+			clearTimeout(longPressTimer);
+		};
+
+		target.addEventListener('touchend', cleanup, { once: true });
+		target.addEventListener('touchmove', cleanup, { once: true });
+		target.addEventListener('touchcancel', cleanup, { once: true });
 	}
 
 	$: modalPhoto = photos[modalIndex];
@@ -263,13 +280,21 @@
 	onDestroy(() => {
 		if (browser) document.body.style.overflow = '';
 		if (fullmap) {
+			fullmap.off();
 			fullmap.remove();
 			fullmap = null;
 		}
 		if (minimap) {
+			minimap.off();
 			minimap.remove();
 			minimap = null;
 		}
+		if (markerCluster) {
+			markerCluster.clearLayers();
+			markerCluster = null;
+		}
+		allPhotoMarkers = [];
+		mapInitialized = false;
 	});
 
 	$: if (open && modalContainer) {
@@ -322,47 +347,86 @@
 			});
 	}
 
-	// Create or update minimap
-	$: if (leafletLoaded && L && open && modalPhoto?.gps && minimapContainer && !fullMap) {
-		if (minimap) minimap.remove();
-		minimap = L.map(minimapContainer, {
-			center: [modalPhoto.gps.lat, modalPhoto.gps.lon],
-			zoom: 12,
-			zoomControl: false,
-			attributionControl: false,
-			scrollWheelZoom: false,
-			dragging: false,
-			doubleClickZoom: false,
-			boxZoom: false,
-			keyboard: false
-		});
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			maxZoom: 19,
-			className: get(darkMode) ? 'map-tiles dark' : 'map-tiles'
-		}).addTo(minimap);
-		L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon], {
-			icon: L.divIcon({
-				className: 'fa-marker-icon',
-				html: getMarkerHtml(modalPhoto, true),
-				iconSize: [32, 32],
-				iconAnchor: [16, 32],
-				popupAnchor: [0, -32]
-			})
-		}).addTo(minimap);
+	// Debounce map updates
+	let mapUpdateTimeout: number | null = null;
+	function debounceMapUpdate(fn: () => void, delay = 100) {
+		if (mapUpdateTimeout) clearTimeout(mapUpdateTimeout);
+		mapUpdateTimeout = setTimeout(fn, delay);
 	}
 
-	// Full map logic
+	// Optimize minimap - only recreate when necessary
+	$: if (leafletLoaded && L && open && modalPhoto?.gps && minimapContainer && !fullMap) {
+		// Only recreate if photo location changed significantly or map doesn't exist
+		const needsUpdate =
+			!minimap ||
+			!currentMapPhotoSrc ||
+			currentMapPhotoSrc !== modalPhoto.src ||
+			(minimap && Math.abs(minimap.getCenter().lat - modalPhoto.gps.lat) > 0.001);
+
+		if (needsUpdate) {
+			if (minimap) {
+				minimap.off(); // Remove all event listeners
+				minimap.remove();
+				minimap = null;
+			}
+
+			debounceMapUpdate(() => {
+				if (!modalPhoto?.gps || !minimapContainer) return;
+
+				minimap = L.map(minimapContainer, {
+					center: [modalPhoto.gps.lat, modalPhoto.gps.lon],
+					zoom: 12,
+					zoomControl: false,
+					attributionControl: false,
+					scrollWheelZoom: false,
+					dragging: false,
+					doubleClickZoom: false,
+					boxZoom: false,
+					keyboard: false,
+					preferCanvas: true, // Use canvas for better performance
+					updateWhenIdle: true,
+					updateWhenZooming: false
+				});
+
+				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					maxZoom: 19,
+					className: get(darkMode) ? 'map-tiles dark' : 'map-tiles',
+					updateWhenIdle: true,
+					updateWhenZooming: false,
+					keepBuffer: 2
+				}).addTo(minimap);
+
+				L.marker([modalPhoto.gps.lat, modalPhoto.gps.lon], {
+					icon: L.divIcon({
+						className: 'fa-marker-icon',
+						html: getMarkerHtml(modalPhoto, true),
+						iconSize: [32, 32],
+						iconAnchor: [16, 32],
+						popupAnchor: [0, -32]
+					})
+				}).addTo(minimap);
+
+				currentMapPhotoSrc = modalPhoto.src;
+
+				minimap.whenReady(() => {
+					setTimeout(() => {
+						if (minimap) minimap.invalidateSize();
+					}, 50);
+				});
+			}, 50);
+		}
+	}
+
+	// Optimize fullmap - reuse existing map when possible
 	$: if (leafletLoaded && L && modalPhoto?.gps && fullmapContainer) {
 		if (fullMap && !fullmap) {
 			const isDark = get(darkMode);
 			const initialCenter: L.LatLngExpression = targetMapViewFromUrl
 				? [targetMapViewFromUrl.lat, targetMapViewFromUrl.lon]
-				: modalPhoto.gps
-					? [modalPhoto.gps.lat, modalPhoto.gps.lon]
-					: [0, 0];
+				: [modalPhoto.gps.lat, modalPhoto.gps.lon];
 			const initialZoom: number = targetMapViewFromUrl ? targetMapViewFromUrl.zoom : 16;
 
-			let mapOptions: L.MapOptions = {
+			fullmap = L.map(fullmapContainer, {
 				center: initialCenter,
 				zoom: initialZoom,
 				zoomControl: false,
@@ -371,28 +435,41 @@
 				dragging: true,
 				doubleClickZoom: true,
 				boxZoom: true,
-				keyboard: true
-			};
-
-			fullmap = L.map(fullmapContainer, mapOptions);
+				keyboard: true,
+				preferCanvas: true, // Use canvas rendering
+				updateWhenIdle: true,
+				renderer: L.canvas() // Force canvas renderer for better performance
+			});
 
 			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 19,
-				className: isDark ? 'map-tiles dark' : 'map-tiles'
+				className: isDark ? 'map-tiles dark' : 'map-tiles',
+				updateWhenIdle: true,
+				updateWhenZooming: false,
+				keepBuffer: 2
 			}).addTo(fullmap);
+
 			L.control.zoom({ position: 'topleft' }).addTo(fullmap);
 
-			allPhotoMarkers.forEach((m: any) => m.remove());
-			allPhotoMarkers = [];
-			const markerCluster = L.markerClusterGroup({ spiderfyOnMaxZoom: true });
+			// Initialize markers only once
+			if (!mapInitialized) {
+				allPhotoMarkers.forEach((m: any) => m.remove());
+				allPhotoMarkers = [];
 
-			const photoList = allPhotos;
+				markerCluster = L.markerClusterGroup({
+					spiderfyOnMaxZoom: true,
+					showCoverageOnHover: false,
+					zoomToBoundsOnClick: true,
+					maxClusterRadius: 50
+					// Keep animations enabled
+				});
 
-			if (photoList?.length) {
-				photoList.forEach((p) => {
-					if (!p.gps) return;
+				// Filter photos with GPS data upfront
+				const photosWithGPS = allPhotos.filter((p) => p.gps);
+
+				photosWithGPS.forEach((p) => {
 					const isCurrent = modalPhoto?.src === p.src;
-					const marker = L.marker([p.gps.lat, p.gps.lon], {
+					const marker = L.marker([p.gps!.lat, p.gps!.lon], {
 						icon: L.divIcon({
 							className: 'fa-marker-icon',
 							html: getMarkerHtml(p, isCurrent),
@@ -403,31 +480,43 @@
 					});
 					(marker as any).photoSrc = p.src;
 					allPhotoMarkers.push(marker);
-					const isDark = get(darkMode); // get current mode from your store
 
 					let popupHtml = getPhotoPopupHtml(p, isCurrent, false);
 					marker.bindPopup(popupHtml, {
 						maxWidth: 320,
 						minWidth: 200,
 						className: isDark ? 'leaflet-popup-dark' : 'leaflet-popup-light'
+						// Keep autoPan enabled for better UX
 					});
 					markerCluster.addLayer(marker);
 				});
+
+				markerCluster.addTo(fullmap);
+				mapInitialized = true;
+			} else if (markerCluster) {
+				// Just add existing cluster to new map
+				markerCluster.addTo(fullmap);
 			}
-			markerCluster.addTo(fullmap);
 
 			fullmap.whenReady(() => {
-				if (fullmap) {
-					updateMapUrlParams(fullmap);
-					fullmap.invalidateSize();
-				}
-			});
-			fullmap.on('moveend zoomend', () => {
-				if (fullmap) {
-					updateMapUrlParams(fullmap);
-				}
+				setTimeout(() => {
+					if (fullmap) {
+						updateMapUrlParams(fullmap);
+						fullmap.invalidateSize();
+					}
+				}, 100);
 			});
 
+			// Debounce map movement events
+			let moveTimeout: number | null = null;
+			fullmap.on('moveend zoomend', () => {
+				if (moveTimeout) clearTimeout(moveTimeout);
+				moveTimeout = setTimeout(() => {
+					if (fullmap) updateMapUrlParams(fullmap);
+				}, 150);
+			});
+
+			// Keep the existing spiderfy logic for current photo
 			if (modalPhoto?.src && modalPhoto.gps) {
 				const currentPhotoMarkerInstance = allPhotoMarkers.find(
 					(m: any) => m.photoSrc === modalPhoto.src
@@ -448,6 +537,7 @@
 				}
 			}
 		} else if (fullMap && fullmap && targetMapViewFromUrl) {
+			// Optimize view updates but keep animations
 			const currentCenter = fullmap.getCenter();
 			const currentZoom = fullmap.getZoom();
 			if (
@@ -458,9 +548,11 @@
 				fullmap.setView(
 					[targetMapViewFromUrl.lat, targetMapViewFromUrl.lon],
 					targetMapViewFromUrl.zoom
+					// Keep default animation settings
 				);
 			}
 		} else if (!fullMap && fullmap) {
+			fullmap.off(); // Remove all event listeners
 			fullmap.remove();
 			fullmap = null;
 		}
@@ -719,8 +811,8 @@
 					<div
 						role="img"
 						aria-label={modalPhoto?.title ?? 'Photo'}
-						on:contextmenu={(e) => e.preventDefault()}
-						on:dragstart={(e) => e.preventDefault()}
+						on:contextmenu={handleContextMenu}
+						on:dragstart={handleDragStart}
 					>
 						<img
 							src={modalPhoto.src}
@@ -729,6 +821,9 @@
 							draggable="false"
 							tabindex="-1"
 							on:load={() => (imageLoaded = true)}
+							on:contextmenu={handleContextMenu}
+							on:dragstart={handleDragStart}
+							on:touchstart={handleLongPress}
 							loading="lazy"
 						/>
 					</div>
