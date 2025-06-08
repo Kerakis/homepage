@@ -129,7 +129,7 @@
 						href="https://bsky.app/profile/kerakis.bsky.social"
 						target="_blank"
 						aria-label="BlueSky"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<i class="fa-brands fa-bluesky text-5xl" aria-hidden="true"></i>
 					</a>
@@ -140,7 +140,7 @@
 						href="https://www.instagram.com/rob.upchurch.photography/"
 						target="_blank"
 						aria-label="Instagram"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<i class="fa-brands fa-instagram text-5xl" aria-hidden="true"></i>
 					</a>
@@ -151,7 +151,7 @@
 						href="https://flickr.com/photos/200816436@N06/"
 						target="_blank"
 						aria-label="Flickr"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<i class="fa-brands fa-flickr text-5xl" aria-hidden="true"></i>
 					</a>
@@ -162,7 +162,7 @@
 						href="https://reddit.com/user/kerakis"
 						target="_blank"
 						aria-label="Reddit"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<i class="fa-brands fa-reddit text-5xl" aria-hidden="true"></i>
 					</a>
@@ -173,7 +173,7 @@
 						href="https://ebird.org/profile/NTIyOTE3NQ/US"
 						target="_blank"
 						aria-label="eBird"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<svg
 							viewBox="0 56 100 30"
@@ -213,7 +213,7 @@
 						href="https://www.inaturalist.org/people/kerakis"
 						target="_blank"
 						aria-label="iNaturalist"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -242,12 +242,12 @@
 					</a>
 				</div>
 				<!-- Discord -->
-				<div class="h-10 w-10 shrink-0">
+				<div class="mr-2.5 h-10 w-10 shrink-0">
 					<a
 						href="https://discordapp.com/users/166722144993148938"
 						target="_blank"
 						aria-label="Discord"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<i class="fa-brands fa-discord text-5xl" aria-hidden="true"></i>
 					</a>
@@ -258,7 +258,7 @@
 						href="https://github.com/Kerakis/"
 						target="_blank"
 						aria-label="GitHub"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<i class="fa-brands fa-github text-5xl" aria-hidden="true"></i>
 					</a>
@@ -269,7 +269,7 @@
 						href="https://kerakis.moxfield.com/"
 						target="_blank"
 						aria-label="Moxfield"
-						class="transform text-black transition-transform hover:scale-110 dark:text-white"
+						class="block transform text-black transition-transform duration-200 hover:scale-110 dark:text-white"
 					>
 						<svg
 							width="79"
