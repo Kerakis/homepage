@@ -1,16 +1,11 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 	import { onMount, onDestroy } from 'svelte';
+	import { formatMonthYear } from '$lib/utils/photoUtils';
+	import type { Photo } from '$lib/types/photoTypes';
 
 	export let showExif: Writable<boolean>;
-	export let modalPhoto: {
-		camera?: string;
-		lens?: string;
-		focalLength?: string;
-		aperture?: string;
-		exposure?: string;
-		iso?: number;
-	} | null;
+	export let modalPhoto: Photo | null;
 
 	let dialogElement: HTMLDivElement | null = null;
 
@@ -94,8 +89,12 @@
 				</svg>
 			</button>
 
-			<h2 class="mb-4 text-center text-lg font-bold">Camera settings</h2>
+			<h2 class="mb-4 text-center text-lg font-bold">EXIF Data</h2>
 			<div class="grid items-center gap-x-4 gap-y-2" style="grid-template-columns: auto 1fr;">
+				{#if modalPhoto.date}
+					<i class="fa-solid fa-calendar text-accent justify-self-center text-[1.5rem]"></i>
+					<span>{formatMonthYear(modalPhoto.date)}</span>
+				{/if}
 				{#if modalPhoto.camera}
 					<i class="fa-solid fa-camera text-accent justify-self-center text-[1.5rem]"></i>
 					<span class="font-semibold">{modalPhoto.camera}</span>
@@ -161,7 +160,7 @@
 				{#if modalPhoto.iso}
 					<svg class="text-accent h-7 w-7 justify-self-center" viewBox="0 0 24 24">
 						<path
-							d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5.5 7.5h2v-2H9v2h2V9H9v2H7.5V9h-2V7.5zM19 19H5L19 5v14zm-2-2v-1.5h-5V17h5z"
+							d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM5.5 7.5h2v-2H9v2h2V9H9v2H7.5V9h-2V7.5zM19 19H5L19 5v14zm-2-2v-1.5h-5V17h5z"
 							fill="var(--color-accent)"
 						></path>
 					</svg>

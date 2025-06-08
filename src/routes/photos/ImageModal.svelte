@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import type { Photo } from '$lib/types/photoTypes';
 	import { getIconClassForPhoto, MUSHROOM_SVG, getPhotoPopupHtml } from '$lib/utils/photoUtils';
+	import { formatMonthYear } from '$lib/utils/photoUtils';
 
 	export let allPhotos: Photo[] = [];
 
@@ -768,7 +769,7 @@
 				>
 					<div class="min-w-0 flex-1">
 						<div class="text-lg font-bold">{modalPhoto.title}</div>
-						{#if modalPhoto.date}<div class="text-sm">{modalPhoto.date}</div>{/if}
+						{#if modalPhoto.date}<div class="text-sm">{formatMonthYear(modalPhoto.date)}</div>{/if}
 						<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
 							{#if modalPhoto.camera}
 								<span class="flex items-center gap-1">
