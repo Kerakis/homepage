@@ -233,6 +233,7 @@
 				gallery,
 				currentPath ? `${currentPath}/${sub}` : sub
 			)}
+			{@const count = countPhotosInSection(gallery, currentPath ? `${currentPath}/${sub}` : sub)}
 			<button
 				type="button"
 				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
@@ -264,7 +265,8 @@
 								{sub.charAt(0).toUpperCase() + sub.slice(1)}
 							</h3>
 							<p class="text-xs leading-tight opacity-80">
-								{countPhotosInSection(gallery, currentPath ? `${currentPath}/${sub}` : sub)} photos
+								{count}
+								{count === 1 ? 'photo' : 'photos'}
 							</p>
 						</div>
 						<!-- Right side: Date Range, bottom right -->
