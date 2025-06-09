@@ -528,6 +528,20 @@
 		<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
 			No birds found matching "<span class="font-semibold">{$search}</span>".
 		</p>
+	{:else if (displayMode === 'all' && $birdnetData.loading) || (displayMode === '24h' && stats24hLoading)}
+		<div class="text-accent flex flex-col items-center justify-center py-16 text-2xl">
+			<svg
+				class="text-accent mb-4 h-12 w-12 animate-spin"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+				></circle>
+				<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+			</svg>
+			<span>Loading...</span>
+		</div>
 	{:else}
 		<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
 			No bird data available.
@@ -539,7 +553,7 @@
 		<BirdModal bird={modalData} {detectionsAllTime} onClose={closeModal} />
 	{/if}
 
-	<!-- Bottom nav bar -->
+	<!-- Bottom nav bar -->s
 	<div
 		class="fixed bottom-1 left-1/2 z-40 flex w-auto max-w-lg -translate-x-1/2 flex-row items-center justify-center gap-2 rounded-lg bg-neutral-900/95 px-1.5 py-1 text-xs text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:bottom-4 md:px-4 md:py-2 md:text-lg"
 		class:opacity-0={modalOpen}
