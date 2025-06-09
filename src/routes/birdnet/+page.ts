@@ -20,14 +20,16 @@ interface Summary {
 	total_detections: number;
 }
 
+const CACHE_KEY = 'birdnet:species';
+const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+const CACHE_VERSION = 2; // Increment this if you change the cache structure
+
 interface CachedData {
 	species: SpeciesDetail[];
 	summary: Summary;
 	lastUpdated: number;
+	version: number; // Add this
 }
-
-const CACHE_KEY = 'birdnet:species';
-const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
 
 // Consolidate cache management functions
 const cacheManager = {
@@ -37,11 +39,14 @@ const cacheManager = {
 				const raw = localStorage.getItem(CACHE_KEY);
 				if (raw) {
 					const data = JSON.parse(raw) as CachedData;
-					// Check if cache is still valid
-					if (Date.now() - data.lastUpdated <= TWENTY_FOUR_HOURS_MS) {
+					// Check if cache is still valid and version matches
+					if (
+						data.version === CACHE_VERSION &&
+						Date.now() - data.lastUpdated <= TWENTY_FOUR_HOURS_MS
+					) {
 						return data;
 					}
-					// Cache expired, remove it
+					// Cache expired or version mismatch, remove it
 					localStorage.removeItem(CACHE_KEY);
 				}
 			}
@@ -125,7 +130,8 @@ async function fetchFreshData(fetch: typeof window.fetch): Promise<CachedData> {
 		const result: CachedData = {
 			species: speciesWithDetails,
 			summary,
-			lastUpdated: Date.now()
+			lastUpdated: Date.now(),
+			version: CACHE_VERSION // Add version here
 		};
 
 		// Update in-memory cache and save to localStorage

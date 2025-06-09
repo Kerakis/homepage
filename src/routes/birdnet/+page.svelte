@@ -553,7 +553,7 @@
 		<BirdModal bird={modalData} {detectionsAllTime} onClose={closeModal} />
 	{/if}
 
-	<!-- Bottom nav bar -->s
+	<!-- Bottom nav bar -->
 	<div
 		class="fixed bottom-1 left-1/2 z-40 flex w-auto max-w-lg -translate-x-1/2 flex-row items-center justify-center gap-2 rounded-lg bg-neutral-900/95 px-1.5 py-1 text-xs text-white shadow-lg backdrop-blur-sm transition-opacity duration-300 md:bottom-4 md:px-4 md:py-2 md:text-lg"
 		class:opacity-0={modalOpen}
