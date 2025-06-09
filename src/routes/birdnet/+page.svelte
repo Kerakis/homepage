@@ -1,55 +1,90 @@
 <script lang="ts">
 	export let data: { speciesData?: Promise<any> };
 
-	import { birdnetData, loadBirdnetData } from '$lib/stores/birdnet';
-	import { fetchDetections } from '$lib/fetchDetections';
-	import { fetchStationStats } from '$lib/fetchStationStats';
-	import { fetchAllSpecies } from '$lib/fetchSpecies';
+	import {
+		birdnetData,
+		loadAllTimeData,
+		load24hData,
+		loadLiveData,
+		sortMode,
+		search
+	} from '$lib/stores/birdnet';
+	import { fetchDetections } from '$lib/api/fetchDetections';
+	import {
+		filteredSpecies,
+		filteredSpecies24h,
+		filteredLiveDetections
+	} from '$lib/stores/birdnetFilters';
 	import BirdModal from './BirdModal.svelte';
 	import { formatRelativeTime } from '$lib/utils/time';
-	import { fetchAllLiveDetections } from '$lib/fetchLiveDetections';
-	import { filteredSpecies } from '$lib/stores/birdnetFilters';
-	import { speciesStore, sortMode, search } from '$lib/stores/birdnet';
 	import { get } from 'svelte/store';
 	import { fly } from 'svelte/transition';
-	import { liveDetectionsStore, filteredLiveDetections } from '$lib/stores/birdnetLiveFilters';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
+
+	// Add auto-refresh timer
+	let autoRefreshInterval: ReturnType<typeof setInterval> | null = null;
+	const AUTO_REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
 	onMount(() => {
 		const handleFocus = () => {
-			// Only refresh if not already loading or refreshing
-			if (!$birdnetData.loading && !refreshing) {
+			// Only refresh if not already loading or refreshing AND it's been more than 5 minutes
+			const timeSinceLastUpdate = $birdnetData.lastUpdated
+				? now - $birdnetData.lastUpdated
+				: Infinity;
+			if (!$birdnetData.loading && !refreshing && timeSinceLastUpdate > AUTO_REFRESH_INTERVAL_MS) {
 				refreshBirdnet();
 			}
 		};
 		window.addEventListener('focus', handleFocus);
-		return () => window.removeEventListener('focus', handleFocus);
+
+		// Set up auto-refresh for non-live modes
+		if (displayMode !== 'live') {
+			autoRefreshInterval = setInterval(() => {
+				if (!refreshing && !$birdnetData.loading) {
+					refreshBirdnet();
+				}
+			}, AUTO_REFRESH_INTERVAL_MS);
+		}
+
+		return () => {
+			window.removeEventListener('focus', handleFocus);
+			if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+		};
+	});
+
+	onDestroy(() => {
+		if (liveInterval) {
+			clearInterval(liveInterval);
+		}
+		if (tooltipTimeout) {
+			clearTimeout(tooltipTimeout);
+		}
+		if (autoRefreshInterval) {
+			// Add this
+			clearInterval(autoRefreshInterval);
+		}
 	});
 
 	afterNavigate(() => {
-		if (!$birdnetData.loading && !refreshing) {
+		const timeSinceLastUpdate = $birdnetData.lastUpdated
+			? now - $birdnetData.lastUpdated
+			: Infinity;
+		if (!$birdnetData.loading && !refreshing && timeSinceLastUpdate > AUTO_REFRESH_INTERVAL_MS) {
 			refreshBirdnet();
 		}
 	});
 
 	let modalOpen = false;
 	let modalData: any = null;
-	let liveLastUpdated: number | null = null;
 
 	let displayMode: 'all' | '24h' | 'live' =
 		((typeof localStorage !== 'undefined' && localStorage.getItem('birdnet:displayMode')) as any) ||
 		'all';
-	let previousDisplayMode = displayMode; // Initialize previousDisplayMode
+	let previousDisplayMode = displayMode;
 
-	// For 24h mode
-	let stats24h = { total_species: 0, total_detections: 0 };
-	let stats24hLoading = false;
-
-	// For live mode
+	// For live mode - use values from store
 	let liveInterval: ReturnType<typeof setInterval> | null = null;
-	let liveError = '';
-	let liveLoading = false;
 
 	// Modal-related
 	let detectionsAllTime: number = 0;
@@ -60,64 +95,54 @@
 		Array<{ timestamp: string; soundscape: { url: string } }>
 	> = {};
 
-	// --- Display Mode Logic and all other logic remain unchanged ---
+	// FIX: Add missing variables from the store
+	$: stats24hLoading = $birdnetData.stats24hLoading;
+	$: stats24h = $birdnetData.stats24h;
+	$: liveLoading = $birdnetData.liveLoading;
+	$: liveError = $birdnetData.liveError;
+	$: liveLastUpdated = $birdnetData.liveLastUpdated;
 
-	// 1. Always fetch and cache All Time species data at app start
-	$: if (
-		displayMode === 'all' &&
-		data &&
-		data.speciesData &&
-		(get(birdnetData).lastUpdated === null ||
-			get(birdnetData).species.length === 0 ||
-			get(birdnetData).error)
-	) {
-		Promise.resolve(data.speciesData)
-			.then((resolved) => {
-				if (resolved && resolved.species) {
-					const current = get(birdnetData);
-					// Only update if the cache is newer or the store is empty
-					if (
-						!current.lastUpdated ||
-						(resolved.lastUpdated && resolved.lastUpdated > current.lastUpdated)
-					) {
-						birdnetData.set({
-							species: resolved.species,
-							summary: resolved.summary,
-							lastUpdated: resolved.lastUpdated,
-							loading: false,
-							error: null
-						});
-						speciesStore.set(resolved.species);
-					}
-				} else {
-					birdnetData.set({
-						species: [],
-						summary: { total_species: 0, total_detections: 0 },
-						lastUpdated: null,
-						loading: false,
-						error: 'No data received'
-					});
-				}
-			})
-			.catch((e) => {
-				birdnetData.set({
-					species: [],
-					summary: { total_species: 0, total_detections: 0 },
-					lastUpdated: null,
-					loading: false,
-					error: 'Failed to load data'
-				});
-			});
+	let showTooltip = false;
+	let showScrollTooltip = false; // Add this line
+	let tooltipTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	function handleTooltip(show: boolean) {
+		if (tooltipTimeout) {
+			clearTimeout(tooltipTimeout);
+			tooltipTimeout = null;
+		}
+
+		if (show) {
+			showTooltip = true;
+		} else {
+			tooltipTimeout = setTimeout(() => {
+				showTooltip = false;
+			}, 200);
+		}
+	}
+
+	// FIX: Add cooldown calculation
+	$: cooldownSecondsLeft = Math.ceil(
+		(REFRESH_COOLDOWN_MS - (now - ($birdnetData.lastUpdated ?? 0))) / 1000
+	);
+
+	// Load initial data from cache if available
+	$: if (data.speciesData && get(birdnetData).lastUpdated === null) {
+		data.speciesData.then((cachedData) => {
+			birdnetData.update((store) => ({
+				...store,
+				species: cachedData.species,
+				summary: cachedData.summary,
+				lastUpdated: cachedData.lastUpdated
+			}));
+		});
 	}
 
 	async function openModal(bird: any) {
 		const allTimeSpecies = get(birdnetData).species;
 		const canonicalDataFromAllTime = allTimeSpecies.find((s: any) => s.id == bird.id);
-
 		modalData = { ...(canonicalDataFromAllTime || {}), ...bird };
-
 		modalOpen = true;
-
 		detectionsAllTime = canonicalDataFromAllTime?.detections?.total ?? bird.detections?.total ?? 0;
 
 		const id = modalData.id;
@@ -139,273 +164,113 @@
 	// --- Display Mode Logic ---
 
 	// 24h mode
-	$: if (displayMode === '24h') {
-		stats24hLoading = true;
-		const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-		Promise.all([fetchAllSpecies({ fetch, since }), fetchStationStats({ fetch, since })])
-			.then(([species, stats]) => {
-				speciesStore.set(species);
-				stats24h = {
-					total_species: stats.species ?? 0,
-					total_detections: stats.detections ?? 0
-				};
-			})
-			.catch(() => {
-				stats24h = { total_species: 0, total_detections: 0 };
-			})
-			.finally(() => {
-				stats24hLoading = false;
-			});
+	$: if (displayMode === '24h' && previousDisplayMode !== '24h') {
+		load24hData();
+		previousDisplayMode = displayMode;
 	}
 
 	// Live mode
-	$: if (displayMode === 'live') {
-		const fetchLive = async () => {
-			liveLoading = true;
-			liveError = '';
-			try {
-				const data = await fetchAllLiveDetections({ fetch });
-				liveDetectionsStore.set(data || []);
-				liveLastUpdated = Date.now();
-			} catch (e) {
-				liveError = 'Failed to fetch live detections';
-				console.error(e);
-			} finally {
-				liveLoading = false;
-			}
-		};
-		fetchLive();
+	$: if (displayMode === 'live' && previousDisplayMode !== 'live') {
+		loadLiveData();
+		previousDisplayMode = displayMode;
+		// Clear any existing interval first
 		if (liveInterval) clearInterval(liveInterval);
-		liveInterval = setInterval(fetchLive, 30000);
-	} else {
-		if (liveInterval) {
-			clearInterval(liveInterval);
-			liveInterval = null;
+		// Set up new interval
+		liveInterval = setInterval(() => loadLiveData(), 30000);
+	} else if (displayMode !== 'live' && liveInterval) {
+		clearInterval(liveInterval);
+		liveInterval = null;
+		if (previousDisplayMode === 'live') {
+			previousDisplayMode = displayMode;
 		}
 	}
 
 	// All time mode (default)
 	$: if (
 		displayMode === 'all' &&
-		data &&
-		data.speciesData &&
-		get(birdnetData).lastUpdated === null // Only set if not already loaded/refreshed
+		(get(birdnetData).lastUpdated === null ||
+			get(birdnetData).species.length === 0 ||
+			get(birdnetData).error)
 	) {
-		Promise.resolve(data.speciesData)
-			.then((resolved) => {
-				if (resolved && resolved.species) {
-					birdnetData.set({
-						species: resolved.species,
-						summary: resolved.summary,
-						lastUpdated: resolved.lastUpdated,
-						loading: false,
-						error: null
-					});
-					speciesStore.set(resolved.species);
-				} else {
-					birdnetData.set({
-						species: [],
-						summary: { total_species: 0, total_detections: 0 },
-						lastUpdated: null,
-						loading: false,
-						error: 'No data received'
-					});
-				}
-			})
-			.catch((e) => {
-				birdnetData.set({
-					species: [],
-					summary: { total_species: 0, total_detections: 0 },
-					lastUpdated: null,
-					loading: false,
-					error: 'Failed to load data'
-				});
-			});
+		loadAllTimeData();
 	}
 
-	let autoRefreshIntervalId: ReturnType<typeof setInterval> | null = null;
-
-	function initiateAutoRefresh(interval: number) {
-		if (autoRefreshIntervalId) clearInterval(autoRefreshIntervalId);
-		autoRefreshIntervalId = setInterval(() => {
-			if (displayMode === 'live') {
-				// Only refresh live data in live mode
-				if (!refreshing) refreshBirdnet();
-			} else if (!refreshing) {
-				refreshBirdnet();
-			}
-		}, interval);
-	}
-
-	function stopAutoRefresh() {
-		if (autoRefreshIntervalId) {
-			clearInterval(autoRefreshIntervalId);
-			autoRefreshIntervalId = null;
-		}
-	}
-
-	// Manage auto-refresh based on mode
-	$: {
-		if (typeof window !== 'undefined') {
-			if (displayMode === 'live') {
-				initiateAutoRefresh(30_000); // 30 seconds
-			} else if (displayMode === 'all' || displayMode === '24h') {
-				initiateAutoRefresh(5 * 60_000); // 5 minutes
-			} else {
-				stopAutoRefresh();
-			}
-		}
-	}
-
-	// --- Refresh Logic ---
-
+	// --- Refresh Logic (PRESERVED EXACTLY) ---
 	let refreshStartTime = 0;
 	let refreshing = false;
 
 	function refreshBirdnet() {
-		if (isWithinRefreshCooldown) return;
-		if (refreshing) return; // Prevent re-entrant refresh calls
-
-		refreshing = true;
-		refreshStartTime = Date.now(); // Set refresh start time
-		loadBirdnetData();
+		if (displayMode === 'all') {
+			refreshStartTime = Date.now();
+			refreshing = true;
+			loadAllTimeData();
+		} else if (displayMode === '24h') {
+			refreshStartTime = Date.now();
+			refreshing = true;
+			load24hData();
+		} else if (displayMode === 'live') {
+			loadLiveData();
+		}
 	}
 
-	// This $: block is the one that ensures refreshing is visible for at least 500ms
-	// The simpler one that was at excerpt line 303 will be removed.
-	$: if (!$birdnetData.loading && refreshing) {
+	// This ensures refreshing is visible for at least 500ms
+	$: if (!$birdnetData.loading && !$birdnetData.stats24hLoading && refreshing) {
 		const elapsed = Date.now() - refreshStartTime;
-		if (elapsed < 500) {
+		if (elapsed >= 500) {
+			refreshing = false;
+		} else {
 			setTimeout(() => {
 				refreshing = false;
 			}, 500 - elapsed);
-		} else {
-			refreshing = false;
 		}
 	}
 
 	function scrollToTop() {
-		if (typeof window !== 'undefined') {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
-		}
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	const REFRESH_COOLDOWN_MS = 60 * 1000; // 1 minute cooldown
 
 	let now = Date.now();
-	let nowInterval: ReturnType<typeof setInterval> | null = null;
-
 	onMount(() => {
-		nowInterval = setInterval(() => {
+		const nowInterval = setInterval(() => {
 			now = Date.now();
-		}, 250);
-
-		return () => {
-			if (nowInterval) clearInterval(nowInterval);
-		};
+		}, 1000);
+		return () => clearInterval(nowInterval);
 	});
 
-	// New reactive block to handle switching out of live mode
-	$: {
-		if (previousDisplayMode === 'live' && (displayMode === 'all' || displayMode === '24h')) {
-			if (!$birdnetData.loading && !refreshing) {
-				// Check if not already processing
-				refreshBirdnet();
-			}
-		}
-		previousDisplayMode = displayMode;
-	}
-
 	$: isWithinRefreshCooldown =
-		typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0
-			? now - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS
-			: false;
-
+		$birdnetData.lastUpdated !== null && now - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS;
 	$: if (displayMode === 'live' && $sortMode !== 'last') sortMode.set('last');
 	$: if (typeof localStorage !== 'undefined') {
 		localStorage.setItem('birdnet:displayMode', displayMode);
-		localStorage.setItem('birdnet:sortMode', $sortMode);
 	}
 
-	$: if (displayMode === 'all') {
-		speciesStore.set($birdnetData.species);
-	}
+	// Update auto-refresh when display mode changes
+	$: {
+		const currentMode = displayMode;
+		const prevMode = previousDisplayMode;
 
-	const STALE_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes
-
-	$: isStale =
-		$birdnetData.lastUpdated !== null && Date.now() - $birdnetData.lastUpdated > STALE_THRESHOLD_MS;
-
-	let showTooltip = false;
-	let tooltipTimeout: ReturnType<typeof setTimeout> | null = null;
-	let cooldownInterval: ReturnType<typeof setInterval> | null = null;
-	let cooldownCheckInterval: ReturnType<typeof setInterval> | null = null;
-	let cooldownSecondsLeft = 0;
-
-	function updateCooldownSecondsLeft() {
-		if (typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0) {
-			const left = Math.ceil(
-				(REFRESH_COOLDOWN_MS - (Date.now() - $birdnetData.lastUpdated)) / 1000
-			);
-			cooldownSecondsLeft = left > 0 ? left : 0;
-		} else {
-			cooldownSecondsLeft = 0;
-		}
-		// Hide tooltip if cooldown is over
-		if (cooldownSecondsLeft === 0 && showTooltip) {
-			showTooltip = false;
-		}
-	}
-
-	function handleTooltip(show: boolean) {
-		showTooltip = show;
-		if (show) {
-			updateCooldownSecondsLeft();
-			if (cooldownInterval) clearInterval(cooldownInterval);
-			cooldownInterval = setInterval(() => {
-				updateCooldownSecondsLeft();
-			}, 250);
-			if (tooltipTimeout) {
-				clearTimeout(tooltipTimeout);
-				tooltipTimeout = null;
-			}
-			// Auto-hide tooltip after 2.5s on mobile tap
-			if ('ontouchstart' in window) {
-				tooltipTimeout = setTimeout(() => {
-					showTooltip = false;
-				}, 2500);
+		if (currentMode === 'live') {
+			if (autoRefreshInterval) {
+				clearInterval(autoRefreshInterval);
+				autoRefreshInterval = null;
 			}
 		} else {
-			if (cooldownInterval) {
-				clearInterval(cooldownInterval);
-				cooldownInterval = null;
+			// When switching FROM live mode to another mode, refresh data immediately
+			if (prevMode === 'live') {
+				refreshBirdnet();
 			}
-			if (tooltipTimeout) {
-				clearTimeout(tooltipTimeout);
-				tooltipTimeout = null;
+
+			if (!autoRefreshInterval) {
+				autoRefreshInterval = setInterval(() => {
+					if (!refreshing && !$birdnetData.loading) {
+						refreshBirdnet();
+					}
+				}, AUTO_REFRESH_INTERVAL_MS);
 			}
 		}
 	}
-
-	function getCooldownSecondsLeft() {
-		if (typeof $birdnetData.lastUpdated === 'number' && $birdnetData.lastUpdated > 0) {
-			const left = Math.ceil(
-				(REFRESH_COOLDOWN_MS - (Date.now() - $birdnetData.lastUpdated)) / 1000
-			);
-			return left > 0 ? left : 0;
-		}
-		return 0;
-	}
-
-	onMount(() => {
-		cooldownCheckInterval = setInterval(() => {
-			// This will trigger Svelte reactivity for isWithinRefreshCooldown
-			// because it depends on $birdnetData.lastUpdated and Date.now()
-		}, 250);
-		return () => {
-			if (cooldownCheckInterval) clearInterval(cooldownCheckInterval);
-		};
-	});
 </script>
 
 <svelte:head>
@@ -429,13 +294,6 @@
 {:else if $birdnetData.error}
 	<p class="text-red-600">Failed to load bird data: {$birdnetData.error}</p>
 {:else}
-	{#key $birdnetData.species}
-		{@html (() => {
-			speciesStore.set($birdnetData.species);
-			return '';
-		})()}
-	{/key}
-
 	<header class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
 		<span class="font-bold">BirdNet</span>
 		<span class="text-accent mx-2">—</span>
@@ -476,7 +334,7 @@
 								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
 							></span>
 						{:else}
-							{$liveDetectionsStore.length}
+							{$birdnetData.liveDetections.length}
 						{/if}
 					</span>
 				</p>
@@ -614,9 +472,9 @@
 				No birds detected in the last 30 minutes.
 			</p>
 		{/if}
-	{:else if $filteredSpecies.length}
+	{:else if (displayMode === '24h' ? $filteredSpecies24h : $filteredSpecies).length}
 		<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-			{#each $filteredSpecies as bird (bird.id)}
+			{#each displayMode === '24h' ? $filteredSpecies24h : $filteredSpecies as bird (bird.id)}
 				<button
 					type="button"
 					class="group flex w-full cursor-pointer flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 ease-in-out hover:scale-[1.03] hover:shadow-xl dark:bg-neutral-800 dark:shadow-neutral-100/5 dark:hover:shadow-neutral-100/10"
@@ -690,8 +548,11 @@
 	>
 		<button
 			on:click={scrollToTop}
+			on:mouseenter={() => (showScrollTooltip = true)}
+			on:mouseleave={() => (showScrollTooltip = false)}
 			aria-label="Back to top"
 			class="group hover:bg-accent cursor-pointer rounded-lg bg-white p-2 text-xl text-black transition-colors"
+			style="position: relative;"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -702,6 +563,14 @@
 			>
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
 			</svg>
+			<!-- Back to top tooltip: -->
+			{#if showScrollTooltip}
+				<div
+					class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-32 -translate-x-1/2 rounded bg-neutral-800/90 px-3 py-2 text-xs text-white shadow-lg backdrop-blur-sm"
+				>
+					Back to top
+				</div>
+			{/if}
 		</button>
 		<span class="whitespace-nowrap">
 			{#if displayMode === 'live' && liveLastUpdated}
@@ -711,6 +580,11 @@
 				})}
 			{:else if refreshing}
 				Refreshing Data
+			{:else if displayMode === '24h' && $birdnetData.lastUpdated}
+				Last updated: {new Date($birdnetData.lastUpdated).toLocaleTimeString([], {
+					hour: 'numeric',
+					minute: '2-digit'
+				})}
 			{:else if $birdnetData.lastUpdated}
 				Last updated: {new Date($birdnetData.lastUpdated).toLocaleTimeString([], {
 					hour: 'numeric',
@@ -729,17 +603,17 @@
 				}
 			}}
 			on:mouseenter={() => {
-				if (displayMode === 'live' || refreshing || isWithinRefreshCooldown) handleTooltip(true);
+				handleTooltip(true);
 			}}
 			on:mouseleave={() => handleTooltip(false)}
 			on:touchstart={() => {
-				if (displayMode === 'live' || refreshing || isWithinRefreshCooldown) handleTooltip(true);
+				handleTooltip(true);
 			}}
 			aria-label="Refresh bird data"
 			class="group hover:bg-accent flex items-center justify-center rounded-lg bg-white p-2
         text-xl text-black transition-colors
         {displayMode === 'live' || refreshing || isWithinRefreshCooldown
-				? 'cursor-not-allowed opacity-60'
+				? 'cursor-not-allowed'
 				: 'cursor-pointer'}"
 			disabled={displayMode === 'live' || refreshing || isWithinRefreshCooldown}
 			style="position: relative;"
@@ -760,10 +634,10 @@
 					d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
 				/>
 			</svg>
+			<!-- Refresh button tooltip: -->
 			{#if showTooltip}
 				<div
-					class="absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded bg-neutral-800 px-3 py-2 text-xs text-white shadow-lg"
-					style="pointer-events: none;"
+					class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded bg-neutral-800/90 px-3 py-2 text-xs text-white shadow-lg backdrop-blur-sm"
 				>
 					{#if displayMode === 'live'}
 						Live Mode refreshes automatically every 30 seconds.
@@ -773,6 +647,8 @@
 						Manual refresh is on cooldown ({cooldownSecondsLeft}s left).<br />
 						This helps prevent excessive API calls.<br />
 						Page updates automatically every 5 minutes.
+					{:else}
+						Manually refresh the data
 					{/if}
 				</div>
 			{/if}

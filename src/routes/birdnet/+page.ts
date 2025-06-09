@@ -1,8 +1,8 @@
-import { fetchAllSpecies } from '$lib/fetchSpecies';
-import { fetchSpeciesDetails } from '$lib/fetchSpeciesDetails';
+import { fetchAllSpecies } from '$lib/api/fetchSpecies';
+import { fetchSpeciesDetails } from '$lib/api/fetchSpeciesDetails';
 
 interface SpeciesDetail {
-	id: string; // Stays as string, matching documentation for JSON response
+	id: string;
 	scientificName: string;
 	commonName: string;
 	detections?: {
@@ -26,88 +26,115 @@ interface CachedData {
 	lastUpdated: number;
 }
 
-let cachedData: CachedData | null = null;
 const CACHE_KEY = 'birdnet:species';
 const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
 
-function loadFromLocalStorage(): CachedData | null {
-	try {
-		if (typeof window !== 'undefined') {
-			const raw = localStorage.getItem(CACHE_KEY);
-			if (raw) return JSON.parse(raw) as CachedData;
+// Consolidate cache management functions
+const cacheManager = {
+	load(): CachedData | null {
+		try {
+			if (typeof window !== 'undefined') {
+				const raw = localStorage.getItem(CACHE_KEY);
+				if (raw) {
+					const data = JSON.parse(raw) as CachedData;
+					// Check if cache is still valid
+					if (Date.now() - data.lastUpdated <= TWENTY_FOUR_HOURS_MS) {
+						return data;
+					}
+					// Cache expired, remove it
+					localStorage.removeItem(CACHE_KEY);
+				}
+			}
+		} catch (e) {
+			console.error('Error loading from localStorage:', e);
 		}
-	} catch (e) {
-		console.error('Error loading from localStorage:', e);
-	}
-	return null;
-}
+		return null;
+	},
 
-function saveToLocalStorage(data: CachedData) {
-	try {
-		if (typeof window !== 'undefined') {
-			localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+	save(data: CachedData): void {
+		try {
+			if (typeof window !== 'undefined') {
+				localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+			}
+		} catch (e) {
+			console.error('Error saving to localStorage:', e);
 		}
-	} catch (e) {
-		console.error('Error saving to localStorage:', e);
+	},
+
+	clear(): void {
+		try {
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem(CACHE_KEY);
+			}
+		} catch (e) {
+			console.error('Error clearing localStorage:', e);
+		}
 	}
-}
+};
+
+let cachedData: CachedData | null = null;
 
 export async function load({ fetch, depends }) {
 	depends(CACHE_KEY);
 
+	// Try to load from cache first (only on client-side)
 	if (typeof window !== 'undefined' && !cachedData) {
-		cachedData = loadFromLocalStorage();
+		cachedData = cacheManager.load();
 	}
 
-	if (cachedData && cachedData.lastUpdated) {
-		const now = Date.now();
-		if (now - cachedData.lastUpdated > TWENTY_FOUR_HOURS_MS) {
-			cachedData = null;
-			if (typeof window !== 'undefined') {
-				localStorage.removeItem(CACHE_KEY);
-			}
-		}
-	}
-
+	// If we have valid cached data, return it
 	if (cachedData) {
 		return { speciesData: Promise.resolve(cachedData) };
 	}
 
-	const speciesPromise = (async (): Promise<CachedData> => {
-		// Assuming 'speciesFromApi' is the raw result from fetchAllSpecies
-		// and it might have 'id' as a number.
+	// No valid cache, fetch fresh data
+	const speciesPromise = fetchFreshData(fetch);
+
+	return {
+		speciesData: speciesPromise
+	};
+}
+
+async function fetchFreshData(fetch: typeof window.fetch): Promise<CachedData> {
+	try {
+		// Fetch species data
 		const speciesFromApi = await fetchAllSpecies({ fetch, period: 'all' });
+
+		// Calculate summary stats
 		const summary: Summary = {
 			total_species: speciesFromApi.length,
 			total_detections: speciesFromApi.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
 		};
+
+		// Fetch additional details for all species
 		const identifiers = speciesFromApi.map((s) => `${s.scientificName}_${s.commonName}`);
 		const detailsMap = await fetchSpeciesDetails(identifiers, fetch);
 
+		// Merge species data with details
 		const speciesWithDetails: SpeciesDetail[] = speciesFromApi.map((s) => {
 			const key = `${s.scientificName}_${s.commonName}`;
 			const details = detailsMap[key] || {};
-			// Explicitly create the object matching SpeciesDetail
 			return {
-				...s, // 1. Spread other properties from s first
-				...details, // 2. Spread details from detailsMap
-				id: String(s.id) // 3. Ensure id is a string, this will overwrite s.id if it was numeric
+				...s,
+				...details,
+				id: String(s.id) // Ensure id is always a string
 			};
 		});
 
+		// Create the final cached data object
 		const result: CachedData = {
 			species: speciesWithDetails,
 			summary,
 			lastUpdated: Date.now()
 		};
 
+		// Update in-memory cache and save to localStorage
 		cachedData = result;
-		saveToLocalStorage(result);
+		cacheManager.save(result);
 
 		return result;
-	})();
-
-	return {
-		speciesData: speciesPromise
-	};
+	} catch (error) {
+		console.error('Error fetching fresh species data:', error);
+		throw error;
+	}
 }

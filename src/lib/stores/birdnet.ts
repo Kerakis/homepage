@@ -1,6 +1,10 @@
 import { writable } from 'svelte/store';
-import { fetchAllSpecies } from '$lib/fetchSpecies';
-import { fetchSpeciesDetails } from '$lib/fetchSpeciesDetails';
+import { fetchAllSpecies } from '$lib/api/fetchSpecies';
+import { fetchSpeciesDetails } from '$lib/api/fetchSpeciesDetails';
+import { fetchStationStats } from '$lib/api/fetchStationStats';
+import { fetchAllLiveDetections } from '$lib/api/fetchLiveDetections';
+
+declare const fetch: typeof globalThis.fetch;
 
 export type Species = {
 	id: string;
@@ -22,61 +26,127 @@ export type Species = {
 	latestDetectionAt: string;
 };
 
-interface Summary {
-	total_species: number;
-	total_detections: number;
-}
-const initialLastUpdated = null;
+export type LiveDetection = {
+	id: number;
+	species: Species;
+	timestamp: string;
+	confidence?: number;
+	soundscape?: {
+		url: string;
+		startTime?: number;
+	};
+};
 
-export const birdnetData = writable<{
-	species: Species[];
-	summary: Summary;
-	lastUpdated: number | null;
-	loading: boolean;
-	error: string | null;
-}>({
-	species: [],
+// Single consolidated store for ALL birdnet data
+export const birdnetData = writable({
+	// All-time data
+	species: [] as Species[],
 	summary: { total_species: 0, total_detections: 0 },
-	lastUpdated: initialLastUpdated,
-	loading: true,
-	error: null
+	lastUpdated: null as number | null,
+	loading: false,
+	error: null as string | null,
+
+	// 24h data
+	species24h: [] as Species[],
+	stats24h: { total_species: 0, total_detections: 0 },
+	stats24hLoading: false,
+
+	// Live data
+	liveDetections: [] as LiveDetection[],
+	liveLastUpdated: null as number | null,
+	liveLoading: false,
+	liveError: ''
 });
 
-export async function loadBirdnetData() {
-	birdnetData.update((d) => ({ ...d, loading: true, error: null }));
+// UI state stores
+export const sortMode = writable<'last' | 'most'>('last');
+export const search = writable('');
+
+// Actions for loading different data types
+export async function loadAllTimeData() {
+	birdnetData.update((store) => ({ ...store, loading: true, error: null }));
+
 	try {
-		const species = await fetchAllSpecies({ fetch, period: 'all' });
+		const speciesFromApi = await fetchAllSpecies({ fetch, period: 'all' });
 		const summary = {
-			total_species: species.length,
-			total_detections: species.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
+			total_species: speciesFromApi.length,
+			total_detections: speciesFromApi.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
 		};
-		const identifiers = species.map((s) => `${s.scientificName}_${s.commonName}`);
+
+		const identifiers = speciesFromApi.map((s) => `${s.scientificName}_${s.commonName}`);
 		const detailsMap = await fetchSpeciesDetails(identifiers, fetch);
-		const speciesWithDetails = species.map((s) => {
+
+		const speciesWithDetails: Species[] = speciesFromApi.map((s) => {
 			const key = `${s.scientificName}_${s.commonName}`;
-			return {
-				...s,
-				...detailsMap[key],
-				id: String(s.id) // Set id last to guarantee it's a string
-			};
+			const details = detailsMap[key] || {};
+			return { ...s, ...details, id: String(s.id) };
 		});
-		const lastUpdated = Date.now();
-		birdnetData.set({
+
+		birdnetData.update((store) => ({
+			...store,
 			species: speciesWithDetails,
 			summary,
-			lastUpdated,
+			lastUpdated: Date.now(),
 			loading: false,
 			error: null
-		});
-	} catch (e) {
-		birdnetData.update((d) => ({
-			...d,
+		}));
+	} catch (error) {
+		console.error('Error loading all-time data:', error);
+		birdnetData.update((store) => ({
+			...store,
 			loading: false,
-			error: e instanceof Error ? e.message : 'Unknown error'
+			error: error instanceof Error ? error.message : 'Failed to load data'
 		}));
 	}
 }
 
-export const speciesStore = writable<Species[]>([]);
-export const sortMode = writable<'last' | 'most'>('last');
-export const search = writable('');
+export async function load24hData() {
+	birdnetData.update((store) => ({ ...store, stats24hLoading: true }));
+
+	try {
+		const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+		const [species, stats] = await Promise.all([
+			fetchAllSpecies({ fetch, since }),
+			fetchStationStats({ fetch, since })
+		]);
+
+		birdnetData.update((store) => ({
+			...store,
+			species24h: species,
+			stats24h: {
+				total_species: stats.species ?? 0,
+				total_detections: stats.detections ?? 0
+			},
+			stats24hLoading: false
+		}));
+	} catch (error) {
+		console.error('Error loading 24h data:', error);
+		birdnetData.update((store) => ({
+			...store,
+			stats24h: { total_species: 0, total_detections: 0 },
+			stats24hLoading: false
+		}));
+	}
+}
+
+export async function loadLiveData() {
+	birdnetData.update((store) => ({ ...store, liveLoading: true, liveError: '' }));
+
+	try {
+		const data = await fetchAllLiveDetections({ fetch });
+		birdnetData.update((store) => ({
+			...store,
+			liveDetections: data || [],
+			liveLastUpdated: Date.now(),
+			liveLoading: false,
+			liveError: ''
+		}));
+	} catch (error) {
+		console.error('Error loading live data:', error);
+		birdnetData.update((store) => ({
+			...store,
+			liveLoading: false,
+			liveError: 'Failed to fetch live detections'
+		}));
+	}
+}

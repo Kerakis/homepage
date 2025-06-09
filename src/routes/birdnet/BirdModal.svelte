@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, tick } from 'svelte';
-	import { fetchAllSpecies } from '$lib/fetchSpecies';
-	import { fetchDetections } from '$lib/fetchDetections';
+	import { fetchAllSpecies } from '$lib/api/fetchSpecies';
+	import { fetchDetections } from '$lib/api/fetchDetections';
 
 	export let bird: any;
 	export let detectionsAllTime: number = 0;
@@ -36,13 +36,17 @@
 		detectionsLoading = false;
 
 		// Set wiki/ebird URLs if available
-		wikiSummary = bird.wikipediaSummary || '';
-		wikiUrl = bird.wikipediaUrl || '';
+		wikiSummary = bird?.wikipediaSummary || '';
+		wikiUrl = bird?.wikipediaUrl || '';
+		ebirdUrl = bird?.ebirdUrl || '';
 	});
 
 	let showAudio: Record<number, boolean> = {};
 	let audioRefs: Array<HTMLAudioElement | null> = [];
 	let currentlyPlaying: number | null = null;
+	let audioContext: AudioContext | null = null;
+	let gainNode: GainNode | null = null;
+	let audioErrors: Record<number, string> = {}; // Track audio errors
 
 	function handleBackgroundClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
@@ -56,7 +60,10 @@
 		}
 	}
 
-	function playDetection(i: number) {
+	async function playDetection(i: number) {
+		// Clear any previous error for this detection
+		audioErrors[i] = '';
+
 		// Reset all showAudio states
 		const newShowAudio: Record<number, boolean> = {};
 		for (const key in showAudio) {
@@ -73,10 +80,38 @@
 		});
 		currentlyPlaying = i;
 
-		tick().then(() => {
+		tick().then(async () => {
 			const audio = audioRefs[i];
 			if (audio) {
-				audio.play().catch((e) => console.error('Error playing audio:', e));
+				// Method 1: Set HTML audio to max volume
+				audio.volume = 1.0;
+
+				// Method 2: Try Web Audio API boost (will fail gracefully due to CORS)
+				try {
+					if (!audioContext) {
+						// Fix TypeScript error with proper type assertion
+						audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+					}
+
+					if (audioContext.state === 'suspended') {
+						await audioContext.resume();
+					}
+
+					// This will fail due to CORS, but we'll catch it
+					const source = audioContext.createMediaElementSource(audio);
+					const gainNode = audioContext.createGain();
+					gainNode.gain.value = 200.0; // Higher boost
+					gainNode.connect(audioContext.destination);
+					source.connect(gainNode);
+				} catch (e) {
+					console.log('Web Audio API boost failed due to CORS, using HTML audio only');
+				}
+
+				audio.play().catch((e) => {
+					console.error('Error playing audio:', e);
+					audioErrors[i] = 'Failed to play audio. The sound file may be unavailable.';
+					showAudio[i] = false;
+				});
 			}
 		});
 	}
@@ -161,9 +196,10 @@
 							—
 						{/if}
 					</span>
-					detections in last 24h
+					{detections24h === 1 ? 'detection' : 'detections'} in last 24h
 					<br />
-					<span class="font-bold">{detectionsAllTime.toLocaleString()}</span> detections all time
+					<span class="font-bold">{detectionsAllTime.toLocaleString()}</span>
+					{detectionsAllTime === 1 ? 'detection' : 'detections'} all time
 				</p>
 
 				{#if wikiSummary}
@@ -179,9 +215,15 @@
 					</div>
 				{/if}
 
-				<h3 class="mb-2 text-sm font-semibold text-gray-700 dark:text-neutral-200">
-					Recent Detections:
-				</h3>
+				<div class="mb-2 flex items-center justify-between">
+					<h3 class="text-sm font-semibold text-gray-700 dark:text-neutral-200">
+						Recent {detections.length === 1 ? 'Detection' : 'Detections'}:
+					</h3>
+					<div class="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
+						<i class="fa-solid fa-triangle-exclamation"></i>
+						<span>Volume may be loud!</span>
+					</div>
+				</div>
 				{#if detectionsLoading}
 					<div
 						class="flex flex-col items-center justify-center py-6 text-sm text-gray-500 dark:text-neutral-400"
@@ -209,55 +251,82 @@
 						class="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-neutral-500 dark:scrollbar-track-neutral-700 mb-4 max-h-32 space-y-1.5 overflow-y-auto pr-1"
 					>
 						{#each detections as det, i}
-							<li
-								class="flex items-center justify-between gap-2 rounded-md bg-gray-50 p-2 dark:bg-neutral-700/50"
-							>
-								<span class="text-xs text-gray-500 dark:text-neutral-400"
-									>{new Date(det.timestamp).toLocaleString([], {
-										dateStyle: 'short',
-										timeStyle: 'short'
-									})}</span
-								>
-								{#if det.soundscape?.url}
-									{#if !showAudio[i]}
-										<button
-											class="bg-accent-red hover:bg-accent-red-dark flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold transition-colors"
-											on:click={() => playDetection(i)}
-											aria-label={`Play sound from ${new Date(det.timestamp).toLocaleString()}`}
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												class="h-4 w-4 text-gray-500 dark:text-neutral-400"
-												fill="currentColor"
-												viewBox="0 0 20 20"
+							<li class="flex flex-col gap-1 rounded-md bg-gray-50 p-2 dark:bg-neutral-700/50">
+								<div class="flex items-center justify-between gap-2">
+									<span class="text-xs text-gray-500 dark:text-neutral-400"
+										>{new Date(det.timestamp).toLocaleString([], {
+											dateStyle: 'short',
+											timeStyle: 'short'
+										})}</span
+									>
+									{#if det.soundscape?.url}
+										{#if !showAudio[i]}
+											<button
+												class="bg-accent-red hover:bg-accent-red-dark flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold transition-colors"
+												on:click={() => playDetection(i)}
+												aria-label={`Play sound from ${new Date(det.timestamp).toLocaleString()}`}
 											>
-												<polygon points="3,2 17,10 3,18" />
-											</svg>
-											<span>Play</span>
-										</button>
-									{:else}
-										<audio
-											bind:this={audioRefs[i]}
-											src={det.soundscape.url}
-											controls
-											class="h-7 w-full max-w-[200px] sm:max-w-[250px]"
-											on:play={() => {
-												audioRefs.forEach((audio, idx) => {
-													if (audio && idx !== i) {
-														audio.pause();
-														audio.currentTime = 0;
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-4 w-4 text-white"
+													fill="currentColor"
+													viewBox="0 0 20 20"
+												>
+													<polygon points="3,2 17,10 3,18" />
+												</svg>
+												<span class="text-white">Play</span>
+											</button>
+										{:else}
+											<audio
+												bind:this={audioRefs[i]}
+												src={det.soundscape.url}
+												controls
+												preload="auto"
+												crossorigin="anonymous"
+												class="h-7 w-full max-w-[200px] sm:max-w-[250px]"
+												on:loadeddata={() => {
+													if (audioRefs[i]) {
+														audioRefs[i].volume = 1.0;
 													}
-												});
-												currentlyPlaying = i;
-											}}
-											on:ended={() => (showAudio[i] = false)}
-										></audio>
+												}}
+												on:play={() => {
+													const audio = audioRefs[i];
+													if (audio) {
+														audio.volume = 1.0;
+													}
+													audioRefs.forEach((audio, idx) => {
+														if (audio && idx !== i) {
+															audio.pause();
+															audio.currentTime = 0;
+														}
+													});
+													currentlyPlaying = i;
+												}}
+												on:ended={() => (showAudio[i] = false)}
+												on:error={() => {
+													audioErrors[i] = 'Audio file could not be loaded or played.';
+													showAudio[i] = false;
+												}}
+											></audio>
+										{/if}
+									{:else}
+										<span class="text-xs text-gray-400">No audio available</span>
 									{/if}
+								</div>
+
+								<!-- Error message display -->
+								{#if audioErrors[i]}
+									<div class="flex items-center gap-1 text-xs text-red-500 dark:text-red-400">
+										<svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+											<path
+												fill-rule="evenodd"
+												d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+										<span>{audioErrors[i]}</span>
+									</div>
 								{/if}
-							</li>
-						{:else}
-							<li class="py-2 text-center text-xs text-gray-500 dark:text-neutral-400">
-								No recent sound detections available.
 							</li>
 						{/each}
 					</ul>
