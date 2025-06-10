@@ -229,7 +229,7 @@
 						class="flex flex-col items-center justify-center py-6 text-sm text-gray-500 dark:text-neutral-400"
 					>
 						<svg
-							class="text-accent-red dark:text-accent-red-dark mb-2 h-8 w-8 animate-spin"
+							class="mb-2 h-8 w-8 animate-spin text-black dark:text-white"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
@@ -262,19 +262,19 @@
 									{#if det.soundscape?.url}
 										{#if !showAudio[i]}
 											<button
-												class="bg-accent-red hover:bg-accent-red-dark flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold transition-colors"
+												class="flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold transition-colors"
 												on:click={() => playDetection(i)}
 												aria-label={`Play sound from ${new Date(det.timestamp).toLocaleString()}`}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
-													class="h-4 w-4 text-white"
+													class="h-4 w-4 text-gray-500 dark:text-neutral-400"
 													fill="currentColor"
 													viewBox="0 0 20 20"
 												>
 													<polygon points="3,2 17,10 3,18" />
 												</svg>
-												<span class="text-white">Play</span>
+												<span class="text-gray-500 dark:text-neutral-400">Play</span>
 											</button>
 										{:else}
 											<audio
@@ -316,7 +316,7 @@
 
 								<!-- Error message display -->
 								{#if audioErrors[i]}
-									<div class="flex items-center gap-1 text-xs text-red-500 dark:text-red-400">
+									<div class="text-accent flex items-center gap-1 text-xs">
 										<svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
 											<path
 												fill-rule="evenodd"
