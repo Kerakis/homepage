@@ -111,8 +111,14 @@ async function scanPhotosDirectory() {
 		dot: false
 	});
 
-	// Get all WebP files
+	// Get all WebP files in photos directory
 	const webpImages = await fg(['**/*.webp'], { cwd: PHOTOS_DIR, dot: false });
+
+	// Get all WebP thumbnails in thumbnails directory
+	let webpThumbnails = [];
+	if (fs.existsSync(THUMBNAILS_DIR)) {
+		webpThumbnails = await fg(['**/*.webp'], { cwd: THUMBNAILS_DIR, dot: false });
+	}
 
 	// Load existing gallery data
 	let existingGallery = [];
@@ -125,11 +131,15 @@ async function scanPhotosDirectory() {
 		}
 	}
 
-	// Convert existing gallery to flat array of photo paths
+	// Convert existing gallery to flat array of photo paths and thumbnail paths
 	const existingPhotoPaths = new Set();
+	const existingThumbnailPaths = new Set();
 	for (const section of existingGallery) {
 		for (const photo of section.photos || []) {
 			existingPhotoPaths.add(photo.src);
+			if (photo.thumbnailSrc) {
+				existingThumbnailPaths.add(photo.thumbnailSrc);
+			}
 		}
 	}
 
@@ -155,6 +165,15 @@ async function scanPhotosDirectory() {
 		}
 	}
 
+	// Find orphaned thumbnail files (thumbnail WebP files without entries in photos.json)
+	const orphanedThumbnails = [];
+	for (const entry of webpThumbnails) {
+		const thumbnailPath = `/photos_thumbnails/${entry.replace(/\\/g, '/')}`;
+		if (!existingThumbnailPaths.has(thumbnailPath)) {
+			orphanedThumbnails.push(entry);
+		}
+	}
+
 	// Find missing photos (entries in photos.json without actual files)
 	const missingPhotos = [];
 	for (const section of existingGallery) {
@@ -170,6 +189,7 @@ async function scanPhotosDirectory() {
 	const results = {
 		newPhotos,
 		orphanedWebPs,
+		orphanedThumbnails,
 		missingPhotos,
 		existingGallery
 	};
@@ -197,6 +217,13 @@ function displayScanResults(scanResults) {
 	console.log(`\nOrphaned WebP files (not in gallery data): ${scanResults.orphanedWebPs.length}`);
 	if (scanResults.orphanedWebPs.length > 0) {
 		scanResults.orphanedWebPs.forEach((photo) => console.log(`  - ${photo}`));
+	}
+
+	console.log(
+		`\nOrphaned thumbnail files (not in gallery data): ${scanResults.orphanedThumbnails.length}`
+	);
+	if (scanResults.orphanedThumbnails.length > 0) {
+		scanResults.orphanedThumbnails.forEach((thumb) => console.log(`  - ${thumb}`));
 	}
 
 	console.log(
@@ -1559,21 +1586,20 @@ async function showMainMenu(scanResults) {
 	console.log('3. Remove missing photos from gallery data');
 	console.log('4. Remove a specific photo');
 	console.log('5. Edit photo EXIF data');
-	console.log('6. Delete ALL photos and data (with confirmation)');
-	console.log('7. Refresh scan results');
-	console.log('8. Exit without changes');
+	console.log('6. Clean up orphaned thumbnails');
+	console.log('7. Delete ALL photos and data (with confirmation)');
+	console.log('8. Refresh scan results');
+	console.log('9. Exit without changes');
 
-	const choice = await prompt('\nEnter your choice (1-8): ');
+	const choice = await prompt('\nEnter your choice (1-9): ');
 
 	switch (choice) {
 		case '1': {
 			const workDone = await processNewPhotos(scanResults.newPhotos, scanResults.existingGallery);
 			if (workDone) {
-				// Only rescan if work was actually done
 				const newScanResults = await scanPhotosDirectory();
 				return await showMainMenu(newScanResults);
 			} else {
-				// No work done, return to menu with same results
 				return await showMainMenu(scanResults);
 			}
 		}
@@ -1584,11 +1610,9 @@ async function showMainMenu(scanResults) {
 				scanResults.existingGallery
 			);
 			if (workDone) {
-				// Only rescan if work was actually done
 				const newScanResults = await scanPhotosDirectory();
 				return await showMainMenu(newScanResults);
 			} else {
-				// No work done, return to menu with same results
 				return await showMainMenu(scanResults);
 			}
 		}
@@ -1599,43 +1623,47 @@ async function showMainMenu(scanResults) {
 				scanResults.existingGallery
 			);
 			if (workDone) {
-				// Only rescan if work was actually done
 				const newScanResults = await scanPhotosDirectory();
 				return await showMainMenu(newScanResults);
 			} else {
-				// No work done, return to menu with same results
 				return await showMainMenu(scanResults);
 			}
 		}
 
 		case '4': {
 			await removePhoto(scanResults.existingGallery);
-			// Always rescan after photo removal attempt (even if cancelled)
 			const newScanResults = await scanPhotosDirectory();
 			return await showMainMenu(newScanResults);
 		}
 
 		case '5': {
 			await editPhotoExif(scanResults.existingGallery);
-			// Always rescan after EXIF editing attempt (even if cancelled)
 			const newScanResults = await scanPhotosDirectory();
 			return await showMainMenu(newScanResults);
 		}
 
 		case '6': {
-			await deleteAllPhotosAndData();
-			// Always rescan after deletion attempt (even if cancelled)
-			const newScanResults = await scanPhotosDirectory();
-			return await showMainMenu(newScanResults);
+			const workDone = await cleanupOrphanedThumbnails(scanResults.orphanedThumbnails);
+			if (workDone) {
+				const newScanResults = await scanPhotosDirectory();
+				return await showMainMenu(newScanResults);
+			} else {
+				return await showMainMenu(scanResults);
+			}
 		}
 
 		case '7': {
-			// Refresh scan results
+			await deleteAllPhotosAndData();
 			const newScanResults = await scanPhotosDirectory();
 			return await showMainMenu(newScanResults);
 		}
 
-		case '8':
+		case '8': {
+			const newScanResults = await scanPhotosDirectory();
+			return await showMainMenu(newScanResults);
+		}
+
+		case '9':
 			console.log('Exiting without changes.');
 			return;
 
@@ -1643,6 +1671,50 @@ async function showMainMenu(scanResults) {
 			console.log('Invalid choice. Please try again.');
 			return await showMainMenu(scanResults);
 	}
+}
+
+// Add new function to clean up orphaned thumbnails
+async function cleanupOrphanedThumbnails(orphanedThumbnails) {
+	if (orphanedThumbnails.length === 0) {
+		console.log('No orphaned thumbnails found.');
+		return false;
+	}
+
+	console.log(
+		`\nFound ${orphanedThumbnails.length} orphaned thumbnail ${pluralize(orphanedThumbnails.length, 'file')}:`
+	);
+	orphanedThumbnails.forEach((thumb) => console.log(`  - ${thumb}`));
+
+	const confirm = await prompt('\nDelete all orphaned thumbnails? (yes/no): ');
+	if (confirm.toLowerCase() !== 'yes') {
+		console.log('Operation cancelled.');
+		return false;
+	}
+
+	let deletedCount = 0;
+	console.log('\nDeleting orphaned thumbnails...');
+
+	for (const thumb of orphanedThumbnails) {
+		try {
+			const thumbPath = path.join(THUMBNAILS_DIR, thumb);
+			await fsp.unlink(thumbPath);
+			console.log(`Deleted: ${thumb}`);
+			log(`Deleted orphaned thumbnail: ${thumbPath}`);
+			deletedCount++;
+		} catch (err) {
+			log(`Error deleting thumbnail ${thumb}: ${err.message}`, true);
+			console.error(`Error deleting ${thumb}:`, err.message);
+		}
+	}
+
+	console.log(
+		`\n✅ Deleted ${deletedCount} orphaned thumbnail ${pluralize(deletedCount, 'file')}.`
+	);
+	log(
+		`Cleanup completed: deleted ${deletedCount} orphaned thumbnail ${pluralize(deletedCount, 'file')}`
+	);
+
+	return deletedCount > 0;
 }
 
 async function main() {

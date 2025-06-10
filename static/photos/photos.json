@@ -134,10 +134,10 @@
 				"subject": "birds"
 			},
 			{
-				"src": "/photos/wildlife/birds/Black-bellied Whistling Ducks.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling Ducks_thumb.webp",
-				"filename": "Black-bellied Whistling Ducks.webp",
-				"title": "Black-bellied Whistling Ducks",
+				"src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks.webp",
+				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Ducks_thumb.webp",
+				"filename": "Black-bellied Whistling-Ducks.webp",
+				"title": "Black-bellied Whistling-Ducks",
 				"date": "2025:06:07 14:42:10",
 				"camera": "Canon EOS R5m2",
 				"lens": "RF200-800mm F6.3-9 IS USM",
@@ -152,10 +152,10 @@
 				"subject": "birds"
 			},
 			{
-				"src": "/photos/wildlife/birds/Black-bellied Whistling Ducks2.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling Ducks2_thumb.webp",
-				"filename": "Black-bellied Whistling Ducks2.webp",
-				"title": "Black-bellied Whistling Ducks",
+				"src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks2.webp",
+				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Ducks2_thumb.webp",
+				"filename": "Black-bellied Whistling-Ducks2.webp",
+				"title": "Black-bellied Whistling-Ducks",
 				"date": "2025:06:07 14:41:17",
 				"camera": "Canon EOS R5m2",
 				"lens": "RF200-800mm F6.3-9 IS USM",
@@ -166,6 +166,24 @@
 				"gps": {
 					"lat": 35.911726,
 					"lon": -84.152444
+				},
+				"subject": "birds"
+			},
+			{
+				"src": "/photos/wildlife/birds/Black-bellied Whistling-Duck.webp",
+				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Duck_thumb.webp",
+				"filename": "Black-bellied Whistling-Duck.webp",
+				"title": "Black-bellied Whistling-Duck",
+				"date": "2025:06:07 13:13:59",
+				"camera": "Canon EOS R5m2",
+				"lens": "RF100-500mm F4.5-7.1 L IS USM",
+				"focalLength": "343 mm",
+				"aperture": "f/8.0",
+				"exposure": "1/800",
+				"iso": 640,
+				"gps": {
+					"lat": 35.791718,
+					"lon": -83.976578
 				},
 				"subject": "birds"
 			}

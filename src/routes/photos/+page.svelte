@@ -157,8 +157,14 @@
 	function closeModal() {
 		if (!browser) return;
 		modalOpen = false;
-		const params = new URLSearchParams(page.url.search);
-		if (params.has('modal')) {
+
+		// Use history.back() to go back to the state before the modal was opened
+		// This avoids creating a new history entry and ensures back button works correctly
+		if (window.history.length > 1) {
+			window.history.back();
+		} else {
+			// Fallback if there's no history to go back to (edge case)
+			const params = new URLSearchParams(page.url.search);
 			params.delete('modal');
 			params.delete('photo');
 			goto(`${window.location.pathname}?${params.toString()}`, { replaceState: true });
