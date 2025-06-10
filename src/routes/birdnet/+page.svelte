@@ -165,6 +165,8 @@
 
 	// 24h mode
 	$: if (displayMode === '24h' && previousDisplayMode !== '24h') {
+		refreshing = true;
+		refreshStartTime = Date.now();
 		load24hData();
 		previousDisplayMode = displayMode;
 	}
@@ -192,6 +194,8 @@
 			get(birdnetData).species.length === 0 ||
 			get(birdnetData).error)
 	) {
+		refreshing = true;
+		refreshStartTime = Date.now();
 		loadAllTimeData();
 	}
 
@@ -278,9 +282,9 @@
 </svelte:head>
 
 {#if $birdnetData.loading && !$birdnetData.species.length && displayMode === 'all'}
-	<div class="text-accent flex flex-col items-center justify-center py-16 text-2xl">
+	<div class="flex flex-col items-center justify-center py-16 text-2xl text-black dark:text-white">
 		<svg
-			class="text-accent mb-4 h-12 w-12 animate-spin"
+			class="mb-4 h-12 w-12 animate-spin text-black dark:text-white"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
 			viewBox="0 0 24 24"
@@ -292,7 +296,7 @@
 		<span>Loading...</span>
 	</div>
 {:else if $birdnetData.error}
-	<p class="text-red-600">Failed to load bird data: {$birdnetData.error}</p>
+	<p class="text-accent">Failed to load bird data: {$birdnetData.error}</p>
 {:else}
 	<header class="mb-6 text-sm text-black dark:text-white" aria-label="Breadcrumb">
 		<span class="font-bold">BirdNet</span>
@@ -454,9 +458,11 @@
 				minutes.
 			</p>
 		{:else if liveLoading}
-			<div class="text-accent-red flex flex-col items-center justify-center py-16 text-2xl">
+			<div
+				class="flex flex-col items-center justify-center py-16 text-2xl text-black dark:text-white"
+			>
 				<svg
-					class="text-accent-red mb-4 h-12 w-12 animate-spin"
+					class="mb-4 h-12 w-12 animate-spin text-black dark:text-white"
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
 					viewBox="0 0 24 24"
@@ -529,9 +535,11 @@
 			No birds found matching "<span class="font-semibold">{$search}</span>".
 		</p>
 	{:else if (displayMode === 'all' && $birdnetData.loading) || (displayMode === '24h' && stats24hLoading)}
-		<div class="text-accent flex flex-col items-center justify-center py-16 text-2xl">
+		<div
+			class="flex flex-col items-center justify-center py-16 text-2xl text-black dark:text-white"
+		>
 			<svg
-				class="text-accent mb-4 h-12 w-12 animate-spin"
+				class="mb-4 h-12 w-12 animate-spin text-black dark:text-white"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				viewBox="0 0 24 24"
