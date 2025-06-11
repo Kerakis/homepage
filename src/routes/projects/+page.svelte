@@ -10,17 +10,17 @@
 	</span>
 </header>
 <div class="m-auto mt-5 grid w-11/12 grid-cols-1 gap-5 sm:grid-cols-2">
-	<a href="https://parallels.kerakis.online" target="_blank" rel="noreferrer" class="block">
+	<a href="https://scry.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
 			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
 		>
-			<header class="mb-2 text-xl font-bold">Time to Draw Some Parallels</header>
+			<header class="mb-2 text-xl font-bold">Pick a card! Any card!</header>
 			<section>
 				A nifty little matching game based off of the artwork from Magic: the Gathering.
 			</section>
 		</div>
 	</a>
-	<a href="https://parallels.kerakis.online" target="_blank" rel="noreferrer" class="block">
+	<a href="https://calc.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
 			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
 		>
