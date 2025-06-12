@@ -117,3 +117,11 @@
 2025-06-12T17:58:33.653Z - [INFO] EXIF data updated for photo: Black-bellied Whistling-Ducks.webp in section: wildlife/birds
 2025-06-12T17:58:33.653Z - [INFO]   Changed wikipediaUrl: "https://en.wikipedia.org/wiki/Dendrocygna autumnalis" → "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck"
 2025-06-12T17:58:39.431Z - [INFO] Photo processing tool ended
+2025-06-12T19:44:16.309Z - [INFO] Photo processing tool started
+2025-06-12T19:44:21.899Z - [INFO] Starting to process 1 new photo
+2025-06-12T19:44:23.119Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\mammals\Silvered Leaf Monkey.jpg
+2025-06-12T19:44:23.121Z - [INFO] Fetching iNaturalist data for: Silvered Leaf Monkey
+2025-06-12T19:44:31.495Z - [INFO] iNaturalist data selected for Silvered Leaf Monkey: Trachypithecus cristatus
+2025-06-12T19:44:31.495Z - [INFO] Successfully processed and added photo: Silvered Leaf Monkey.webp
+2025-06-12T19:44:31.496Z - [INFO] Gallery data updated with 1 new photo
+2025-06-12T19:44:39.027Z - [INFO] Photo processing tool ended

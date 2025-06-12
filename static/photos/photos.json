@@ -1,308 +1,335 @@
 [
-	{
-		"section": "wildlife/amphibians",
-		"photos": [
-			{
-				"src": "/photos/wildlife/amphibians/American Bullfrog.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/amphibians/American Bullfrog_thumb.webp",
-				"filename": "American Bullfrog.webp",
-				"title": "American Bullfrog",
-				"date": "2025:05:20 10:13:13",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF100-500mm F4.5-7.1 L IS USM",
-				"focalLength": "500 mm",
-				"aperture": "f/7.1",
-				"exposure": "1/125",
-				"iso": 3200,
-				"gps": {
-					"lat": 35.996188,
-					"lon": -84.20765
-				},
-				"subject": "amphibians",
-				"scientificName": "Lithobates catesbeianus",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/American_bullfrog",
-				"iNaturalistId": 65979
-			}
-		]
-	},
-	{
-		"section": "wildlife/birds",
-		"photos": [
-			{
-				"src": "/photos/wildlife/birds/Barred Owl.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Barred Owl_thumb.webp",
-				"filename": "Barred Owl.webp",
-				"title": "Barred Owl",
-				"date": "2025:04:02 11:05:17",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM",
-				"focalLength": "800 mm",
-				"aperture": "f/9.0",
-				"exposure": "1/400",
-				"iso": 5000,
-				"gps": {
-					"lat": 35.986446,
-					"lon": -84.176274
-				},
-				"subject": "birds",
-				"scientificName": "Strix varia",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Barred_owl",
-				"iNaturalistId": 19893
-			},
-			{
-				"src": "/photos/wildlife/birds/Black and White Warbler.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black and White Warbler_thumb.webp",
-				"filename": "Black and White Warbler.webp",
-				"title": "Black and White Warbler",
-				"date": "2025:05:14 10:07:24",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF100-500mm F4.5-7.1 L IS USM",
-				"focalLength": "500 mm",
-				"aperture": "f/7.1",
-				"exposure": "1/500",
-				"iso": 5000,
-				"gps": {
-					"lat": 35.639557,
-					"lon": -83.73878500000001
-				},
-				"subject": "birds",
-				"scientificName": "Mniotilta varia",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-and-white_warbler",
-				"iNaturalistId": 10286
-			},
-			{
-				"src": "/photos/wildlife/birds/Bobolink.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Bobolink_thumb.webp",
-				"filename": "Bobolink.webp",
-				"title": "Bobolink",
-				"date": "2025:05:06 12:04:18",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM + EXTENDER RF1.4x",
-				"focalLength": "1120 mm",
-				"aperture": "f/13.0",
-				"exposure": "1/1000",
-				"iso": 6400,
-				"gps": {
-					"lat": 35.914192,
-					"lon": -84.506263
-				},
-				"subject": "birds",
-				"scientificName": "Dolichonyx oryzivorus",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Bobolink",
-				"iNaturalistId": 10487
-			},
-			{
-				"src": "/photos/wildlife/birds/Indigo Bunting.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Indigo Bunting_thumb.webp",
-				"filename": "Indigo Bunting.webp",
-				"title": "Indigo Bunting",
-				"date": "2025:05:20 11:19:40",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF100-500mm F4.5-7.1 L IS USM",
-				"focalLength": "500 mm",
-				"aperture": "f/7.1",
-				"exposure": "1/1600",
-				"iso": 2000,
-				"gps": {
-					"lat": 35.991085,
-					"lon": -84.279755
-				},
-				"subject": "birds",
-				"scientificName": "Passerina cyanea",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Indigo_bunting",
-				"iNaturalistId": 10227
-			},
-			{
-				"src": "/photos/wildlife/birds/Myrtle Warbler.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Myrtle Warbler_thumb.webp",
-				"filename": "Myrtle Warbler.webp",
-				"title": "Myrtle Warbler",
-				"date": "2025:04:20 10:41:56",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM + EXTENDER RF1.4x",
-				"focalLength": "1120 mm",
-				"aperture": "f/13.0",
-				"exposure": "1/640",
-				"iso": 5000,
-				"gps": {
-					"lat": 36.004517,
-					"lon": -83.941078
-				},
-				"subject": "birds",
-				"scientificName": "Setophaga coronata coronata",
-				"taxonRank": "subspecies",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Myrtle_warbler",
-				"iNaturalistId": 132704
-			},
-			{
-				"src": "/photos/wildlife/birds/Short-billed Dowitcher.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Short-billed Dowitcher_thumb.webp",
-				"filename": "Short-billed Dowitcher.webp",
-				"title": "Short-billed Dowitcher",
-				"date": "2025:05:16 11:22:58",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM",
-				"focalLength": "800 mm",
-				"aperture": "f/9.0",
-				"exposure": "1/1600",
-				"iso": 3200,
-				"gps": {
-					"lat": 36.114919,
-					"lon": -84.10908
-				},
-				"subject": "birds",
-				"scientificName": "Limnodromus griseus",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Short-billed_dowitcher",
-				"iNaturalistId": 3869
-			},
-			{
-				"src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Ducks_thumb.webp",
-				"filename": "Black-bellied Whistling-Ducks.webp",
-				"title": "Black-bellied Whistling-Ducks",
-				"date": "2025:06:07 14:42:10",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM",
-				"focalLength": "800 mm",
-				"aperture": "f/10.0",
-				"exposure": "1/1000",
-				"iso": 2000,
-				"gps": {
-					"lat": 35.911726,
-					"lon": -84.152444
-				},
-				"subject": "birds",
-				"scientificName": "Dendrocygna autumnalis fulgens",
-				"taxonRank": "subspecies",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
-				"iNaturalistId": 559678
-			},
-			{
-				"src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks2.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Ducks2_thumb.webp",
-				"filename": "Black-bellied Whistling-Ducks2.webp",
-				"title": "Black-bellied Whistling-Ducks",
-				"date": "2025:06:07 14:41:17",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM",
-				"focalLength": "539 mm",
-				"aperture": "f/10.0",
-				"exposure": "1/640",
-				"iso": 2000,
-				"gps": {
-					"lat": 35.911726,
-					"lon": -84.152444
-				},
-				"subject": "birds",
-				"scientificName": "Dendrocygna autumnalis fulgens",
-				"taxonRank": "subspecies",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
-				"iNaturalistId": 559678
-			},
-			{
-				"src": "/photos/wildlife/birds/Black-bellied Whistling-Duck.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Duck_thumb.webp",
-				"filename": "Black-bellied Whistling-Duck.webp",
-				"title": "Black-bellied Whistling-Duck",
-				"date": "2025:06:07 13:13:59",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF100-500mm F4.5-7.1 L IS USM",
-				"focalLength": "343 mm",
-				"aperture": "f/8.0",
-				"exposure": "1/800",
-				"iso": 640,
-				"gps": {
-					"lat": 35.791718,
-					"lon": -83.976578
-				},
-				"subject": "birds",
-				"scientificName": "Dendrocygna autumnalis fulgens",
-				"taxonRank": "subspecies",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
-				"iNaturalistId": 559678
-			},
-			{
-				"src": "/photos/wildlife/birds/Willet.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Willet_thumb.webp",
-				"filename": "Willet.webp",
-				"title": "Willet",
-				"date": "2025:05:28 13:12:15",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF200-800mm F6.3-9 IS USM",
-				"focalLength": "800 mm",
-				"aperture": "f/9.0",
-				"exposure": "1/2500",
-				"iso": 4000,
-				"gps": {
-					"lat": 36.114972,
-					"lon": -84.109428
-				},
-				"subject": "birds",
-				"scientificName": "Tringa semipalmata",
-				"taxonRank": "species",
-				"wikipediaUrl": "https://en.wikipedia.org/wiki/Willet",
-				"iNaturalistId": 144491
-			}
-		]
-	},
-	{
-		"section": "wildlife/reptiles",
-		"photos": [
-			{
-				"src": "/photos/wildlife/reptiles/Pond Slider.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/reptiles/Pond Slider_thumb.webp",
-				"filename": "Pond Slider.webp",
-				"title": "Pond Slider",
-				"date": "2025:05:20 11:48:35",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF100-500mm F4.5-7.1 L IS USM",
-				"focalLength": "500 mm",
-				"aperture": "f/7.1",
-				"exposure": "1/400",
-				"iso": 400,
-				"gps": {
-					"lat": 35.98914,
-					"lon": -84.277953
-				},
-				"subject": "reptiles",
-				"scientificName": "Trachemys scripta",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Pond_slider",
-				"iNaturalistId": 39782
-			}
-		]
-	},
-	{
-		"section": "wildlife/spiders",
-		"photos": [
-			{
-				"src": "/photos/wildlife/spiders/Bold Jumper.webp",
-				"thumbnailSrc": "/photos_thumbnails/wildlife/spiders/Bold Jumper_thumb.webp",
-				"filename": "Bold Jumper.webp",
-				"title": "Bold Jumper",
-				"date": "2024:10:04 13:28:13",
-				"camera": "Canon EOS R5m2",
-				"lens": "RF100mm F2.8 L MACRO IS USM",
-				"focalLength": "100 mm",
-				"aperture": "f/10.0",
-				"exposure": "1/250",
-				"iso": 2000,
-				"gps": {
-					"lat": 36.031818,
-					"lon": -84.185662
-				},
-				"subject": "spiders",
-				"scientificName": "Phidippus audax",
-				"taxonRank": "species",
-				"wikipediaUrl": "http://en.wikipedia.org/wiki/Phidippus_audax",
-				"iNaturalistId": 53809
-			}
-		]
-	}
+  {
+    "section": "wildlife/amphibians",
+    "photos": [
+      {
+        "src": "/photos/wildlife/amphibians/American Bullfrog.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/amphibians/American Bullfrog_thumb.webp",
+        "filename": "American Bullfrog.webp",
+        "title": "American Bullfrog",
+        "date": "2025:05:20 10:13:13",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/125",
+        "iso": 3200,
+        "gps": {
+          "lat": 35.996188,
+          "lon": -84.20765
+        },
+        "subject": "amphibians",
+        "scientificName": "Lithobates catesbeianus",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/American_bullfrog",
+        "iNaturalistId": 65979
+      }
+    ]
+  },
+  {
+    "section": "wildlife/birds",
+    "photos": [
+      {
+        "src": "/photos/wildlife/birds/Barred Owl.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Barred Owl_thumb.webp",
+        "filename": "Barred Owl.webp",
+        "title": "Barred Owl",
+        "date": "2025:04:02 11:05:17",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "800 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/400",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.986446,
+          "lon": -84.176274
+        },
+        "subject": "birds",
+        "scientificName": "Strix varia",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Barred_owl",
+        "iNaturalistId": 19893
+      },
+      {
+        "src": "/photos/wildlife/birds/Black and White Warbler.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black and White Warbler_thumb.webp",
+        "filename": "Black and White Warbler.webp",
+        "title": "Black and White Warbler",
+        "date": "2025:05:14 10:07:24",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/500",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.639557,
+          "lon": -83.73878500000001
+        },
+        "subject": "birds",
+        "scientificName": "Mniotilta varia",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Black-and-white_warbler",
+        "iNaturalistId": 10286
+      },
+      {
+        "src": "/photos/wildlife/birds/Bobolink.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Bobolink_thumb.webp",
+        "filename": "Bobolink.webp",
+        "title": "Bobolink",
+        "date": "2025:05:06 12:04:18",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM + EXTENDER RF1.4x",
+        "focalLength": "1120 mm",
+        "aperture": "f/13.0",
+        "exposure": "1/1000",
+        "iso": 6400,
+        "gps": {
+          "lat": 35.914192,
+          "lon": -84.506263
+        },
+        "subject": "birds",
+        "scientificName": "Dolichonyx oryzivorus",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Bobolink",
+        "iNaturalistId": 10487
+      },
+      {
+        "src": "/photos/wildlife/birds/Indigo Bunting.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Indigo Bunting_thumb.webp",
+        "filename": "Indigo Bunting.webp",
+        "title": "Indigo Bunting",
+        "date": "2025:05:20 11:19:40",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/1600",
+        "iso": 2000,
+        "gps": {
+          "lat": 35.991085,
+          "lon": -84.279755
+        },
+        "subject": "birds",
+        "scientificName": "Passerina cyanea",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Indigo_bunting",
+        "iNaturalistId": 10227
+      },
+      {
+        "src": "/photos/wildlife/birds/Myrtle Warbler.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Myrtle Warbler_thumb.webp",
+        "filename": "Myrtle Warbler.webp",
+        "title": "Myrtle Warbler",
+        "date": "2025:04:20 10:41:56",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM + EXTENDER RF1.4x",
+        "focalLength": "1120 mm",
+        "aperture": "f/13.0",
+        "exposure": "1/640",
+        "iso": 5000,
+        "gps": {
+          "lat": 36.004517,
+          "lon": -83.941078
+        },
+        "subject": "birds",
+        "scientificName": "Setophaga coronata coronata",
+        "taxonRank": "subspecies",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Myrtle_warbler",
+        "iNaturalistId": 132704
+      },
+      {
+        "src": "/photos/wildlife/birds/Short-billed Dowitcher.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Short-billed Dowitcher_thumb.webp",
+        "filename": "Short-billed Dowitcher.webp",
+        "title": "Short-billed Dowitcher",
+        "date": "2025:05:16 11:22:58",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "800 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/1600",
+        "iso": 3200,
+        "gps": {
+          "lat": 36.114919,
+          "lon": -84.10908
+        },
+        "subject": "birds",
+        "scientificName": "Limnodromus griseus",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Short-billed_dowitcher",
+        "iNaturalistId": 3869
+      },
+      {
+        "src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Ducks_thumb.webp",
+        "filename": "Black-bellied Whistling-Ducks.webp",
+        "title": "Black-bellied Whistling-Ducks",
+        "date": "2025:06:07 14:42:10",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "800 mm",
+        "aperture": "f/10.0",
+        "exposure": "1/1000",
+        "iso": 2000,
+        "gps": {
+          "lat": 35.911726,
+          "lon": -84.152444
+        },
+        "subject": "birds",
+        "scientificName": "Dendrocygna autumnalis fulgens",
+        "taxonRank": "subspecies",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
+        "iNaturalistId": 559678
+      },
+      {
+        "src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks2.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Ducks2_thumb.webp",
+        "filename": "Black-bellied Whistling-Ducks2.webp",
+        "title": "Black-bellied Whistling-Ducks",
+        "date": "2025:06:07 14:41:17",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "539 mm",
+        "aperture": "f/10.0",
+        "exposure": "1/640",
+        "iso": 2000,
+        "gps": {
+          "lat": 35.911726,
+          "lon": -84.152444
+        },
+        "subject": "birds",
+        "scientificName": "Dendrocygna autumnalis fulgens",
+        "taxonRank": "subspecies",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
+        "iNaturalistId": 559678
+      },
+      {
+        "src": "/photos/wildlife/birds/Black-bellied Whistling-Duck.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Black-bellied Whistling-Duck_thumb.webp",
+        "filename": "Black-bellied Whistling-Duck.webp",
+        "title": "Black-bellied Whistling-Duck",
+        "date": "2025:06:07 13:13:59",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "343 mm",
+        "aperture": "f/8.0",
+        "exposure": "1/800",
+        "iso": 640,
+        "gps": {
+          "lat": 35.791718,
+          "lon": -83.976578
+        },
+        "subject": "birds",
+        "scientificName": "Dendrocygna autumnalis fulgens",
+        "taxonRank": "subspecies",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
+        "iNaturalistId": 559678
+      },
+      {
+        "src": "/photos/wildlife/birds/Willet.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Willet_thumb.webp",
+        "filename": "Willet.webp",
+        "title": "Willet",
+        "date": "2025:05:28 13:12:15",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "800 mm",
+        "aperture": "f/9.0",
+        "exposure": "1/2500",
+        "iso": 4000,
+        "gps": {
+          "lat": 36.114972,
+          "lon": -84.109428
+        },
+        "subject": "birds",
+        "scientificName": "Tringa semipalmata",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Willet",
+        "iNaturalistId": 144491
+      }
+    ]
+  },
+  {
+    "section": "wildlife/reptiles",
+    "photos": [
+      {
+        "src": "/photos/wildlife/reptiles/Pond Slider.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/reptiles/Pond Slider_thumb.webp",
+        "filename": "Pond Slider.webp",
+        "title": "Pond Slider",
+        "date": "2025:05:20 11:48:35",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/400",
+        "iso": 400,
+        "gps": {
+          "lat": 35.98914,
+          "lon": -84.277953
+        },
+        "subject": "reptiles",
+        "scientificName": "Trachemys scripta",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Pond_slider",
+        "iNaturalistId": 39782
+      }
+    ]
+  },
+  {
+    "section": "wildlife/spiders",
+    "photos": [
+      {
+        "src": "/photos/wildlife/spiders/Bold Jumper.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/spiders/Bold Jumper_thumb.webp",
+        "filename": "Bold Jumper.webp",
+        "title": "Bold Jumper",
+        "date": "2024:10:04 13:28:13",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/10.0",
+        "exposure": "1/250",
+        "iso": 2000,
+        "gps": {
+          "lat": 36.031818,
+          "lon": -84.185662
+        },
+        "subject": "spiders",
+        "scientificName": "Phidippus audax",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Phidippus_audax",
+        "iNaturalistId": 53809
+      }
+    ]
+  },
+  {
+    "section": "wildlife/mammals",
+    "photos": [
+      {
+        "src": "/photos/wildlife/mammals/Silvered Leaf Monkey.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/mammals/Silvered Leaf Monkey_thumb.webp",
+        "filename": "Silvered Leaf Monkey.webp",
+        "title": "Silvered Leaf Monkey",
+        "date": "2024:05:16 11:06:43",
+        "camera": "Canon EOS R6m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/400",
+        "iso": 400,
+        "gps": {
+          "lat": 35.999127,
+          "lon": -83.886428
+        },
+        "subject": "mammals",
+        "scientificName": "Trachypithecus cristatus",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Silvery_lutung",
+        "iNaturalistId": 43497
+      }
+    ]
+  }
 ]
