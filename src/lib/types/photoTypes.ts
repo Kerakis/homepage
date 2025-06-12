@@ -13,4 +13,8 @@ export interface Photo {
 	aperture?: string;
 	exposure?: string;
 	iso?: number;
+	scientificName?: string;
+	taxonRank?: string;
+	wikipediaUrl?: string;
+	iNaturalistId?: number;
 }

@@ -5,6 +5,7 @@ import ExifReader from 'exifreader';
 import fg from 'fast-glob';
 import sharp from 'sharp';
 import readline from 'readline';
+import { setTimeout } from 'timers/promises';
 
 // Attempt to disable sharp's cache, which might help with file locking issues in some cases.
 sharp.cache(false);
@@ -13,9 +14,16 @@ const PHOTOS_DIR = path.join(process.cwd(), 'static/photos');
 const THUMBNAILS_DIR = path.join(process.cwd(), 'static/photos_thumbnails');
 const OUTPUT_FILE = path.join(PHOTOS_DIR, 'photos.json');
 const LOG_FILE = path.join(process.cwd(), 'photo-processing.log');
-
+const INATURALIST_API_BASE = 'https://api.inaturalist.org/v1';
+const RATE_LIMIT_DELAY_MS = 1000; // 1 second between requests (60/minute max)
+const INATURALIST_CACHE_FILE = path.join(process.cwd(), 'inaturalist-cache.json');
 const THUMBNAIL_WIDTH = 600;
 const MAX_LONG_EDGE = 1800;
+
+// Add rate limiting variables
+let lastApiCall = 0;
+let apiCallCount = 0;
+const dailyApiLimit = 9000; // Keep under 10,000
 
 // Setup readline interface
 const rl = readline.createInterface({
@@ -252,7 +260,7 @@ function displayScanResults(scanResults) {
 async function processNewPhotos(newPhotos, existingGallery) {
 	if (newPhotos.length === 0) {
 		console.log('No new photos to process.');
-		return false; // Return false to indicate no work was done
+		return false;
 	}
 
 	console.log(`\nProcessing ${newPhotos.length} new ${pluralize(newPhotos.length, 'photo')}...`);
@@ -374,12 +382,15 @@ async function processNewPhotos(newPhotos, existingGallery) {
 			subject = cleanFilenameForTitle(section);
 		}
 
-		if (!sections[section]) sections[section] = [];
-		sections[section].push({
+		const title =
+			getField(tags, 'ImageDescription') || cleanFilenameForTitle(originalFilenameWithExt);
+
+		// Initialize photoData object early
+		const photoData = {
 			src: fullWebPWebPath,
 			thumbnailSrc: thumbnailWebPath,
 			filename: fullWebPName,
-			title: getField(tags, 'ImageDescription') || cleanFilenameForTitle(originalFilenameWithExt),
+			title,
 			date,
 			camera,
 			lens,
@@ -389,7 +400,34 @@ async function processNewPhotos(newPhotos, existingGallery) {
 			iso,
 			gps,
 			subject
-		});
+		};
+
+		// iNaturalist lookup for wildlife and pets
+		if (isWildlifeOrPetPhoto(section)) {
+			console.log(`\n  Wildlife/pet photo detected. Looking up scientific name for: ${title}`);
+			try {
+				const taxa = await searchTaxa(title);
+				if (taxa) {
+					const taxonData = await selectTaxonInteractively(taxa, title);
+					if (taxonData) {
+						console.log(`  Selected: ${taxonData.commonName} (${taxonData.scientificName})`);
+						log(`iNaturalist data selected for ${title}: ${taxonData.scientificName}`);
+
+						// Add taxon data to photoData
+						photoData.scientificName = taxonData.scientificName;
+						photoData.taxonRank = taxonData.rank;
+						photoData.wikipediaUrl = taxonData.wikipediaUrl;
+						photoData.iNaturalistId = taxonData.iNaturalistId;
+					}
+				}
+			} catch (err) {
+				log(`Error during iNaturalist lookup for ${title}: ${err.message}`, true);
+			}
+		}
+
+		// Add photo to the appropriate section
+		if (!sections[section]) sections[section] = [];
+		sections[section].push(photoData);
 
 		log(`Successfully processed and added photo: ${fullWebPName}`);
 	}
@@ -407,7 +445,7 @@ async function processNewPhotos(newPhotos, existingGallery) {
 	fs.writeFileSync(OUTPUT_FILE, JSON.stringify(gallery, null, 2));
 	console.log(`Gallery data updated in ${OUTPUT_FILE}`);
 	log(`Gallery data updated with ${newPhotos.length} new ${pluralize(newPhotos.length, 'photo')}`);
-	return true; // Return true to indicate work was done
+	return true;
 }
 
 async function addOrphanedPhotos(orphanedWebPs, existingGallery) {
@@ -1176,6 +1214,169 @@ function validateSubject(input) {
 	return null;
 }
 
+async function loadiNaturalistCache() {
+	try {
+		if (fs.existsSync(INATURALIST_CACHE_FILE)) {
+			const data = fs.readFileSync(INATURALIST_CACHE_FILE, 'utf8');
+			return JSON.parse(data);
+		}
+	} catch (err) {
+		log(`Failed to load iNaturalist cache: ${err.message}`, true);
+	}
+	return {};
+}
+
+async function saveiNaturalistCache(cache) {
+	try {
+		fs.writeFileSync(INATURALIST_CACHE_FILE, JSON.stringify(cache, null, 2));
+	} catch (err) {
+		log(`Failed to save iNaturalist cache: ${err.message}`, true);
+	}
+}
+
+async function rateLimitedFetch(url) {
+	// Enforce rate limiting
+	const now = Date.now();
+	const timeSinceLastCall = now - lastApiCall;
+
+	if (timeSinceLastCall < RATE_LIMIT_DELAY_MS) {
+		await setTimeout(RATE_LIMIT_DELAY_MS - timeSinceLastCall);
+	}
+
+	if (apiCallCount >= dailyApiLimit) {
+		throw new Error('Daily API limit reached for iNaturalist');
+	}
+
+	lastApiCall = Date.now();
+	apiCallCount++;
+
+	const response = await fetch(url);
+	if (!response.ok) {
+		throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+	}
+
+	return response.json();
+}
+
+async function searchTaxa(query) {
+	const cacheKey = query.toLowerCase().trim();
+	const cache = await loadiNaturalistCache();
+
+	// Check cache first
+	if (cache[cacheKey]) {
+		log(`Using cached iNaturalist data for: ${query}`);
+		return cache[cacheKey];
+	}
+
+	try {
+		const encodedQuery = encodeURIComponent(query);
+		const url = `${INATURALIST_API_BASE}/taxa?q=${encodedQuery}&order=desc&order_by=observations_count&per_page=10`;
+
+		log(`Fetching iNaturalist data for: ${query}`);
+		const data = await rateLimitedFetch(url);
+
+		// Cache the result
+		cache[cacheKey] = data;
+		await saveiNaturalistCache(cache);
+
+		return data;
+	} catch (err) {
+		log(`Failed to fetch iNaturalist data for ${query}: ${err.message}`, true);
+		return null;
+	}
+}
+
+function isWildlifeOrPetPhoto(section) {
+	if (!section) return false;
+
+	// Check if it's in wildlife folder
+	if (section.startsWith('wildlife/') || section === 'wildlife') {
+		return true;
+	}
+
+	// Check if it's in family/cats or family/dogs
+	if (section.startsWith('family/cats') || section.startsWith('family/dogs')) {
+		return true;
+	}
+
+	return false;
+}
+
+async function selectTaxonInteractively(taxa, query) {
+	if (!taxa || !taxa.results || taxa.results.length === 0) {
+		console.log(`No taxa found for "${query}"`);
+		return null;
+	}
+
+	console.log(`\nFound ${taxa.results.length} taxa for "${query}":`);
+	console.log('0. Skip (no scientific name)');
+
+	taxa.results.forEach((taxon, index) => {
+		const commonName = taxon.preferred_common_name || 'No common name';
+		const scientificName = taxon.name;
+		const rank = taxon.rank;
+		const obsCount = taxon.observations_count || 0;
+
+		console.log(
+			`${index + 1}. ${commonName} (${scientificName}) - ${rank} - ${obsCount.toLocaleString()} observations`
+		);
+	});
+
+	while (true) {
+		const choice = await prompt(
+			`\nSelect the correct taxon for "${query}" (0-${taxa.results.length}): `
+		);
+		const choiceIndex = parseInt(choice);
+
+		if (choiceIndex === 0) {
+			return null; // Skip
+		}
+
+		if (choiceIndex >= 1 && choiceIndex <= taxa.results.length) {
+			const selectedTaxon = taxa.results[choiceIndex - 1];
+
+			let wikipediaUrl = selectedTaxon.wikipedia_url;
+
+			// If no Wikipedia URL and this is a subspecies with a parent, try to get parent's Wikipedia URL
+			if (
+				!wikipediaUrl &&
+				selectedTaxon.parent_id &&
+				(selectedTaxon.rank === 'subspecies' ||
+					selectedTaxon.rank === 'variety' ||
+					selectedTaxon.rank === 'form')
+			) {
+				try {
+					log(
+						`Fetching parent taxon data for ${selectedTaxon.name} (parent ID: ${selectedTaxon.parent_id})`
+					);
+					const parentUrl = `${INATURALIST_API_BASE}/taxa/autocomplete?q=${selectedTaxon.parent_id}`;
+					const parentData = await rateLimitedFetch(parentUrl);
+
+					if (parentData && parentData.results && parentData.results.length > 0) {
+						const parentTaxon = parentData.results[0];
+						if (parentTaxon.wikipedia_url) {
+							wikipediaUrl = parentTaxon.wikipedia_url;
+							log(`Using parent species Wikipedia URL for ${selectedTaxon.name}: ${wikipediaUrl}`);
+						}
+					}
+				} catch (err) {
+					log(`Failed to fetch parent taxon data for ${selectedTaxon.name}: ${err.message}`, true);
+				}
+			}
+
+			return {
+				scientificName: selectedTaxon.name,
+				commonName: selectedTaxon.preferred_common_name,
+				rank: selectedTaxon.rank,
+				wikipediaUrl: wikipediaUrl,
+				iNaturalistId: selectedTaxon.id
+			};
+		}
+
+		console.log('Invalid selection. Please try again.');
+	}
+}
+
 async function editPhotoExifData(selectedPhoto, selectedSection, existingGallery, changes = []) {
 	console.log(`\n=== EDITING EXIF DATA FOR: ${selectedPhoto.filename} ===`);
 	console.log(`Section: ${selectedSection.section}`);
@@ -1194,13 +1395,16 @@ async function editPhotoExifData(selectedPhoto, selectedSection, existingGallery
 		`9. GPS: ${selectedPhoto.gps ? `${selectedPhoto.gps.lat}, ${selectedPhoto.gps.lon}` : 'Not set'}`
 	);
 	console.log(`10. Subject: ${selectedPhoto.subject || 'Not set'}`);
-	console.log('11. Done editing');
-	console.log('12. Cancel');
+	console.log(
+		`11. Scientific Name: ${selectedPhoto.scientificName || 'Not set'}${selectedPhoto.taxonRank ? ` (${selectedPhoto.taxonRank})` : ''}`
+	);
+	console.log('12. Done editing');
+	console.log('13. Cancel');
 
-	const choice = await prompt('\nSelect field to edit (1-12): ');
+	const choice = await prompt('\nSelect field to edit (1-13): ');
 	const fieldIndex = parseInt(choice);
 
-	if (fieldIndex === 11) {
+	if (fieldIndex === 12) {
 		// Save changes
 		try {
 			const updatedGallery = existingGallery.map((section) => {
@@ -1238,7 +1442,7 @@ async function editPhotoExifData(selectedPhoto, selectedSection, existingGallery
 		return;
 	}
 
-	if (fieldIndex === 12) {
+	if (fieldIndex === 13) {
 		console.log('Editing cancelled.');
 		if (changes.length > 0) {
 			log(
@@ -1248,7 +1452,7 @@ async function editPhotoExifData(selectedPhoto, selectedSection, existingGallery
 		return;
 	}
 
-	if (fieldIndex < 1 || fieldIndex > 12) {
+	if (fieldIndex < 1 || fieldIndex > 13) {
 		console.log('Invalid selection.');
 		return await editPhotoExifData(selectedPhoto, selectedSection, existingGallery, changes);
 	}
@@ -1566,6 +1770,126 @@ async function editPhotoExifData(selectedPhoto, selectedSection, existingGallery
 				}
 			}
 			break;
+
+		case 11: // Scientific Name
+			fieldName = 'Scientific Name';
+			originalValue = selectedPhoto.scientificName;
+
+			// Only allow editing for wildlife/pet photos
+			if (!isWildlifeOrPetPhoto(selectedSection.section)) {
+				console.log('Scientific names are only available for wildlife and pet photos.');
+				break;
+			}
+
+			while (!isValid && !fieldCancelled) {
+				console.log('\nOptions:');
+				console.log('1. Search iNaturalist API');
+				console.log('2. Enter scientific name manually');
+				console.log('3. Clear scientific name');
+				console.log('4. Cancel');
+
+				const option = await prompt('Choose an option (1-4): ');
+
+				if (option === '4') {
+					fieldCancelled = true;
+					break;
+				}
+
+				if (option === '3') {
+					// Clear all taxon data
+					const fieldsToUpdate = ['scientificName', 'taxonRank', 'wikipediaUrl', 'iNaturalistId'];
+					fieldsToUpdate.forEach((field) => {
+						if (selectedPhoto[field]) {
+							changes.push({
+								field: field,
+								from: formatValueForLog(selectedPhoto[field]),
+								to: 'Not set'
+							});
+							selectedPhoto[field] = null;
+						}
+					});
+					isValid = true;
+					break;
+				}
+
+				if (option === '1') {
+					// Search iNaturalist - prepopulate with title or subject
+					const defaultQuery = selectedPhoto.title || selectedPhoto.subject || '';
+					const promptText = defaultQuery
+						? `Enter search term for iNaturalist (default: "${defaultQuery}"): `
+						: 'Enter search term for iNaturalist: ';
+
+					const userQuery = await prompt(promptText);
+					const query = userQuery.trim() || defaultQuery;
+
+					if (query) {
+						try {
+							const taxa = await searchTaxa(query);
+							if (taxa) {
+								const taxonData = await selectTaxonInteractively(taxa, query);
+								if (taxonData) {
+									// Update all taxon fields
+									const taxonFields = {
+										scientificName: taxonData.scientificName,
+										taxonRank: taxonData.rank,
+										wikipediaUrl: taxonData.wikipediaUrl,
+										iNaturalistId: taxonData.iNaturalistId
+									};
+
+									Object.entries(taxonFields).forEach(([field, value]) => {
+										if (selectedPhoto[field] !== value) {
+											changes.push({
+												field: field,
+												from: formatValueForLog(selectedPhoto[field]),
+												to: formatValueForLog(value)
+											});
+											selectedPhoto[field] = value;
+										}
+									});
+									isValid = true;
+									break;
+								}
+							}
+						} catch (err) {
+							console.log(`Error searching iNaturalist: ${err.message}`);
+						}
+					} else {
+						console.log('No search term provided.');
+					}
+				}
+
+				if (option === '2') {
+					// Manual entry
+					const scientificName = await prompt('Enter scientific name: ').trim();
+					const rank = await prompt('Enter taxonomic rank (species, genus, etc.): ').trim();
+
+					if (scientificName) {
+						if (originalValue !== scientificName) {
+							changes.push({
+								field: 'Scientific Name',
+								from: formatValueForLog(originalValue),
+								to: formatValueForLog(scientificName)
+							});
+							selectedPhoto.scientificName = scientificName;
+						}
+
+						if (rank && selectedPhoto.taxonRank !== rank) {
+							changes.push({
+								field: 'Taxon Rank',
+								from: formatValueForLog(selectedPhoto.taxonRank),
+								to: formatValueForLog(rank)
+							});
+							selectedPhoto.taxonRank = rank;
+						}
+
+						isValid = true;
+						break;
+					}
+				}
+
+				console.log('Invalid option or input. Please try again.');
+			}
+			break;
 	}
 
 	if (fieldCancelled) {
@@ -1589,7 +1913,7 @@ async function showMainMenu(scanResults) {
 	console.log('6. Clean up orphaned thumbnails');
 	console.log('7. Delete ALL photos and data (with confirmation)');
 	console.log('8. Refresh scan results');
-	console.log('9. Exit without changes');
+	console.log('9. Exit');
 
 	const choice = await prompt('\nEnter your choice (1-9): ');
 

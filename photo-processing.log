@@ -6,3 +6,114 @@
 2025-06-10T15:50:40.161Z - [INFO] Deleted orphaned thumbnail: C:\Users\Rob\Projects\homepage\static\photos_thumbnails\wildlife\birds\Bold Jumper_thumb.webp
 2025-06-10T15:50:40.161Z - [INFO] Cleanup completed: deleted 1 orphaned thumbnail file
 2025-06-10T15:51:12.333Z - [INFO] Photo processing tool ended
+2025-06-12T14:17:46.098Z - [INFO] Photo processing tool started
+2025-06-12T14:18:18.049Z - [INFO] Starting to process 1 new photo
+2025-06-12T14:18:19.348Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Willet.jpg
+2025-06-12T14:18:19.349Z - [INFO] Fetching iNaturalist data for: Willet
+2025-06-12T14:18:42.329Z - [INFO] iNaturalist data selected for Willet: Tringa semipalmata
+2025-06-12T14:18:42.330Z - [ERROR] Fatal error in main: photoData is not defined
+2025-06-12T14:18:42.331Z - [INFO] Photo processing tool ended
+2025-06-12T14:27:00.428Z - [INFO] Photo processing tool started
+2025-06-12T14:27:14.051Z - [INFO] Starting to add 1 orphaned WebP file
+2025-06-12T14:27:14.055Z - [INFO] Successfully added orphaned photo: Willet.webp
+2025-06-12T14:27:14.055Z - [INFO] Gallery data updated with 1 orphaned photo
+2025-06-12T14:27:38.088Z - [INFO] Using cached iNaturalist data for: willet
+2025-06-12T14:27:58.420Z - [INFO] EXIF data updated for photo: Willet.webp in section: wildlife/birds
+2025-06-12T14:27:58.420Z - [INFO]   Changed scientificName: "Not set" → "Tringa semipalmata"
+2025-06-12T14:27:58.420Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T14:27:58.421Z - [INFO]   Changed wikipediaUrl: "Not set" → "https://en.wikipedia.org/wiki/Willet"
+2025-06-12T14:27:58.421Z - [INFO]   Changed iNaturalistId: "Not set" → "144491"
+2025-06-12T14:28:27.880Z - [INFO] Photo processing tool ended
+2025-06-12T17:17:05.493Z - [INFO] Photo processing tool started
+2025-06-12T17:17:30.232Z - [INFO] Fetching iNaturalist data for: American Bullfrog
+2025-06-12T17:17:40.495Z - [INFO] EXIF data updated for photo: American Bullfrog.webp in section: wildlife/amphibians
+2025-06-12T17:17:40.496Z - [INFO]   Changed scientificName: "Not set" → "Lithobates catesbeianus"
+2025-06-12T17:17:40.496Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:17:40.496Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/American_bullfrog"
+2025-06-12T17:17:40.497Z - [INFO]   Changed iNaturalistId: "Not set" → "65979"
+2025-06-12T17:18:02.220Z - [INFO] Fetching iNaturalist data for: Pond Slider
+2025-06-12T17:22:54.697Z - [INFO] EXIF data updated for photo: Pond Slider.webp in section: wildlife/reptiles
+2025-06-12T17:22:54.697Z - [INFO]   Changed scientificName: "Not set" → "Trachemys scripta"
+2025-06-12T17:22:54.698Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:22:54.698Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Pond_slider"
+2025-06-12T17:22:54.698Z - [INFO]   Changed iNaturalistId: "Not set" → "39782"
+2025-06-12T17:23:16.514Z - [INFO] Fetching iNaturalist data for: Bold Jumper
+2025-06-12T17:23:23.663Z - [INFO] EXIF data updated for photo: Bold Jumper.webp in section: wildlife/spiders
+2025-06-12T17:23:23.663Z - [INFO]   Changed scientificName: "Not set" → "Phidippus audax"
+2025-06-12T17:23:23.663Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:23:23.664Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Phidippus_audax"
+2025-06-12T17:23:23.664Z - [INFO]   Changed iNaturalistId: "Not set" → "53809"
+2025-06-12T17:24:00.266Z - [INFO] Fetching iNaturalist data for: Barred Owl
+2025-06-12T17:24:13.926Z - [INFO] EXIF data updated for photo: Barred Owl.webp in section: wildlife/birds
+2025-06-12T17:24:13.926Z - [INFO]   Changed scientificName: "Not set" → "Strix varia"
+2025-06-12T17:24:13.927Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:24:13.927Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Barred_owl"
+2025-06-12T17:24:13.927Z - [INFO]   Changed iNaturalistId: "Not set" → "19893"
+2025-06-12T17:24:24.119Z - [INFO] Fetching iNaturalist data for: black and white warbler
+2025-06-12T17:24:28.651Z - [INFO] EXIF data updated for photo: Black and White Warbler.webp in section: wildlife/birds
+2025-06-12T17:24:28.651Z - [INFO]   Changed scientificName: "Not set" → "Mniotilta varia"
+2025-06-12T17:24:28.651Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:24:28.651Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Black-and-white_warbler"
+2025-06-12T17:24:28.652Z - [INFO]   Changed iNaturalistId: "Not set" → "10286"
+2025-06-12T17:24:42.692Z - [INFO] Fetching iNaturalist data for: bobolink
+2025-06-12T17:25:15.455Z - [INFO] EXIF data updated for photo: Bobolink.webp in section: wildlife/birds
+2025-06-12T17:25:15.455Z - [INFO]   Changed scientificName: "Not set" → "Dolichonyx oryzivorus"
+2025-06-12T17:25:15.456Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:25:15.456Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Bobolink"
+2025-06-12T17:25:15.456Z - [INFO]   Changed iNaturalistId: "Not set" → "10487"
+2025-06-12T17:26:37.857Z - [INFO] Fetching iNaturalist data for: indigo bunting
+2025-06-12T17:26:45.245Z - [INFO] EXIF data updated for photo: Indigo Bunting.webp in section: wildlife/birds
+2025-06-12T17:26:45.246Z - [INFO]   Changed scientificName: "Not set" → "Passerina cyanea"
+2025-06-12T17:26:45.247Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:26:45.247Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Indigo_bunting"
+2025-06-12T17:26:45.248Z - [INFO]   Changed iNaturalistId: "Not set" → "10227"
+2025-06-12T17:26:53.172Z - [INFO] Photo processing tool ended
+2025-06-12T17:27:50.481Z - [INFO] Photo processing tool started
+2025-06-12T17:28:12.006Z - [INFO] Fetching iNaturalist data for: birds
+2025-06-12T17:31:34.923Z - [INFO] Photo processing tool started
+2025-06-12T17:31:45.315Z - [INFO] Fetching iNaturalist data for: Myrtle Warbler
+2025-06-12T17:31:52.168Z - [INFO] EXIF data updated for photo: Myrtle Warbler.webp in section: wildlife/birds
+2025-06-12T17:31:52.168Z - [INFO]   Changed scientificName: "Not set" → "Setophaga coronata coronata"
+2025-06-12T17:31:52.169Z - [INFO]   Changed taxonRank: "Not set" → "subspecies"
+2025-06-12T17:31:52.169Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Myrtle_warbler"
+2025-06-12T17:31:52.169Z - [INFO]   Changed iNaturalistId: "Not set" → "132704"
+2025-06-12T17:32:02.910Z - [INFO] Fetching iNaturalist data for: Short-billed Dowitcher
+2025-06-12T17:32:36.646Z - [INFO] EXIF data updated for photo: Short-billed Dowitcher.webp in section: wildlife/birds
+2025-06-12T17:32:36.646Z - [INFO]   Changed scientificName: "Not set" → "Limnodromus griseus"
+2025-06-12T17:32:36.647Z - [INFO]   Changed taxonRank: "Not set" → "species"
+2025-06-12T17:32:36.647Z - [INFO]   Changed wikipediaUrl: "Not set" → "http://en.wikipedia.org/wiki/Short-billed_dowitcher"
+2025-06-12T17:32:36.647Z - [INFO]   Changed iNaturalistId: "Not set" → "3869"
+2025-06-12T17:32:49.228Z - [INFO] Fetching iNaturalist data for: Black-bellied Whistling-Ducks
+2025-06-12T17:33:04.118Z - [INFO] Fetching iNaturalist data for: black bellied whistling
+2025-06-12T17:33:19.459Z - [INFO] EXIF data updated for photo: Black-bellied Whistling-Ducks.webp in section: wildlife/birds
+2025-06-12T17:33:19.459Z - [INFO]   Changed scientificName: "Not set" → "Dendrocygna autumnalis fulgens"
+2025-06-12T17:33:19.460Z - [INFO]   Changed taxonRank: "Not set" → "subspecies"
+2025-06-12T17:33:19.460Z - [INFO]   Changed wikipediaUrl: "Not set" → "Not set"
+2025-06-12T17:33:19.460Z - [INFO]   Changed iNaturalistId: "Not set" → "559678"
+2025-06-12T17:33:31.393Z - [INFO] Using cached iNaturalist data for: black bellied whistling
+2025-06-12T17:33:35.266Z - [INFO] EXIF data updated for photo: Black-bellied Whistling-Ducks2.webp in section: wildlife/birds
+2025-06-12T17:33:35.266Z - [INFO]   Changed scientificName: "Not set" → "Dendrocygna autumnalis fulgens"
+2025-06-12T17:33:35.266Z - [INFO]   Changed taxonRank: "Not set" → "subspecies"
+2025-06-12T17:33:35.266Z - [INFO]   Changed wikipediaUrl: "Not set" → "Not set"
+2025-06-12T17:33:35.266Z - [INFO]   Changed iNaturalistId: "Not set" → "559678"
+2025-06-12T17:33:49.720Z - [INFO] Fetching iNaturalist data for: black bellied whistl
+2025-06-12T17:33:53.842Z - [INFO] EXIF data updated for photo: Black-bellied Whistling-Duck.webp in section: wildlife/birds
+2025-06-12T17:33:53.843Z - [INFO]   Changed scientificName: "Not set" → "Dendrocygna autumnalis fulgens"
+2025-06-12T17:33:53.843Z - [INFO]   Changed taxonRank: "Not set" → "subspecies"
+2025-06-12T17:33:53.843Z - [INFO]   Changed wikipediaUrl: "Not set" → "Not set"
+2025-06-12T17:33:53.844Z - [INFO]   Changed iNaturalistId: "Not set" → "559678"
+2025-06-12T17:33:55.388Z - [INFO] Photo processing tool ended
+2025-06-12T17:41:01.579Z - [INFO] Photo processing tool started
+2025-06-12T17:41:18.740Z - [INFO] Fetching iNaturalist data for: black bellied whist
+2025-06-12T17:41:21.757Z - [INFO] Fetching parent taxon data for Dendrocygna autumnalis fulgens (parent ID: 6893)
+2025-06-12T17:41:21.925Z - [INFO] Using parent species Wikipedia URL for Dendrocygna autumnalis fulgens: https://en.wikipedia.org/wiki/Dendrocygna autumnalis
+2025-06-12T17:41:25.085Z - [INFO] EXIF data updated for photo: Black-bellied Whistling-Ducks.webp in section: wildlife/birds
+2025-06-12T17:41:25.085Z - [INFO]   Changed wikipediaUrl: "Not set" → "https://en.wikipedia.org/wiki/Dendrocygna autumnalis"
+2025-06-12T17:41:48.826Z - [INFO] Photo processing tool ended
+2025-06-12T17:58:03.329Z - [INFO] Photo processing tool started
+2025-06-12T17:58:17.626Z - [INFO] Using cached iNaturalist data for: black bellied whist
+2025-06-12T17:58:19.335Z - [INFO] Fetching parent taxon data for Dendrocygna autumnalis fulgens (parent ID: 6893)
+2025-06-12T17:58:19.779Z - [INFO] Using parent species Wikipedia URL for Dendrocygna autumnalis fulgens: http://en.wikipedia.org/wiki/Black-bellied_whistling_duck
+2025-06-12T17:58:33.653Z - [INFO] EXIF data updated for photo: Black-bellied Whistling-Ducks.webp in section: wildlife/birds
+2025-06-12T17:58:33.653Z - [INFO]   Changed wikipediaUrl: "https://en.wikipedia.org/wiki/Dendrocygna autumnalis" → "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck"
+2025-06-12T17:58:39.431Z - [INFO] Photo processing tool ended

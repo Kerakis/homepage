@@ -18,7 +18,11 @@
 					"lat": 35.996188,
 					"lon": -84.20765
 				},
-				"subject": "amphibians"
+				"subject": "amphibians",
+				"scientificName": "Lithobates catesbeianus",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/American_bullfrog",
+				"iNaturalistId": 65979
 			}
 		]
 	},
@@ -41,7 +45,11 @@
 					"lat": 35.986446,
 					"lon": -84.176274
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Strix varia",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Barred_owl",
+				"iNaturalistId": 19893
 			},
 			{
 				"src": "/photos/wildlife/birds/Black and White Warbler.webp",
@@ -59,7 +67,11 @@
 					"lat": 35.639557,
 					"lon": -83.73878500000001
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Mniotilta varia",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-and-white_warbler",
+				"iNaturalistId": 10286
 			},
 			{
 				"src": "/photos/wildlife/birds/Bobolink.webp",
@@ -77,7 +89,11 @@
 					"lat": 35.914192,
 					"lon": -84.506263
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Dolichonyx oryzivorus",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Bobolink",
+				"iNaturalistId": 10487
 			},
 			{
 				"src": "/photos/wildlife/birds/Indigo Bunting.webp",
@@ -95,7 +111,11 @@
 					"lat": 35.991085,
 					"lon": -84.279755
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Passerina cyanea",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Indigo_bunting",
+				"iNaturalistId": 10227
 			},
 			{
 				"src": "/photos/wildlife/birds/Myrtle Warbler.webp",
@@ -113,7 +133,11 @@
 					"lat": 36.004517,
 					"lon": -83.941078
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Setophaga coronata coronata",
+				"taxonRank": "subspecies",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Myrtle_warbler",
+				"iNaturalistId": 132704
 			},
 			{
 				"src": "/photos/wildlife/birds/Short-billed Dowitcher.webp",
@@ -131,7 +155,11 @@
 					"lat": 36.114919,
 					"lon": -84.10908
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Limnodromus griseus",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Short-billed_dowitcher",
+				"iNaturalistId": 3869
 			},
 			{
 				"src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks.webp",
@@ -149,7 +177,11 @@
 					"lat": 35.911726,
 					"lon": -84.152444
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Dendrocygna autumnalis fulgens",
+				"taxonRank": "subspecies",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
+				"iNaturalistId": 559678
 			},
 			{
 				"src": "/photos/wildlife/birds/Black-bellied Whistling-Ducks2.webp",
@@ -167,7 +199,11 @@
 					"lat": 35.911726,
 					"lon": -84.152444
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Dendrocygna autumnalis fulgens",
+				"taxonRank": "subspecies",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
+				"iNaturalistId": 559678
 			},
 			{
 				"src": "/photos/wildlife/birds/Black-bellied Whistling-Duck.webp",
@@ -185,7 +221,33 @@
 					"lat": 35.791718,
 					"lon": -83.976578
 				},
-				"subject": "birds"
+				"subject": "birds",
+				"scientificName": "Dendrocygna autumnalis fulgens",
+				"taxonRank": "subspecies",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Black-bellied_whistling_duck",
+				"iNaturalistId": 559678
+			},
+			{
+				"src": "/photos/wildlife/birds/Willet.webp",
+				"thumbnailSrc": "/photos_thumbnails/wildlife/birds/Willet_thumb.webp",
+				"filename": "Willet.webp",
+				"title": "Willet",
+				"date": "2025:05:28 13:12:15",
+				"camera": "Canon EOS R5m2",
+				"lens": "RF200-800mm F6.3-9 IS USM",
+				"focalLength": "800 mm",
+				"aperture": "f/9.0",
+				"exposure": "1/2500",
+				"iso": 4000,
+				"gps": {
+					"lat": 36.114972,
+					"lon": -84.109428
+				},
+				"subject": "birds",
+				"scientificName": "Tringa semipalmata",
+				"taxonRank": "species",
+				"wikipediaUrl": "https://en.wikipedia.org/wiki/Willet",
+				"iNaturalistId": 144491
 			}
 		]
 	},
@@ -208,7 +270,11 @@
 					"lat": 35.98914,
 					"lon": -84.277953
 				},
-				"subject": "reptiles"
+				"subject": "reptiles",
+				"scientificName": "Trachemys scripta",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Pond_slider",
+				"iNaturalistId": 39782
 			}
 		]
 	},
@@ -231,7 +297,11 @@
 					"lat": 36.031818,
 					"lon": -84.185662
 				},
-				"subject": "spiders"
+				"subject": "spiders",
+				"scientificName": "Phidippus audax",
+				"taxonRank": "species",
+				"wikipediaUrl": "http://en.wikipedia.org/wiki/Phidippus_audax",
+				"iNaturalistId": 53809
 			}
 		]
 	}
