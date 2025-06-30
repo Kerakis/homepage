@@ -5,6 +5,8 @@ export interface LiveDetection {
 	species: Species;
 	timestamp: string;
 	confidence?: number;
+	lat?: number;
+	lon?: number;
 	soundscape?: {
 		url: string;
 		startTime?: number;

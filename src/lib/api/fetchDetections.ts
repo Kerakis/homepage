@@ -3,6 +3,8 @@ import { API_BASE_URL, STATION_ID } from '$lib/birdweatherConfig';
 export type Detection = {
 	id: number;
 	timestamp: string;
+	lat?: number;
+	lon?: number;
 	soundscape: {
 		url: string;
 		startTime: number;

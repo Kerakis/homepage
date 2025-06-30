@@ -10,6 +10,7 @@
 		search
 	} from '$lib/stores/birdnet';
 	import { fetchDetections } from '$lib/api/fetchDetections';
+	import { isDetectionNearHome } from '$lib/stores/birdnetFilters';
 	import {
 		filteredSpecies,
 		filteredSpecies24h,
@@ -148,7 +149,8 @@
 		const id = modalData.id;
 		if (!detectionsCache[id]) {
 			try {
-				detectionsCache[id] = await fetchDetections({ speciesId: id, limit: 5, fetch });
+				const allDetections = await fetchDetections({ speciesId: id, limit: 5, fetch });
+				detectionsCache[id] = allDetections.filter(isDetectionNearHome);
 			} catch (e) {
 				console.error('Failed to fetch recent detections for modal:', e);
 				detectionsCache[id] = [];

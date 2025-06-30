@@ -2,6 +2,7 @@
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { fetchAllSpecies } from '$lib/api/fetchSpecies';
 	import { fetchDetections } from '$lib/api/fetchDetections';
+	import { isDetectionNearHome } from '$lib/stores/birdnetFilters';
 
 	export let bird: any;
 	export let detectionsAllTime: number = 0;
@@ -29,7 +30,8 @@
 
 		// Fetch recent detections
 		try {
-			detections = await fetchDetections({ speciesId: bird.id, limit: 5, fetch });
+			const allDetections = await fetchDetections({ speciesId: bird.id, limit: 5, fetch });
+			detections = allDetections.filter(isDetectionNearHome);
 		} catch (e) {
 			detections = [];
 		}
