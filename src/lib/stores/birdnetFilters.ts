@@ -51,6 +51,11 @@ type BirdnetDataStore = {
 };
 
 function createFilteredSpecies(displayMode: 'all' | '24h') {
+	// Return empty store for SSR, will be properly set up on client
+	if (typeof window === 'undefined') {
+		return derived([birdnetData], () => [], []);
+	}
+
 	return derived(
 		[birdnetData, sortMode, search],
 		([$data, $sortMode, $search]: [BirdnetDataStore, string, string]) => {
@@ -83,19 +88,19 @@ export const filteredSpecies = createFilteredSpecies('all');
 export const filteredSpecies24h = createFilteredSpecies('24h');
 
 // Live detections filter (moved from birdnetLiveFilters.ts)
-export const filteredLiveDetections = derived(
-	[birdnetData, search],
-	([$data, $search]: [BirdnetDataStore, string]) => {
-		// First filter by GPS location
-		const nearbyDetections = $data.liveDetections.filter(isNearHome);
+export const filteredLiveDetections =
+	typeof window === 'undefined'
+		? derived([birdnetData], () => [], [])
+		: derived([birdnetData, search], ([$data, $search]: [BirdnetDataStore, string]) => {
+				// First filter by GPS location
+				const nearbyDetections = $data.liveDetections.filter(isNearHome);
 
-		if (!$search.trim()) {
-			return nearbyDetections;
-		}
-		return nearbyDetections.filter(
-			(detection: LiveDetection) =>
-				detection.species?.commonName.toLowerCase().includes($search.toLowerCase()) ||
-				detection.species?.scientificName.toLowerCase().includes($search.toLowerCase())
-		);
-	}
-);
+				if (!$search.trim()) {
+					return nearbyDetections;
+				}
+				return nearbyDetections.filter(
+					(detection: LiveDetection) =>
+						detection.species?.commonName.toLowerCase().includes($search.toLowerCase()) ||
+						detection.species?.scientificName.toLowerCase().includes($search.toLowerCase())
+				);
+			});

@@ -92,7 +92,18 @@ export async function load({ fetch, depends }) {
 		return { speciesData: Promise.resolve(cachedData) };
 	}
 
-	// No valid cache, fetch fresh data
+	// On server-side, return empty data structure to avoid fetch failures
+	if (typeof window === 'undefined') {
+		const emptyData: CachedData = {
+			species: [],
+			summary: { total_species: 0, total_detections: 0 },
+			lastUpdated: 0,
+			version: CACHE_VERSION
+		};
+		return { speciesData: Promise.resolve(emptyData) };
+	}
+
+	// No valid cache and we're on client-side, fetch fresh data
 	const speciesPromise = fetchFreshData(fetch);
 
 	return {

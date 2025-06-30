@@ -4,8 +4,6 @@ import { fetchSpeciesDetails } from '$lib/api/fetchSpeciesDetails';
 import { fetchStationStats } from '$lib/api/fetchStationStats';
 import { fetchAllLiveDetections } from '$lib/api/fetchLiveDetections';
 
-declare const fetch: typeof globalThis.fetch;
-
 export type Species = {
 	id: string;
 	commonName: string;
@@ -66,17 +64,23 @@ export const search = writable('');
 
 // Actions for loading different data types
 export async function loadAllTimeData() {
+	// Only proceed if we're in the browser
+	if (typeof window === 'undefined') {
+		console.warn('loadAllTimeData called on server side, skipping');
+		return;
+	}
+
 	birdnetData.update((store) => ({ ...store, loading: true, error: null }));
 
 	try {
-		const speciesFromApi = await fetchAllSpecies({ fetch, period: 'all' });
+		const speciesFromApi = await fetchAllSpecies({ fetch: window.fetch, period: 'all' });
 		const summary = {
 			total_species: speciesFromApi.length,
 			total_detections: speciesFromApi.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
 		};
 
 		const identifiers = speciesFromApi.map((s) => `${s.scientificName}_${s.commonName}`);
-		const detailsMap = await fetchSpeciesDetails(identifiers, fetch);
+		const detailsMap = await fetchSpeciesDetails(identifiers, window.fetch);
 
 		const speciesWithDetails: Species[] = speciesFromApi.map((s) => {
 			const key = `${s.scientificName}_${s.commonName}`;
@@ -103,13 +107,19 @@ export async function loadAllTimeData() {
 }
 
 export async function load24hData() {
+	// Only proceed if we're in the browser
+	if (typeof window === 'undefined') {
+		console.warn('load24hData called on server side, skipping');
+		return;
+	}
+
 	birdnetData.update((store) => ({ ...store, stats24hLoading: true }));
 
 	try {
 		const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 		const [species, stats] = await Promise.all([
-			fetchAllSpecies({ fetch, since }),
-			fetchStationStats({ fetch, since })
+			fetchAllSpecies({ fetch: window.fetch, since }),
+			fetchStationStats({ fetch: window.fetch, since })
 		]);
 
 		birdnetData.update((store) => ({
@@ -132,10 +142,16 @@ export async function load24hData() {
 }
 
 export async function loadLiveData() {
+	// Only proceed if we're in the browser
+	if (typeof window === 'undefined') {
+		console.warn('loadLiveData called on server side, skipping');
+		return;
+	}
+
 	birdnetData.update((store) => ({ ...store, liveLoading: true, liveError: '' }));
 
 	try {
-		const data = await fetchAllLiveDetections({ fetch });
+		const data = await fetchAllLiveDetections({ fetch: window.fetch });
 		birdnetData.update((store) => ({
 			...store,
 			liveDetections: data || [],

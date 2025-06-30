@@ -28,6 +28,11 @@
 	const AUTO_REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
 	onMount(() => {
+		// Subscribe to sortMode store on client side
+		const unsubscribe = sortMode.subscribe((value) => {
+			sortModeValue = value;
+		});
+
 		const handleFocus = () => {
 			// Only refresh if not already loading or refreshing AND it's been more than 5 minutes
 			const timeSinceLastUpdate = $birdnetData.lastUpdated
@@ -49,6 +54,7 @@
 		}
 
 		return () => {
+			unsubscribe();
 			window.removeEventListener('focus', handleFocus);
 			if (autoRefreshInterval) clearInterval(autoRefreshInterval);
 		};
@@ -123,12 +129,17 @@
 	}
 
 	// FIX: Add cooldown calculation
-	$: cooldownSecondsLeft = Math.ceil(
-		(REFRESH_COOLDOWN_MS - (now - ($birdnetData.lastUpdated ?? 0))) / 1000
-	);
+	$: cooldownSecondsLeft =
+		typeof window !== 'undefined'
+			? Math.ceil((REFRESH_COOLDOWN_MS - (now - ($birdnetData.lastUpdated ?? 0))) / 1000)
+			: 0;
 
 	// Load initial data from cache if available
-	$: if (data.speciesData && get(birdnetData).lastUpdated === null) {
+	$: if (
+		typeof window !== 'undefined' &&
+		data.speciesData &&
+		get(birdnetData).lastUpdated === null
+	) {
 		data.speciesData.then((cachedData) => {
 			birdnetData.update((store) => ({
 				...store,
@@ -136,6 +147,16 @@
 				summary: cachedData.summary,
 				lastUpdated: cachedData.lastUpdated
 			}));
+
+			// If we received empty data from server (due to SSR), fetch fresh data on client
+			if (
+				typeof window !== 'undefined' &&
+				cachedData.species.length === 0 &&
+				cachedData.lastUpdated === 0
+			) {
+				console.log('Server returned empty data, fetching fresh data on client');
+				refreshBirdnet();
+			}
 		});
 	}
 
@@ -143,9 +164,9 @@
 		const allTimeSpecies = get(birdnetData).species;
 		const canonicalDataFromAllTime = allTimeSpecies.find((s: any) => s.id == bird.id);
 		modalData = { ...(canonicalDataFromAllTime || {}), ...bird };
-		modalOpen = true;
 		detectionsAllTime = canonicalDataFromAllTime?.detections?.total ?? bird.detections?.total ?? 0;
 
+		modalOpen = true;
 		const id = modalData.id;
 		if (!detectionsCache[id]) {
 			try {
@@ -220,7 +241,12 @@
 	}
 
 	// This ensures refreshing is visible for at least 500ms
-	$: if (!$birdnetData.loading && !$birdnetData.stats24hLoading && refreshing) {
+	$: if (
+		typeof window !== 'undefined' &&
+		!$birdnetData.loading &&
+		!$birdnetData.stats24hLoading &&
+		refreshing
+	) {
 		const elapsed = Date.now() - refreshStartTime;
 		if (elapsed >= 500) {
 			refreshing = false;
@@ -246,8 +272,13 @@
 	});
 
 	$: isWithinRefreshCooldown =
-		$birdnetData.lastUpdated !== null && now - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS;
-	$: if (displayMode === 'live' && $sortMode !== 'last') sortMode.set('last');
+		typeof window !== 'undefined' &&
+		$birdnetData.lastUpdated !== null &&
+		now - $birdnetData.lastUpdated < REFRESH_COOLDOWN_MS;
+	$: if (typeof window !== 'undefined' && displayMode === 'live' && sortModeValue !== 'last') {
+		sortModeValue = 'last';
+		sortMode.set('last');
+	}
 	$: if (typeof localStorage !== 'undefined') {
 		localStorage.setItem('birdnet:displayMode', displayMode);
 	}
@@ -275,6 +306,19 @@
 					}
 				}, AUTO_REFRESH_INTERVAL_MS);
 			}
+		}
+	}
+
+	// Create a derived store with a default value for SSR compatibility
+	let sortModeValue: 'last' | 'most' = 'last';
+
+	// Handle sort mode changes
+	function handleSortModeChange(event: Event) {
+		const target = event.target as HTMLSelectElement;
+		const newValue = target.value as 'last' | 'most';
+		sortModeValue = newValue;
+		if (typeof window !== 'undefined') {
+			sortMode.set(newValue);
 		}
 	}
 </script>
@@ -385,9 +429,11 @@
         {displayMode === 'live'
 					? 'cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-neutral-700 dark:text-neutral-400'
 					: 'cursor-pointer'}"
-				bind:value={$sortMode}
+				bind:value={sortModeValue}
+				on:change={handleSortModeChange}
 				disabled={displayMode === 'live'}
 				style={displayMode === 'live' ? 'pointer-events: none; opacity: 0.7;' : ''}
+				on:change={handleSortModeChange}
 			>
 				<option value="last">Last Heard</option>
 				{#if displayMode !== 'live'}

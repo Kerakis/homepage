@@ -17,22 +17,35 @@
 	let ebirdUrl = '';
 
 	onMount(async () => {
+		// Only proceed if we're in the browser
+		if (typeof window === 'undefined') {
+			detections24hLoading = false;
+			detectionsLoading = false;
+			return;
+		}
+
 		// Fetch 24h detections
 		try {
 			const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-			const species24hData = await fetchAllSpecies({ fetch, since });
+			const species24hData = await fetchAllSpecies({ fetch: window.fetch, since });
 			const matchIn24h = species24hData?.find((s: any) => s.id == bird.id);
 			detections24h = matchIn24h?.detections?.total ?? 0;
 		} catch (e) {
+			console.error('Error fetching 24h detections:', e);
 			detections24h = 0;
 		}
 		detections24hLoading = false;
 
 		// Fetch recent detections
 		try {
-			const allDetections = await fetchDetections({ speciesId: bird.id, limit: 5, fetch });
+			const allDetections = await fetchDetections({
+				speciesId: bird.id,
+				limit: 5,
+				fetch: window.fetch
+			});
 			detections = allDetections.filter(isDetectionNearHome);
 		} catch (e) {
+			console.error('Error fetching recent detections:', e);
 			detections = [];
 		}
 		detectionsLoading = false;
