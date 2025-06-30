@@ -107,7 +107,7 @@
         dark:text-black"
 					aria-label="Toggle dark mode"
 				>
-					<span class="relative z-10">{darkMode ? 'LIGHT' : 'DARK'}</span>
+					<span class="relative z-10">{$darkMode ? 'LIGHT' : 'DARK'}</span>
 				</button>
 			</nav>
 		</div>
