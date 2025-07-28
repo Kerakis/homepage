@@ -137,3 +137,21 @@
 2025-07-28T02:38:42.867Z - [INFO] Successfully processed and added photo: Phidippus.webp
 2025-07-28T02:38:42.868Z - [INFO] Gallery data updated with 2 new photos
 2025-07-28T02:38:56.118Z - [INFO] Photo processing tool ended
+2025-07-28T13:18:09.657Z - [INFO] Photo processing tool started
+2025-07-28T13:18:45.412Z - [INFO] Fetching iNaturalist data for: Phidippus c
+2025-07-28T13:19:18.329Z - [INFO] EXIF data updated for photo: Phidippus.webp in section: wildlife/spiders
+2025-07-28T13:19:18.329Z - [INFO]   Changed scientificName: "Phidippus" → "Phidippus clarus"
+2025-07-28T13:19:18.330Z - [INFO]   Changed taxonRank: "genus" → "species"
+2025-07-28T13:19:18.330Z - [INFO]   Changed wikipediaUrl: "https://en.wikipedia.org/wiki/Phidippus" → "http://en.wikipedia.org/wiki/Phidippus_clarus"
+2025-07-28T13:19:18.330Z - [INFO]   Changed iNaturalistId: "53810" → "58416"
+2025-07-28T13:19:18.330Z - [INFO]   Changed Title: "Phidippus" → "Brilliant Jumping Spider"
+2025-07-28T13:19:28.377Z - [INFO] Photo processing tool ended
+2025-07-28T13:20:25.299Z - [INFO] Photo processing tool started
+2025-07-28T13:20:36.093Z - [INFO] Using cached iNaturalist data for: Bold Jumper
+2025-07-28T13:20:47.073Z - [INFO] EXIF editing session completed for photo: Bold Jumper.webp (no changes made)
+2025-07-28T13:20:48.691Z - [INFO] Photo processing tool ended
+2025-07-28T13:21:23.941Z - [INFO] Photo processing tool started
+2025-07-28T13:21:42.735Z - [INFO] Using cached iNaturalist data for: Bold Jumper
+2025-07-28T13:22:03.936Z - [INFO] EXIF data updated for photo: Bold Jumper.webp in section: wildlife/spiders
+2025-07-28T13:22:03.936Z - [INFO]   Changed Title: "Bold Jumper" → "Bold Jumping Spider"
+2025-07-28T13:22:05.288Z - [INFO] Photo processing tool ended
