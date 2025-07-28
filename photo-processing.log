@@ -125,3 +125,15 @@
 2025-06-12T19:44:31.495Z - [INFO] Successfully processed and added photo: Silvered Leaf Monkey.webp
 2025-06-12T19:44:31.496Z - [INFO] Gallery data updated with 1 new photo
 2025-06-12T19:44:39.027Z - [INFO] Photo processing tool ended
+2025-07-28T02:38:10.933Z - [INFO] Photo processing tool started
+2025-07-28T02:38:13.707Z - [INFO] Starting to process 2 new photos
+2025-07-28T02:38:15.223Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Carolina Wren.jpg
+2025-07-28T02:38:15.225Z - [INFO] Fetching iNaturalist data for: Carolina Wren
+2025-07-28T02:38:26.052Z - [INFO] iNaturalist data selected for Carolina Wren: Thryothorus ludovicianus
+2025-07-28T02:38:26.053Z - [INFO] Successfully processed and added photo: Carolina Wren.webp
+2025-07-28T02:38:27.253Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\spiders\Phidippus.jpg
+2025-07-28T02:38:27.254Z - [INFO] Fetching iNaturalist data for: Phidippus
+2025-07-28T02:38:42.867Z - [INFO] iNaturalist data selected for Phidippus: Phidippus
+2025-07-28T02:38:42.867Z - [INFO] Successfully processed and added photo: Phidippus.webp
+2025-07-28T02:38:42.868Z - [INFO] Gallery data updated with 2 new photos
+2025-07-28T02:38:56.118Z - [INFO] Photo processing tool ended
