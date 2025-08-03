@@ -270,6 +270,50 @@
         "taxonRank": "species",
         "wikipediaUrl": "http://en.wikipedia.org/wiki/Carolina_wren",
         "iNaturalistId": 7513
+      },
+      {
+        "src": "/photos/wildlife/birds/Ruby-throated Hummingbird.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ruby-throated Hummingbird_thumb.webp",
+        "filename": "Ruby-throated Hummingbird.webp",
+        "title": "Ruby-throated Hummingbird",
+        "date": "2025:08:03 13:05:28",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "363 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/5000",
+        "iso": 4000,
+        "gps": {
+          "lat": 35.954582,
+          "lon": -84.135155
+        },
+        "subject": "birds",
+        "scientificName": "Archilochus colubris",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
+        "iNaturalistId": 6432
+      },
+      {
+        "src": "/photos/wildlife/birds/Ruby-throated Hummingbird2.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ruby-throated Hummingbird2_thumb.webp",
+        "filename": "Ruby-throated Hummingbird2.webp",
+        "title": "Ruby-throated Hummingbird",
+        "date": "2025:08:03 13:01:36",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "363 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/4000",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.954582,
+          "lon": -84.135155
+        },
+        "subject": "birds",
+        "scientificName": "Archilochus colubris",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
+        "iNaturalistId": 6432
       }
     ]
   },
@@ -373,6 +417,47 @@
         "taxonRank": "species",
         "wikipediaUrl": "http://en.wikipedia.org/wiki/Silvery_lutung",
         "iNaturalistId": 43497
+      }
+    ]
+  },
+  {
+    "section": "black-and-white",
+    "photos": [
+      {
+        "src": "/photos/black-and-white/Ruby-throated Hummingbird_bw1.webp",
+        "thumbnailSrc": "/photos_thumbnails/black-and-white/Ruby-throated Hummingbird_bw1_thumb.webp",
+        "filename": "Ruby-throated Hummingbird_bw1.webp",
+        "title": "Ruby-throated Hummingbird",
+        "date": "2025:08:03 13:05:28",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "363 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/5000",
+        "iso": 4000,
+        "gps": {
+          "lat": 35.954582,
+          "lon": -84.135155
+        },
+        "subject": "black-and-white"
+      },
+      {
+        "src": "/photos/black-and-white/Ruby-throated Hummingbird_bw2.webp",
+        "thumbnailSrc": "/photos_thumbnails/black-and-white/Ruby-throated Hummingbird_bw2_thumb.webp",
+        "filename": "Ruby-throated Hummingbird_bw2.webp",
+        "title": "Ruby-throated Hummingbird",
+        "date": "2025:08:03 13:01:36",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "363 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/4000",
+        "iso": 5000,
+        "gps": {
+          "lat": 35.954582,
+          "lon": -84.135155
+        },
+        "subject": "black-and-white"
       }
     ]
   }

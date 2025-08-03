@@ -1988,7 +1988,7 @@ async function showMainMenu(scanResults) {
 		}
 
 		case '9':
-			console.log('Exiting without changes.');
+			console.log('Exiting...');
 			return;
 
 		default:

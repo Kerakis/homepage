@@ -155,3 +155,25 @@
 2025-07-28T13:22:03.936Z - [INFO] EXIF data updated for photo: Bold Jumper.webp in section: wildlife/spiders
 2025-07-28T13:22:03.936Z - [INFO]   Changed Title: "Bold Jumper" → "Bold Jumping Spider"
 2025-07-28T13:22:05.288Z - [INFO] Photo processing tool ended
+2025-08-03T20:10:34.915Z - [INFO] Photo processing tool started
+2025-08-03T20:10:38.833Z - [INFO] Starting to process 4 new photos
+2025-08-03T20:10:40.315Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\black-and-white\Ruby-throated Hummingbird_bw1.jpg
+2025-08-03T20:10:40.315Z - [INFO] Successfully processed and added photo: Ruby-throated Hummingbird_bw1.webp
+2025-08-03T20:10:41.737Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\black-and-white\Ruby-throated Hummingbird_bw2.jpg
+2025-08-03T20:10:41.737Z - [INFO] Successfully processed and added photo: Ruby-throated Hummingbird_bw2.webp
+2025-08-03T20:10:43.560Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Ruby-throated Hummingbird.jpg
+2025-08-03T20:10:43.562Z - [INFO] Fetching iNaturalist data for: Ruby-throated Hummingbird
+2025-08-03T20:10:57.190Z - [INFO] iNaturalist data selected for Ruby-throated Hummingbird: Archilochus colubris
+2025-08-03T20:10:57.190Z - [INFO] Successfully processed and added photo: Ruby-throated Hummingbird.webp
+2025-08-03T20:10:58.674Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Ruby-throated Hummingbird2.jpg
+2025-08-03T20:10:58.675Z - [INFO] Using cached iNaturalist data for: Ruby-throated Hummingbird
+2025-08-03T20:11:01.179Z - [INFO] iNaturalist data selected for Ruby-throated Hummingbird: Archilochus colubris
+2025-08-03T20:11:01.179Z - [INFO] Successfully processed and added photo: Ruby-throated Hummingbird2.webp
+2025-08-03T20:11:01.180Z - [INFO] Gallery data updated with 4 new photos
+2025-08-03T20:11:10.023Z - [INFO] Photo processing tool ended
+2025-08-03T20:19:18.011Z - [INFO] Photo processing tool started
+2025-08-03T20:19:41.878Z - [INFO] EXIF data updated for photo: Ruby-throated Hummingbird_bw1.webp in section: black-and-white
+2025-08-03T20:19:41.878Z - [INFO]   Changed Title: "Ruby-throated Hummingbird bw" → "Ruby-throated Hummingbird"
+2025-08-03T20:20:14.972Z - [INFO] EXIF data updated for photo: Ruby-throated Hummingbird_bw2.webp in section: black-and-white
+2025-08-03T20:20:14.972Z - [INFO]   Changed Title: "Ruby-throated Hummingbird bw" → "Ruby-throated Hummingbird"
+2025-08-03T20:20:16.598Z - [INFO] Photo processing tool ended
