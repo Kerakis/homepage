@@ -190,3 +190,8 @@
 2025-08-22T19:12:21.729Z - [INFO] Gallery data updated with 2 new photos
 2025-08-22T19:12:50.409Z - [INFO] EXIF editing session completed for photo: Ruby-throated Hummingbird3.webp (no changes made)
 2025-08-22T19:13:02.000Z - [INFO] Photo processing tool ended
+2025-08-22T19:14:29.433Z - [INFO] Photo processing tool started
+2025-08-22T19:14:44.466Z - [INFO] Deleted photo file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Ruby-throated Hummingbird4.webp
+2025-08-22T19:14:44.467Z - [INFO] Deleted thumbnail: C:\Users\Rob\Projects\homepage\static\photos_thumbnails\wildlife\birds\Ruby-throated Hummingbird4_thumb.webp
+2025-08-22T19:14:44.468Z - [INFO] Successfully removed photo: Ruby-throated Hummingbird4.webp from section: wildlife/birds
+2025-08-22T19:14:48.339Z - [INFO] Photo processing tool ended
