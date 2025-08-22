@@ -177,3 +177,16 @@
 2025-08-03T20:20:14.972Z - [INFO] EXIF data updated for photo: Ruby-throated Hummingbird_bw2.webp in section: black-and-white
 2025-08-03T20:20:14.972Z - [INFO]   Changed Title: "Ruby-throated Hummingbird bw" → "Ruby-throated Hummingbird"
 2025-08-03T20:20:16.598Z - [INFO] Photo processing tool ended
+2025-08-22T19:12:02.467Z - [INFO] Photo processing tool started
+2025-08-22T19:12:04.516Z - [INFO] Starting to process 2 new photos
+2025-08-22T19:12:06.549Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Ruby-throated Hummingbird3.jpg
+2025-08-22T19:12:06.551Z - [INFO] Using cached iNaturalist data for: Ruby-throated Hummingbird
+2025-08-22T19:12:18.362Z - [INFO] iNaturalist data selected for Ruby-throated Hummingbird: Archilochus colubris
+2025-08-22T19:12:18.363Z - [INFO] Successfully processed and added photo: Ruby-throated Hummingbird3.webp
+2025-08-22T19:12:20.068Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Ruby-throated Hummingbird4.jpg
+2025-08-22T19:12:20.069Z - [INFO] Using cached iNaturalist data for: Ruby-throated Hummingbird
+2025-08-22T19:12:21.728Z - [INFO] iNaturalist data selected for Ruby-throated Hummingbird: Archilochus colubris
+2025-08-22T19:12:21.728Z - [INFO] Successfully processed and added photo: Ruby-throated Hummingbird4.webp
+2025-08-22T19:12:21.729Z - [INFO] Gallery data updated with 2 new photos
+2025-08-22T19:12:50.409Z - [INFO] EXIF editing session completed for photo: Ruby-throated Hummingbird3.webp (no changes made)
+2025-08-22T19:13:02.000Z - [INFO] Photo processing tool ended

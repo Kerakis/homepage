@@ -314,6 +314,50 @@
         "taxonRank": "species",
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
         "iNaturalistId": 6432
+      },
+      {
+        "src": "/photos/wildlife/birds/Ruby-throated Hummingbird3.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ruby-throated Hummingbird3_thumb.webp",
+        "filename": "Ruby-throated Hummingbird3.webp",
+        "title": "Ruby-throated Hummingbird",
+        "date": "2025:08:21 10:15:20",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/5000",
+        "iso": 4000,
+        "gps": {
+          "lat": 35.95459,
+          "lon": -84.135208
+        },
+        "subject": "birds",
+        "scientificName": "Archilochus colubris",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
+        "iNaturalistId": 6432
+      },
+      {
+        "src": "/photos/wildlife/birds/Ruby-throated Hummingbird4.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ruby-throated Hummingbird4_thumb.webp",
+        "filename": "Ruby-throated Hummingbird4.webp",
+        "title": "Ruby-throated Hummingbird",
+        "date": "2025:08:21 10:15:20",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/5000",
+        "iso": 4000,
+        "gps": {
+          "lat": 35.95459,
+          "lon": -84.135208
+        },
+        "subject": "birds",
+        "scientificName": "Archilochus colubris",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
+        "iNaturalistId": 6432
       }
     ]
   },
