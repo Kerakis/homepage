@@ -336,6 +336,25 @@
         "taxonRank": "species",
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
         "iNaturalistId": 6432
+      },
+      {
+        "src": "/photos/wildlife/birds/Red-tailed Hawk.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Red-tailed Hawk_thumb.webp",
+        "filename": "Red-tailed Hawk.webp",
+        "title": "Red-tailed Hawk",
+        "date": "2025:10:04 15:30:01",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/1600",
+        "iso": 5000,
+        "gps": null,
+        "subject": "birds",
+        "scientificName": "Buteo jamaicensis",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Red-tailed_hawk",
+        "iNaturalistId": 5212
       }
     ]
   },

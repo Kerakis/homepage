@@ -195,3 +195,12 @@
 2025-08-22T19:14:44.467Z - [INFO] Deleted thumbnail: C:\Users\Rob\Projects\homepage\static\photos_thumbnails\wildlife\birds\Ruby-throated Hummingbird4_thumb.webp
 2025-08-22T19:14:44.468Z - [INFO] Successfully removed photo: Ruby-throated Hummingbird4.webp from section: wildlife/birds
 2025-08-22T19:14:48.339Z - [INFO] Photo processing tool ended
+2025-10-08T15:15:35.387Z - [INFO] Photo processing tool started
+2025-10-08T15:15:38.822Z - [INFO] Starting to process 1 new photo
+2025-10-08T15:15:40.635Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Red-tailed Hawk.jpg
+2025-10-08T15:15:40.635Z - [INFO] Missing EXIF data - Photo Red-tailed Hawk.webp is missing EXIF data: GPS coordinates
+2025-10-08T15:15:40.637Z - [INFO] Fetching iNaturalist data for: Red-tailed Hawk
+2025-10-08T15:17:51.659Z - [INFO] iNaturalist data selected for Red-tailed Hawk: Buteo jamaicensis
+2025-10-08T15:17:51.660Z - [INFO] Successfully processed and added photo: Red-tailed Hawk.webp
+2025-10-08T15:17:51.661Z - [INFO] Gallery data updated with 1 new photo
+2025-10-08T15:17:56.271Z - [INFO] Photo processing tool ended
