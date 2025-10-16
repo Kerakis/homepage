@@ -204,3 +204,15 @@
 2025-10-08T15:17:51.660Z - [INFO] Successfully processed and added photo: Red-tailed Hawk.webp
 2025-10-08T15:17:51.661Z - [INFO] Gallery data updated with 1 new photo
 2025-10-08T15:17:56.271Z - [INFO] Photo processing tool ended
+2025-10-16T00:55:06.092Z - [INFO] Photo processing tool started
+2025-10-16T00:55:07.280Z - [INFO] Starting to process 1 new photo
+2025-10-16T00:55:09.377Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\bugs\Eastern Phantom Crane Fly.jpg
+2025-10-16T00:55:09.379Z - [INFO] Fetching iNaturalist data for: Eastern Phantom Crane Fly
+2025-10-16T00:55:17.340Z - [INFO] iNaturalist data selected for Eastern Phantom Crane Fly: Bittacomorpha clavipes
+2025-10-16T00:55:17.341Z - [INFO] Successfully processed and added photo: Eastern Phantom Crane Fly.webp
+2025-10-16T00:55:17.342Z - [INFO] Gallery data updated with 1 new photo
+2025-10-16T00:55:25.961Z - [INFO] Photo processing tool ended
+2025-10-16T00:57:09.076Z - [INFO] Photo processing tool started
+2025-10-16T00:58:51.087Z - [INFO] EXIF data updated for photo: Red-tailed Hawk.webp in section: wildlife/birds
+2025-10-16T00:58:51.087Z - [INFO]   Changed GPS: "Not set" → "35.9552902, -84.1409531"
+2025-10-16T00:58:52.963Z - [INFO] Photo processing tool ended

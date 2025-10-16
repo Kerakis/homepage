@@ -349,7 +349,10 @@
         "aperture": "f/7.1",
         "exposure": "1/1600",
         "iso": 5000,
-        "gps": null,
+        "gps": {
+          "lat": 35.9552902,
+          "lon": -84.1409531
+        },
         "subject": "birds",
         "scientificName": "Buteo jamaicensis",
         "taxonRank": "species",
@@ -499,6 +502,33 @@
           "lon": -84.135155
         },
         "subject": "black-and-white"
+      }
+    ]
+  },
+  {
+    "section": "wildlife/bugs",
+    "photos": [
+      {
+        "src": "/photos/wildlife/bugs/Eastern Phantom Crane Fly.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/bugs/Eastern Phantom Crane Fly_thumb.webp",
+        "filename": "Eastern Phantom Crane Fly.webp",
+        "title": "Eastern Phantom Crane Fly",
+        "date": "2025:10:13 11:46:51",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM",
+        "focalLength": "220 mm",
+        "aperture": "f/6.3",
+        "exposure": "1/1000",
+        "iso": 2500,
+        "gps": {
+          "lat": 35.951595,
+          "lon": -84.120003
+        },
+        "subject": "bugs",
+        "scientificName": "Bittacomorpha clavipes",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Bittacomorpha_clavipes",
+        "iNaturalistId": 82155
       }
     ]
   }
