@@ -358,6 +358,28 @@
         "taxonRank": "species",
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Red-tailed_hawk",
         "iNaturalistId": 5212
+      },
+      {
+        "src": "/photos/wildlife/birds/Eastern Red-tailed Hawk.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Eastern Red-tailed Hawk_thumb.webp",
+        "filename": "Eastern Red-tailed Hawk.webp",
+        "title": "Eastern Red-tailed Hawk",
+        "date": "2025:10:18 10:12:00",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/4000",
+        "iso": 2000,
+        "gps": {
+          "lat": 35.973858,
+          "lon": -84.130357
+        },
+        "subject": "birds",
+        "scientificName": "Buteo jamaicensis borealis",
+        "taxonRank": "subspecies",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Red-tailed_hawk",
+        "iNaturalistId": 494355
       }
     ]
   },

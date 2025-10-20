@@ -216,3 +216,11 @@
 2025-10-16T00:58:51.087Z - [INFO] EXIF data updated for photo: Red-tailed Hawk.webp in section: wildlife/birds
 2025-10-16T00:58:51.087Z - [INFO]   Changed GPS: "Not set" → "35.9552902, -84.1409531"
 2025-10-16T00:58:52.963Z - [INFO] Photo processing tool ended
+2025-10-20T18:19:46.970Z - [INFO] Photo processing tool started
+2025-10-20T18:19:48.334Z - [INFO] Starting to process 1 new photo
+2025-10-20T18:19:49.706Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Eastern Red-tailed Hawk.jpg
+2025-10-20T18:19:49.708Z - [INFO] Fetching iNaturalist data for: Eastern Red-tailed Hawk
+2025-10-20T18:19:52.482Z - [INFO] iNaturalist data selected for Eastern Red-tailed Hawk: Buteo jamaicensis borealis
+2025-10-20T18:19:52.482Z - [INFO] Successfully processed and added photo: Eastern Red-tailed Hawk.webp
+2025-10-20T18:19:52.483Z - [INFO] Gallery data updated with 1 new photo
+2025-10-20T18:20:01.982Z - [INFO] Photo processing tool ended
