@@ -380,6 +380,28 @@
         "taxonRank": "subspecies",
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Red-tailed_hawk",
         "iNaturalistId": 494355
+      },
+      {
+        "src": "/photos/wildlife/birds/Eastern Kingbird.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Eastern Kingbird_thumb.webp",
+        "filename": "Eastern Kingbird.webp",
+        "title": "Eastern Kingbird",
+        "date": "2025:05:06 11:10:03",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM + EXTENDER RF1.4x",
+        "focalLength": "1120 mm",
+        "aperture": "f/13.0",
+        "exposure": "1/400",
+        "iso": 2500,
+        "gps": {
+          "lat": 35.91507,
+          "lon": -84.505463
+        },
+        "subject": "birds",
+        "scientificName": "Tyrannus tyrannus",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Eastern_kingbird",
+        "iNaturalistId": 16782
       }
     ]
   },

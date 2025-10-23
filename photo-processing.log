@@ -224,3 +224,11 @@
 2025-10-20T18:19:52.482Z - [INFO] Successfully processed and added photo: Eastern Red-tailed Hawk.webp
 2025-10-20T18:19:52.483Z - [INFO] Gallery data updated with 1 new photo
 2025-10-20T18:20:01.982Z - [INFO] Photo processing tool ended
+2025-10-23T22:44:04.122Z - [INFO] Photo processing tool started
+2025-10-23T22:44:05.460Z - [INFO] Starting to process 1 new photo
+2025-10-23T22:44:06.929Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Eastern Kingbird.jpg
+2025-10-23T22:44:06.931Z - [INFO] Fetching iNaturalist data for: Eastern Kingbird
+2025-10-23T22:44:11.035Z - [INFO] iNaturalist data selected for Eastern Kingbird: Tyrannus tyrannus
+2025-10-23T22:44:11.035Z - [INFO] Successfully processed and added photo: Eastern Kingbird.webp
+2025-10-23T22:44:11.036Z - [INFO] Gallery data updated with 1 new photo
+2025-10-23T22:44:16.812Z - [INFO] Photo processing tool ended
