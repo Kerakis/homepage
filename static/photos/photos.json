@@ -23,6 +23,28 @@
         "taxonRank": "species",
         "wikipediaUrl": "http://en.wikipedia.org/wiki/American_bullfrog",
         "iNaturalistId": 65979
+      },
+      {
+        "src": "/photos/wildlife/amphibians/Green Tree Frog.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/amphibians/Green Tree Frog_thumb.webp",
+        "filename": "Green Tree Frog.webp",
+        "title": "Green Tree Frog",
+        "date": "2025:11:07 19:39:01",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/320",
+        "iso": 200,
+        "gps": {
+          "lat": 35.954608,
+          "lon": -84.135238
+        },
+        "subject": "amphibians",
+        "scientificName": "Hyla cinerea",
+        "taxonRank": "species",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/American_green_tree_frog",
+        "iNaturalistId": 23969
       }
     ]
   },
@@ -500,6 +522,28 @@
         "taxonRank": "species",
         "wikipediaUrl": "http://en.wikipedia.org/wiki/Phidippus_clarus",
         "iNaturalistId": 58416
+      },
+      {
+        "src": "/photos/wildlife/spiders/Tigrosa annexa.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/spiders/Tigrosa annexa_thumb.webp",
+        "filename": "Tigrosa annexa.webp",
+        "title": "Tigrosa annexa",
+        "date": "2025:11:07 19:51:09",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100mm F2.8 L MACRO IS USM",
+        "focalLength": "100 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/320",
+        "iso": 200,
+        "gps": {
+          "lat": 35.954582,
+          "lon": -84.135117
+        },
+        "subject": "spiders",
+        "scientificName": "Tigrosa annexa",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Tigrosa_annexa",
+        "iNaturalistId": 477740
       }
     ]
   },

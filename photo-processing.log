@@ -240,3 +240,15 @@
 2025-11-05T04:24:09.557Z - [INFO] Successfully processed and added photo: Bald Eagle.webp
 2025-11-05T04:24:09.558Z - [INFO] Gallery data updated with 1 new photo
 2025-11-05T04:24:14.680Z - [INFO] Photo processing tool ended
+2025-11-08T03:02:53.630Z - [INFO] Photo processing tool started
+2025-11-08T03:02:55.115Z - [INFO] Starting to process 2 new photos
+2025-11-08T03:02:55.955Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\amphibians\Green Tree Frog.jpg
+2025-11-08T03:02:55.957Z - [INFO] Fetching iNaturalist data for: Green Tree Frog
+2025-11-08T03:03:06.597Z - [INFO] iNaturalist data selected for Green Tree Frog: Hyla cinerea
+2025-11-08T03:03:06.597Z - [INFO] Successfully processed and added photo: Green Tree Frog.webp
+2025-11-08T03:03:07.805Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\spiders\Tigrosa annexa.jpg
+2025-11-08T03:03:07.807Z - [INFO] Fetching iNaturalist data for: Tigrosa annexa
+2025-11-08T03:03:19.177Z - [INFO] iNaturalist data selected for Tigrosa annexa: Tigrosa annexa
+2025-11-08T03:03:19.178Z - [INFO] Successfully processed and added photo: Tigrosa annexa.webp
+2025-11-08T03:03:19.179Z - [INFO] Gallery data updated with 2 new photos
+2025-11-08T03:03:56.196Z - [INFO] Photo processing tool ended
