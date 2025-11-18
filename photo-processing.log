@@ -252,3 +252,11 @@
 2025-11-08T03:03:19.178Z - [INFO] Successfully processed and added photo: Tigrosa annexa.webp
 2025-11-08T03:03:19.179Z - [INFO] Gallery data updated with 2 new photos
 2025-11-08T03:03:56.196Z - [INFO] Photo processing tool ended
+2025-11-18T22:16:23.180Z - [INFO] Photo processing tool started
+2025-11-18T22:16:24.552Z - [INFO] Starting to process 1 new photo
+2025-11-18T22:16:25.699Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Hermit Thrush.jpg
+2025-11-18T22:16:25.701Z - [INFO] Fetching iNaturalist data for: Hermit Thrush
+2025-11-18T22:16:30.650Z - [INFO] iNaturalist data selected for Hermit Thrush: Catharus guttatus
+2025-11-18T22:16:30.650Z - [INFO] Successfully processed and added photo: Hermit Thrush.webp
+2025-11-18T22:16:30.651Z - [INFO] Gallery data updated with 1 new photo
+2025-11-18T22:16:34.498Z - [INFO] Photo processing tool ended
