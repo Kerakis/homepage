@@ -260,3 +260,42 @@
 2025-11-18T22:16:30.650Z - [INFO] Successfully processed and added photo: Hermit Thrush.webp
 2025-11-18T22:16:30.651Z - [INFO] Gallery data updated with 1 new photo
 2025-11-18T22:16:34.498Z - [INFO] Photo processing tool ended
+2026-01-10T21:57:32.950Z - [INFO] Photo processing tool started
+2026-01-10T21:57:47.565Z - [INFO] Starting to remove 1 missing photo from gallery data
+2026-01-10T21:57:47.565Z - [INFO] Removed missing photo from gallery data: Ruby-throated Hummingbird.webp
+2026-01-10T21:57:47.567Z - [INFO] Gallery data updated - removed 1 missing photo
+2026-01-10T21:57:49.335Z - [INFO] Starting to process 4 new photos
+2026-01-10T21:57:50.501Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Bonaparte's Gull.jpg
+2026-01-10T21:57:50.503Z - [INFO] Fetching iNaturalist data for: Bonaparte's Gull
+2026-01-10T21:57:58.723Z - [INFO] iNaturalist data selected for Bonaparte's Gull: Chroicocephalus philadelphia
+2026-01-10T21:57:58.724Z - [INFO] Successfully processed and added photo: Bonaparte's Gull.webp
+2026-01-10T21:57:59.976Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Cedar Waxwing.jpg
+2026-01-10T21:57:59.978Z - [INFO] Fetching iNaturalist data for: Cedar Waxwing
+2026-01-10T21:58:02.302Z - [INFO] iNaturalist data selected for Cedar Waxwing: Bombycilla cedrorum
+2026-01-10T21:58:02.303Z - [INFO] Successfully processed and added photo: Cedar Waxwing.webp
+2026-01-10T21:58:03.720Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Merlin.jpg
+2026-01-10T21:58:03.720Z - [INFO] Missing EXIF data - Photo Merlin.webp is missing EXIF data: GPS coordinates
+2026-01-10T21:58:03.722Z - [INFO] Fetching iNaturalist data for: Merlin
+2026-01-10T21:58:12.510Z - [INFO] Fetching parent taxon data for Falco columbarius columbarius (parent ID: 4672)
+2026-01-10T21:58:12.855Z - [INFO] Using parent species Wikipedia URL for Falco columbarius columbarius: http://en.wikipedia.org/wiki/Merlin_(bird)
+2026-01-10T21:58:12.856Z - [INFO] iNaturalist data selected for Merlin: Falco columbarius columbarius
+2026-01-10T21:58:12.856Z - [INFO] Successfully processed and added photo: Merlin.webp
+2026-01-10T21:58:13.997Z - [INFO] Deleted original file: C:\Users\Rob\Projects\homepage\static\photos\wildlife\birds\Ring-billed Gull.jpg
+2026-01-10T21:58:13.997Z - [INFO] Missing EXIF data - Photo Ring-billed Gull.webp is missing EXIF data: GPS coordinates
+2026-01-10T21:58:13.999Z - [INFO] Fetching iNaturalist data for: Ring-billed Gull
+2026-01-10T21:58:18.237Z - [INFO] iNaturalist data selected for Ring-billed Gull: Larus delawarensis
+2026-01-10T21:58:18.238Z - [INFO] Successfully processed and added photo: Ring-billed Gull.webp
+2026-01-10T21:58:18.238Z - [INFO] Gallery data updated with 4 new photos
+2026-01-10T21:58:32.743Z - [INFO] Photo processing tool ended
+2026-01-10T22:00:28.744Z - [INFO] Photo processing tool started
+2026-01-10T22:00:59.118Z - [INFO] EXIF data updated for photo: Ring-billed Gull.webp in section: wildlife/birds
+2026-01-10T22:00:59.119Z - [INFO]   Changed GPS: "Not set" → "35.86151702607785, -84.12743391473833"
+2026-01-10T22:01:00.802Z - [INFO] Photo processing tool ended
+2026-01-10T22:02:05.797Z - [INFO] Photo processing tool started
+2026-01-10T22:02:54.970Z - [INFO] EXIF data updated for photo: Merlin.webp in section: wildlife/birds
+2026-01-10T22:02:54.970Z - [INFO]   Changed GPS: "Not set" → "35.92308313684483, -83.99281551619046"
+2026-01-10T22:02:56.143Z - [INFO] Photo processing tool ended
+2026-01-10T22:03:56.359Z - [INFO] Photo processing tool started
+2026-01-10T22:04:05.411Z - [INFO] Deleted orphaned thumbnail: C:\Users\Rob\Projects\homepage\static\photos_thumbnails\wildlife\birds\Ruby-throated Hummingbird_thumb.webp
+2026-01-10T22:04:05.411Z - [INFO] Cleanup completed: deleted 1 orphaned thumbnail file
+2026-01-10T22:04:07.024Z - [INFO] Photo processing tool ended

@@ -294,28 +294,6 @@
         "iNaturalistId": 7513
       },
       {
-        "src": "/photos/wildlife/birds/Ruby-throated Hummingbird.webp",
-        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ruby-throated Hummingbird_thumb.webp",
-        "filename": "Ruby-throated Hummingbird.webp",
-        "title": "Ruby-throated Hummingbird",
-        "date": "2025:08:03 13:05:28",
-        "camera": "Canon EOS R5m2",
-        "lens": "RF100-500mm F4.5-7.1 L IS USM",
-        "focalLength": "363 mm",
-        "aperture": "f/7.1",
-        "exposure": "1/5000",
-        "iso": 4000,
-        "gps": {
-          "lat": 35.954582,
-          "lon": -84.135155
-        },
-        "subject": "birds",
-        "scientificName": "Archilochus colubris",
-        "taxonRank": "species",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ruby-throated_hummingbird",
-        "iNaturalistId": 6432
-      },
-      {
         "src": "/photos/wildlife/birds/Ruby-throated Hummingbird2.webp",
         "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ruby-throated Hummingbird2_thumb.webp",
         "filename": "Ruby-throated Hummingbird2.webp",
@@ -468,6 +446,94 @@
         "taxonRank": "species",
         "wikipediaUrl": "http://en.wikipedia.org/wiki/Hermit_thrush",
         "iNaturalistId": 12890
+      },
+      {
+        "src": "/photos/wildlife/birds/Bonaparte's Gull.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Bonaparte's Gull_thumb.webp",
+        "filename": "Bonaparte's Gull.webp",
+        "title": "Bonaparte's Gull",
+        "date": "2025:11:20 08:31:11",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/5000",
+        "iso": 6400,
+        "gps": {
+          "lat": 35.861328,
+          "lon": -84.126687
+        },
+        "subject": "birds",
+        "scientificName": "Chroicocephalus philadelphia",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Bonaparte's_gull",
+        "iNaturalistId": 144502
+      },
+      {
+        "src": "/photos/wildlife/birds/Cedar Waxwing.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Cedar Waxwing_thumb.webp",
+        "filename": "Cedar Waxwing.webp",
+        "title": "Cedar Waxwing",
+        "date": "2025:12:24 10:54:45",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/1000",
+        "iso": 3200,
+        "gps": {
+          "lat": 36.308475,
+          "lon": -84.221573
+        },
+        "subject": "birds",
+        "scientificName": "Bombycilla cedrorum",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Cedar_waxwing",
+        "iNaturalistId": 7428
+      },
+      {
+        "src": "/photos/wildlife/birds/Merlin.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Merlin_thumb.webp",
+        "filename": "Merlin.webp",
+        "title": "Merlin",
+        "date": "2025:11:12 17:06:30",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF200-800mm F6.3-9 IS USM + EXTENDER RF1.4x",
+        "focalLength": "1120 mm",
+        "aperture": "f/13.0",
+        "exposure": "1/250",
+        "iso": 2500,
+        "gps": {
+          "lat": 35.92308313684483,
+          "lon": -83.99281551619046
+        },
+        "subject": "birds",
+        "scientificName": "Falco columbarius columbarius",
+        "taxonRank": "subspecies",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Merlin_(bird)",
+        "iNaturalistId": 528435
+      },
+      {
+        "src": "/photos/wildlife/birds/Ring-billed Gull.webp",
+        "thumbnailSrc": "/photos_thumbnails/wildlife/birds/Ring-billed Gull_thumb.webp",
+        "filename": "Ring-billed Gull.webp",
+        "title": "Ring-billed Gull",
+        "date": "2025:12:16 10:45:07",
+        "camera": "Canon EOS R5m2",
+        "lens": "RF100-500mm F4.5-7.1 L IS USM",
+        "focalLength": "500 mm",
+        "aperture": "f/7.1",
+        "exposure": "1/2500",
+        "iso": 800,
+        "gps": {
+          "lat": 35.86151702607785,
+          "lon": -84.12743391473833
+        },
+        "subject": "birds",
+        "scientificName": "Larus delawarensis",
+        "taxonRank": "species",
+        "wikipediaUrl": "http://en.wikipedia.org/wiki/Ring-billed_gull",
+        "iNaturalistId": 4364
       }
     ]
   },
