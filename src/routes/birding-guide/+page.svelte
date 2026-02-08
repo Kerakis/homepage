@@ -28,7 +28,7 @@
 		<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
 			<!-- Location cards will go here -->
 			<div
-				class="hover:border-accent min-h-32 border-1 p-6 transition-colors duration-200 ease-in-out"
+				class="hover:border-accent min-h-32 border p-6 transition-colors duration-200 ease-in-out"
 			>
 				<h3 class="mb-3 text-2xl font-bold">Location Name</h3>
 				<div class="space-y-2 text-base">
@@ -47,7 +47,7 @@
 			<!-- Season cards -->
 			{#each ['Spring', 'Summer', 'Fall', 'Winter'] as season}
 				<div
-					class="hover:border-accent border-1 p-6 transition-colors duration-200 ease-in-out"
+					class="hover:border-accent border p-6 transition-colors duration-200 ease-in-out"
 				>
 					<h3 class="mb-3 text-xl font-bold">{season}</h3>
 					<ul class="space-y-1 text-base">
@@ -65,7 +65,7 @@
 		<div class="space-y-4">
 			<!-- Species entries will go here -->
 			<div
-				class="hover:border-accent border-1 p-6 transition-colors duration-200 ease-in-out"
+				class="hover:border-accent border p-6 transition-colors duration-200 ease-in-out"
 			>
 				<h3 class="mb-2 text-xl font-bold">[Species Name]</h3>
 				<p class="text-base">

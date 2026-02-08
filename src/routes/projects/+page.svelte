@@ -12,7 +12,7 @@
 <div class="m-auto mt-5 grid w-11/12 grid-cols-1 gap-5 sm:grid-cols-2">
 	<a href="https://scry.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Pick a Card! Any Card!</header>
 			<section>
@@ -22,7 +22,7 @@
 	</a>
 	<a href="https://omenpath.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Bring It Home to Moxfield</header>
 			<section>
@@ -32,7 +32,7 @@
 	</a>
 	<a href="https://calc.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Figure Out Those Deck Stats</header>
 			<section>This hypergeometric calculator will get that mana curve just right.</section>
@@ -40,7 +40,7 @@
 	</a>
 	<a href="https://scrymox.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Transform This!</header>
 			<section>
@@ -50,7 +50,7 @@
 	</a>
 	<a href="https://converter.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Make This Usable!</header>
 			<section>
@@ -60,7 +60,7 @@
 	</a>
 	<a href="https://promos.kerakis.online/" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Am I Special?</header>
 			<section>
@@ -71,7 +71,7 @@
 	</a>
 	<a href="https://ventura.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">Let's Get Silly</header>
 			<section>
@@ -82,7 +82,7 @@
 	</a>
 	<a href="https://radiography.kerakis.online" target="_blank" rel="noreferrer" class="block">
 		<div
-			class="hover:border-accent min-h-32 border-1 p-4 transition-colors duration-200 ease-in-out"
+			class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 		>
 			<header class="mb-2 text-xl font-bold">All Things Radiography</header>
 			<section>

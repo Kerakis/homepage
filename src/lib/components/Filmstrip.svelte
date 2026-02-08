@@ -72,7 +72,7 @@
 			{#each photos as thumb, idx (thumb.src)}
 				<button
 					type="button"
-					class="mx-1 flex-shrink-0 cursor-pointer rounded border-2 transition-all"
+					class="mx-1 shrink-0 cursor-pointer rounded border-2 transition-all"
 					style="border-color: {idx === currentIndex
 						? 'var(--color-accent)'
 						: hoveredIdx === idx
