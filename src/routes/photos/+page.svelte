@@ -242,7 +242,7 @@
 			{@const count = countPhotosInSection(gallery, currentPath ? `${currentPath}/${sub}` : sub)}
 			<button
 				type="button"
-				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-8 border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
+				class="group relative h-80 w-85.5 cursor-pointer overflow-hidden border-8 border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
 				on:click={() => enterSection(sub)}
 				aria-label={`View section ${sub}`}
 			>
@@ -295,7 +295,7 @@
 		{#each sortedPhotos as photo, i (photo.src)}
 			<button
 				type="button"
-				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-8 border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
+				class="group relative h-80 w-85.5 cursor-pointer overflow-hidden border-8 border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
 				on:click={() => openModal(photo, i)}
 				aria-label={`View photo ${photo.title}`}
 			>
