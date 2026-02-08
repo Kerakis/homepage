@@ -89,11 +89,11 @@
 			<nav
 				class="mt-6 flex flex-col items-start space-y-4 font-sans md:mt-0 md:flex-row md:items-center md:space-y-0 md:space-x-8"
 			>
-				{#each ['PROJECTS', 'PHOTOS', 'BIRDNET'] as link}
+				{#each ['PROJECTS', 'PHOTOS', 'BIRDNET', 'BIRDING GUIDE'] as link}
 					<a
-						href={'/' + link.toLowerCase()}
+						href={'/' + link.toLowerCase().replace(' ', '-')}
 						class="nav-underline inline-block text-lg font-medium text-black dark:text-white
-            {page.url.pathname === '/' + link.toLowerCase() ? 'active' : ''}"
+            {page.url.pathname === '/' + link.toLowerCase().replace(' ', '-') ? 'active' : ''}"
 					>
 						{link}
 					</a>
