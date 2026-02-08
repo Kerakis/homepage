@@ -1,6 +1,6 @@
 <script lang="ts">
 	const text =
-		"I'm Rob <span class='text-accent'>AKA</span> Kerakis. Feel free to call me either. I'm a lot of things. Director of Community Relations. Goofball. Amateur wildlife photographer. Registered Vascular Interventional Technologist. Birder. UTK graduate. Nature lover. Occasional wannabe programmer. Cat and dog dad.";
+		"I'm Rob <span class='text-accent'>AKA</span> Kerakis. I'm a lot of things. Director of Community for Moxfield. Goofball. Amateur wildlife photographer. Registered Vascular Interventional Technologist. Birder. UTK graduate. Nature lover. Occasional wannabe programmer. Cat and dog dad. Forest hermit.";
 	const segments = text
 		.split('.')
 		.filter(Boolean)
@@ -25,12 +25,12 @@
 	<div class="relative w-3/4 md:w-px">
 		<!-- Mobile horizontal line -->
 		<div
-			class="h-px w-full bg-gradient-to-r from-transparent via-black to-transparent md:hidden dark:via-white"
+			class="h-px w-full bg-linear-to-r from-transparent via-black to-transparent md:hidden dark:via-white"
 		></div>
 		<!-- Desktop vertical line -->
 		<div class="hidden h-[50vh] w-px md:block">
 			<div
-				class="h-full w-px rotate-[15deg] transform bg-gradient-to-b from-transparent via-black to-transparent dark:via-white"
+				class="h-full w-px rotate-15 transform bg-linear-to-b from-transparent via-black to-transparent dark:via-white"
 			></div>
 		</div>
 	</div>
