@@ -1,6 +1,7 @@
 import { derived } from 'svelte/store';
 import { birdnetData, sortMode, search } from '$lib/stores/birdnet';
 import type { Species, LiveDetection } from '$lib/stores/birdnet';
+import type { Readable } from 'svelte/store';
 
 // Your home GPS coordinates
 const HOME_LAT = 35.954712;
@@ -45,28 +46,38 @@ export function isDetectionNearHome(detection: { lat?: number; lon?: number }): 
 // Define proper type for the store data
 type BirdnetDataStore = {
 	species: Species[];
-	species24h: Species[];
 	liveDetections: LiveDetection[];
 	[key: string]: unknown; // For other properties we don't need to type strictly
 };
 
-function createFilteredSpecies(displayMode: 'all' | '24h') {
+function createFilteredSpecies(displayMode: 'all' | '24h'): Readable<Species[]> {
 	// Return empty store for SSR, will be properly set up on client
 	if (typeof window === 'undefined') {
-		return derived([birdnetData], () => [], []);
+		return derived([birdnetData], () => [] as Species[], [] as Species[]);
 	}
 
 	return derived(
 		[birdnetData, sortMode, search],
-		([$data, $sortMode, $search]: [BirdnetDataStore, string, string]) => {
-			const species = displayMode === '24h' ? $data.species24h : $data.species;
+		([$data, $sortMode, $search]: [BirdnetDataStore, string, string]): Species[] => {
+			let species = $data.species;
 
+			// Client-side filtering for 24h mode
+			if (displayMode === '24h') {
+				const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
+				species = species.filter((s: Species) => {
+					const detectionTime = new Date(s.latestDetectionAt).getTime();
+					return detectionTime >= twentyFourHoursAgo;
+				});
+			}
+
+			// Apply search filter
 			let filtered = species.filter(
 				(s: Species) =>
 					s.commonName.toLowerCase().includes($search.toLowerCase()) ||
 					s.scientificName.toLowerCase().includes($search.toLowerCase())
 			);
 
+			// Apply sort
 			if ($sortMode === 'last') {
 				filtered = filtered.sort(
 					(a: Species, b: Species) =>
@@ -80,27 +91,55 @@ function createFilteredSpecies(displayMode: 'all' | '24h') {
 
 			return filtered;
 		},
-		[]
+		[] as Species[]
 	);
 }
 
 export const filteredSpecies = createFilteredSpecies('all');
 export const filteredSpecies24h = createFilteredSpecies('24h');
 
-// Live detections filter (moved from birdnetLiveFilters.ts)
-export const filteredLiveDetections =
+// Derive 24h stats from all-time data (client-side filtering)
+export const stats24h: Readable<{ total_species: number; total_detections: number }> =
 	typeof window === 'undefined'
-		? derived([birdnetData], () => [], [])
-		: derived([birdnetData, search], ([$data, $search]: [BirdnetDataStore, string]) => {
-				// First filter by GPS location
-				const nearbyDetections = $data.liveDetections.filter(isNearHome);
+		? derived([birdnetData], () => ({ total_species: 0, total_detections: 0 }), {
+				total_species: 0,
+				total_detections: 0
+			})
+		: derived(
+				[birdnetData],
+				([$data]: [BirdnetDataStore]): { total_species: number; total_detections: number } => {
+					const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
+					const species24h = $data.species.filter((s: Species) => {
+						const detectionTime = new Date(s.latestDetectionAt).getTime();
+						return detectionTime >= twentyFourHoursAgo;
+					});
 
-				if (!$search.trim()) {
-					return nearbyDetections;
-				}
-				return nearbyDetections.filter(
-					(detection: LiveDetection) =>
-						detection.species?.commonName.toLowerCase().includes($search.toLowerCase()) ||
-						detection.species?.scientificName.toLowerCase().includes($search.toLowerCase())
-				);
-			});
+					return {
+						total_species: species24h.length,
+						total_detections: species24h.reduce((sum, s) => sum + (s.detections?.total ?? 0), 0)
+					};
+				},
+				{ total_species: 0, total_detections: 0 }
+			);
+
+// Live detections filter (moved from birdnetLiveFilters.ts)
+export const filteredLiveDetections: Readable<LiveDetection[]> =
+	typeof window === 'undefined'
+		? derived([birdnetData], () => [] as LiveDetection[], [] as LiveDetection[])
+		: derived(
+				[birdnetData, search],
+				([$data, $search]: [BirdnetDataStore, string]): LiveDetection[] => {
+					// First filter by GPS location
+					const nearbyDetections = $data.liveDetections.filter(isNearHome);
+
+					if (!$search.trim()) {
+						return nearbyDetections;
+					}
+					return nearbyDetections.filter(
+						(detection: LiveDetection) =>
+							detection.species?.commonName.toLowerCase().includes($search.toLowerCase()) ||
+							detection.species?.scientificName.toLowerCase().includes($search.toLowerCase())
+					);
+				},
+				[] as LiveDetection[]
+			);

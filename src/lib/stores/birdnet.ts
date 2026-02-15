@@ -1,8 +1,7 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { fetchAllSpecies } from '$lib/api/fetchSpecies';
 import { fetchSpeciesDetails } from '$lib/api/fetchSpeciesDetails';
 import { fetchAllLiveDetections } from '$lib/api/fetchLiveDetections';
-import { fetchStationStats } from '$lib/api/fetchStationStats';
 
 export type Species = {
 	id: string;
@@ -39,17 +38,12 @@ export type LiveDetection = {
 
 // Single consolidated store for ALL birdnet data
 export const birdnetData = writable({
-	// All-time data
+	// All-time data (used for both "all" and "24h" modes via client-side filtering)
 	species: [] as Species[],
 	summary: { total_species: 0, total_detections: 0 },
 	lastUpdated: null as number | null,
 	loading: false,
 	error: null as string | null,
-
-	// 24h data
-	species24h: [] as Species[],
-	stats24h: { total_species: 0, total_detections: 0 },
-	stats24hLoading: false,
 
 	// Live data
 	liveDetections: [] as LiveDetection[],
@@ -70,7 +64,17 @@ export async function loadAllTimeData() {
 		return;
 	}
 
-	birdnetData.update((store) => ({ ...store, loading: true, error: null }));
+	// Get current store state
+	const currentData = get(birdnetData);
+
+	// If we have cached data, return it immediately while fetching fresh data
+	if (currentData.species.length > 0 && currentData.lastUpdated) {
+		// Set loading state but keep existing data visible
+		birdnetData.update((store) => ({ ...store, loading: true, error: null }));
+	} else {
+		// No cache, show loading state
+		birdnetData.update((store) => ({ ...store, loading: true, error: null }));
+	}
 
 	try {
 		const speciesFromApi = await fetchAllSpecies({ fetch: window.fetch, period: 'all' });
@@ -102,41 +106,6 @@ export async function loadAllTimeData() {
 			...store,
 			loading: false,
 			error: error instanceof Error ? error.message : 'Failed to load data'
-		}));
-	}
-}
-
-export async function load24hData() {
-	// Only proceed if we're in the browser
-	if (typeof window === 'undefined') {
-		console.warn('load24hData called on server side, skipping');
-		return;
-	}
-
-	birdnetData.update((store) => ({ ...store, stats24hLoading: true }));
-
-	try {
-		const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-		const [species, stats] = await Promise.all([
-			fetchAllSpecies({ fetch: window.fetch, since }),
-			fetchStationStats({ fetch: window.fetch, since })
-		]);
-
-		birdnetData.update((store) => ({
-			...store,
-			species24h: species,
-			stats24h: {
-				total_species: stats.species ?? 0,
-				total_detections: stats.detections ?? 0
-			},
-			stats24hLoading: false
-		}));
-	} catch (error) {
-		console.error('Error loading 24h data:', error);
-		birdnetData.update((store) => ({
-			...store,
-			stats24h: { total_species: 0, total_detections: 0 },
-			stats24hLoading: false
 		}));
 	}
 }

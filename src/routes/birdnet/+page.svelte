@@ -4,7 +4,6 @@
 	import {
 		birdnetData,
 		loadAllTimeData,
-		load24hData,
 		loadLiveData,
 		sortMode,
 		search
@@ -14,7 +13,8 @@
 	import {
 		filteredSpecies,
 		filteredSpecies24h,
-		filteredLiveDetections
+		filteredLiveDetections,
+		stats24h
 	} from '$lib/stores/birdnetFilters';
 	import BirdModal from './BirdModal.svelte';
 	import { formatRelativeTime } from '$lib/utils/time';
@@ -103,8 +103,6 @@
 	> = {};
 
 	// FIX: Add missing variables from the store
-	$: stats24hLoading = $birdnetData.stats24hLoading;
-	$: stats24h = $birdnetData.stats24h;
 	$: liveLoading = $birdnetData.liveLoading;
 	$: liveError = $birdnetData.liveError;
 	$: liveLastUpdated = $birdnetData.liveLastUpdated;
@@ -192,11 +190,14 @@
 
 	// --- Display Mode Logic ---
 
-	// 24h mode
+	// 24h mode - No separate loading needed, uses client-side filtering
 	$: if (displayMode === '24h' && previousDisplayMode !== '24h') {
-		refreshing = true;
-		refreshStartTime = Date.now();
-		load24hData();
+		// If we don't have all-time data yet, load it
+		if (get(birdnetData).lastUpdated === null || get(birdnetData).species.length === 0) {
+			refreshing = true;
+			refreshStartTime = Date.now();
+			loadAllTimeData();
+		}
 		previousDisplayMode = displayMode;
 	}
 
@@ -228,31 +229,23 @@
 		loadAllTimeData();
 	}
 
-	// --- Refresh Logic (PRESERVED EXACTLY) ---
+	// --- Refresh Logic ---
 	let refreshStartTime = 0;
 	let refreshing = false;
 
 	function refreshBirdnet() {
-		if (displayMode === 'all') {
+		// Both "all" and "24h" modes use the same all-time data
+		if (displayMode === 'all' || displayMode === '24h') {
 			refreshStartTime = Date.now();
 			refreshing = true;
 			loadAllTimeData();
-		} else if (displayMode === '24h') {
-			refreshStartTime = Date.now();
-			refreshing = true;
-			load24hData();
 		} else if (displayMode === 'live') {
 			loadLiveData();
 		}
 	}
 
 	// This ensures refreshing is visible for at least 500ms
-	$: if (
-		typeof window !== 'undefined' &&
-		!$birdnetData.loading &&
-		!$birdnetData.stats24hLoading &&
-		refreshing
-	) {
+	$: if (typeof window !== 'undefined' && !$birdnetData.loading && refreshing) {
 		const elapsed = Date.now() - refreshStartTime;
 		if (elapsed >= 500) {
 			refreshing = false;
@@ -362,23 +355,23 @@
 			{#if displayMode === '24h'}
 				<p class="text-lg">
 					Total species in the last 24h: <span class="font-bold"
-						>{#if stats24hLoading}
+						>{#if $birdnetData.loading}
 							<span
 								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
 							></span>
 						{:else}
-							{stats24h.total_species.toLocaleString()}
+							{$stats24h.total_species.toLocaleString()}
 						{/if}</span
 					>
 				</p>
 				<p class="text-lg">
 					Total detections in the last 24h: <span class="font-bold"
-						>{#if stats24hLoading}
+						>{#if $birdnetData.loading}
 							<span
 								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
 							></span>
 						{:else}
-							{stats24h.total_detections.toLocaleString()}
+							{$stats24h.total_detections.toLocaleString()}
 						{/if}</span
 					>
 				</p>
@@ -588,7 +581,7 @@
 		<p class="mt-10 text-center text-lg text-gray-500 dark:text-gray-400">
 			No birds found matching "<span class="font-semibold">{$search}</span>".
 		</p>
-	{:else if (displayMode === 'all' && $birdnetData.loading) || (displayMode === '24h' && stats24hLoading)}
+	{:else if (displayMode === 'all' || displayMode === '24h') && $birdnetData.loading}
 		<div
 			class="flex flex-col items-center justify-center py-16 text-2xl text-black dark:text-white"
 		>
