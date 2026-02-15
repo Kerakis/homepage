@@ -1,3 +1,7 @@
+<script lang="ts">
+	export let data;
+</script>
+
 <svelte:head>
 	<title>Kerakis // Birding Guide</title>
 </svelte:head>
@@ -6,7 +10,7 @@
 	<span class="font-bold">Birding Guide</span>
 	<span class="text-accent mx-2">—</span>
 	<span>
-		A guide to birding in my local area, including top spots, seasonal highlights, and tips for
+		A guide to birding in Knox County, including top spots, seasonal highlights, and tips for
 		finding our feathered friends.
 	</span>
 </header>
@@ -14,10 +18,12 @@
 <div class="m-auto mt-8 w-11/12 space-y-12">
 	<!-- Introduction Section -->
 	<section class="space-y-4">
-		<h2 class="text-accent text-3xl font-bold">Welcome to Local Birding</h2>
+		<h2 class="text-accent text-3xl font-bold">Welcome to Birding in Knox County</h2>
 		<div class="space-y-3 text-lg leading-relaxed">
 			<p>
-				<!-- Introduction content will go here -->
+				Knox County is a fantastic birding destination with diverse habitats and over
+				{data?.stats?.totalSpecies || '300'} species recorded. From the Great Smoky Mountains to the Tennessee
+				River, there's always something new to discover.
 			</p>
 		</div>
 	</section>
@@ -26,34 +32,85 @@
 	<section class="space-y-6">
 		<h2 class="text-accent text-3xl font-bold">Top Birding Locations</h2>
 		<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
-			<!-- Location cards will go here -->
-			<div
-				class="hover:border-accent min-h-32 border p-6 transition-colors duration-200 ease-in-out"
-			>
-				<h3 class="mb-3 text-2xl font-bold">Location Name</h3>
-				<div class="space-y-2 text-base">
-					<p><span class="font-semibold">Best For:</span> [Species/habitat type]</p>
-					<p><span class="font-semibold">Best Season:</span> [Season info]</p>
-					<p class="mt-3">[Location description]</p>
-				</div>
-			</div>
+			{#if data?.hotspots && data.hotspots.length > 0}
+				{#each data.hotspots as hotspot (hotspot.id)}
+					<div
+						class="hover:border-accent min-h-32 border p-6 transition-colors duration-200 ease-in-out"
+					>
+						<h3 class="mb-3 text-2xl font-bold">{hotspot.name}</h3>
+						<div class="space-y-2 text-base">
+							<p>
+								<span class="font-semibold">Species Recorded:</span>
+								{hotspot.speciesCount}
+							</p>
+							<p>
+								<span class="font-semibold">Coordinates:</span>
+								{hotspot.latitude.toFixed(4)}, {hotspot.longitude.toFixed(4)}
+							</p>
+							<p class="mt-3 text-sm">
+								<a
+									href="https://ebird.org/hotspot/{hotspot.id}"
+									target="_blank"
+									rel="noreferrer"
+									class="text-accent hover:underline">View on eBird →</a
+								>
+							</p>
+						</div>
+					</div>
+				{/each}
+			{:else}
+				<p class="col-span-full text-base">Loading hotspot data...</p>
+			{/if}
 		</div>
 	</section>
 
 	<!-- Seasonal Highlights -->
 	<section class="space-y-6">
-		<h2 class="text-accent text-3xl font-bold">Seasonal Highlights</h2>
-		<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-			<!-- Season cards -->
-			{#each ['Spring', 'Summer', 'Fall', 'Winter'] as season}
-				<div
-					class="hover:border-accent border p-6 transition-colors duration-200 ease-in-out"
-				>
-					<h3 class="mb-3 text-xl font-bold">{season}</h3>
-					<ul class="space-y-1 text-base">
-						<!-- Seasonal species list will go here -->
-						<li>• [Species]</li>
-					</ul>
+		<h2 class="text-accent text-3xl font-bold">Best Hotspots by Season</h2>
+		<p class="text-base text-black dark:text-white">
+			These hotspots are best for finding seasonal migrants and species you won't see in other times
+			of year. Spring and Fall are prime for warblers, while Winter brings waterfowl.
+		</p>
+		<div class="space-y-8">
+			{#each ['spring', 'summer', 'fall', 'winter'] as seasonKey}
+				{@const typedSeason = seasonKey as 'spring' | 'summer' | 'fall' | 'winter'}
+				{@const seasonData = data?.seasonalHotspots?.[typedSeason] ?? []}
+				<div>
+					<h3 class="text-accent mb-4 text-2xl font-bold capitalize">{seasonKey}</h3>
+					<div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+						{#each seasonData as hotspot (hotspot.hotspotId)}
+							<div
+								class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
+							>
+								<h4 class="mb-2 font-bold">{hotspot.hotspotName}</h4>
+								<p class="mb-3 text-sm">
+									<span class="font-semibold">Seasonal Species:</span>
+									{hotspot.seasonalSpeciesCount}
+								</p>
+								<div class="space-y-1 text-xs">
+									<p class="font-semibold">Notable Species:</p>
+									<ul class="space-y-0.5 pl-2">
+										{#each hotspot.topSpecies as species}
+											<li class="truncate">• {species}</li>
+										{/each}
+									</ul>
+								</div>
+								<p class="mt-3 text-xs">
+									<a
+										href="https://ebird.org/hotspot/{hotspot.hotspotId}"
+										target="_blank"
+										rel="noreferrer"
+										class="text-accent hover:underline">View on eBird →</a
+									>
+								</p>
+							</div>
+						{:else}
+							<p class="col-span-full text-sm text-gray-400">
+								No seasonal hotspots found for this period. Try again later as more observation data
+								is collected.
+							</p>
+						{/each}
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -64,9 +121,7 @@
 		<h2 class="text-accent text-3xl font-bold">Target Species</h2>
 		<div class="space-y-4">
 			<!-- Species entries will go here -->
-			<div
-				class="hover:border-accent border p-6 transition-colors duration-200 ease-in-out"
-			>
+			<div class="hover:border-accent border p-6 transition-colors duration-200 ease-in-out">
 				<h3 class="mb-2 text-xl font-bold">[Species Name]</h3>
 				<p class="text-base">
 					<span class="font-semibold">Where to Find:</span> [Location info]
