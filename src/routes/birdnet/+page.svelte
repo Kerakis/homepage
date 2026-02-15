@@ -170,8 +170,14 @@
 		const id = modalData.id;
 		if (!detectionsCache[id]) {
 			try {
-				const allDetections = await fetchDetections({ speciesId: id, limit: 5, fetch });
-				detectionsCache[id] = allDetections.filter(isDetectionNearHome);
+				const allDetections = await fetchDetections({
+					speciesId: id,
+					limit: 5,
+					fetch
+				});
+				detectionsCache[id] = allDetections
+					.filter(isDetectionNearHome)
+					.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 			} catch (e) {
 				console.error('Failed to fetch recent detections for modal:', e);
 				detectionsCache[id] = [];

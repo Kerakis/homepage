@@ -5,9 +5,15 @@ export type Detection = {
 	timestamp: string;
 	lat?: number;
 	lon?: number;
+	confidence: number;
+	probability?: number;
+	score: number;
+	certainty: string;
 	soundscape: {
 		url: string;
 		startTime: number;
+		endTime: number;
+		duration: number;
 	};
 };
 
@@ -38,6 +44,7 @@ export async function fetchDetections({
 	if (since) url += `&since=${since}`;
 
 	const response = await fetch(url);
+
 	if (!response.ok) {
 		const errorResponse = await response.json();
 		throw new Error(`Error: ${response.status} ${errorResponse?.message}`);

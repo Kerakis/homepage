@@ -4,12 +4,17 @@ export interface LiveDetection {
 	id: number;
 	species: Species;
 	timestamp: string;
-	confidence?: number;
+	confidence: number;
+	probability?: number;
+	score: number;
+	certainty: string;
 	lat?: number;
 	lon?: number;
 	soundscape?: {
 		url: string;
 		startTime?: number;
+		endTime?: number;
+		duration?: number;
 	};
 }
 

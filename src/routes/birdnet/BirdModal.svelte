@@ -43,7 +43,9 @@
 				limit: 5,
 				fetch: window.fetch
 			});
-			detections = allDetections.filter(isDetectionNearHome);
+			detections = allDetections
+				.filter(isDetectionNearHome)
+				.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 		} catch (e) {
 			console.error('Error fetching recent detections:', e);
 			detections = [];
@@ -268,12 +270,40 @@
 						{#each detections as det, i}
 							<li class="flex flex-col gap-1 rounded-md bg-gray-50 p-2 dark:bg-neutral-700/50">
 								<div class="flex items-center justify-between gap-2">
-									<span class="text-xs text-gray-500 dark:text-neutral-400"
-										>{new Date(det.timestamp).toLocaleString([], {
-											dateStyle: 'short',
-											timeStyle: 'short'
-										})}</span
-									>
+									<div class="flex flex-col gap-0.5">
+										<span class="text-xs text-gray-500 dark:text-neutral-400"
+											>{new Date(det.timestamp).toLocaleString([], {
+												dateStyle: 'short',
+												timeStyle: 'short'
+											})}</span
+										>
+										<div class="flex gap-1.5 text-xs">
+											<span
+												class="rounded px-1 py-0.5 font-medium {det.score >= 7
+													? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+													: det.score >= 5
+														? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+														: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'}"
+												title="BirdWeather calculated score (0-10 scale)"
+											>
+												Score: {det.score.toFixed(1)}/10
+											</span>
+											<span
+												class="rounded px-1 py-0.5 font-medium"
+												title="BirdNET reported confidence"
+											>
+												Conf: {(det.confidence * 100).toFixed(0)}%
+											</span>
+											{#if det.probability !== null && det.probability !== undefined}
+												<span
+													class="rounded px-1 py-0.5 font-medium"
+													title="Species probability in this location"
+												>
+													Prob: {(det.probability * 100).toFixed(0)}%
+												</span>
+											{/if}
+										</div>
+									</div>
 									{#if det.soundscape?.url}
 										{#if !showAudio[i]}
 											<button

@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store';
 import { fetchAllSpecies } from '$lib/api/fetchSpecies';
 import { fetchSpeciesDetails } from '$lib/api/fetchSpeciesDetails';
-import { fetchStationStats } from '$lib/api/fetchStationStats';
 import { fetchAllLiveDetections } from '$lib/api/fetchLiveDetections';
+import { fetchStationStats } from '$lib/api/fetchStationStats';
 
 export type Species = {
 	id: string;
