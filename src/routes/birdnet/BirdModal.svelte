@@ -329,6 +329,12 @@
 									{/if}
 								</div>
 
+								{#if showAudio[i] && det.soundscape?.startTime !== undefined}
+									<span class="text-center text-xs text-gray-500 dark:text-neutral-400">
+										Detection starts at {det.soundscape.startTime}s
+									</span>
+								{/if}
+
 								<!-- Error message display -->
 								{#if audioErrors[i]}
 									<div class="text-accent flex items-center gap-1 text-xs">
