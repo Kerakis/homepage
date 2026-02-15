@@ -474,7 +474,7 @@
 						aria-label={`Open details for ${detection.species?.commonName}`}
 						transition:fly={{ y: 20, duration: 300 }}
 					>
-						<div class="relative aspect-[4/3] w-full">
+						<div class="relative aspect-4/3 w-full">
 							<img
 								src={detection.species?.imageUrl}
 								alt={detection.species?.commonName}
@@ -486,7 +486,7 @@
 								<span>Confidence: {Math.round((detection.confidence ?? 0) * 100)}%</span>
 							</div>
 						</div>
-						<div class="flex flex-grow flex-col p-3 text-left">
+						<div class="flex grow flex-col p-3 text-left">
 							<h2 class="group-hover:text-accent mb-0.5 truncate text-base font-semibold">
 								{detection.species?.commonName}
 							</h2>
@@ -536,7 +536,7 @@
 					aria-label={`Open details for ${bird.commonName}`}
 					transition:fly={{ y: 20, duration: 300 }}
 				>
-					<div class="relative aspect-[4/3] w-full">
+					<div class="relative aspect-4/3 w-full">
 						<img
 							src={bird.imageUrl}
 							alt={bird.commonName}
@@ -562,7 +562,7 @@
 							<span>{(bird.detections?.total ?? 0).toLocaleString()}</span>
 						</div>
 					</div>
-					<div class="flex flex-grow flex-col p-3 text-left">
+					<div class="flex grow flex-col p-3 text-left">
 						<h2
 							class="dark:group-hover:text-accent-dark group-hover:text-accent mb-0.5 truncate text-base font-semibold"
 						>

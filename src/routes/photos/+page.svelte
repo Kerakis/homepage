@@ -242,7 +242,7 @@
 			{@const count = countPhotosInSection(gallery, currentPath ? `${currentPath}/${sub}` : sub)}
 			<button
 				type="button"
-				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
+				class="group relative h-80 w-85.5 cursor-pointer overflow-hidden border-8 border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
 				on:click={() => enterSection(sub)}
 				aria-label={`View section ${sub}`}
 			>
@@ -266,7 +266,7 @@
 				<div class="absolute right-0 bottom-0 left-0 bg-black/50 p-3 text-white">
 					<div class="flex flex-row items-end gap-2">
 						<!-- Left side: Title and Count, stacked and left-aligned -->
-						<div class="flex flex-grow flex-col items-start">
+						<div class="flex grow flex-col items-start">
 							<h3 class="text-md truncate leading-tight font-semibold">
 								{sub.charAt(0).toUpperCase() + sub.slice(1)}
 							</h3>
@@ -277,7 +277,7 @@
 						</div>
 						<!-- Right side: Date Range, bottom right -->
 						{#if dateRangeStr}
-							<p class="flex-shrink-0 text-right text-xs leading-tight opacity-80">
+							<p class="shrink-0 text-right text-xs leading-tight opacity-80">
 								{dateRangeStr}
 							</p>
 						{/if}
@@ -295,7 +295,7 @@
 		{#each sortedPhotos as photo, i (photo.src)}
 			<button
 				type="button"
-				class="group relative h-80 w-[342px] cursor-pointer overflow-hidden border-[8px] border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
+				class="group relative h-80 w-85.5 cursor-pointer overflow-hidden border-8 border-black bg-gray-200 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-white dark:bg-gray-800"
 				on:click={() => openModal(photo, i)}
 				aria-label={`View photo ${photo.title}`}
 			>
@@ -313,7 +313,7 @@
 							<h4 class="text-md truncate leading-tight font-semibold">{photo.title}</h4>
 						</div>
 						<!-- Right side: Date -->
-						<p class="flex-shrink-0 text-xs leading-tight opacity-80">
+						<p class="shrink-0 text-xs leading-tight opacity-80">
 							{formatMonthYear(photo.date ?? '')}
 						</p>
 					</div>

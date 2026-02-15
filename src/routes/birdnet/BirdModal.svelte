@@ -167,7 +167,7 @@
 		}}
 	>
 		<div
-			class="relative flex max-h-[100svh] w-full max-w-lg flex-col overflow-hidden overflow-y-auto rounded-xl bg-white shadow-2xl dark:bg-neutral-800"
+			class="relative flex max-h-svh w-full max-w-lg flex-col overflow-hidden overflow-y-auto rounded-xl bg-white shadow-2xl dark:bg-neutral-800"
 		>
 			<div class="p-6">
 				<button
@@ -189,7 +189,7 @@
 					</svg>
 				</button>
 
-				<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-lg">
+				<div class="mb-4 aspect-4/3 w-full overflow-hidden rounded-lg">
 					<img src={bird.imageUrl} alt={bird.commonName} class="h-full w-full object-cover" />
 				</div>
 
@@ -298,7 +298,7 @@
 												controls
 												preload="auto"
 												crossorigin="anonymous"
-												class="h-7 w-full max-w-[200px] sm:max-w-[250px]"
+												class="h-7 w-full max-w-50 sm:max-w-62.5"
 												on:loadeddata={() => {
 													if (audioRefs[i]) {
 														audioRefs[i].volume = 1.0;

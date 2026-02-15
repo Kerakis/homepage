@@ -140,14 +140,14 @@
 </script>
 
 <div
-	class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80"
+	class="fixed inset-0 z-60 flex items-center justify-center bg-black/80"
 	style="backdrop-filter: blur(2px);"
 	in:fly={{ y: 40, duration: 250 }}
 	out:fly={{ y: 40, duration: 250 }}
 >
 	<button
 		type="button"
-		class="fixed top-4 right-4 z-[70] rounded-full bg-black/40 p-2 text-white shadow-lg transition hover:bg-gray-700 sm:p-3"
+		class="fixed top-4 right-4 z-70 rounded-full bg-black/40 p-2 text-white shadow-lg transition hover:bg-gray-700 sm:p-3"
 		title="Close map (Esc or M)"
 		on:click={onClose}
 		aria-label="Close map"
@@ -164,7 +164,7 @@
 	</button>
 	<div
 		bind:this={fullmapContainer}
-		class="z-[65] h-[100vh] w-[100vw] rounded shadow-lg sm:h-[80vh] sm:w-[80vw]"
+		class="z-65 h-screen w-screen rounded shadow-lg sm:h-[80vh] sm:w-[80vw]"
 		style="background: #222; box-shadow: 0 0 32px #000a;"
 	>
 		{#if !leafletLoaded}

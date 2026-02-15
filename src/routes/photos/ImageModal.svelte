@@ -1034,7 +1034,7 @@
 					</div>
 
 					<!-- Always reserve space for minimap to prevent layout shift -->
-					<div class="flex-shrink-0" style="width: {minimapWidth}px; height: {minimapHeight}px;">
+					<div class="shrink-0" style="width: {minimapWidth}px; height: {minimapHeight}px;">
 						{#if modalPhoto?.gps}
 							<PhotoMinimap
 								photo={modalPhoto}
