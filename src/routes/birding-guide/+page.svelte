@@ -88,13 +88,37 @@
 									{hotspot.seasonalSpeciesCount}
 								</p>
 								<div class="space-y-1 text-xs">
-									<p class="font-semibold">Notable Species:</p>
+									<p class="font-semibold">Iconic Species:</p>
 									<ul class="space-y-0.5 pl-2">
 										{#each hotspot.topSpecies as species}
-											<li class="truncate">• {species}</li>
+											<li
+												class="truncate"
+												title="{species.name} (Seen in {species.yearsPresent}/{species.yearsTotal} years)"
+											>
+												• {species.name}
+											</li>
 										{/each}
 									</ul>
 								</div>
+
+								{#if hotspot.rareSpecies && hotspot.rareSpecies.length > 0}
+									<div class="mt-2 space-y-1 text-xs">
+										<p class="font-semibold">Notable Rarities:</p>
+										<ul class="space-y-0.5 pl-2 text-gray-600 italic dark:text-gray-400">
+											{#each hotspot.rareSpecies as species}
+												<li
+													class="truncate"
+													title="{species.name} ({species.obsCount} obs, last {species.lastSeenYear})"
+												>
+													• {species.name}
+													<span class="text-[10px] not-italic opacity-70"
+														>({species.lastSeenYear})</span
+													>
+												</li>
+											{/each}
+										</ul>
+									</div>
+								{/if}
 								<p class="mt-3 text-xs">
 									<a
 										href="https://ebird.org/hotspot/{hotspot.hotspotId}"

@@ -24,3 +24,6 @@ vite.config.ts.timestamp-*
 
 # iNaturalist cache
 inaturalist-cache.json
+
+# eBird data dumps
+/static/bird_data

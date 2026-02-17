@@ -12,7 +12,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"generate-gallery": "node scripts/generate-photo-data.mjs"
+		"generate-gallery": "node scripts/generate-photo-data.mjs",
+		"generate-bird-data": "node scripts/generate-bird-data.mjs"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",

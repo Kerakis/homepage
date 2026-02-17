@@ -1,0 +1,4681 @@
+{
+  "spring": [
+    {
+      "hotspotId": "L938796",
+      "hotspotName": "UT Plant Sciences Farm (restricted access)",
+      "seasonalSpeciesCount": 68,
+      "topSpecies": [
+        {
+          "name": "Sora",
+          "score": 162.9,
+          "frequency": 0.583,
+          "regionFrequency": 0.004,
+          "obsCount": 35,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Virginia Rail",
+          "score": 137.24,
+          "frequency": 0.417,
+          "regionFrequency": 0.003,
+          "obsCount": 25,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Pipit",
+          "score": 48.25,
+          "frequency": 0.267,
+          "regionFrequency": 0.006,
+          "obsCount": 16,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bobolink",
+          "score": 45.07,
+          "frequency": 0.533,
+          "regionFrequency": 0.012,
+          "obsCount": 32,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Wilson's Snipe",
+          "score": 37.97,
+          "frequency": 0.783,
+          "regionFrequency": 0.021,
+          "obsCount": 47,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Black-crowned Night Heron",
+          "obsCount": 8,
+          "lastSeenYear": 2023,
+          "frequency": 0.1333
+        },
+        {
+          "name": "Red-breasted Merganser",
+          "obsCount": 8,
+          "lastSeenYear": 2023,
+          "frequency": 0.1333
+        },
+        {
+          "name": "Lincoln's Sparrow",
+          "obsCount": 5,
+          "lastSeenYear": 2018,
+          "frequency": 0.0833
+        },
+        {
+          "name": "White-faced Ibis",
+          "obsCount": 5,
+          "lastSeenYear": 2018,
+          "frequency": 0.0833
+        },
+        {
+          "name": "White-rumped Sandpiper",
+          "obsCount": 4,
+          "lastSeenYear": 2017,
+          "frequency": 0.0667
+        }
+      ]
+    },
+    {
+      "hotspotId": "L662127",
+      "hotspotName": "Dead Horse Lake Golf Course",
+      "seasonalSpeciesCount": 15,
+      "topSpecies": [
+        {
+          "name": "Northern Shoveler",
+          "score": 118.85,
+          "frequency": 0.694,
+          "regionFrequency": 0.006,
+          "obsCount": 34,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Ring-necked Duck",
+          "score": 65.54,
+          "frequency": 0.878,
+          "regionFrequency": 0.013,
+          "obsCount": 43,
+          "yearsPresent": 6,
+          "yearsTotal": 8
+        },
+        {
+          "name": "American Coot",
+          "score": 45.2,
+          "frequency": 0.612,
+          "regionFrequency": 0.014,
+          "obsCount": 30,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Gadwall",
+          "score": 32.2,
+          "frequency": 0.286,
+          "regionFrequency": 0.009,
+          "obsCount": 14,
+          "yearsPresent": 6,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Lesser Scaup",
+          "score": 21.75,
+          "frequency": 0.367,
+          "regionFrequency": 0.017,
+          "obsCount": 18,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Redhead",
+          "obsCount": 18,
+          "lastSeenYear": 2020,
+          "frequency": 0.3673
+        },
+        {
+          "name": "Ruddy Duck",
+          "obsCount": 15,
+          "lastSeenYear": 2019,
+          "frequency": 0.3061
+        },
+        {
+          "name": "Ross's Goose",
+          "obsCount": 10,
+          "lastSeenYear": 2016,
+          "frequency": 0.2041
+        },
+        {
+          "name": "Green-winged Teal",
+          "obsCount": 6,
+          "lastSeenYear": 2023,
+          "frequency": 0.1224
+        },
+        {
+          "name": "Canvasback",
+          "obsCount": 2,
+          "lastSeenYear": 2016,
+          "frequency": 0.0408
+        }
+      ]
+    },
+    {
+      "hotspotId": "L1125042",
+      "hotspotName": "William Hastie Natural Area",
+      "seasonalSpeciesCount": 28,
+      "topSpecies": [
+        {
+          "name": "Acadian Flycatcher",
+          "score": 59.76,
+          "frequency": 0.637,
+          "regionFrequency": 0.011,
+          "obsCount": 58,
+          "yearsPresent": 8,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Kentucky Warbler",
+          "score": 56.15,
+          "frequency": 0.769,
+          "regionFrequency": 0.014,
+          "obsCount": 70,
+          "yearsPresent": 9,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Canada Warbler",
+          "score": 13.61,
+          "frequency": 0.088,
+          "regionFrequency": 0.006,
+          "obsCount": 8,
+          "yearsPresent": 4,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Barred Owl",
+          "score": 5.67,
+          "frequency": 0.11,
+          "regionFrequency": 0.019,
+          "obsCount": 10,
+          "yearsPresent": 5,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Wood Thrush",
+          "score": 5.59,
+          "frequency": 0.714,
+          "regionFrequency": 0.128,
+          "obsCount": 65,
+          "yearsPresent": 9,
+          "yearsTotal": 9
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 2,
+          "lastSeenYear": 2021,
+          "frequency": 0.022
+        },
+        {
+          "name": "Gray-cheeked Thrush",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.022
+        }
+      ]
+    },
+    {
+      "hotspotId": "L2454864",
+      "hotspotName": "Concord Park--Boat Launch",
+      "seasonalSpeciesCount": 14,
+      "topSpecies": [
+        {
+          "name": "Horned Grebe",
+          "score": 23.33,
+          "frequency": 0.343,
+          "regionFrequency": 0.015,
+          "obsCount": 46,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Forster's Tern",
+          "score": 19.87,
+          "frequency": 0.127,
+          "regionFrequency": 0.006,
+          "obsCount": 17,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Common Loon",
+          "score": 19.39,
+          "frequency": 0.261,
+          "regionFrequency": 0.013,
+          "obsCount": 35,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Greater Scaup",
+          "score": 17.12,
+          "frequency": 0.037,
+          "regionFrequency": 0.002,
+          "obsCount": 5,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bonaparte's Gull",
+          "score": 14.07,
+          "frequency": 0.44,
+          "regionFrequency": 0.031,
+          "obsCount": 59,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Red-necked Grebe",
+          "obsCount": 24,
+          "lastSeenYear": 2023,
+          "frequency": 0.1791
+        },
+        {
+          "name": "Redhead",
+          "obsCount": 4,
+          "lastSeenYear": 2023,
+          "frequency": 0.0299
+        },
+        {
+          "name": "American Wigeon",
+          "obsCount": 4,
+          "lastSeenYear": 2023,
+          "frequency": 0.0299
+        },
+        {
+          "name": "American Herring Gull",
+          "obsCount": 3,
+          "lastSeenYear": 2019,
+          "frequency": 0.0224
+        },
+        {
+          "name": "American White Pelican",
+          "obsCount": 3,
+          "lastSeenYear": 2020,
+          "frequency": 0.0224
+        }
+      ]
+    },
+    {
+      "hotspotId": "L9010597",
+      "hotspotName": "Corryton Church Pond",
+      "seasonalSpeciesCount": 17,
+      "topSpecies": [
+        {
+          "name": "Semipalmated Sandpiper",
+          "score": 43.4,
+          "frequency": 0.057,
+          "regionFrequency": 0.001,
+          "obsCount": 17,
+          "yearsPresent": 4,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Semipalmated Plover",
+          "score": 32.95,
+          "frequency": 0.139,
+          "regionFrequency": 0.004,
+          "obsCount": 41,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Least Sandpiper",
+          "score": 14.02,
+          "frequency": 0.142,
+          "regionFrequency": 0.01,
+          "obsCount": 42,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Greater Yellowlegs",
+          "score": 10.78,
+          "frequency": 0.125,
+          "regionFrequency": 0.012,
+          "obsCount": 37,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Lesser Yellowlegs",
+          "score": 7.73,
+          "frequency": 0.122,
+          "regionFrequency": 0.016,
+          "obsCount": 36,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Mute Swan",
+          "obsCount": 26,
+          "lastSeenYear": 2024,
+          "frequency": 0.0878
+        },
+        {
+          "name": "American Golden-Plover",
+          "obsCount": 18,
+          "lastSeenYear": 2019,
+          "frequency": 0.0608
+        },
+        {
+          "name": "White-rumped Sandpiper",
+          "obsCount": 15,
+          "lastSeenYear": 2022,
+          "frequency": 0.0507
+        },
+        {
+          "name": "Canvasback",
+          "obsCount": 6,
+          "lastSeenYear": 2019,
+          "frequency": 0.0203
+        },
+        {
+          "name": "Green-winged Teal",
+          "obsCount": 4,
+          "lastSeenYear": 2025,
+          "frequency": 0.0135
+        }
+      ]
+    },
+    {
+      "hotspotId": "L16308469",
+      "hotspotName": "Melton Hill Lake--TVA Parcel 65",
+      "seasonalSpeciesCount": 37,
+      "topSpecies": [
+        {
+          "name": "Pectoral Sandpiper",
+          "score": 25.81,
+          "frequency": 0.36,
+          "regionFrequency": 0.014,
+          "obsCount": 105,
+          "yearsPresent": 2,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Greater Yellowlegs",
+          "score": 16.83,
+          "frequency": 0.195,
+          "regionFrequency": 0.012,
+          "obsCount": 57,
+          "yearsPresent": 3,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Barred Owl",
+          "score": 14.13,
+          "frequency": 0.274,
+          "regionFrequency": 0.019,
+          "obsCount": 80,
+          "yearsPresent": 3,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Northern Shoveler",
+          "score": 13.49,
+          "frequency": 0.079,
+          "regionFrequency": 0.006,
+          "obsCount": 23,
+          "yearsPresent": 3,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Red-breasted Merganser",
+          "score": 12.1,
+          "frequency": 0.113,
+          "regionFrequency": 0.009,
+          "obsCount": 33,
+          "yearsPresent": 2,
+          "yearsTotal": 3
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Tundra Swan",
+          "obsCount": 27,
+          "lastSeenYear": 2024,
+          "frequency": 0.0925
+        },
+        {
+          "name": "Long-billed Dowitcher",
+          "obsCount": 25,
+          "lastSeenYear": 2025,
+          "frequency": 0.0856
+        },
+        {
+          "name": "American Golden-Plover",
+          "obsCount": 17,
+          "lastSeenYear": 2025,
+          "frequency": 0.0582
+        },
+        {
+          "name": "Semipalmated Plover",
+          "obsCount": 8,
+          "lastSeenYear": 2024,
+          "frequency": 0.0274
+        },
+        {
+          "name": "Willet",
+          "obsCount": 5,
+          "lastSeenYear": 2024,
+          "frequency": 0.0171
+        }
+      ]
+    },
+    {
+      "hotspotId": "L939034",
+      "hotspotName": "Eastbridge Business Park",
+      "seasonalSpeciesCount": 17,
+      "topSpecies": [
+        {
+          "name": "Grasshopper Sparrow",
+          "score": 42.21,
+          "frequency": 0.687,
+          "regionFrequency": 0.016,
+          "obsCount": 57,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Prairie Warbler",
+          "score": 9.75,
+          "frequency": 0.771,
+          "regionFrequency": 0.079,
+          "obsCount": 64,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Yellow-breasted Chat",
+          "score": 7.36,
+          "frequency": 0.687,
+          "regionFrequency": 0.093,
+          "obsCount": 57,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Blue Grosbeak",
+          "score": 6.03,
+          "frequency": 0.422,
+          "regionFrequency": 0.07,
+          "obsCount": 35,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Northern Harrier",
+          "score": 5.84,
+          "frequency": 0.096,
+          "regionFrequency": 0.017,
+          "obsCount": 8,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Sedge Wren",
+          "obsCount": 12,
+          "lastSeenYear": 2025,
+          "frequency": 0.1446
+        },
+        {
+          "name": "Dickcissel",
+          "obsCount": 8,
+          "lastSeenYear": 2025,
+          "frequency": 0.0964
+        },
+        {
+          "name": "Mississippi Kite",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.0361
+        },
+        {
+          "name": "American Woodcock",
+          "obsCount": 1,
+          "lastSeenYear": 2016,
+          "frequency": 0.012
+        },
+        {
+          "name": "Bank Swallow",
+          "obsCount": 1,
+          "lastSeenYear": 2017,
+          "frequency": 0.012
+        }
+      ]
+    },
+    {
+      "hotspotId": "L933286",
+      "hotspotName": "House Mountain SNA",
+      "seasonalSpeciesCount": 19,
+      "topSpecies": [
+        {
+          "name": "Louisiana Waterthrush",
+          "score": 25.5,
+          "frequency": 0.324,
+          "regionFrequency": 0.013,
+          "obsCount": 33,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Acadian Flycatcher",
+          "score": 22.98,
+          "frequency": 0.245,
+          "regionFrequency": 0.011,
+          "obsCount": 25,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Kentucky Warbler",
+          "score": 20.04,
+          "frequency": 0.275,
+          "regionFrequency": 0.014,
+          "obsCount": 28,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Wild Turkey",
+          "score": 3.98,
+          "frequency": 0.196,
+          "regionFrequency": 0.049,
+          "obsCount": 20,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Wood Thrush",
+          "score": 3.68,
+          "frequency": 0.471,
+          "regionFrequency": 0.128,
+          "obsCount": 48,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Gray-cheeked Thrush",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0098
+        },
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0098
+        }
+      ]
+    },
+    {
+      "hotspotId": "L283639",
+      "hotspotName": "Concord Park--The Cove",
+      "seasonalSpeciesCount": 28,
+      "topSpecies": [
+        {
+          "name": "Brown-headed Nuthatch",
+          "score": 14.46,
+          "frequency": 0.556,
+          "regionFrequency": 0.038,
+          "obsCount": 337,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Caspian Tern",
+          "score": 12.47,
+          "frequency": 0.017,
+          "regionFrequency": 0.001,
+          "obsCount": 10,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Willet",
+          "score": 11.36,
+          "frequency": 0.025,
+          "regionFrequency": 0.002,
+          "obsCount": 15,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Forster's Tern",
+          "score": 10.86,
+          "frequency": 0.069,
+          "regionFrequency": 0.006,
+          "obsCount": 42,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Horned Grebe",
+          "score": 8.75,
+          "frequency": 0.129,
+          "regionFrequency": 0.015,
+          "obsCount": 78,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Mute Swan",
+          "obsCount": 16,
+          "lastSeenYear": 2024,
+          "frequency": 0.0264
+        },
+        {
+          "name": "American Avocet",
+          "obsCount": 13,
+          "lastSeenYear": 2020,
+          "frequency": 0.0215
+        },
+        {
+          "name": "American White Pelican",
+          "obsCount": 12,
+          "lastSeenYear": 2020,
+          "frequency": 0.0198
+        },
+        {
+          "name": "Greater White-fronted Goose",
+          "obsCount": 12,
+          "lastSeenYear": 2021,
+          "frequency": 0.0198
+        },
+        {
+          "name": "Hooded Merganser",
+          "obsCount": 5,
+          "lastSeenYear": 2020,
+          "frequency": 0.0083
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3174732",
+      "hotspotName": "Gilbert Dr. Marsh",
+      "seasonalSpeciesCount": 23,
+      "topSpecies": [
+        {
+          "name": "Gadwall",
+          "score": 25.77,
+          "frequency": 0.229,
+          "regionFrequency": 0.009,
+          "obsCount": 59,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Willow Flycatcher",
+          "score": 18.62,
+          "frequency": 0.19,
+          "regionFrequency": 0.01,
+          "obsCount": 49,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Eastern Warbling Vireo",
+          "score": 13.78,
+          "frequency": 0.12,
+          "regionFrequency": 0.009,
+          "obsCount": 31,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Ring-necked Duck",
+          "score": 11.29,
+          "frequency": 0.151,
+          "regionFrequency": 0.013,
+          "obsCount": 39,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Coot",
+          "score": 4.29,
+          "frequency": 0.058,
+          "regionFrequency": 0.014,
+          "obsCount": 15,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Redhead",
+          "obsCount": 10,
+          "lastSeenYear": 2025,
+          "frequency": 0.0388
+        },
+        {
+          "name": "Sora",
+          "obsCount": 7,
+          "lastSeenYear": 2025,
+          "frequency": 0.0271
+        },
+        {
+          "name": "Marsh Wren",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0039
+        },
+        {
+          "name": "Northern Shoveler",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0039
+        },
+        {
+          "name": "Bank Swallow",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0039
+        }
+      ]
+    },
+    {
+      "hotspotId": "L9698130",
+      "hotspotName": "Halls Greenway--Andersonville Pike to Norris Freeway",
+      "seasonalSpeciesCount": 20,
+      "topSpecies": [
+        {
+          "name": "Willow Flycatcher",
+          "score": 51.37,
+          "frequency": 0.524,
+          "regionFrequency": 0.01,
+          "obsCount": 33,
+          "yearsPresent": 6,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Gray Catbird",
+          "score": 6.7,
+          "frequency": 0.683,
+          "regionFrequency": 0.102,
+          "obsCount": 43,
+          "yearsPresent": 6,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Northern House Wren",
+          "score": 6.04,
+          "frequency": 0.365,
+          "regionFrequency": 0.06,
+          "obsCount": 23,
+          "yearsPresent": 5,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Northern Yellow Warbler",
+          "score": 4.84,
+          "frequency": 0.159,
+          "regionFrequency": 0.033,
+          "obsCount": 10,
+          "yearsPresent": 4,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Green Heron",
+          "score": 4.08,
+          "frequency": 0.206,
+          "regionFrequency": 0.051,
+          "obsCount": 13,
+          "yearsPresent": 6,
+          "yearsTotal": 6
+        }
+      ],
+      "rareSpecies": []
+    },
+    {
+      "hotspotId": "L573178",
+      "hotspotName": "Forks of the River WMA",
+      "seasonalSpeciesCount": 15,
+      "topSpecies": [
+        {
+          "name": "Chuck-will's-widow",
+          "score": 50.2,
+          "frequency": 0.086,
+          "regionFrequency": 0.002,
+          "obsCount": 19,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Woodcock",
+          "score": 15.2,
+          "frequency": 0.077,
+          "regionFrequency": 0.005,
+          "obsCount": 17,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 5.44,
+          "frequency": 0.059,
+          "regionFrequency": 0.011,
+          "obsCount": 13,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bald Eagle",
+          "score": 2.98,
+          "frequency": 0.281,
+          "regionFrequency": 0.094,
+          "obsCount": 62,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Field Sparrow",
+          "score": 2.27,
+          "frequency": 0.683,
+          "regionFrequency": 0.301,
+          "obsCount": 151,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 5,
+          "lastSeenYear": 2022,
+          "frequency": 0.0226
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 4,
+          "lastSeenYear": 2022,
+          "frequency": 0.0181
+        },
+        {
+          "name": "American Pipit",
+          "obsCount": 3,
+          "lastSeenYear": 2021,
+          "frequency": 0.0136
+        },
+        {
+          "name": "Common Raven",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.009
+        },
+        {
+          "name": "Redhead",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.009
+        }
+      ]
+    },
+    {
+      "hotspotId": "L22304967",
+      "hotspotName": "McFee Park",
+      "seasonalSpeciesCount": 11,
+      "topSpecies": [
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 24.79,
+          "frequency": 0.268,
+          "regionFrequency": 0.011,
+          "obsCount": 11,
+          "yearsPresent": 2,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Great Horned Owl",
+          "score": 18.87,
+          "frequency": 0.122,
+          "regionFrequency": 0.006,
+          "obsCount": 5,
+          "yearsPresent": 3,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Red-headed Woodpecker",
+          "score": 17.54,
+          "frequency": 0.366,
+          "regionFrequency": 0.021,
+          "obsCount": 15,
+          "yearsPresent": 2,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Yellow-bellied Sapsucker",
+          "score": 4.53,
+          "frequency": 0.22,
+          "regionFrequency": 0.048,
+          "obsCount": 9,
+          "yearsPresent": 3,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Pileated Woodpecker",
+          "score": 3.12,
+          "frequency": 0.39,
+          "regionFrequency": 0.125,
+          "obsCount": 16,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        }
+      ],
+      "rareSpecies": []
+    },
+    {
+      "hotspotId": "L17841785",
+      "hotspotName": "Karns Valley Business Park",
+      "seasonalSpeciesCount": 24,
+      "topSpecies": [
+        {
+          "name": "Bobolink",
+          "score": 32.01,
+          "frequency": 0.379,
+          "regionFrequency": 0.012,
+          "obsCount": 89,
+          "yearsPresent": 3,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 6.98,
+          "frequency": 0.957,
+          "regionFrequency": 0.137,
+          "obsCount": 225,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Savannah Sparrow",
+          "score": 6.05,
+          "frequency": 0.387,
+          "regionFrequency": 0.064,
+          "obsCount": 91,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Blue Grosbeak",
+          "score": 5.05,
+          "frequency": 0.353,
+          "regionFrequency": 0.07,
+          "obsCount": 83,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Wilson's Snipe",
+          "score": 4.74,
+          "frequency": 0.098,
+          "regionFrequency": 0.021,
+          "obsCount": 23,
+          "yearsPresent": 3,
+          "yearsTotal": 4
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Dickcissel",
+          "obsCount": 63,
+          "lastSeenYear": 2022,
+          "frequency": 0.2681
+        },
+        {
+          "name": "Lark Sparrow",
+          "obsCount": 8,
+          "lastSeenYear": 2022,
+          "frequency": 0.034
+        },
+        {
+          "name": "American Pipit",
+          "obsCount": 4,
+          "lastSeenYear": 2023,
+          "frequency": 0.017
+        },
+        {
+          "name": "Lincoln's Sparrow",
+          "obsCount": 4,
+          "lastSeenYear": 2024,
+          "frequency": 0.017
+        },
+        {
+          "name": "Vesper Sparrow",
+          "obsCount": 3,
+          "lastSeenYear": 2022,
+          "frequency": 0.0128
+        }
+      ]
+    },
+    {
+      "hotspotId": "L247642",
+      "hotspotName": "Pellissippi State Community College",
+      "seasonalSpeciesCount": 13,
+      "topSpecies": [
+        {
+          "name": "Muscovy Duck",
+          "score": 32.07,
+          "frequency": 0.664,
+          "regionFrequency": 0.021,
+          "obsCount": 253,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bufflehead",
+          "score": 13.88,
+          "frequency": 0.22,
+          "regionFrequency": 0.016,
+          "obsCount": 84,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "House Sparrow",
+          "score": 4.6,
+          "frequency": 0.244,
+          "regionFrequency": 0.053,
+          "obsCount": 93,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Fish Crow",
+          "score": 3.11,
+          "frequency": 0.249,
+          "regionFrequency": 0.08,
+          "obsCount": 95,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Rock Pigeon",
+          "score": 2.91,
+          "frequency": 0.304,
+          "regionFrequency": 0.105,
+          "obsCount": 116,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Black-bellied Whistling-Duck",
+          "obsCount": 66,
+          "lastSeenYear": 2023,
+          "frequency": 0.1732
+        },
+        {
+          "name": "Ruddy Duck",
+          "obsCount": 32,
+          "lastSeenYear": 2022,
+          "frequency": 0.084
+        },
+        {
+          "name": "Greater White-fronted Goose",
+          "obsCount": 20,
+          "lastSeenYear": 2025,
+          "frequency": 0.0525
+        },
+        {
+          "name": "Snow Goose",
+          "obsCount": 16,
+          "lastSeenYear": 2023,
+          "frequency": 0.042
+        },
+        {
+          "name": "Snow x Ross's Goose (hybrid)",
+          "obsCount": 14,
+          "lastSeenYear": 2024,
+          "frequency": 0.0367
+        }
+      ]
+    }
+  ],
+  "summer": [
+    {
+      "hotspotId": "L208776",
+      "hotspotName": "Sharp's Ridge",
+      "seasonalSpeciesCount": 24,
+      "topSpecies": [
+        {
+          "name": "Blackburnian Warbler",
+          "score": 31.39,
+          "frequency": 0.085,
+          "regionFrequency": 0.003,
+          "obsCount": 4,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Cerulean Warbler",
+          "score": 28.77,
+          "frequency": 0.085,
+          "regionFrequency": 0.003,
+          "obsCount": 4,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Black-throated Green Warbler",
+          "score": 26.97,
+          "frequency": 0.106,
+          "regionFrequency": 0.004,
+          "obsCount": 5,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Chestnut-sided Warbler",
+          "score": 23.54,
+          "frequency": 0.064,
+          "regionFrequency": 0.003,
+          "obsCount": 3,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Pine Warbler",
+          "score": 10.66,
+          "frequency": 0.213,
+          "regionFrequency": 0.02,
+          "obsCount": 10,
+          "yearsPresent": 4,
+          "yearsTotal": 9
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Blue-winged Warbler",
+          "obsCount": 3,
+          "lastSeenYear": 2020,
+          "frequency": 0.0638
+        },
+        {
+          "name": "Tennessee Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0213
+        },
+        {
+          "name": "Worm-eating Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0213
+        },
+        {
+          "name": "Canada Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0213
+        },
+        {
+          "name": "Magnolia Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0213
+        }
+      ]
+    },
+    {
+      "hotspotId": "L2454864",
+      "hotspotName": "Concord Park--Boat Launch",
+      "seasonalSpeciesCount": 6,
+      "topSpecies": [
+        {
+          "name": "Black Tern",
+          "score": 55.61,
+          "frequency": 0.439,
+          "regionFrequency": 0.008,
+          "obsCount": 25,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Forster's Tern",
+          "score": 30.95,
+          "frequency": 0.175,
+          "regionFrequency": 0.006,
+          "obsCount": 10,
+          "yearsPresent": 4,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Spotted Sandpiper",
+          "score": 6.62,
+          "frequency": 0.07,
+          "regionFrequency": 0.011,
+          "obsCount": 4,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Osprey",
+          "score": 2.7,
+          "frequency": 0.86,
+          "regionFrequency": 0.319,
+          "obsCount": 49,
+          "yearsPresent": 8,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Double-crested Cormorant",
+          "score": 2.19,
+          "frequency": 0.702,
+          "regionFrequency": 0.32,
+          "obsCount": 40,
+          "yearsPresent": 7,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0175
+        },
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0175
+        }
+      ]
+    },
+    {
+      "hotspotId": "L9010597",
+      "hotspotName": "Corryton Church Pond",
+      "seasonalSpeciesCount": 6,
+      "topSpecies": [
+        {
+          "name": "Mute Swan",
+          "score": 64.14,
+          "frequency": 0.364,
+          "regionFrequency": 0.006,
+          "obsCount": 20,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 3.64,
+          "frequency": 0.255,
+          "regionFrequency": 0.07,
+          "obsCount": 14,
+          "yearsPresent": 6,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Killdeer",
+          "score": 3.21,
+          "frequency": 0.545,
+          "regionFrequency": 0.17,
+          "obsCount": 30,
+          "yearsPresent": 7,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Great Egret",
+          "score": 3.16,
+          "frequency": 0.109,
+          "regionFrequency": 0.035,
+          "obsCount": 6,
+          "yearsPresent": 4,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Mallard",
+          "score": 2.37,
+          "frequency": 0.509,
+          "regionFrequency": 0.215,
+          "obsCount": 28,
+          "yearsPresent": 4,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Upland Sandpiper",
+          "obsCount": 5,
+          "lastSeenYear": 2020,
+          "frequency": 0.0909
+        },
+        {
+          "name": "Solitary Sandpiper",
+          "obsCount": 3,
+          "lastSeenYear": 2024,
+          "frequency": 0.0545
+        },
+        {
+          "name": "Least Sandpiper",
+          "obsCount": 3,
+          "lastSeenYear": 2024,
+          "frequency": 0.0545
+        },
+        {
+          "name": "Semipalmated Sandpiper",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0182
+        }
+      ]
+    },
+    {
+      "hotspotId": "L247642",
+      "hotspotName": "Pellissippi State Community College",
+      "seasonalSpeciesCount": 6,
+      "topSpecies": [
+        {
+          "name": "Muscovy Duck",
+          "score": 60.1,
+          "frequency": 0.8,
+          "regionFrequency": 0.013,
+          "obsCount": 48,
+          "yearsPresent": 7,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Killdeer",
+          "score": 4.31,
+          "frequency": 0.733,
+          "regionFrequency": 0.17,
+          "obsCount": 44,
+          "yearsPresent": 8,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Rock Pigeon",
+          "score": 4.19,
+          "frequency": 0.5,
+          "regionFrequency": 0.119,
+          "obsCount": 30,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Canada Goose",
+          "score": 3.25,
+          "frequency": 0.983,
+          "regionFrequency": 0.302,
+          "obsCount": 59,
+          "yearsPresent": 8,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Cooper's Hawk",
+          "score": 2.02,
+          "frequency": 0.1,
+          "regionFrequency": 0.05,
+          "obsCount": 6,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Eastern Screech-Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0167
+        },
+        {
+          "name": "Least Sandpiper",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0167
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3595761",
+      "hotspotName": "Halls Greenway and Marsh",
+      "seasonalSpeciesCount": 22,
+      "topSpecies": [
+        {
+          "name": "Cerulean Warbler",
+          "score": 18.58,
+          "frequency": 0.055,
+          "regionFrequency": 0.003,
+          "obsCount": 5,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Redstart",
+          "score": 7.53,
+          "frequency": 0.143,
+          "regionFrequency": 0.019,
+          "obsCount": 13,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Gray Catbird",
+          "score": 7.1,
+          "frequency": 0.956,
+          "regionFrequency": 0.135,
+          "obsCount": 87,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Barred Owl",
+          "score": 5.46,
+          "frequency": 0.066,
+          "regionFrequency": 0.012,
+          "obsCount": 6,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Northern House Wren",
+          "score": 4.72,
+          "frequency": 0.297,
+          "regionFrequency": 0.063,
+          "obsCount": 27,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Worm-eating Warbler",
+          "obsCount": 4,
+          "lastSeenYear": 2022,
+          "frequency": 0.044
+        },
+        {
+          "name": "Chestnut-sided Warbler",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.033
+        },
+        {
+          "name": "Blue-winged Warbler",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.022
+        },
+        {
+          "name": "Solitary Sandpiper",
+          "obsCount": 1,
+          "lastSeenYear": 2017,
+          "frequency": 0.011
+        },
+        {
+          "name": "Northern Waterthrush",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.011
+        }
+      ]
+    },
+    {
+      "hotspotId": "L283639",
+      "hotspotName": "Concord Park--The Cove",
+      "seasonalSpeciesCount": 15,
+      "topSpecies": [
+        {
+          "name": "Brown-headed Nuthatch",
+          "score": 20.06,
+          "frequency": 0.519,
+          "regionFrequency": 0.026,
+          "obsCount": 68,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Pine Warbler",
+          "score": 9.56,
+          "frequency": 0.191,
+          "regionFrequency": 0.02,
+          "obsCount": 25,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Chipping Sparrow",
+          "score": 7.79,
+          "frequency": 0.595,
+          "regionFrequency": 0.076,
+          "obsCount": 78,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Mallard",
+          "score": 4.87,
+          "frequency": 1.046,
+          "regionFrequency": 0.215,
+          "obsCount": 137,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Baltimore Oriole",
+          "score": 3.87,
+          "frequency": 0.038,
+          "regionFrequency": 0.01,
+          "obsCount": 5,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Forster's Tern",
+          "obsCount": 7,
+          "lastSeenYear": 2020,
+          "frequency": 0.0534
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 2,
+          "lastSeenYear": 2022,
+          "frequency": 0.0153
+        },
+        {
+          "name": "Pied-billed Grebe",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0153
+        },
+        {
+          "name": "Western Cattle-Egret",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0153
+        },
+        {
+          "name": "Caspian Tern",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0076
+        }
+      ]
+    },
+    {
+      "hotspotId": "L9698130",
+      "hotspotName": "Halls Greenway--Andersonville Pike to Norris Freeway",
+      "seasonalSpeciesCount": 23,
+      "topSpecies": [
+        {
+          "name": "Willow Flycatcher",
+          "score": 13.78,
+          "frequency": 0.258,
+          "regionFrequency": 0.019,
+          "obsCount": 16,
+          "yearsPresent": 3,
+          "yearsTotal": 7
+        },
+        {
+          "name": "Northern Yellow Warbler",
+          "score": 8.04,
+          "frequency": 0.113,
+          "regionFrequency": 0.014,
+          "obsCount": 7,
+          "yearsPresent": 4,
+          "yearsTotal": 7
+        },
+        {
+          "name": "Northern House Wren",
+          "score": 7.95,
+          "frequency": 0.5,
+          "regionFrequency": 0.063,
+          "obsCount": 31,
+          "yearsPresent": 6,
+          "yearsTotal": 7
+        },
+        {
+          "name": "Gray Catbird",
+          "score": 6.95,
+          "frequency": 0.935,
+          "regionFrequency": 0.135,
+          "obsCount": 58,
+          "yearsPresent": 7,
+          "yearsTotal": 7
+        },
+        {
+          "name": "American Redstart",
+          "score": 5.95,
+          "frequency": 0.113,
+          "regionFrequency": 0.019,
+          "obsCount": 7,
+          "yearsPresent": 3,
+          "yearsTotal": 7
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Northern Waterthrush",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0161
+        }
+      ]
+    },
+    {
+      "hotspotId": "L17841785",
+      "hotspotName": "Karns Valley Business Park",
+      "seasonalSpeciesCount": 20,
+      "topSpecies": [
+        {
+          "name": "Willow Flycatcher",
+          "score": 18.35,
+          "frequency": 0.344,
+          "regionFrequency": 0.019,
+          "obsCount": 33,
+          "yearsPresent": 2,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 11.46,
+          "frequency": 0.802,
+          "regionFrequency": 0.07,
+          "obsCount": 77,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "American Kestrel",
+          "score": 7.63,
+          "frequency": 0.406,
+          "regionFrequency": 0.053,
+          "obsCount": 39,
+          "yearsPresent": 3,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Northern House Wren",
+          "score": 3.65,
+          "frequency": 0.229,
+          "regionFrequency": 0.063,
+          "obsCount": 22,
+          "yearsPresent": 3,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Blue Grosbeak",
+          "score": 3.44,
+          "frequency": 0.719,
+          "regionFrequency": 0.209,
+          "obsCount": 69,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Black-bellied Whistling-Duck",
+          "obsCount": 31,
+          "lastSeenYear": 2024,
+          "frequency": 0.3229
+        },
+        {
+          "name": "Dickcissel",
+          "obsCount": 11,
+          "lastSeenYear": 2022,
+          "frequency": 0.1146
+        },
+        {
+          "name": "Baltimore Oriole",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0104
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0104
+        }
+      ]
+    },
+    {
+      "hotspotId": "L25069838",
+      "hotspotName": "Seven Island State Birding Park--Newman's Island",
+      "seasonalSpeciesCount": 22,
+      "topSpecies": [
+        {
+          "name": "Little Blue Heron",
+          "score": 19.06,
+          "frequency": 0.089,
+          "regionFrequency": 0.005,
+          "obsCount": 5,
+          "yearsPresent": 2,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Bald Eagle",
+          "score": 4.21,
+          "frequency": 0.179,
+          "regionFrequency": 0.042,
+          "obsCount": 10,
+          "yearsPresent": 3,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Baltimore Oriole",
+          "score": 3.62,
+          "frequency": 0.036,
+          "regionFrequency": 0.01,
+          "obsCount": 2,
+          "yearsPresent": 2,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Prothonotary Warbler",
+          "score": 3.6,
+          "frequency": 0.339,
+          "regionFrequency": 0.094,
+          "obsCount": 19,
+          "yearsPresent": 3,
+          "yearsTotal": 3
+        },
+        {
+          "name": "Cedar Waxwing",
+          "score": 3.16,
+          "frequency": 0.393,
+          "regionFrequency": 0.124,
+          "obsCount": 22,
+          "yearsPresent": 3,
+          "yearsTotal": 3
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Least Flycatcher",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0357
+        },
+        {
+          "name": "Ovenbird",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0357
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 1,
+          "lastSeenYear": 2023,
+          "frequency": 0.0179
+        }
+      ]
+    },
+    {
+      "hotspotId": "L1166748",
+      "hotspotName": "Melton Hill Park",
+      "seasonalSpeciesCount": 40,
+      "topSpecies": [
+        {
+          "name": "Yellow-throated Warbler",
+          "score": 10.35,
+          "frequency": 0.143,
+          "regionFrequency": 0.014,
+          "obsCount": 17,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 6,
+          "frequency": 0.42,
+          "regionFrequency": 0.07,
+          "obsCount": 50,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Black-and-white Warbler",
+          "score": 4.63,
+          "frequency": 0.235,
+          "regionFrequency": 0.051,
+          "obsCount": 28,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "White-eyed Vireo",
+          "score": 4.38,
+          "frequency": 0.655,
+          "regionFrequency": 0.15,
+          "obsCount": 78,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Pileated Woodpecker",
+          "score": 3.72,
+          "frequency": 0.353,
+          "regionFrequency": 0.095,
+          "obsCount": 42,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Eastern Warbling Vireo",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0084
+        },
+        {
+          "name": "Black-crowned Night Heron",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0084
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2023,
+          "frequency": 0.0084
+        },
+        {
+          "name": "Blue-headed Vireo",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0084
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3174732",
+      "hotspotName": "Gilbert Dr. Marsh",
+      "seasonalSpeciesCount": 13,
+      "topSpecies": [
+        {
+          "name": "Eastern Warbling Vireo",
+          "score": 10.04,
+          "frequency": 0.05,
+          "regionFrequency": 0.005,
+          "obsCount": 5,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Wood Duck",
+          "score": 7.35,
+          "frequency": 0.871,
+          "regionFrequency": 0.119,
+          "obsCount": 88,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Willow Flycatcher",
+          "score": 6.87,
+          "frequency": 0.129,
+          "regionFrequency": 0.019,
+          "obsCount": 13,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Mallard",
+          "score": 3.59,
+          "frequency": 0.772,
+          "regionFrequency": 0.215,
+          "obsCount": 78,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Gray Catbird",
+          "score": 3.31,
+          "frequency": 0.446,
+          "regionFrequency": 0.135,
+          "obsCount": 45,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Black-bellied Whistling-Duck",
+          "obsCount": 7,
+          "lastSeenYear": 2025,
+          "frequency": 0.0693
+        },
+        {
+          "name": "American Coot",
+          "obsCount": 6,
+          "lastSeenYear": 2017,
+          "frequency": 0.0594
+        },
+        {
+          "name": "Pied-billed Grebe",
+          "obsCount": 2,
+          "lastSeenYear": 2024,
+          "frequency": 0.0198
+        },
+        {
+          "name": "American Bittern",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0099
+        },
+        {
+          "name": "Baltimore Oriole",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0099
+        }
+      ]
+    },
+    {
+      "hotspotId": "L4403471",
+      "hotspotName": "UT Gardens",
+      "seasonalSpeciesCount": 7,
+      "topSpecies": [
+        {
+          "name": "Common Nighthawk",
+          "score": 24.61,
+          "frequency": 0.14,
+          "regionFrequency": 0.006,
+          "obsCount": 6,
+          "yearsPresent": 4,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Cliff Swallow",
+          "score": 3.01,
+          "frequency": 0.535,
+          "regionFrequency": 0.178,
+          "obsCount": 23,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "European Starling",
+          "score": 2.27,
+          "frequency": 0.674,
+          "regionFrequency": 0.297,
+          "obsCount": 29,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Song Sparrow",
+          "score": 1.76,
+          "frequency": 0.744,
+          "regionFrequency": 0.423,
+          "obsCount": 32,
+          "yearsPresent": 6,
+          "yearsTotal": 8
+        },
+        {
+          "name": "American Robin",
+          "score": 1.67,
+          "frequency": 0.953,
+          "regionFrequency": 0.572,
+          "obsCount": 41,
+          "yearsPresent": 7,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Black-crowned Night Heron",
+          "obsCount": 1,
+          "lastSeenYear": 2023,
+          "frequency": 0.0233
+        }
+      ]
+    },
+    {
+      "hotspotId": "L282512",
+      "hotspotName": "Ijams Nature Center",
+      "seasonalSpeciesCount": 23,
+      "topSpecies": [
+        {
+          "name": "Barred Owl",
+          "score": 8.66,
+          "frequency": 0.105,
+          "regionFrequency": 0.012,
+          "obsCount": 16,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Hooded Warbler",
+          "score": 5.08,
+          "frequency": 0.118,
+          "regionFrequency": 0.023,
+          "obsCount": 18,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Acadian Flycatcher",
+          "score": 4.17,
+          "frequency": 0.072,
+          "regionFrequency": 0.017,
+          "obsCount": 11,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Black-crowned Night Heron",
+          "score": 3.66,
+          "frequency": 0.026,
+          "regionFrequency": 0.007,
+          "obsCount": 4,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Red-eyed Vireo",
+          "score": 3.32,
+          "frequency": 0.529,
+          "regionFrequency": 0.159,
+          "obsCount": 81,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Black-throated Green Warbler",
+          "obsCount": 2,
+          "lastSeenYear": 2020,
+          "frequency": 0.0131
+        },
+        {
+          "name": "Ovenbird",
+          "obsCount": 2,
+          "lastSeenYear": 2020,
+          "frequency": 0.0131
+        },
+        {
+          "name": "Worm-eating Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2016,
+          "frequency": 0.0065
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2016,
+          "frequency": 0.0065
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 1,
+          "lastSeenYear": 2018,
+          "frequency": 0.0065
+        }
+      ]
+    },
+    {
+      "hotspotId": "L573178",
+      "hotspotName": "Forks of the River WMA",
+      "seasonalSpeciesCount": 18,
+      "topSpecies": [
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 6.1,
+          "frequency": 0.029,
+          "regionFrequency": 0.005,
+          "obsCount": 4,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Worm-eating Warbler",
+          "score": 5.11,
+          "frequency": 0.021,
+          "regionFrequency": 0.004,
+          "obsCount": 3,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Prairie Warbler",
+          "score": 4.37,
+          "frequency": 0.057,
+          "regionFrequency": 0.013,
+          "obsCount": 8,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Fish Crow",
+          "score": 3.61,
+          "frequency": 0.229,
+          "regionFrequency": 0.063,
+          "obsCount": 32,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Red-shouldered Hawk",
+          "score": 3.23,
+          "frequency": 0.264,
+          "regionFrequency": 0.082,
+          "obsCount": 37,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Chuck-will's-widow",
+          "obsCount": 6,
+          "lastSeenYear": 2021,
+          "frequency": 0.0429
+        },
+        {
+          "name": "Blue-headed Vireo",
+          "obsCount": 1,
+          "lastSeenYear": 2019,
+          "frequency": 0.0071
+        },
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0071
+        },
+        {
+          "name": "Kentucky Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2023,
+          "frequency": 0.0071
+        },
+        {
+          "name": "Common Raven",
+          "obsCount": 1,
+          "lastSeenYear": 2023,
+          "frequency": 0.0071
+        }
+      ]
+    },
+    {
+      "hotspotId": "L158240",
+      "hotspotName": "Seven Islands State Birding Park",
+      "seasonalSpeciesCount": 48,
+      "topSpecies": [
+        {
+          "name": "Northern Bobwhite",
+          "score": 3.66,
+          "frequency": 0.412,
+          "regionFrequency": 0.112,
+          "obsCount": 447,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Yellow-breasted Chat",
+          "score": 3.2,
+          "frequency": 0.653,
+          "regionFrequency": 0.204,
+          "obsCount": 709,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bank Swallow",
+          "score": 3.18,
+          "frequency": 0.031,
+          "regionFrequency": 0.01,
+          "obsCount": 34,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Prothonotary Warbler",
+          "score": 3.08,
+          "frequency": 0.29,
+          "regionFrequency": 0.094,
+          "obsCount": 315,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Sharp-shinned Hawk",
+          "score": 2.86,
+          "frequency": 0.012,
+          "regionFrequency": 0.004,
+          "obsCount": 13,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Ross's Goose",
+          "obsCount": 11,
+          "lastSeenYear": 2020,
+          "frequency": 0.0101
+        },
+        {
+          "name": "Ovenbird",
+          "obsCount": 7,
+          "lastSeenYear": 2019,
+          "frequency": 0.0064
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "obsCount": 6,
+          "lastSeenYear": 2022,
+          "frequency": 0.0055
+        },
+        {
+          "name": "Dickcissel",
+          "obsCount": 5,
+          "lastSeenYear": 2025,
+          "frequency": 0.0046
+        },
+        {
+          "name": "Solitary Sandpiper",
+          "obsCount": 5,
+          "lastSeenYear": 2022,
+          "frequency": 0.0046
+        }
+      ]
+    }
+  ],
+  "fall": [
+    {
+      "hotspotId": "L938796",
+      "hotspotName": "UT Plant Sciences Farm (restricted access)",
+      "seasonalSpeciesCount": 66,
+      "topSpecies": [
+        {
+          "name": "Sora",
+          "score": 109.15,
+          "frequency": 0.604,
+          "regionFrequency": 0.006,
+          "obsCount": 29,
+          "yearsPresent": 6,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Marsh Wren",
+          "score": 57.96,
+          "frequency": 0.458,
+          "regionFrequency": 0.008,
+          "obsCount": 22,
+          "yearsPresent": 6,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Bobolink",
+          "score": 40.88,
+          "frequency": 0.375,
+          "regionFrequency": 0.009,
+          "obsCount": 18,
+          "yearsPresent": 6,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Blue-winged Teal",
+          "score": 21.78,
+          "frequency": 0.438,
+          "regionFrequency": 0.02,
+          "obsCount": 21,
+          "yearsPresent": 5,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 13.64,
+          "frequency": 0.729,
+          "regionFrequency": 0.053,
+          "obsCount": 35,
+          "yearsPresent": 8,
+          "yearsTotal": 9
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Peregrine Falcon",
+          "obsCount": 7,
+          "lastSeenYear": 2018,
+          "frequency": 0.1458
+        },
+        {
+          "name": "Sedge Wren",
+          "obsCount": 4,
+          "lastSeenYear": 2025,
+          "frequency": 0.0833
+        },
+        {
+          "name": "Northern Yellow Warbler",
+          "obsCount": 4,
+          "lastSeenYear": 2024,
+          "frequency": 0.0833
+        },
+        {
+          "name": "Black-throated Blue Warbler",
+          "obsCount": 4,
+          "lastSeenYear": 2021,
+          "frequency": 0.0833
+        },
+        {
+          "name": "American Pipit",
+          "obsCount": 3,
+          "lastSeenYear": 2016,
+          "frequency": 0.0625
+        }
+      ]
+    },
+    {
+      "hotspotId": "L9010597",
+      "hotspotName": "Corryton Church Pond",
+      "seasonalSpeciesCount": 11,
+      "topSpecies": [
+        {
+          "name": "Pectoral Sandpiper",
+          "score": 123.98,
+          "frequency": 0.078,
+          "regionFrequency": 0.001,
+          "obsCount": 4,
+          "yearsPresent": 2,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Mute Swan",
+          "score": 65.64,
+          "frequency": 0.529,
+          "regionFrequency": 0.008,
+          "obsCount": 27,
+          "yearsPresent": 5,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Wilson's Snipe",
+          "score": 6.41,
+          "frequency": 0.059,
+          "regionFrequency": 0.009,
+          "obsCount": 3,
+          "yearsPresent": 2,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Blue-winged Teal",
+          "score": 5.86,
+          "frequency": 0.118,
+          "regionFrequency": 0.02,
+          "obsCount": 6,
+          "yearsPresent": 3,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 4.03,
+          "frequency": 0.216,
+          "regionFrequency": 0.053,
+          "obsCount": 11,
+          "yearsPresent": 4,
+          "yearsTotal": 6
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Least Sandpiper",
+          "obsCount": 3,
+          "lastSeenYear": 2020,
+          "frequency": 0.0588
+        },
+        {
+          "name": "Spotted Sandpiper",
+          "obsCount": 3,
+          "lastSeenYear": 2020,
+          "frequency": 0.0588
+        },
+        {
+          "name": "Green-winged Teal",
+          "obsCount": 1,
+          "lastSeenYear": 2019,
+          "frequency": 0.0196
+        },
+        {
+          "name": "Greater Yellowlegs",
+          "obsCount": 1,
+          "lastSeenYear": 2019,
+          "frequency": 0.0196
+        }
+      ]
+    },
+    {
+      "hotspotId": "L2454864",
+      "hotspotName": "Concord Park--Boat Launch",
+      "seasonalSpeciesCount": 13,
+      "topSpecies": [
+        {
+          "name": "Surf Scoter",
+          "score": 39.52,
+          "frequency": 0.031,
+          "regionFrequency": 0.001,
+          "obsCount": 4,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Common Loon",
+          "score": 30.46,
+          "frequency": 0.289,
+          "regionFrequency": 0.009,
+          "obsCount": 37,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Herring Gull",
+          "score": 25.77,
+          "frequency": 0.281,
+          "regionFrequency": 0.011,
+          "obsCount": 36,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Horned Grebe",
+          "score": 15.44,
+          "frequency": 0.117,
+          "regionFrequency": 0.008,
+          "obsCount": 15,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Ruddy Duck",
+          "score": 11.98,
+          "frequency": 0.063,
+          "regionFrequency": 0.005,
+          "obsCount": 8,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Laughing Gull",
+          "obsCount": 30,
+          "lastSeenYear": 2025,
+          "frequency": 0.2344
+        },
+        {
+          "name": "Franklin's Gull",
+          "obsCount": 10,
+          "lastSeenYear": 2025,
+          "frequency": 0.0781
+        },
+        {
+          "name": "Lesser Scaup",
+          "obsCount": 2,
+          "lastSeenYear": 2016,
+          "frequency": 0.0156
+        },
+        {
+          "name": "Forster's Tern",
+          "obsCount": 2,
+          "lastSeenYear": 2024,
+          "frequency": 0.0156
+        },
+        {
+          "name": "Red-breasted Merganser",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0156
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3174732",
+      "hotspotName": "Gilbert Dr. Marsh",
+      "seasonalSpeciesCount": 13,
+      "topSpecies": [
+        {
+          "name": "American Black Duck",
+          "score": 23.77,
+          "frequency": 0.041,
+          "regionFrequency": 0.002,
+          "obsCount": 11,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Northern Pintail",
+          "score": 20.97,
+          "frequency": 0.226,
+          "regionFrequency": 0.011,
+          "obsCount": 60,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Gadwall",
+          "score": 17.89,
+          "frequency": 0.767,
+          "regionFrequency": 0.043,
+          "obsCount": 204,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Ring-necked Duck",
+          "score": 14.44,
+          "frequency": 0.5,
+          "regionFrequency": 0.035,
+          "obsCount": 133,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Northern Shoveler",
+          "score": 12.86,
+          "frequency": 0.124,
+          "regionFrequency": 0.01,
+          "obsCount": 33,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Common Gallinule",
+          "obsCount": 33,
+          "lastSeenYear": 2023,
+          "frequency": 0.1241
+        },
+        {
+          "name": "American Wigeon",
+          "obsCount": 6,
+          "lastSeenYear": 2020,
+          "frequency": 0.0226
+        },
+        {
+          "name": "Lesser Scaup",
+          "obsCount": 3,
+          "lastSeenYear": 2021,
+          "frequency": 0.0113
+        },
+        {
+          "name": "Greater Scaup",
+          "obsCount": 3,
+          "lastSeenYear": 2024,
+          "frequency": 0.0113
+        },
+        {
+          "name": "Redhead",
+          "obsCount": 3,
+          "lastSeenYear": 2020,
+          "frequency": 0.0113
+        }
+      ]
+    },
+    {
+      "hotspotId": "L208776",
+      "hotspotName": "Sharp's Ridge",
+      "seasonalSpeciesCount": 47,
+      "topSpecies": [
+        {
+          "name": "Baltimore Oriole",
+          "score": 15.99,
+          "frequency": 0.094,
+          "regionFrequency": 0.006,
+          "obsCount": 19,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Scarlet Tanager",
+          "score": 11.77,
+          "frequency": 0.335,
+          "regionFrequency": 0.028,
+          "obsCount": 68,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Blue-winged Warbler",
+          "score": 8.9,
+          "frequency": 0.049,
+          "regionFrequency": 0.006,
+          "obsCount": 10,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Red-breasted Nuthatch",
+          "score": 8.59,
+          "frequency": 0.276,
+          "regionFrequency": 0.032,
+          "obsCount": 56,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Pine Warbler",
+          "score": 8.16,
+          "frequency": 0.488,
+          "regionFrequency": 0.06,
+          "obsCount": 99,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Golden-winged Warbler",
+          "obsCount": 8,
+          "lastSeenYear": 2020,
+          "frequency": 0.0394
+        },
+        {
+          "name": "Canada Warbler",
+          "obsCount": 4,
+          "lastSeenYear": 2020,
+          "frequency": 0.0197
+        },
+        {
+          "name": "Worm-eating Warbler",
+          "obsCount": 3,
+          "lastSeenYear": 2023,
+          "frequency": 0.0148
+        },
+        {
+          "name": "Veery",
+          "obsCount": 3,
+          "lastSeenYear": 2021,
+          "frequency": 0.0148
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 2,
+          "lastSeenYear": 2016,
+          "frequency": 0.0099
+        }
+      ]
+    },
+    {
+      "hotspotId": "L16308469",
+      "hotspotName": "Melton Hill Lake--TVA Parcel 65",
+      "seasonalSpeciesCount": 47,
+      "topSpecies": [
+        {
+          "name": "Forster's Tern",
+          "score": 14.52,
+          "frequency": 0.021,
+          "regionFrequency": 0.001,
+          "obsCount": 5,
+          "yearsPresent": 3,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Veery",
+          "score": 9.99,
+          "frequency": 0.054,
+          "regionFrequency": 0.005,
+          "obsCount": 13,
+          "yearsPresent": 4,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Wood Thrush",
+          "score": 8.79,
+          "frequency": 0.157,
+          "regionFrequency": 0.018,
+          "obsCount": 38,
+          "yearsPresent": 3,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Red-breasted Nuthatch",
+          "score": 8.75,
+          "frequency": 0.281,
+          "regionFrequency": 0.032,
+          "obsCount": 68,
+          "yearsPresent": 3,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Least Flycatcher",
+          "score": 7.74,
+          "frequency": 0.066,
+          "regionFrequency": 0.009,
+          "obsCount": 16,
+          "yearsPresent": 2,
+          "yearsTotal": 5
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Canvasback",
+          "obsCount": 9,
+          "lastSeenYear": 2025,
+          "frequency": 0.0372
+        },
+        {
+          "name": "American Wigeon",
+          "obsCount": 5,
+          "lastSeenYear": 2025,
+          "frequency": 0.0207
+        },
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 4,
+          "lastSeenYear": 2022,
+          "frequency": 0.0165
+        },
+        {
+          "name": "Common Loon",
+          "obsCount": 4,
+          "lastSeenYear": 2023,
+          "frequency": 0.0165
+        },
+        {
+          "name": "Sabine's Gull",
+          "obsCount": 4,
+          "lastSeenYear": 2024,
+          "frequency": 0.0165
+        }
+      ]
+    },
+    {
+      "hotspotId": "L2408998",
+      "hotspotName": "Cherokee Farm",
+      "seasonalSpeciesCount": 22,
+      "topSpecies": [
+        {
+          "name": "Wilson's Snipe",
+          "score": 12.78,
+          "frequency": 0.117,
+          "regionFrequency": 0.009,
+          "obsCount": 32,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Pipit",
+          "score": 10.69,
+          "frequency": 0.088,
+          "regionFrequency": 0.008,
+          "obsCount": 24,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bobolink",
+          "score": 9.58,
+          "frequency": 0.088,
+          "regionFrequency": 0.009,
+          "obsCount": 24,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 7.26,
+          "frequency": 0.388,
+          "regionFrequency": 0.053,
+          "obsCount": 106,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Vesper Sparrow",
+          "score": 5.95,
+          "frequency": 0.07,
+          "regionFrequency": 0.012,
+          "obsCount": 19,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "American Golden-Plover",
+          "obsCount": 35,
+          "lastSeenYear": 2021,
+          "frequency": 0.1282
+        },
+        {
+          "name": "Say's Phoebe",
+          "obsCount": 22,
+          "lastSeenYear": 2023,
+          "frequency": 0.0806
+        },
+        {
+          "name": "Nelson's Sparrow",
+          "obsCount": 13,
+          "lastSeenYear": 2018,
+          "frequency": 0.0476
+        },
+        {
+          "name": "Least Sandpiper",
+          "obsCount": 8,
+          "lastSeenYear": 2021,
+          "frequency": 0.0293
+        },
+        {
+          "name": "Clay-colored Sparrow",
+          "obsCount": 3,
+          "lastSeenYear": 2018,
+          "frequency": 0.011
+        }
+      ]
+    },
+    {
+      "hotspotId": "L283639",
+      "hotspotName": "Concord Park--The Cove",
+      "seasonalSpeciesCount": 28,
+      "topSpecies": [
+        {
+          "name": "Brown-headed Nuthatch",
+          "score": 11.85,
+          "frequency": 0.587,
+          "regionFrequency": 0.05,
+          "obsCount": 230,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bonaparte's Gull",
+          "score": 8.52,
+          "frequency": 0.217,
+          "regionFrequency": 0.025,
+          "obsCount": 85,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "American Coot",
+          "score": 6.93,
+          "frequency": 0.403,
+          "regionFrequency": 0.058,
+          "obsCount": 158,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Ring-billed Gull",
+          "score": 6.04,
+          "frequency": 0.408,
+          "regionFrequency": 0.068,
+          "obsCount": 160,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Horned Grebe",
+          "score": 5.71,
+          "frequency": 0.043,
+          "regionFrequency": 0.008,
+          "obsCount": 17,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Laughing Gull",
+          "obsCount": 13,
+          "lastSeenYear": 2025,
+          "frequency": 0.0332
+        },
+        {
+          "name": "Wilson's Snipe",
+          "obsCount": 7,
+          "lastSeenYear": 2025,
+          "frequency": 0.0179
+        },
+        {
+          "name": "Red-breasted Merganser",
+          "obsCount": 6,
+          "lastSeenYear": 2017,
+          "frequency": 0.0153
+        },
+        {
+          "name": "Northern Shoveler",
+          "obsCount": 5,
+          "lastSeenYear": 2022,
+          "frequency": 0.0128
+        },
+        {
+          "name": "Redhead",
+          "obsCount": 4,
+          "lastSeenYear": 2025,
+          "frequency": 0.0102
+        }
+      ]
+    },
+    {
+      "hotspotId": "L17841785",
+      "hotspotName": "Karns Valley Business Park",
+      "seasonalSpeciesCount": 19,
+      "topSpecies": [
+        {
+          "name": "Eastern Meadowlark",
+          "score": 15.08,
+          "frequency": 0.806,
+          "regionFrequency": 0.053,
+          "obsCount": 54,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "American Kestrel",
+          "score": 8.28,
+          "frequency": 0.522,
+          "regionFrequency": 0.063,
+          "obsCount": 35,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Savannah Sparrow",
+          "score": 7.22,
+          "frequency": 0.373,
+          "regionFrequency": 0.052,
+          "obsCount": 25,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        },
+        {
+          "name": "American Pipit",
+          "score": 5.44,
+          "frequency": 0.045,
+          "regionFrequency": 0.008,
+          "obsCount": 3,
+          "yearsPresent": 2,
+          "yearsTotal": 4
+        },
+        {
+          "name": "Blue Grosbeak",
+          "score": 3.77,
+          "frequency": 0.119,
+          "regionFrequency": 0.032,
+          "obsCount": 8,
+          "yearsPresent": 4,
+          "yearsTotal": 4
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Marsh Wren",
+          "obsCount": 7,
+          "lastSeenYear": 2024,
+          "frequency": 0.1045
+        },
+        {
+          "name": "Bobolink",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0149
+        },
+        {
+          "name": "Grasshopper Sparrow",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0149
+        },
+        {
+          "name": "Peregrine Falcon",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0149
+        },
+        {
+          "name": "Yellow-breasted Chat",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0149
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3595761",
+      "hotspotName": "Halls Greenway and Marsh",
+      "seasonalSpeciesCount": 45,
+      "topSpecies": [
+        {
+          "name": "Northern Waterthrush",
+          "score": 9.16,
+          "frequency": 0.143,
+          "regionFrequency": 0.016,
+          "obsCount": 36,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Wilson's Warbler",
+          "score": 7.28,
+          "frequency": 0.052,
+          "regionFrequency": 0.007,
+          "obsCount": 13,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Canada Warbler",
+          "score": 6.3,
+          "frequency": 0.048,
+          "regionFrequency": 0.008,
+          "obsCount": 12,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Chestnut-sided Warbler",
+          "score": 4.75,
+          "frequency": 0.279,
+          "regionFrequency": 0.059,
+          "obsCount": 70,
+          "yearsPresent": 7,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Hooded Warbler",
+          "score": 4.71,
+          "frequency": 0.227,
+          "regionFrequency": 0.048,
+          "obsCount": 57,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Pine Siskin",
+          "obsCount": 5,
+          "lastSeenYear": 2020,
+          "frequency": 0.0199
+        },
+        {
+          "name": "Black-throated Blue Warbler",
+          "obsCount": 5,
+          "lastSeenYear": 2025,
+          "frequency": 0.0199
+        },
+        {
+          "name": "Veery",
+          "obsCount": 4,
+          "lastSeenYear": 2025,
+          "frequency": 0.0159
+        },
+        {
+          "name": "Least Flycatcher",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.012
+        },
+        {
+          "name": "Eastern Warbling Vireo",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.012
+        }
+      ]
+    },
+    {
+      "hotspotId": "L1166748",
+      "hotspotName": "Melton Hill Park",
+      "seasonalSpeciesCount": 49,
+      "topSpecies": [
+        {
+          "name": "Vesper Sparrow",
+          "score": 10.68,
+          "frequency": 0.125,
+          "regionFrequency": 0.012,
+          "obsCount": 26,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Orange-crowned Warbler",
+          "score": 4.56,
+          "frequency": 0.115,
+          "regionFrequency": 0.025,
+          "obsCount": 24,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 4.42,
+          "frequency": 0.077,
+          "regionFrequency": 0.017,
+          "obsCount": 16,
+          "yearsPresent": 5,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Purple Finch",
+          "score": 4.39,
+          "frequency": 0.063,
+          "regionFrequency": 0.014,
+          "obsCount": 13,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Savannah Sparrow",
+          "score": 4.28,
+          "frequency": 0.221,
+          "regionFrequency": 0.052,
+          "obsCount": 46,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Blue-winged Warbler",
+          "obsCount": 3,
+          "lastSeenYear": 2024,
+          "frequency": 0.0144
+        },
+        {
+          "name": "Yellow-breasted Chat",
+          "obsCount": 3,
+          "lastSeenYear": 2020,
+          "frequency": 0.0144
+        },
+        {
+          "name": "Baltimore Oriole",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.0144
+        },
+        {
+          "name": "American Pipit",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.0144
+        },
+        {
+          "name": "Eastern Warbling Vireo",
+          "obsCount": 2,
+          "lastSeenYear": 2019,
+          "frequency": 0.0096
+        }
+      ]
+    },
+    {
+      "hotspotId": "L662127",
+      "hotspotName": "Dead Horse Lake Golf Course",
+      "seasonalSpeciesCount": 6,
+      "topSpecies": [
+        {
+          "name": "Ring-necked Duck",
+          "score": 19.46,
+          "frequency": 0.674,
+          "regionFrequency": 0.035,
+          "obsCount": 31,
+          "yearsPresent": 5,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Merlin",
+          "score": 15.46,
+          "frequency": 0.196,
+          "regionFrequency": 0.013,
+          "obsCount": 9,
+          "yearsPresent": 3,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Pied-billed Grebe",
+          "score": 6.22,
+          "frequency": 0.652,
+          "regionFrequency": 0.105,
+          "obsCount": 30,
+          "yearsPresent": 6,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Mallard",
+          "score": 3.44,
+          "frequency": 0.783,
+          "regionFrequency": 0.228,
+          "obsCount": 36,
+          "yearsPresent": 7,
+          "yearsTotal": 8
+        },
+        {
+          "name": "Killdeer",
+          "score": 2.45,
+          "frequency": 0.478,
+          "regionFrequency": 0.195,
+          "obsCount": 22,
+          "yearsPresent": 6,
+          "yearsTotal": 8
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Canvasback",
+          "obsCount": 15,
+          "lastSeenYear": 2023,
+          "frequency": 0.3261
+        },
+        {
+          "name": "Green-winged Teal",
+          "obsCount": 9,
+          "lastSeenYear": 2022,
+          "frequency": 0.1957
+        },
+        {
+          "name": "Hooded Merganser",
+          "obsCount": 4,
+          "lastSeenYear": 2024,
+          "frequency": 0.087
+        },
+        {
+          "name": "Northern Shoveler",
+          "obsCount": 4,
+          "lastSeenYear": 2024,
+          "frequency": 0.087
+        },
+        {
+          "name": "Mute Swan",
+          "obsCount": 2,
+          "lastSeenYear": 2019,
+          "frequency": 0.0435
+        }
+      ]
+    },
+    {
+      "hotspotId": "L2077692",
+      "hotspotName": "Concord Park--Marina",
+      "seasonalSpeciesCount": 6,
+      "topSpecies": [
+        {
+          "name": "Black-crowned Night Heron",
+          "score": 38.06,
+          "frequency": 0.241,
+          "regionFrequency": 0.006,
+          "obsCount": 13,
+          "yearsPresent": 5,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Ring-billed Gull",
+          "score": 3.02,
+          "frequency": 0.204,
+          "regionFrequency": 0.068,
+          "obsCount": 11,
+          "yearsPresent": 4,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Bonaparte's Gull",
+          "score": 2.18,
+          "frequency": 0.056,
+          "regionFrequency": 0.025,
+          "obsCount": 3,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Magnolia Warbler",
+          "score": 1.78,
+          "frequency": 0.296,
+          "regionFrequency": 0.167,
+          "obsCount": 16,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Double-crested Cormorant",
+          "score": 1.66,
+          "frequency": 0.259,
+          "regionFrequency": 0.157,
+          "obsCount": 14,
+          "yearsPresent": 5,
+          "yearsTotal": 9
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Wilson's Warbler",
+          "obsCount": 4,
+          "lastSeenYear": 2021,
+          "frequency": 0.0741
+        },
+        {
+          "name": "Common Nighthawk",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0185
+        },
+        {
+          "name": "Eastern Warbling Vireo",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0185
+        },
+        {
+          "name": "Northern Yellow Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0185
+        }
+      ]
+    },
+    {
+      "hotspotId": "L247642",
+      "hotspotName": "Pellissippi State Community College",
+      "seasonalSpeciesCount": 6,
+      "topSpecies": [
+        {
+          "name": "Muscovy Duck",
+          "score": 25.78,
+          "frequency": 0.62,
+          "regionFrequency": 0.024,
+          "obsCount": 145,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Bufflehead",
+          "score": 7.95,
+          "frequency": 0.085,
+          "regionFrequency": 0.011,
+          "obsCount": 20,
+          "yearsPresent": 3,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Rock Pigeon",
+          "score": 3.54,
+          "frequency": 0.333,
+          "regionFrequency": 0.094,
+          "obsCount": 78,
+          "yearsPresent": 6,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Canada Goose",
+          "score": 2.84,
+          "frequency": 0.966,
+          "regionFrequency": 0.341,
+          "obsCount": 226,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Mallard",
+          "score": 2.03,
+          "frequency": 0.462,
+          "regionFrequency": 0.228,
+          "obsCount": 108,
+          "yearsPresent": 8,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Eared Grebe",
+          "obsCount": 48,
+          "lastSeenYear": 2022,
+          "frequency": 0.2051
+        },
+        {
+          "name": "Ross's Goose",
+          "obsCount": 18,
+          "lastSeenYear": 2023,
+          "frequency": 0.0769
+        },
+        {
+          "name": "Horned Grebe",
+          "obsCount": 3,
+          "lastSeenYear": 2022,
+          "frequency": 0.0128
+        },
+        {
+          "name": "Bank Swallow",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0043
+        }
+      ]
+    },
+    {
+      "hotspotId": "L503176",
+      "hotspotName": "Lakeshore Park",
+      "seasonalSpeciesCount": 25,
+      "topSpecies": [
+        {
+          "name": "Black-crowned Night Heron",
+          "score": 7.83,
+          "frequency": 0.05,
+          "regionFrequency": 0.006,
+          "obsCount": 17,
+          "yearsPresent": 4,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Merlin",
+          "score": 7.37,
+          "frequency": 0.093,
+          "regionFrequency": 0.013,
+          "obsCount": 32,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Brown-headed Cowbird",
+          "score": 6.88,
+          "frequency": 0.309,
+          "regionFrequency": 0.045,
+          "obsCount": 106,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "House Sparrow",
+          "score": 3.16,
+          "frequency": 0.146,
+          "regionFrequency": 0.046,
+          "obsCount": 50,
+          "yearsPresent": 10,
+          "yearsTotal": 10
+        },
+        {
+          "name": "Black Vulture",
+          "score": 3.13,
+          "frequency": 0.475,
+          "regionFrequency": 0.152,
+          "obsCount": 163,
+          "yearsPresent": 9,
+          "yearsTotal": 10
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Canada Warbler",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.0087
+        },
+        {
+          "name": "Black-throated Blue Warbler",
+          "obsCount": 2,
+          "lastSeenYear": 2020,
+          "frequency": 0.0058
+        },
+        {
+          "name": "Wilson's Snipe",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0058
+        },
+        {
+          "name": "Broad-winged Hawk",
+          "obsCount": 1,
+          "lastSeenYear": 2016,
+          "frequency": 0.0029
+        },
+        {
+          "name": "Northern Yellow Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2020,
+          "frequency": 0.0029
+        }
+      ]
+    }
+  ],
+  "winter": [
+    {
+      "hotspotId": "L938796",
+      "hotspotName": "UT Plant Sciences Farm (restricted access)",
+      "seasonalSpeciesCount": 61,
+      "topSpecies": [
+        {
+          "name": "Sora",
+          "score": 135.39,
+          "frequency": 0.175,
+          "regionFrequency": 0.001,
+          "obsCount": 11,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Marsh Wren",
+          "score": 126.97,
+          "frequency": 0.222,
+          "regionFrequency": 0.002,
+          "obsCount": 14,
+          "yearsPresent": 4,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Wilson's Snipe",
+          "score": 37.86,
+          "frequency": 0.778,
+          "regionFrequency": 0.021,
+          "obsCount": 49,
+          "yearsPresent": 7,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Savannah Sparrow",
+          "score": 20.16,
+          "frequency": 0.873,
+          "regionFrequency": 0.043,
+          "obsCount": 55,
+          "yearsPresent": 8,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 17.23,
+          "frequency": 0.841,
+          "regionFrequency": 0.049,
+          "obsCount": 53,
+          "yearsPresent": 8,
+          "yearsTotal": 9
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Greater White-fronted Goose",
+          "obsCount": 8,
+          "lastSeenYear": 2018,
+          "frequency": 0.127
+        },
+        {
+          "name": "Virginia Rail",
+          "obsCount": 7,
+          "lastSeenYear": 2016,
+          "frequency": 0.1111
+        },
+        {
+          "name": "Sandhill Crane",
+          "obsCount": 3,
+          "lastSeenYear": 2017,
+          "frequency": 0.0476
+        },
+        {
+          "name": "Blue-winged Teal",
+          "obsCount": 3,
+          "lastSeenYear": 2022,
+          "frequency": 0.0476
+        },
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 1,
+          "lastSeenYear": 2016,
+          "frequency": 0.0159
+        }
+      ]
+    },
+    {
+      "hotspotId": "L13784248",
+      "hotspotName": "Keller Bend Park",
+      "seasonalSpeciesCount": 29,
+      "topSpecies": [
+        {
+          "name": "Red-throated Loon",
+          "score": 37.01,
+          "frequency": 0.068,
+          "regionFrequency": 0.002,
+          "obsCount": 6,
+          "yearsPresent": 2,
+          "yearsTotal": 6
+        },
+        {
+          "name": "American White Pelican",
+          "score": 17.62,
+          "frequency": 0.273,
+          "regionFrequency": 0.015,
+          "obsCount": 24,
+          "yearsPresent": 5,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Sandhill Crane",
+          "score": 16.23,
+          "frequency": 0.057,
+          "regionFrequency": 0.004,
+          "obsCount": 5,
+          "yearsPresent": 2,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Red-headed Woodpecker",
+          "score": 14.08,
+          "frequency": 0.284,
+          "regionFrequency": 0.02,
+          "obsCount": 25,
+          "yearsPresent": 4,
+          "yearsTotal": 6
+        },
+        {
+          "name": "Wild Turkey",
+          "score": 4.25,
+          "frequency": 0.023,
+          "regionFrequency": 0.005,
+          "obsCount": 2,
+          "yearsPresent": 2,
+          "yearsTotal": 6
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0227
+        },
+        {
+          "name": "Lesser Black-backed Gull",
+          "obsCount": 2,
+          "lastSeenYear": 2026,
+          "frequency": 0.0227
+        },
+        {
+          "name": "Northern House Wren",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0114
+        }
+      ]
+    },
+    {
+      "hotspotId": "L16308469",
+      "hotspotName": "Melton Hill Lake--TVA Parcel 65",
+      "seasonalSpeciesCount": 31,
+      "topSpecies": [
+        {
+          "name": "Osprey",
+          "score": 14.79,
+          "frequency": 0.236,
+          "regionFrequency": 0.016,
+          "obsCount": 70,
+          "yearsPresent": 4,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Red-breasted Nuthatch",
+          "score": 14.47,
+          "frequency": 0.128,
+          "regionFrequency": 0.009,
+          "obsCount": 38,
+          "yearsPresent": 3,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Mute Swan",
+          "score": 10.36,
+          "frequency": 0.236,
+          "regionFrequency": 0.023,
+          "obsCount": 70,
+          "yearsPresent": 3,
+          "yearsTotal": 5
+        },
+        {
+          "name": "American Wigeon",
+          "score": 10.14,
+          "frequency": 0.162,
+          "regionFrequency": 0.016,
+          "obsCount": 48,
+          "yearsPresent": 5,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Tree Swallow",
+          "score": 9.8,
+          "frequency": 0.138,
+          "regionFrequency": 0.014,
+          "obsCount": 41,
+          "yearsPresent": 2,
+          "yearsTotal": 5
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Tundra Swan",
+          "obsCount": 73,
+          "lastSeenYear": 2024,
+          "frequency": 0.2458
+        },
+        {
+          "name": "Blue-winged Teal",
+          "obsCount": 10,
+          "lastSeenYear": 2025,
+          "frequency": 0.0337
+        },
+        {
+          "name": "Common Raven",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.0101
+        },
+        {
+          "name": "Pine Siskin",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0067
+        },
+        {
+          "name": "Peregrine Falcon",
+          "obsCount": 1,
+          "lastSeenYear": 2022,
+          "frequency": 0.0034
+        }
+      ]
+    },
+    {
+      "hotspotId": "L22304967",
+      "hotspotName": "McFee Park",
+      "seasonalSpeciesCount": 15,
+      "topSpecies": [
+        {
+          "name": "Red-headed Woodpecker",
+          "score": 20.53,
+          "frequency": 0.414,
+          "regionFrequency": 0.02,
+          "obsCount": 41,
+          "yearsPresent": 4,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 18.65,
+          "frequency": 0.333,
+          "regionFrequency": 0.018,
+          "obsCount": 33,
+          "yearsPresent": 4,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Great Horned Owl",
+          "score": 9.22,
+          "frequency": 0.091,
+          "regionFrequency": 0.01,
+          "obsCount": 9,
+          "yearsPresent": 3,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Chipping Sparrow",
+          "score": 7.88,
+          "frequency": 0.232,
+          "regionFrequency": 0.029,
+          "obsCount": 23,
+          "yearsPresent": 4,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Wild Turkey",
+          "score": 7.56,
+          "frequency": 0.04,
+          "regionFrequency": 0.005,
+          "obsCount": 4,
+          "yearsPresent": 2,
+          "yearsTotal": 5
+        }
+      ],
+      "rareSpecies": []
+    },
+    {
+      "hotspotId": "L42403720",
+      "hotspotName": "Eldridge Wetlands",
+      "seasonalSpeciesCount": 29,
+      "topSpecies": [
+        {
+          "name": "Northern Pintail",
+          "score": 23.94,
+          "frequency": 0.362,
+          "regionFrequency": 0.015,
+          "obsCount": 17,
+          "yearsPresent": 2,
+          "yearsTotal": 2
+        },
+        {
+          "name": "American Black Duck",
+          "score": 10.66,
+          "frequency": 0.128,
+          "regionFrequency": 0.012,
+          "obsCount": 6,
+          "yearsPresent": 2,
+          "yearsTotal": 2
+        },
+        {
+          "name": "Swamp Sparrow",
+          "score": 8.35,
+          "frequency": 0.915,
+          "regionFrequency": 0.11,
+          "obsCount": 43,
+          "yearsPresent": 2,
+          "yearsTotal": 2
+        },
+        {
+          "name": "Winter Wren",
+          "score": 4.54,
+          "frequency": 0.383,
+          "regionFrequency": 0.084,
+          "obsCount": 18,
+          "yearsPresent": 2,
+          "yearsTotal": 2
+        },
+        {
+          "name": "Field Sparrow",
+          "score": 4.53,
+          "frequency": 0.66,
+          "regionFrequency": 0.146,
+          "obsCount": 31,
+          "yearsPresent": 2,
+          "yearsTotal": 2
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Pine Siskin",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0213
+        },
+        {
+          "name": "Gray Catbird",
+          "obsCount": 1,
+          "lastSeenYear": 2026,
+          "frequency": 0.0213
+        }
+      ]
+    },
+    {
+      "hotspotId": "L662127",
+      "hotspotName": "Dead Horse Lake Golf Course",
+      "seasonalSpeciesCount": 13,
+      "topSpecies": [
+        {
+          "name": "Canvasback",
+          "score": 14.35,
+          "frequency": 0.153,
+          "regionFrequency": 0.011,
+          "obsCount": 48,
+          "yearsPresent": 7,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Northern Shoveler",
+          "score": 12.44,
+          "frequency": 0.725,
+          "regionFrequency": 0.058,
+          "obsCount": 227,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Redhead",
+          "score": 9.29,
+          "frequency": 0.383,
+          "regionFrequency": 0.041,
+          "obsCount": 120,
+          "yearsPresent": 8,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Ruddy Duck",
+          "score": 8.51,
+          "frequency": 0.166,
+          "regionFrequency": 0.02,
+          "obsCount": 52,
+          "yearsPresent": 5,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Ring-necked Duck",
+          "score": 7.54,
+          "frequency": 0.78,
+          "regionFrequency": 0.103,
+          "obsCount": 244,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Peregrine Falcon",
+          "obsCount": 1,
+          "lastSeenYear": 2017,
+          "frequency": 0.0032
+        }
+      ]
+    },
+    {
+      "hotspotId": "L573178",
+      "hotspotName": "Forks of the River WMA",
+      "seasonalSpeciesCount": 39,
+      "topSpecies": [
+        {
+          "name": "American Woodcock",
+          "score": 18.82,
+          "frequency": 0.383,
+          "regionFrequency": 0.02,
+          "obsCount": 141,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 8.06,
+          "frequency": 0.144,
+          "regionFrequency": 0.018,
+          "obsCount": 53,
+          "yearsPresent": 6,
+          "yearsTotal": 11
+        },
+        {
+          "name": "American Pipit",
+          "score": 6.91,
+          "frequency": 0.082,
+          "regionFrequency": 0.012,
+          "obsCount": 30,
+          "yearsPresent": 5,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Eastern Meadowlark",
+          "score": 6.12,
+          "frequency": 0.299,
+          "regionFrequency": 0.049,
+          "obsCount": 110,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Brown-headed Cowbird",
+          "score": 5.47,
+          "frequency": 0.103,
+          "regionFrequency": 0.019,
+          "obsCount": 38,
+          "yearsPresent": 5,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 8,
+          "lastSeenYear": 2026,
+          "frequency": 0.0217
+        },
+        {
+          "name": "American Barn Owl",
+          "obsCount": 4,
+          "lastSeenYear": 2019,
+          "frequency": 0.0109
+        },
+        {
+          "name": "Pine Siskin",
+          "obsCount": 2,
+          "lastSeenYear": 2023,
+          "frequency": 0.0054
+        },
+        {
+          "name": "Magnolia Warbler",
+          "obsCount": 1,
+          "lastSeenYear": 2021,
+          "frequency": 0.0027
+        },
+        {
+          "name": "American Tree Sparrow",
+          "obsCount": 1,
+          "lastSeenYear": 2023,
+          "frequency": 0.0027
+        }
+      ]
+    },
+    {
+      "hotspotId": "L158240",
+      "hotspotName": "Seven Islands State Birding Park",
+      "seasonalSpeciesCount": 58,
+      "topSpecies": [
+        {
+          "name": "Northern Bobwhite",
+          "score": 10.42,
+          "frequency": 0.04,
+          "regionFrequency": 0.004,
+          "obsCount": 41,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        },
+        {
+          "name": "White-crowned Sparrow",
+          "score": 7.87,
+          "frequency": 0.544,
+          "regionFrequency": 0.069,
+          "obsCount": 553,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Northern Harrier",
+          "score": 7.55,
+          "frequency": 0.173,
+          "regionFrequency": 0.023,
+          "obsCount": 176,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Northern House Wren",
+          "score": 6.67,
+          "frequency": 0.02,
+          "regionFrequency": 0.003,
+          "obsCount": 20,
+          "yearsPresent": 4,
+          "yearsTotal": 11
+        },
+        {
+          "name": "American Kestrel",
+          "score": 5.45,
+          "frequency": 0.342,
+          "regionFrequency": 0.063,
+          "obsCount": 348,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "American Barn Owl",
+          "obsCount": 17,
+          "lastSeenYear": 2024,
+          "frequency": 0.0167
+        },
+        {
+          "name": "Harris's Sparrow",
+          "obsCount": 10,
+          "lastSeenYear": 2018,
+          "frequency": 0.0098
+        },
+        {
+          "name": "Marsh Wren",
+          "obsCount": 5,
+          "lastSeenYear": 2026,
+          "frequency": 0.0049
+        },
+        {
+          "name": "Red-breasted Nuthatch",
+          "obsCount": 5,
+          "lastSeenYear": 2024,
+          "frequency": 0.0049
+        },
+        {
+          "name": "Blue-gray Gnatcatcher",
+          "obsCount": 5,
+          "lastSeenYear": 2022,
+          "frequency": 0.0049
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3174732",
+      "hotspotName": "Gilbert Dr. Marsh",
+      "seasonalSpeciesCount": 16,
+      "topSpecies": [
+        {
+          "name": "Blue-winged Teal",
+          "score": 10.87,
+          "frequency": 0.085,
+          "regionFrequency": 0.008,
+          "obsCount": 64,
+          "yearsPresent": 8,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Ring-necked Duck",
+          "score": 7.39,
+          "frequency": 0.763,
+          "regionFrequency": 0.103,
+          "obsCount": 574,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Northern Shoveler",
+          "score": 7.3,
+          "frequency": 0.426,
+          "regionFrequency": 0.058,
+          "obsCount": 320,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Green-winged Teal",
+          "score": 6.94,
+          "frequency": 0.116,
+          "regionFrequency": 0.017,
+          "obsCount": 87,
+          "yearsPresent": 9,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Gadwall",
+          "score": 6.72,
+          "frequency": 0.961,
+          "regionFrequency": 0.143,
+          "obsCount": 723,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Common Gallinule",
+          "obsCount": 77,
+          "lastSeenYear": 2024,
+          "frequency": 0.1024
+        },
+        {
+          "name": "Virginia Rail",
+          "obsCount": 27,
+          "lastSeenYear": 2026,
+          "frequency": 0.0359
+        },
+        {
+          "name": "Sora",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0027
+        },
+        {
+          "name": "Gray Catbird",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0013
+        },
+        {
+          "name": "Eurasian Collared-Dove",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0013
+        }
+      ]
+    },
+    {
+      "hotspotId": "L270823",
+      "hotspotName": "Walker Springs Park & Ten Mile Creek Greenway",
+      "seasonalSpeciesCount": 29,
+      "topSpecies": [
+        {
+          "name": "Rusty Blackbird",
+          "score": 11.32,
+          "frequency": 0.261,
+          "regionFrequency": 0.023,
+          "obsCount": 98,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Barred Owl",
+          "score": 10.2,
+          "frequency": 0.189,
+          "regionFrequency": 0.019,
+          "obsCount": 71,
+          "yearsPresent": 6,
+          "yearsTotal": 11
+        },
+        {
+          "name": "House Sparrow",
+          "score": 9.62,
+          "frequency": 0.388,
+          "regionFrequency": 0.04,
+          "obsCount": 146,
+          "yearsPresent": 7,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Brown Creeper",
+          "score": 5.91,
+          "frequency": 0.314,
+          "regionFrequency": 0.053,
+          "obsCount": 118,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Red-shouldered Hawk",
+          "score": 4.11,
+          "frequency": 0.481,
+          "regionFrequency": 0.117,
+          "obsCount": 181,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Pine Siskin",
+          "obsCount": 3,
+          "lastSeenYear": 2025,
+          "frequency": 0.008
+        },
+        {
+          "name": "Red-breasted Nuthatch",
+          "obsCount": 2,
+          "lastSeenYear": 2023,
+          "frequency": 0.0053
+        },
+        {
+          "name": "Great Horned Owl",
+          "obsCount": 2,
+          "lastSeenYear": 2023,
+          "frequency": 0.0053
+        },
+        {
+          "name": "Wild Turkey",
+          "obsCount": 2,
+          "lastSeenYear": 2023,
+          "frequency": 0.0053
+        },
+        {
+          "name": "Northern House Wren",
+          "obsCount": 1,
+          "lastSeenYear": 2019,
+          "frequency": 0.0027
+        }
+      ]
+    },
+    {
+      "hotspotId": "L247642",
+      "hotspotName": "Pellissippi State Community College",
+      "seasonalSpeciesCount": 8,
+      "topSpecies": [
+        {
+          "name": "Muscovy Duck",
+          "score": 19.31,
+          "frequency": 0.662,
+          "regionFrequency": 0.034,
+          "obsCount": 356,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Ross's Goose",
+          "score": 12.76,
+          "frequency": 0.275,
+          "regionFrequency": 0.022,
+          "obsCount": 148,
+          "yearsPresent": 6,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Snow Goose",
+          "score": 6.44,
+          "frequency": 0.069,
+          "regionFrequency": 0.011,
+          "obsCount": 37,
+          "yearsPresent": 4,
+          "yearsTotal": 11
+        },
+        {
+          "name": "American Black Duck",
+          "score": 6.21,
+          "frequency": 0.074,
+          "regionFrequency": 0.012,
+          "obsCount": 40,
+          "yearsPresent": 5,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Bufflehead",
+          "score": 5.99,
+          "frequency": 0.437,
+          "regionFrequency": 0.073,
+          "obsCount": 235,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Cackling Goose",
+          "obsCount": 60,
+          "lastSeenYear": 2026,
+          "frequency": 0.1115
+        },
+        {
+          "name": "Greater White-fronted Goose",
+          "obsCount": 12,
+          "lastSeenYear": 2025,
+          "frequency": 0.0223
+        },
+        {
+          "name": "Mallard x American Black Duck (hybrid)",
+          "obsCount": 5,
+          "lastSeenYear": 2024,
+          "frequency": 0.0093
+        },
+        {
+          "name": "Brant",
+          "obsCount": 3,
+          "lastSeenYear": 2017,
+          "frequency": 0.0056
+        },
+        {
+          "name": "Muscovy Duck x Mallard (hybrid)",
+          "obsCount": 2,
+          "lastSeenYear": 2026,
+          "frequency": 0.0037
+        }
+      ]
+    },
+    {
+      "hotspotId": "L17841785",
+      "hotspotName": "Karns Valley Business Park",
+      "seasonalSpeciesCount": 17,
+      "topSpecies": [
+        {
+          "name": "Eastern Meadowlark",
+          "score": 17.63,
+          "frequency": 0.861,
+          "regionFrequency": 0.049,
+          "obsCount": 99,
+          "yearsPresent": 5,
+          "yearsTotal": 5
+        },
+        {
+          "name": "American Kestrel",
+          "score": 10.54,
+          "frequency": 0.661,
+          "regionFrequency": 0.063,
+          "obsCount": 76,
+          "yearsPresent": 5,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Savannah Sparrow",
+          "score": 8.23,
+          "frequency": 0.357,
+          "regionFrequency": 0.043,
+          "obsCount": 41,
+          "yearsPresent": 5,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Wilson's Snipe",
+          "score": 3.39,
+          "frequency": 0.07,
+          "regionFrequency": 0.021,
+          "obsCount": 8,
+          "yearsPresent": 2,
+          "yearsTotal": 5
+        },
+        {
+          "name": "Red-tailed Hawk",
+          "score": 3.04,
+          "frequency": 0.409,
+          "regionFrequency": 0.134,
+          "obsCount": 47,
+          "yearsPresent": 4,
+          "yearsTotal": 5
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Sandhill Crane",
+          "obsCount": 2,
+          "lastSeenYear": 2022,
+          "frequency": 0.0174
+        },
+        {
+          "name": "Greater White-fronted Goose",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0174
+        }
+      ]
+    },
+    {
+      "hotspotId": "L1166748",
+      "hotspotName": "Melton Hill Park",
+      "seasonalSpeciesCount": 41,
+      "topSpecies": [
+        {
+          "name": "Red-breasted Nuthatch",
+          "score": 13.97,
+          "frequency": 0.124,
+          "regionFrequency": 0.009,
+          "obsCount": 21,
+          "yearsPresent": 6,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Northern House Wren",
+          "score": 9.98,
+          "frequency": 0.029,
+          "regionFrequency": 0.003,
+          "obsCount": 5,
+          "yearsPresent": 4,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Eastern Screech-Owl",
+          "score": 4.61,
+          "frequency": 0.082,
+          "regionFrequency": 0.018,
+          "obsCount": 14,
+          "yearsPresent": 4,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Northern Harrier",
+          "score": 4.36,
+          "frequency": 0.1,
+          "regionFrequency": 0.023,
+          "obsCount": 17,
+          "yearsPresent": 7,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Field Sparrow",
+          "score": 4.08,
+          "frequency": 0.594,
+          "regionFrequency": 0.146,
+          "obsCount": 101,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Wild Turkey",
+          "obsCount": 4,
+          "lastSeenYear": 2025,
+          "frequency": 0.0235
+        },
+        {
+          "name": "Sandhill Crane",
+          "obsCount": 2,
+          "lastSeenYear": 2025,
+          "frequency": 0.0118
+        },
+        {
+          "name": "Gray Catbird",
+          "obsCount": 2,
+          "lastSeenYear": 2024,
+          "frequency": 0.0118
+        },
+        {
+          "name": "Common Raven",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0059
+        }
+      ]
+    },
+    {
+      "hotspotId": "L662444",
+      "hotspotName": "Concord Park--Rocky Point",
+      "seasonalSpeciesCount": 7,
+      "topSpecies": [
+        {
+          "name": "Lesser Black-backed Gull",
+          "score": 35.64,
+          "frequency": 0.141,
+          "regionFrequency": 0.004,
+          "obsCount": 12,
+          "yearsPresent": 3,
+          "yearsTotal": 9
+        },
+        {
+          "name": "American Herring Gull",
+          "score": 6.54,
+          "frequency": 0.176,
+          "regionFrequency": 0.027,
+          "obsCount": 15,
+          "yearsPresent": 4,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Rock Pigeon",
+          "score": 2.68,
+          "frequency": 0.247,
+          "regionFrequency": 0.092,
+          "obsCount": 21,
+          "yearsPresent": 6,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Double-crested Cormorant",
+          "score": 2.24,
+          "frequency": 0.247,
+          "regionFrequency": 0.11,
+          "obsCount": 21,
+          "yearsPresent": 4,
+          "yearsTotal": 9
+        },
+        {
+          "name": "Bonaparte's Gull",
+          "score": 1.82,
+          "frequency": 0.224,
+          "regionFrequency": 0.123,
+          "obsCount": 19,
+          "yearsPresent": 5,
+          "yearsTotal": 9
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Sandhill Crane",
+          "obsCount": 4,
+          "lastSeenYear": 2024,
+          "frequency": 0.0471
+        },
+        {
+          "name": "Surf Scoter",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0118
+        },
+        {
+          "name": "White-winged Scoter",
+          "obsCount": 1,
+          "lastSeenYear": 2024,
+          "frequency": 0.0118
+        },
+        {
+          "name": "Snow x Ross's Goose (hybrid)",
+          "obsCount": 1,
+          "lastSeenYear": 2025,
+          "frequency": 0.0118
+        }
+      ]
+    },
+    {
+      "hotspotId": "L3595761",
+      "hotspotName": "Halls Greenway and Marsh",
+      "seasonalSpeciesCount": 33,
+      "topSpecies": [
+        {
+          "name": "Gray Catbird",
+          "score": 18.85,
+          "frequency": 0.028,
+          "regionFrequency": 0.001,
+          "obsCount": 4,
+          "yearsPresent": 4,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Red-shouldered Hawk",
+          "score": 4.09,
+          "frequency": 0.479,
+          "regionFrequency": 0.117,
+          "obsCount": 69,
+          "yearsPresent": 10,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Swamp Sparrow",
+          "score": 3.87,
+          "frequency": 0.424,
+          "regionFrequency": 0.11,
+          "obsCount": 61,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Brown Thrasher",
+          "score": 3.48,
+          "frequency": 0.271,
+          "regionFrequency": 0.078,
+          "obsCount": 39,
+          "yearsPresent": 9,
+          "yearsTotal": 11
+        },
+        {
+          "name": "Winter Wren",
+          "score": 3.21,
+          "frequency": 0.271,
+          "regionFrequency": 0.084,
+          "obsCount": 39,
+          "yearsPresent": 11,
+          "yearsTotal": 11
+        }
+      ],
+      "rareSpecies": [
+        {
+          "name": "Common Yellowthroat",
+          "obsCount": 1,
+          "lastSeenYear": 2018,
+          "frequency": 0.0069
+        }
+      ]
+    }
+  ]
+}
