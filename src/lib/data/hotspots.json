@@ -1,0 +1,660 @@
+[
+  {
+    "id": "L158240",
+    "name": "Seven Islands State Birding Park",
+    "latitude": 35.9472,
+    "longitude": -83.6897,
+    "speciesCount": 219
+  },
+  {
+    "id": "L16308469",
+    "name": "Melton Hill Lake--TVA Parcel 65",
+    "latitude": 35.9871929,
+    "longitude": -84.1773394,
+    "speciesCount": 183
+  },
+  {
+    "id": "L283639",
+    "name": "Concord Park--The Cove",
+    "latitude": 35.8461876,
+    "longitude": -84.1560137,
+    "speciesCount": 182
+  },
+  {
+    "id": "L2408998",
+    "name": "Cherokee Farm",
+    "latitude": 35.9454852,
+    "longitude": -83.9529864,
+    "speciesCount": 176
+  },
+  {
+    "id": "L1166748",
+    "name": "Melton Hill Park",
+    "latitude": 35.9511223,
+    "longitude": -84.2392109,
+    "speciesCount": 172
+  },
+  {
+    "id": "L503176",
+    "name": "Lakeshore Park",
+    "latitude": 35.9223823,
+    "longitude": -83.9909704,
+    "speciesCount": 167
+  },
+  {
+    "id": "L573178",
+    "name": "Forks of the River WMA",
+    "latitude": 35.9567971,
+    "longitude": -83.8484901,
+    "speciesCount": 161
+  },
+  {
+    "id": "L282512",
+    "name": "Ijams Nature Center",
+    "latitude": 35.95637,
+    "longitude": -83.8652945,
+    "speciesCount": 159
+  },
+  {
+    "id": "L3595761",
+    "name": "Halls Greenway and Marsh",
+    "latitude": 36.0831733,
+    "longitude": -83.9241582,
+    "speciesCount": 159
+  },
+  {
+    "id": "L208776",
+    "name": "Sharp's Ridge",
+    "latitude": 36.0049121,
+    "longitude": -83.9397193,
+    "speciesCount": 152
+  },
+  {
+    "id": "L247642",
+    "name": "Pellissippi State Community College",
+    "latitude": 35.9495509,
+    "longitude": -84.165951,
+    "speciesCount": 148
+  },
+  {
+    "id": "L897721",
+    "name": "Sequoyah Park",
+    "latitude": 35.9263879,
+    "longitude": -83.9649868,
+    "speciesCount": 147
+  },
+  {
+    "id": "L25069838",
+    "name": "Seven Island State Birding Park--Newman's Island",
+    "latitude": 35.9480778,
+    "longitude": -83.6979767,
+    "speciesCount": 141
+  },
+  {
+    "id": "L270823",
+    "name": "Walker Springs Park & Ten Mile Creek Greenway",
+    "latitude": 35.9281253,
+    "longitude": -84.069436,
+    "speciesCount": 141
+  },
+  {
+    "id": "L3174732",
+    "name": "Gilbert Dr. Marsh",
+    "latitude": 35.9113139,
+    "longitude": -84.1518134,
+    "speciesCount": 140
+  },
+  {
+    "id": "L2454864",
+    "name": "Concord Park--Boat Launch",
+    "latitude": 35.8615218,
+    "longitude": -84.1270781,
+    "speciesCount": 137
+  },
+  {
+    "id": "L1128626",
+    "name": "Carl Cowan Park and Nature Trail",
+    "latitude": 35.8515439,
+    "longitude": -84.0937757,
+    "speciesCount": 136
+  },
+  {
+    "id": "L2608339",
+    "name": "Concord Park--Ball Fields",
+    "latitude": 35.8493418,
+    "longitude": -84.1588515,
+    "speciesCount": 135
+  },
+  {
+    "id": "L2077692",
+    "name": "Concord Park--Marina",
+    "latitude": 35.8649174,
+    "longitude": -84.1296101,
+    "speciesCount": 135
+  },
+  {
+    "id": "L2608352",
+    "name": "Admiral Farragut Park",
+    "latitude": 35.8531393,
+    "longitude": -84.0865445,
+    "speciesCount": 134
+  },
+  {
+    "id": "L5942742",
+    "name": "Roy Arthur Stormwater Park",
+    "latitude": 35.9966708,
+    "longitude": -84.0872741,
+    "speciesCount": 134
+  },
+  {
+    "id": "L294133",
+    "name": "Third Creek Greenway",
+    "latitude": 35.948412,
+    "longitude": -83.966052,
+    "speciesCount": 133
+  },
+  {
+    "id": "L209824",
+    "name": "Turkey Creek Wetland Park and Greenway",
+    "latitude": 35.9035973,
+    "longitude": -84.1445686,
+    "speciesCount": 130
+  },
+  {
+    "id": "L17841785",
+    "name": "Karns Valley Business Park",
+    "latitude": 35.9727846,
+    "longitude": -84.1323361,
+    "speciesCount": 128
+  },
+  {
+    "id": "L13784248",
+    "name": "Keller Bend Park",
+    "latitude": 35.8350108,
+    "longitude": -84.0565252,
+    "speciesCount": 127
+  },
+  {
+    "id": "L2578773",
+    "name": "Concord Park--Col. Bill Felton Bridge",
+    "latitude": 35.8539263,
+    "longitude": -84.1477021,
+    "speciesCount": 126
+  },
+  {
+    "id": "L1296490",
+    "name": "Victor Ashe Park",
+    "latitude": 35.9822108,
+    "longitude": -83.9980006,
+    "speciesCount": 125
+  },
+  {
+    "id": "L776938",
+    "name": "Ijams Nature Center--Mead's Quarry/ Ross Marble Natural Area",
+    "latitude": 35.9499576,
+    "longitude": -83.8681483,
+    "speciesCount": 123
+  },
+  {
+    "id": "L42403720",
+    "name": "Eldridge Wetlands",
+    "latitude": 35.9510032,
+    "longitude": -84.1201748,
+    "speciesCount": 121
+  },
+  {
+    "id": "L9010597",
+    "name": "Corryton Church Pond",
+    "latitude": 36.1503838,
+    "longitude": -83.7867605,
+    "speciesCount": 120
+  },
+  {
+    "id": "L1139347",
+    "name": "Maloney Road Park",
+    "latitude": 35.9040881,
+    "longitude": -83.9605105,
+    "speciesCount": 119
+  },
+  {
+    "id": "L22304967",
+    "name": "McFee Park",
+    "latitude": 35.8453623,
+    "longitude": -84.1906314,
+    "speciesCount": 117
+  },
+  {
+    "id": "L933286",
+    "name": "House Mountain SNA",
+    "latitude": 36.1078461,
+    "longitude": -83.7659991,
+    "speciesCount": 113
+  },
+  {
+    "id": "L2734840",
+    "name": "Baum's Lake",
+    "latitude": 35.9261974,
+    "longitude": -84.0117967,
+    "speciesCount": 110
+  },
+  {
+    "id": "L662444",
+    "name": "Concord Park--Rocky Point",
+    "latitude": 35.8619264,
+    "longitude": -84.1388369,
+    "speciesCount": 110
+  },
+  {
+    "id": "L248387",
+    "name": "Concord Park--Parkey Strader Loop",
+    "latitude": 35.8622474,
+    "longitude": -84.1231385,
+    "speciesCount": 105
+  },
+  {
+    "id": "L2750044",
+    "name": "Sequoyah Park--Baseball Fields",
+    "latitude": 35.935018,
+    "longitude": -83.9558551,
+    "speciesCount": 104
+  },
+  {
+    "id": "L662127",
+    "name": "Dead Horse Lake Golf Course",
+    "latitude": 35.9198611,
+    "longitude": -84.1084441,
+    "speciesCount": 104
+  },
+  {
+    "id": "L939034",
+    "name": "Eastbridge Business Park",
+    "latitude": 36.0697572,
+    "longitude": -83.732377,
+    "speciesCount": 104
+  },
+  {
+    "id": "L7209055",
+    "name": "Seven Islands State Birding Park--Mutton Hollow Landing",
+    "latitude": 35.9448591,
+    "longitude": -83.697592,
+    "speciesCount": 103
+  },
+  {
+    "id": "L2750024",
+    "name": "Sequoyah Park--Restroom Area",
+    "latitude": 35.9292488,
+    "longitude": -83.974072,
+    "speciesCount": 102
+  },
+  {
+    "id": "L938157",
+    "name": "I. C. King Park",
+    "latitude": 35.8965573,
+    "longitude": -83.9488099,
+    "speciesCount": 101
+  },
+  {
+    "id": "L6304568",
+    "name": "Fort Dickerson Park",
+    "latitude": 35.9468134,
+    "longitude": -83.9163637,
+    "speciesCount": 97
+  },
+  {
+    "id": "L9698130",
+    "name": "Halls Greenway--Andersonville Pike to Norris Freeway",
+    "latitude": 36.0856207,
+    "longitude": -83.9341132,
+    "speciesCount": 97
+  },
+  {
+    "id": "L4201800",
+    "name": "Kemp Fain Ln. Woodcock Field",
+    "latitude": 35.957884,
+    "longitude": -84.1558582,
+    "speciesCount": 96
+  },
+  {
+    "id": "L1125042",
+    "name": "William Hastie Natural Area",
+    "latitude": 35.9322611,
+    "longitude": -83.8763368,
+    "speciesCount": 96
+  },
+  {
+    "id": "L9949320",
+    "name": "Sterchi Hills Park and Greenway",
+    "latitude": 36.0362251,
+    "longitude": -83.9688921,
+    "speciesCount": 93
+  },
+  {
+    "id": "L1560934",
+    "name": "Mayor Bob Leonard Park--Green Trail/Wetland",
+    "latitude": 35.8641622,
+    "longitude": -84.2266988,
+    "speciesCount": 92
+  },
+  {
+    "id": "L13544267",
+    "name": "Collier Preserve",
+    "latitude": 36.0382402,
+    "longitude": -84.0120616,
+    "speciesCount": 91
+  },
+  {
+    "id": "L4225498",
+    "name": "Holston River Park",
+    "latitude": 35.9744876,
+    "longitude": -83.8603639,
+    "speciesCount": 90
+  },
+  {
+    "id": "L2608323",
+    "name": "Concord Park--Public Fishing Piers",
+    "latitude": 35.8579945,
+    "longitude": -84.1466271,
+    "speciesCount": 88
+  },
+  {
+    "id": "L4403471",
+    "name": "UT Gardens",
+    "latitude": 35.9440336,
+    "longitude": -83.9380462,
+    "speciesCount": 88
+  },
+  {
+    "id": "L17630017",
+    "name": "New Harvest Park",
+    "latitude": 36.0402451,
+    "longitude": -83.8835606,
+    "speciesCount": 87
+  },
+  {
+    "id": "L18795558",
+    "name": "Hickory Creek Park",
+    "latitude": 35.8924841,
+    "longitude": -84.2511978,
+    "speciesCount": 84
+  },
+  {
+    "id": "L2263976",
+    "name": "Knoxville Botanical Garden and Arboretum",
+    "latitude": 35.9822234,
+    "longitude": -83.8816667,
+    "speciesCount": 83
+  },
+  {
+    "id": "L5250419",
+    "name": "Guinn Road Park",
+    "latitude": 35.9678331,
+    "longitude": -84.2131448,
+    "speciesCount": 83
+  },
+  {
+    "id": "L3330369",
+    "name": "Northshore Town Center Pond",
+    "latitude": 35.8577527,
+    "longitude": -84.0777683,
+    "speciesCount": 82
+  },
+  {
+    "id": "L17032492",
+    "name": "Bridgemore Subdivision Ponds",
+    "latitude": 35.8509262,
+    "longitude": -84.1982374,
+    "speciesCount": 82
+  },
+  {
+    "id": "L1252020",
+    "name": "Bluegrass Lake",
+    "latitude": 35.865555,
+    "longitude": -84.05791,
+    "speciesCount": 80
+  },
+  {
+    "id": "L20816161",
+    "name": "Historic Ramsey House",
+    "latitude": 35.9668722,
+    "longitude": -83.8231135,
+    "speciesCount": 77
+  },
+  {
+    "id": "L8912904",
+    "name": "Fulton High School",
+    "latitude": 35.9949708,
+    "longitude": -83.9230825,
+    "speciesCount": 77
+  },
+  {
+    "id": "L9696695",
+    "name": "Tommy Schumpert Park",
+    "latitude": 36.0445644,
+    "longitude": -83.9569353,
+    "speciesCount": 76
+  },
+  {
+    "id": "L11011230",
+    "name": "Anchor Park",
+    "latitude": 35.8567063,
+    "longitude": -84.1561571,
+    "speciesCount": 75
+  },
+  {
+    "id": "L1311200",
+    "name": "River Bluff Wildlife Area",
+    "latitude": 35.9401165,
+    "longitude": -83.9269531,
+    "speciesCount": 75
+  },
+  {
+    "id": "L13128889",
+    "name": "West Hills/John Bynon Park & Jean Teague Greenway",
+    "latitude": 35.9306742,
+    "longitude": -84.0465847,
+    "speciesCount": 74
+  },
+  {
+    "id": "L18738800",
+    "name": "Concord Park--Calloway Ridge",
+    "latitude": 35.8585075,
+    "longitude": -84.143286,
+    "speciesCount": 73
+  },
+  {
+    "id": "L480503",
+    "name": "Founders Park at Campbell Station",
+    "latitude": 35.8884214,
+    "longitude": -84.1684248,
+    "speciesCount": 72
+  },
+  {
+    "id": "L17127965",
+    "name": "Will Skelton Greenway--Island Home Park to Ijams Nature Center",
+    "latitude": 35.9605049,
+    "longitude": -83.8741099,
+    "speciesCount": 69
+  },
+  {
+    "id": "L975090",
+    "name": "University of Tennessee--Second Creek",
+    "latitude": 35.958246,
+    "longitude": -83.9236679,
+    "speciesCount": 67
+  },
+  {
+    "id": "L9697870",
+    "name": "Clayton Park",
+    "latitude": 36.081263,
+    "longitude": -83.9322979,
+    "speciesCount": 66
+  },
+  {
+    "id": "L282503",
+    "name": "Knoxville Zoo",
+    "latitude": 35.9991386,
+    "longitude": -83.8858344,
+    "speciesCount": 65
+  },
+  {
+    "id": "L41367729",
+    "name": "NTRC Holding Pond",
+    "latitude": 35.9535326,
+    "longitude": -84.1542979,
+    "speciesCount": 63
+  },
+  {
+    "id": "L16846118",
+    "name": "Westop Woods",
+    "latitude": 35.957362,
+    "longitude": -84.0884496,
+    "speciesCount": 58
+  },
+  {
+    "id": "L17126861",
+    "name": "Island Home Park",
+    "latitude": 35.9612553,
+    "longitude": -83.8840106,
+    "speciesCount": 58
+  },
+  {
+    "id": "L938794",
+    "name": "Westbridge Business Park",
+    "latitude": 35.961812,
+    "longitude": -84.1355298,
+    "speciesCount": 58
+  },
+  {
+    "id": "L9161531",
+    "name": "Suttree Landing Park",
+    "latitude": 35.9613504,
+    "longitude": -83.9062688,
+    "speciesCount": 57
+  },
+  {
+    "id": "L3742360",
+    "name": "High Ground Park",
+    "latitude": 35.9410211,
+    "longitude": -83.9213033,
+    "speciesCount": 54
+  },
+  {
+    "id": "L22256674",
+    "name": "Beverly Park",
+    "latitude": 36.0588434,
+    "longitude": -83.8918435,
+    "speciesCount": 52
+  },
+  {
+    "id": "L19881126",
+    "name": "Neyland Greenway--UT Faculty Club To Third Creek",
+    "latitude": 35.9459362,
+    "longitude": -83.9425381,
+    "speciesCount": 52
+  },
+  {
+    "id": "L17130788",
+    "name": "Stanley Lippencott Ridge Park",
+    "latitude": 35.9493737,
+    "longitude": -83.9049555,
+    "speciesCount": 49
+  },
+  {
+    "id": "L4234012",
+    "name": "Spring Place Park",
+    "latitude": 36.0207615,
+    "longitude": -83.8586587,
+    "speciesCount": 47
+  },
+  {
+    "id": "L1777161",
+    "name": "Helix/Anderson School Trails",
+    "latitude": 35.929436,
+    "longitude": -83.8563018,
+    "speciesCount": 47
+  },
+  {
+    "id": "L10984093",
+    "name": "Deans Woods",
+    "latitude": 35.9223142,
+    "longitude": -83.9476563,
+    "speciesCount": 46
+  },
+  {
+    "id": "L344931",
+    "name": "Turkey Creek Wetland Park--Hospital Area",
+    "latitude": 35.8987338,
+    "longitude": -84.1415405,
+    "speciesCount": 43
+  },
+  {
+    "id": "L18835667",
+    "name": "World's Fair Park",
+    "latitude": 35.9615394,
+    "longitude": -83.9238595,
+    "speciesCount": 42
+  },
+  {
+    "id": "L22251461",
+    "name": "Adair Park & Sue Clancy Greenway",
+    "latitude": 36.0201809,
+    "longitude": -83.9407692,
+    "speciesCount": 40
+  },
+  {
+    "id": "L3556270",
+    "name": "James White Greenway",
+    "latitude": 35.9642123,
+    "longitude": -83.9043489,
+    "speciesCount": 40
+  },
+  {
+    "id": "L41891254",
+    "name": "McBee Ferry Landing Park",
+    "latitude": 36.0562875,
+    "longitude": -83.6985564,
+    "speciesCount": 38
+  },
+  {
+    "id": "L38444455",
+    "name": "stakeout Black-chinned Hummingbird--Westlyn (Dec. 2024)",
+    "latitude": 35.9181972,
+    "longitude": -84.0382872,
+    "speciesCount": 35
+  },
+  {
+    "id": "L45346561",
+    "name": "Baker Creek Preserve",
+    "latitude": 35.9405447,
+    "longitude": -83.8895567,
+    "speciesCount": 33
+  },
+  {
+    "id": "L3160220",
+    "name": "Pellissippi State Community College--Strawberry Plains Campus",
+    "latitude": 36.00159,
+    "longitude": -83.7837231,
+    "speciesCount": 31
+  },
+  {
+    "id": "L3970846",
+    "name": "James Agee Park",
+    "latitude": 35.9605219,
+    "longitude": -83.9300184,
+    "speciesCount": 29
+  },
+  {
+    "id": "L4148111",
+    "name": "Fountain City Lake",
+    "latitude": 36.0352142,
+    "longitude": -83.9329373,
+    "speciesCount": 23
+  },
+  {
+    "id": "L43942362",
+    "name": "Island Pointe Golf Course",
+    "latitude": 35.9572198,
+    "longitude": -83.6724213,
+    "speciesCount": 12
+  }
+]
