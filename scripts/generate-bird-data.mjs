@@ -20,10 +20,12 @@ const OBSERVATION_FILE = path.join(
 const OUTPUT_FILE = path.join(__dirname, '../src/lib/data/seasonal_hotspots.json');
 const HOTSPOTS_OUTPUT_FILE = path.join(__dirname, '../src/lib/data/hotspots.json');
 const STATS_OUTPUT_FILE = path.join(__dirname, '../src/lib/data/stats.json');
+const SPECIES_LOCATIONS_FILE = path.join(__dirname, '../src/lib/data/species_locations.json');
 
 // Constants
 const MIN_COMPLETE_CHECKLISTS = 40; // Hotspot must have at least this many checklists in the season
 const NOTABLE_SCORE_THRESHOLD = 1.5; // Species must be 1.5x more frequent in hotspot than region
+const MAX_SPECIES_SCORE = 15; // Cap score to prevent one rare bird from dominating ranking
 const MIN_YEARS_PRESENT_RATIO = 0.3; // Species must be present in at least 30% of years with data
 const MIN_YEARS_PRESENT_ABSOLUTE = 2; // Species MUST be seen in at least 2 separate years to be Notable
 const RARITY_REGION_FREQ_THRESHOLD = 0.01; // Species seen on < 1% of region checklists is a "Rarity"
@@ -134,6 +136,11 @@ async function processSamplingFile() {
 		const sid = columns[headerMap.get('SAMPLING EVENT IDENTIFIER')];
 		const locId = columns[headerMap.get('LOCALITY ID')];
 		const locName = columns[headerMap.get('LOCALITY')];
+
+		// Filter out restricted access locations
+		const restrictedTerms = ['no access', 'restricted access', 'private property'];
+		if (restrictedTerms.some((term) => locName.toLowerCase().includes(term))) continue;
+
 		const season = getSeason(dateStr);
 
 		// Store valid checklist
@@ -308,8 +315,9 @@ function calculateNotableSpecies() {
 					if (presenceRatio >= MIN_YEARS_PRESENT_RATIO) {
 						const locFreq = count / locTotalChecklists;
 						if (regFreq > 0) {
-							const score = locFreq / regFreq;
+							let score = locFreq / regFreq;
 							if (score > NOTABLE_SCORE_THRESHOLD) {
+								score = Math.min(score, MAX_SPECIES_SCORE);
 								isNotable = true;
 								// Add to Notable List
 								notableSpecies.push({
@@ -344,12 +352,22 @@ function calculateNotableSpecies() {
 				notableSpecies.sort((a, b) => b.score - a.score);
 				rareSpecies.sort((a, b) => b.obsCount - a.obsCount); // Sort rarities by most sightings
 
-				// Calculate a "Hotspot Rank Score" (sum of top 10 notable scores)
-				const rankScore = notableSpecies.slice(0, 10).reduce((sum, s) => sum + s.score, 0);
+				// Calculate a "Hotspot Rank Score"
+				// We sum the scores of ALL notable species to reward depth of quality
+				// (A place with 50 good species is better than a place with 5 amazing ones)
+				const notableScore = notableSpecies.reduce((sum, s) => sum + s.score, 0);
+
+				// Adjust score by seasonal species richness (square root)
+				const richness = speciesCounts.size;
+				const rankScore = notableScore * Math.sqrt(richness || 1);
+
+				const coords = hotspotCoords.get(locId);
 
 				result[seas].push({
 					hotspotId: locId,
 					hotspotName: locName,
+					latitude: coords ? coords.lat : 0,
+					longitude: coords ? coords.lng : 0,
 					rankScore: rankScore,
 					seasonalSpeciesCount: notableSpecies.length,
 					notableSpecies: notableSpecies.slice(0, 5), // Display top 5 notable

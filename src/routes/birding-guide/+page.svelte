@@ -30,7 +30,7 @@
 
 	<!-- Top Birding Locations -->
 	<section class="space-y-6">
-		<h2 class="text-accent text-3xl font-bold">Top Birding Locations</h2>
+		<h2 class="text-accent text-3xl font-bold">Top Overall Birding Locations</h2>
 		<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
 			{#if data?.hotspots && data.hotspots.length > 0}
 				{#each data.hotspots as hotspot (hotspot.id)}
@@ -45,7 +45,15 @@
 							</p>
 							<p>
 								<span class="font-semibold">Coordinates:</span>
-								{hotspot.latitude.toFixed(4)}, {hotspot.longitude.toFixed(4)}
+								<a
+									href="https://www.google.com/maps/search/?api=1&query={hotspot.latitude},{hotspot.longitude}"
+									target="_blank"
+									rel="noreferrer"
+									class="text-accent hover:underline"
+									title="View on Google Maps"
+								>
+									{hotspot.latitude.toFixed(4)}, {hotspot.longitude.toFixed(4)}
+								</a>
 							</p>
 							<p class="mt-3 text-sm">
 								<a
@@ -104,10 +112,29 @@
 					</p>
 				</div>
 			</div>
-			<p class="mt-4 border-t border-gray-200 pt-4 text-sm dark:border-gray-700">
-				<strong>Note:</strong> Newer hotspots with less than 2 years of data may not show "Notable" species
-				yet, as we need multiple years to establish reliability.
-			</p>
+			<div class="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
+				<h3 class="mb-3 text-lg font-bold text-gray-800 dark:text-gray-200">About the Data</h3>
+				<ul class="list-disc space-y-2 pl-5 text-sm text-gray-600 dark:text-gray-400">
+					<li>
+						<strong>Data Currency:</strong>
+						Data is current as of January 2026 (source: eBird.org data download).
+					</li>
+					<li>
+						<strong>Exclusions:</strong> Locations marked as "No Access", "Restricted Access", or "Private
+						Property" are excluded.
+					</li>
+					<li>
+						<strong>New Locations:</strong> Hotspots with less than 2 years of data may rank lower or
+						show fewer notable species until reliability is established.
+					</li>
+					<li>
+						<strong>Ranking Logic:</strong> Hotspots are ranked by a combination of unique species presence
+						(how unique the birds are there relative to the rest of the county) and overall diversity.
+						We cap the "uniqueness" score for any single species to prevent one rare bird from skewing
+						the results, ensuring the top spots are consistently productive.
+					</li>
+				</ul>
+			</div>
 		</div>
 	</section>
 
@@ -122,14 +149,35 @@
 			{#each ['spring', 'summer', 'fall', 'winter'] as seasonKey}
 				{@const typedSeason = seasonKey as 'spring' | 'summer' | 'fall' | 'winter'}
 				{@const seasonData = data?.seasonalHotspots?.[typedSeason] ?? []}
+				{@const seasonDates = {
+					spring: 'March - May',
+					summer: 'June - August',
+					fall: 'September - November',
+					winter: 'December - February'
+				}[typedSeason]}
 				<div>
-					<h3 class="text-accent mb-4 text-2xl font-bold capitalize">{seasonKey}</h3>
+					<h3 class="text-accent mb-4 text-2xl font-bold capitalize">
+						{seasonKey}
+						<span class="ml-2 text-lg font-normal text-gray-500 dark:text-gray-400"
+							>({seasonDates})</span
+						>
+					</h3>
 					<div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 						{#each seasonData as hotspot (hotspot.hotspotId)}
 							<div
 								class="hover:border-accent min-h-32 border p-4 transition-colors duration-200 ease-in-out"
 							>
-								<h4 class="mb-2 font-bold">{hotspot.hotspotName}</h4>
+								<h4 class="mb-2 font-bold">
+									<a
+										href="https://www.google.com/maps/search/?api=1&query={hotspot.latitude},{hotspot.longitude}"
+										target="_blank"
+										rel="noreferrer"
+										class="hover:text-accent hover:underline"
+										title="View on Google Maps"
+									>
+										{hotspot.hotspotName}
+									</a>
+								</h4>
 								<p class="mb-3 text-sm">
 									<span class="font-semibold">Seasonal Species:</span>
 									{hotspot.seasonalSpeciesCount}
@@ -155,7 +203,7 @@
 											{#each hotspot.rareSpecies as species}
 												<li
 													class="truncate"
-													title="{species.name} ({species.obsCount} obs, last {species.lastSeenYear})"
+													title="{species.name} (Observations: {species.obsCount}, Last Observed: {species.lastSeenYear})"
 												>
 													• {species.name}
 													<span class="text-[10px] not-italic opacity-70"

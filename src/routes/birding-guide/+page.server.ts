@@ -23,6 +23,8 @@ interface RareSpecies {
 interface SeasonalHotspot {
 	hotspotId: string;
 	hotspotName: string;
+	latitude: number;
+	longitude: number;
 	seasonalSpeciesCount: number;
 	notableSpecies: NotableSpecies[];
 	rareSpecies?: RareSpecies[];
