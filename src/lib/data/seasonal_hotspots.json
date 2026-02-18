@@ -4,7 +4,7 @@
       "hotspotId": "L938796",
       "hotspotName": "UT Plant Sciences Farm (restricted access)",
       "seasonalSpeciesCount": 68,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Sora",
           "score": 162.9,
@@ -88,7 +88,7 @@
       "hotspotId": "L662127",
       "hotspotName": "Dead Horse Lake Golf Course",
       "seasonalSpeciesCount": 15,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Northern Shoveler",
           "score": 118.85,
@@ -172,7 +172,7 @@
       "hotspotId": "L1125042",
       "hotspotName": "William Hastie Natural Area",
       "seasonalSpeciesCount": 28,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Acadian Flycatcher",
           "score": 59.76,
@@ -238,7 +238,7 @@
       "hotspotId": "L2454864",
       "hotspotName": "Concord Park--Boat Launch",
       "seasonalSpeciesCount": 14,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Horned Grebe",
           "score": 23.33,
@@ -322,7 +322,7 @@
       "hotspotId": "L9010597",
       "hotspotName": "Corryton Church Pond",
       "seasonalSpeciesCount": 17,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Semipalmated Sandpiper",
           "score": 43.4,
@@ -406,7 +406,7 @@
       "hotspotId": "L16308469",
       "hotspotName": "Melton Hill Lake--TVA Parcel 65",
       "seasonalSpeciesCount": 37,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Pectoral Sandpiper",
           "score": 25.81,
@@ -490,7 +490,7 @@
       "hotspotId": "L939034",
       "hotspotName": "Eastbridge Business Park",
       "seasonalSpeciesCount": 17,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Grasshopper Sparrow",
           "score": 42.21,
@@ -574,7 +574,7 @@
       "hotspotId": "L933286",
       "hotspotName": "House Mountain SNA",
       "seasonalSpeciesCount": 19,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Louisiana Waterthrush",
           "score": 25.5,
@@ -640,7 +640,7 @@
       "hotspotId": "L283639",
       "hotspotName": "Concord Park--The Cove",
       "seasonalSpeciesCount": 28,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Brown-headed Nuthatch",
           "score": 14.46,
@@ -724,7 +724,7 @@
       "hotspotId": "L3174732",
       "hotspotName": "Gilbert Dr. Marsh",
       "seasonalSpeciesCount": 23,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Gadwall",
           "score": 25.77,
@@ -808,7 +808,7 @@
       "hotspotId": "L9698130",
       "hotspotName": "Halls Greenway--Andersonville Pike to Norris Freeway",
       "seasonalSpeciesCount": 20,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Willow Flycatcher",
           "score": 51.37,
@@ -861,7 +861,7 @@
       "hotspotId": "L573178",
       "hotspotName": "Forks of the River WMA",
       "seasonalSpeciesCount": 15,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Chuck-will's-widow",
           "score": 50.2,
@@ -945,7 +945,7 @@
       "hotspotId": "L22304967",
       "hotspotName": "McFee Park",
       "seasonalSpeciesCount": 11,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Eastern Screech-Owl",
           "score": 24.79,
@@ -998,7 +998,7 @@
       "hotspotId": "L17841785",
       "hotspotName": "Karns Valley Business Park",
       "seasonalSpeciesCount": 24,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Bobolink",
           "score": 32.01,
@@ -1082,7 +1082,7 @@
       "hotspotId": "L247642",
       "hotspotName": "Pellissippi State Community College",
       "seasonalSpeciesCount": 13,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Muscovy Duck",
           "score": 32.07,
@@ -1168,7 +1168,7 @@
       "hotspotId": "L208776",
       "hotspotName": "Sharp's Ridge",
       "seasonalSpeciesCount": 24,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Blackburnian Warbler",
           "score": 31.39,
@@ -1252,7 +1252,7 @@
       "hotspotId": "L2454864",
       "hotspotName": "Concord Park--Boat Launch",
       "seasonalSpeciesCount": 6,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Black Tern",
           "score": 55.61,
@@ -1318,7 +1318,7 @@
       "hotspotId": "L9010597",
       "hotspotName": "Corryton Church Pond",
       "seasonalSpeciesCount": 6,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Mute Swan",
           "score": 64.14,
@@ -1396,7 +1396,7 @@
       "hotspotId": "L247642",
       "hotspotName": "Pellissippi State Community College",
       "seasonalSpeciesCount": 6,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Muscovy Duck",
           "score": 60.1,
@@ -1462,7 +1462,7 @@
       "hotspotId": "L3595761",
       "hotspotName": "Halls Greenway and Marsh",
       "seasonalSpeciesCount": 22,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Cerulean Warbler",
           "score": 18.58,
@@ -1546,7 +1546,7 @@
       "hotspotId": "L283639",
       "hotspotName": "Concord Park--The Cove",
       "seasonalSpeciesCount": 15,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Brown-headed Nuthatch",
           "score": 20.06,
@@ -1630,7 +1630,7 @@
       "hotspotId": "L9698130",
       "hotspotName": "Halls Greenway--Andersonville Pike to Norris Freeway",
       "seasonalSpeciesCount": 23,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Willow Flycatcher",
           "score": 13.78,
@@ -1690,7 +1690,7 @@
       "hotspotId": "L17841785",
       "hotspotName": "Karns Valley Business Park",
       "seasonalSpeciesCount": 20,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Willow Flycatcher",
           "score": 18.35,
@@ -1768,7 +1768,7 @@
       "hotspotId": "L25069838",
       "hotspotName": "Seven Island State Birding Park--Newman's Island",
       "seasonalSpeciesCount": 22,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Little Blue Heron",
           "score": 19.06,
@@ -1840,7 +1840,7 @@
       "hotspotId": "L1166748",
       "hotspotName": "Melton Hill Park",
       "seasonalSpeciesCount": 40,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Yellow-throated Warbler",
           "score": 10.35,
@@ -1918,7 +1918,7 @@
       "hotspotId": "L3174732",
       "hotspotName": "Gilbert Dr. Marsh",
       "seasonalSpeciesCount": 13,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Eastern Warbling Vireo",
           "score": 10.04,
@@ -2002,7 +2002,7 @@
       "hotspotId": "L4403471",
       "hotspotName": "UT Gardens",
       "seasonalSpeciesCount": 7,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Common Nighthawk",
           "score": 24.61,
@@ -2062,7 +2062,7 @@
       "hotspotId": "L282512",
       "hotspotName": "Ijams Nature Center",
       "seasonalSpeciesCount": 23,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Barred Owl",
           "score": 8.66,
@@ -2146,7 +2146,7 @@
       "hotspotId": "L573178",
       "hotspotName": "Forks of the River WMA",
       "seasonalSpeciesCount": 18,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Eastern Screech-Owl",
           "score": 6.1,
@@ -2230,7 +2230,7 @@
       "hotspotId": "L158240",
       "hotspotName": "Seven Islands State Birding Park",
       "seasonalSpeciesCount": 48,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Northern Bobwhite",
           "score": 3.66,
@@ -2316,7 +2316,7 @@
       "hotspotId": "L938796",
       "hotspotName": "UT Plant Sciences Farm (restricted access)",
       "seasonalSpeciesCount": 66,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Sora",
           "score": 109.15,
@@ -2400,7 +2400,7 @@
       "hotspotId": "L9010597",
       "hotspotName": "Corryton Church Pond",
       "seasonalSpeciesCount": 11,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Pectoral Sandpiper",
           "score": 123.98,
@@ -2478,7 +2478,7 @@
       "hotspotId": "L2454864",
       "hotspotName": "Concord Park--Boat Launch",
       "seasonalSpeciesCount": 13,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Surf Scoter",
           "score": 39.52,
@@ -2562,7 +2562,7 @@
       "hotspotId": "L3174732",
       "hotspotName": "Gilbert Dr. Marsh",
       "seasonalSpeciesCount": 13,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "American Black Duck",
           "score": 23.77,
@@ -2646,7 +2646,7 @@
       "hotspotId": "L208776",
       "hotspotName": "Sharp's Ridge",
       "seasonalSpeciesCount": 47,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Baltimore Oriole",
           "score": 15.99,
@@ -2730,7 +2730,7 @@
       "hotspotId": "L16308469",
       "hotspotName": "Melton Hill Lake--TVA Parcel 65",
       "seasonalSpeciesCount": 47,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Forster's Tern",
           "score": 14.52,
@@ -2814,7 +2814,7 @@
       "hotspotId": "L2408998",
       "hotspotName": "Cherokee Farm",
       "seasonalSpeciesCount": 22,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Wilson's Snipe",
           "score": 12.78,
@@ -2898,7 +2898,7 @@
       "hotspotId": "L283639",
       "hotspotName": "Concord Park--The Cove",
       "seasonalSpeciesCount": 28,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Brown-headed Nuthatch",
           "score": 11.85,
@@ -2982,7 +2982,7 @@
       "hotspotId": "L17841785",
       "hotspotName": "Karns Valley Business Park",
       "seasonalSpeciesCount": 19,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Eastern Meadowlark",
           "score": 15.08,
@@ -3066,7 +3066,7 @@
       "hotspotId": "L3595761",
       "hotspotName": "Halls Greenway and Marsh",
       "seasonalSpeciesCount": 45,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Northern Waterthrush",
           "score": 9.16,
@@ -3150,7 +3150,7 @@
       "hotspotId": "L1166748",
       "hotspotName": "Melton Hill Park",
       "seasonalSpeciesCount": 49,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Vesper Sparrow",
           "score": 10.68,
@@ -3234,7 +3234,7 @@
       "hotspotId": "L662127",
       "hotspotName": "Dead Horse Lake Golf Course",
       "seasonalSpeciesCount": 6,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Ring-necked Duck",
           "score": 19.46,
@@ -3318,7 +3318,7 @@
       "hotspotId": "L2077692",
       "hotspotName": "Concord Park--Marina",
       "seasonalSpeciesCount": 6,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Black-crowned Night Heron",
           "score": 38.06,
@@ -3396,7 +3396,7 @@
       "hotspotId": "L247642",
       "hotspotName": "Pellissippi State Community College",
       "seasonalSpeciesCount": 6,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Muscovy Duck",
           "score": 25.78,
@@ -3474,7 +3474,7 @@
       "hotspotId": "L503176",
       "hotspotName": "Lakeshore Park",
       "seasonalSpeciesCount": 25,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Black-crowned Night Heron",
           "score": 7.83,
@@ -3560,7 +3560,7 @@
       "hotspotId": "L938796",
       "hotspotName": "UT Plant Sciences Farm (restricted access)",
       "seasonalSpeciesCount": 61,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Sora",
           "score": 135.39,
@@ -3644,7 +3644,7 @@
       "hotspotId": "L13784248",
       "hotspotName": "Keller Bend Park",
       "seasonalSpeciesCount": 29,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Red-throated Loon",
           "score": 37.01,
@@ -3716,7 +3716,7 @@
       "hotspotId": "L16308469",
       "hotspotName": "Melton Hill Lake--TVA Parcel 65",
       "seasonalSpeciesCount": 31,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Osprey",
           "score": 14.79,
@@ -3800,7 +3800,7 @@
       "hotspotId": "L22304967",
       "hotspotName": "McFee Park",
       "seasonalSpeciesCount": 15,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Red-headed Woodpecker",
           "score": 20.53,
@@ -3853,7 +3853,7 @@
       "hotspotId": "L42403720",
       "hotspotName": "Eldridge Wetlands",
       "seasonalSpeciesCount": 29,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Northern Pintail",
           "score": 23.94,
@@ -3919,7 +3919,7 @@
       "hotspotId": "L662127",
       "hotspotName": "Dead Horse Lake Golf Course",
       "seasonalSpeciesCount": 13,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Canvasback",
           "score": 14.35,
@@ -3979,7 +3979,7 @@
       "hotspotId": "L573178",
       "hotspotName": "Forks of the River WMA",
       "seasonalSpeciesCount": 39,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "American Woodcock",
           "score": 18.82,
@@ -4063,7 +4063,7 @@
       "hotspotId": "L158240",
       "hotspotName": "Seven Islands State Birding Park",
       "seasonalSpeciesCount": 58,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Northern Bobwhite",
           "score": 10.42,
@@ -4147,7 +4147,7 @@
       "hotspotId": "L3174732",
       "hotspotName": "Gilbert Dr. Marsh",
       "seasonalSpeciesCount": 16,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Blue-winged Teal",
           "score": 10.87,
@@ -4231,7 +4231,7 @@
       "hotspotId": "L270823",
       "hotspotName": "Walker Springs Park & Ten Mile Creek Greenway",
       "seasonalSpeciesCount": 29,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Rusty Blackbird",
           "score": 11.32,
@@ -4315,7 +4315,7 @@
       "hotspotId": "L247642",
       "hotspotName": "Pellissippi State Community College",
       "seasonalSpeciesCount": 8,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Muscovy Duck",
           "score": 19.31,
@@ -4399,7 +4399,7 @@
       "hotspotId": "L17841785",
       "hotspotName": "Karns Valley Business Park",
       "seasonalSpeciesCount": 17,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Eastern Meadowlark",
           "score": 17.63,
@@ -4465,7 +4465,7 @@
       "hotspotId": "L1166748",
       "hotspotName": "Melton Hill Park",
       "seasonalSpeciesCount": 41,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Red-breasted Nuthatch",
           "score": 13.97,
@@ -4543,7 +4543,7 @@
       "hotspotId": "L662444",
       "hotspotName": "Concord Park--Rocky Point",
       "seasonalSpeciesCount": 7,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Lesser Black-backed Gull",
           "score": 35.64,
@@ -4621,7 +4621,7 @@
       "hotspotId": "L3595761",
       "hotspotName": "Halls Greenway and Marsh",
       "seasonalSpeciesCount": 33,
-      "topSpecies": [
+      "notableSpecies": [
         {
           "name": "Gray Catbird",
           "score": 18.85,

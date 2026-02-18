@@ -23,9 +23,9 @@ const STATS_OUTPUT_FILE = path.join(__dirname, '../src/lib/data/stats.json');
 
 // Constants
 const MIN_COMPLETE_CHECKLISTS = 40; // Hotspot must have at least this many checklists in the season
-const ICONIC_SCORE_THRESHOLD = 1.5; // Species must be 1.5x more frequent in hotspot than region
+const NOTABLE_SCORE_THRESHOLD = 1.5; // Species must be 1.5x more frequent in hotspot than region
 const MIN_YEARS_PRESENT_RATIO = 0.3; // Species must be present in at least 30% of years with data
-const MIN_YEARS_PRESENT_ABSOLUTE = 2; // Species MUST be seen in at least 2 separate years to be Iconic
+const MIN_YEARS_PRESENT_ABSOLUTE = 2; // Species MUST be seen in at least 2 separate years to be Notable
 const RARITY_REGION_FREQ_THRESHOLD = 0.01; // Species seen on < 1% of region checklists is a "Rarity"
 const RECENT_YEARS = 10;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -248,8 +248,8 @@ async function processObservationFile() {
 	console.log(`\nObservations processed.`);
 }
 
-function calculateIconicSpecies() {
-	console.log('Calculating Iconic Scores...');
+function calculateNotableSpecies() {
+	console.log('Calculating Notable Species Scores...');
 	const result = { spring: [], summer: [], fall: [], winter: [] };
 	const seasons = ['spring', 'summer', 'fall', 'winter'];
 
@@ -284,7 +284,7 @@ function calculateIconicSpecies() {
 
 			if (!speciesCounts || !speciesYearMap) continue;
 
-			const iconicSpecies = [];
+			const notableSpecies = [];
 			const rareSpecies = [];
 
 			for (const [species, count] of speciesCounts.entries()) {
@@ -294,12 +294,12 @@ function calculateIconicSpecies() {
 				// Rare if seen on < 1% of checklists across the whole county
 				const isRareInRegion = regFreq < RARITY_REGION_FREQ_THRESHOLD;
 
-				// --- Logic Branch: Is it Iconic?
+				// --- Logic Branch: Is it Notable?
 				// 1. Data Consistency Check
 				const yearsPresent = speciesYearMap.get(species)?.size || 0;
 				const presenceRatio = yearsPresent / yearsWithData;
 
-				let isIconic = false;
+				let isNotable = false;
 
 				// Rule: Must be seen in at least 2 separate years (Absolute Consistency)
 				// This filters out "One-Year Wonders" like the Little Blue Heron at Eldridge
@@ -309,10 +309,10 @@ function calculateIconicSpecies() {
 						const locFreq = count / locTotalChecklists;
 						if (regFreq > 0) {
 							const score = locFreq / regFreq;
-							if (score > ICONIC_SCORE_THRESHOLD) {
-								isIconic = true;
-								// Add to Iconic List
-								iconicSpecies.push({
+							if (score > NOTABLE_SCORE_THRESHOLD) {
+								isNotable = true;
+								// Add to Notable List
+								notableSpecies.push({
 									name: species,
 									score: parseFloat(score.toFixed(2)),
 									frequency: parseFloat(locFreq.toFixed(3)),
@@ -326,9 +326,9 @@ function calculateIconicSpecies() {
 					}
 				}
 
-				// If it's NOT Iconic, but it IS Rare, add to Rarities list
-				// (We exclude Iconic birds from the "Rarities" list to avoid duplication)
-				if (!isIconic && isRareInRegion) {
+				// If it's NOT Notable, but it IS Rare (for region), add to Rarities list
+				// (We exclude Notable birds from the "Rarities" list to avoid duplication)
+				if (!isNotable && isRareInRegion) {
 					rareSpecies.push({
 						name: species,
 						// For rarities, we care about "How many times seen?"
@@ -339,20 +339,20 @@ function calculateIconicSpecies() {
 				}
 			}
 
-			if (iconicSpecies.length > 0 || rareSpecies.length > 0) {
+			if (notableSpecies.length > 0 || rareSpecies.length > 0) {
 				// Sort species
-				iconicSpecies.sort((a, b) => b.score - a.score);
+				notableSpecies.sort((a, b) => b.score - a.score);
 				rareSpecies.sort((a, b) => b.obsCount - a.obsCount); // Sort rarities by most sightings
 
-				// Calculate a "Hotspot Rank Score" (sum of top 10 iconic scores)
-				const rankScore = iconicSpecies.slice(0, 10).reduce((sum, s) => sum + s.score, 0);
+				// Calculate a "Hotspot Rank Score" (sum of top 10 notable scores)
+				const rankScore = notableSpecies.slice(0, 10).reduce((sum, s) => sum + s.score, 0);
 
 				result[seas].push({
 					hotspotId: locId,
 					hotspotName: locName,
 					rankScore: rankScore,
-					seasonalSpeciesCount: iconicSpecies.length,
-					topSpecies: iconicSpecies.slice(0, 5), // Display top 5 iconic
+					seasonalSpeciesCount: notableSpecies.length,
+					notableSpecies: notableSpecies.slice(0, 5), // Display top 5 notable
 					rareSpecies: rareSpecies.slice(0, 5) // Display top 5 rarities
 				});
 			}
@@ -373,53 +373,54 @@ function calculateIconicSpecies() {
 // --- Run ---
 
 (async () => {
-    try {
-        await processSamplingFile();
-        await processObservationFile();
-        const seasonalData = calculateIconicSpecies();
+	try {
+		await processSamplingFile();
+		await processObservationFile();
+		const seasonalData = calculateNotableSpecies();
 
-        // Ensure output dir exists
-        const outDir = path.dirname(OUTPUT_FILE);
-        if (!fs.existsSync(outDir)) {
-            fs.mkdirSync(outDir, { recursive: true });
-        }
+		// Ensure output dir exists
+		const outDir = path.dirname(OUTPUT_FILE);
+		if (!fs.existsSync(outDir)) {
+			fs.mkdirSync(outDir, { recursive: true });
+		}
 
-        // 1. Seasonal Hotspots (Existing)
-        fs.writeFileSync(OUTPUT_FILE, JSON.stringify(seasonalData, null, 2));
-        console.log(`Success! Seasonal data written to ${OUTPUT_FILE}`);
+		// 1. Seasonal Hotspots (Existing)
+		fs.writeFileSync(OUTPUT_FILE, JSON.stringify(seasonalData, null, 2));
+		console.log(`Success! Seasonal data written to ${OUTPUT_FILE}`);
 
-        // 2. All Hotspots List (Replacement for fetchKnoxCountyHotspots)
-        const allHotspots = [];
-        for (const [locId, name] of hotspotNames) {
-            const coords = hotspotCoords.get(locId);
-            const speciesSet = hotspotAllTimeSpecies.get(locId);
-            const speciesCount = speciesSet ? speciesSet.size : 0;
-            
-            // Only include relevant hotspots (e.g., > 10 species) to keep file size down
-            if (speciesCount > 10) {
-                 allHotspots.push({
-                    id: locId,
-                    name: name,
-                    latitude: coords ? coords.lat : 0,
-                    longitude: coords ? coords.lng : 0,
-                    speciesCount: speciesCount
-                 });
-            }
-        }
-        allHotspots.sort((a, b) => b.speciesCount - a.speciesCount);
-        
-        fs.writeFileSync(HOTSPOTS_OUTPUT_FILE, JSON.stringify(allHotspots, null, 2));
-        console.log(`Success! Hotspots list written to ${HOTSPOTS_OUTPUT_FILE} (${allHotspots.length} locations)`);
+		// 2. All Hotspots List (Replacement for fetchKnoxCountyHotspots)
+		const allHotspots = [];
+		for (const [locId, name] of hotspotNames) {
+			const coords = hotspotCoords.get(locId);
+			const speciesSet = hotspotAllTimeSpecies.get(locId);
+			const speciesCount = speciesSet ? speciesSet.size : 0;
 
-        // 3. Region Stats (Replacement for fetchRegionStats)
-        const stats = {
-            totalSpecies: regionAllTimeSpecies.size,
-            totalObservations: 0 // Not strictly needed for UI right now
-        };
-        fs.writeFileSync(STATS_OUTPUT_FILE, JSON.stringify(stats, null, 2));
-        console.log(`Success! Stats written to ${STATS_OUTPUT_FILE}`);
+			// Only include relevant hotspots (e.g., > 10 species) to keep file size down
+			if (speciesCount > 10) {
+				allHotspots.push({
+					id: locId,
+					name: name,
+					latitude: coords ? coords.lat : 0,
+					longitude: coords ? coords.lng : 0,
+					speciesCount: speciesCount
+				});
+			}
+		}
+		allHotspots.sort((a, b) => b.speciesCount - a.speciesCount);
 
-    } catch (err) {
-        console.error('Error processing data:', err);
-    }
+		fs.writeFileSync(HOTSPOTS_OUTPUT_FILE, JSON.stringify(allHotspots, null, 2));
+		console.log(
+			`Success! Hotspots list written to ${HOTSPOTS_OUTPUT_FILE} (${allHotspots.length} locations)`
+		);
+
+		// 3. Region Stats (Replacement for fetchRegionStats)
+		const stats = {
+			totalSpecies: regionAllTimeSpecies.size,
+			totalObservations: 0 // Not strictly needed for UI right now
+		};
+		fs.writeFileSync(STATS_OUTPUT_FILE, JSON.stringify(stats, null, 2));
+		console.log(`Success! Stats written to ${STATS_OUTPUT_FILE}`);
+	} catch (err) {
+		console.error('Error processing data:', err);
+	}
 })();

@@ -3,7 +3,7 @@ import hotspotsData from '$lib/data/hotspots.json';
 import statsData from '$lib/data/stats.json';
 
 // Define strict types for the JSON data structure
-interface IconicSpecies {
+interface NotableSpecies {
 	name: string;
 	score: number;
 	frequency: number;
@@ -24,7 +24,7 @@ interface SeasonalHotspot {
 	hotspotId: string;
 	hotspotName: string;
 	seasonalSpeciesCount: number;
-	topSpecies: IconicSpecies[];
+	notableSpecies: NotableSpecies[];
 	rareSpecies?: RareSpecies[];
 }
 
