@@ -5,7 +5,7 @@
       "hotspotName": "Seven Islands State Birding Park",
       "latitude": 35.9472,
       "longitude": -83.6897,
-      "seasonalSpeciesCount": 74,
+      "seasonalSpeciesCount": 75,
       "notableSpecies": [
         {
           "name": "Northern Bobwhite",
@@ -28,9 +28,9 @@
         {
           "name": "White-crowned Sparrow",
           "score": 4.53,
-          "frequency": 0.36,
+          "frequency": 0.359,
           "regionFrequency": 0.079,
-          "obsCount": 856,
+          "obsCount": 854,
           "yearsPresent": 10,
           "yearsTotal": 10
         },
@@ -1347,7 +1347,7 @@
       "hotspotName": "Seven Islands State Birding Park",
       "latitude": 35.9472,
       "longitude": -83.6897,
-      "seasonalSpeciesCount": 48,
+      "seasonalSpeciesCount": 49,
       "notableSpecies": [
         {
           "name": "Northern Bobwhite",
@@ -1932,10 +1932,10 @@
         },
         {
           "name": "Mallard",
-          "score": 4.85,
-          "frequency": 1.046,
-          "regionFrequency": 0.215,
-          "obsCount": 137,
+          "score": 3.96,
+          "frequency": 0.817,
+          "regionFrequency": 0.206,
+          "obsCount": 107,
           "yearsPresent": 10,
           "yearsTotal": 10
         },
@@ -2199,7 +2199,7 @@
         },
         {
           "name": "Common Grackle",
-          "score": 2.69,
+          "score": 2.7,
           "frequency": 0.612,
           "regionFrequency": 0.227,
           "obsCount": 123,
@@ -2276,9 +2276,9 @@
         },
         {
           "name": "Mallard",
-          "score": 3.58,
+          "score": 3.74,
           "frequency": 0.772,
-          "regionFrequency": 0.215,
+          "regionFrequency": 0.206,
           "obsCount": 78,
           "yearsPresent": 10,
           "yearsTotal": 10
@@ -2451,7 +2451,7 @@
         },
         {
           "name": "Northern Flicker",
-          "score": 2.81,
+          "score": 2.82,
           "frequency": 0.295,
           "regionFrequency": 0.105,
           "obsCount": 18,
@@ -2726,7 +2726,7 @@
       "hotspotName": "Melton Hill Park",
       "latitude": 35.9511223,
       "longitude": -84.2392109,
-      "seasonalSpeciesCount": 53,
+      "seasonalSpeciesCount": 54,
       "notableSpecies": [
         {
           "name": "Vesper Sparrow",
@@ -3500,7 +3500,7 @@
       "hotspotName": "Seven Island State Birding Park--Newman's Island",
       "latitude": 35.9480778,
       "longitude": -83.6979767,
-      "seasonalSpeciesCount": 19,
+      "seasonalSpeciesCount": 20,
       "notableSpecies": [
         {
           "name": "Yellow-breasted Chat",
@@ -4240,7 +4240,7 @@
       "hotspotName": "Walker Springs Park & Ten Mile Creek Greenway",
       "latitude": 35.9281253,
       "longitude": -84.069436,
-      "seasonalSpeciesCount": 29,
+      "seasonalSpeciesCount": 30,
       "notableSpecies": [
         {
           "name": "Rusty Blackbird",
@@ -4549,10 +4549,10 @@
         },
         {
           "name": "Green-winged Teal",
-          "score": 7.01,
-          "frequency": 0.116,
+          "score": 6.97,
+          "frequency": 0.114,
           "regionFrequency": 0.016,
-          "obsCount": 87,
+          "obsCount": 86,
           "yearsPresent": 9,
           "yearsTotal": 11
         },

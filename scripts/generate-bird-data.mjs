@@ -32,7 +32,24 @@ const RARITY_REGION_FREQ_THRESHOLD = 0.01; // Species seen on < 1% of region che
 const RECENT_YEARS = 10;
 const CURRENT_YEAR = new Date().getFullYear();
 
+if (process.versions.node.split('.')[0] < 18) {
+	console.error('Node.js 18+ required for fetch API');
+	process.exit(1);
+}
+
 // --- Helper Functions ---
+async function fetchTaxonomy() {
+	console.log('Fetching eBird taxonomy...');
+	const response = await fetch('https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json');
+	if (!response.ok) throw new Error(`Failed to fetch taxonomy: ${response.statusText}`);
+	const taxonomy = await response.json();
+	const codeMap = new Map();
+	for (const taxon of taxonomy) {
+		codeMap.set(taxon.comName, taxon.speciesCode);
+	}
+	console.log(`Taxonomy loaded: ${codeMap.size} species.`);
+	return codeMap;
+}
 
 function getSeason(dateStr) {
 	// dateStr format: YYYY-MM-DD
@@ -79,6 +96,7 @@ const hotspotCoords = new Map();
 // New Global Stats:
 const regionAllTimeSpecies = new Set();
 const hotspotAllTimeSpecies = new Map(); // locId -> Set<Species>
+const speciesCodes = new Map(); // CommonName -> SpeciesCode
 
 // Pass 2: Observation Data
 // Map<Season, Map<Species, Count>>
@@ -192,6 +210,8 @@ async function processObservationFile() {
 		crlfDelay: Infinity
 	});
 
+	// Deduplication set: Set<"ChecklistID|CommonName">
+	const checklistSpeciesSeen = new Set();
 	let headerMap = null;
 	let count = 0;
 
@@ -215,11 +235,26 @@ async function processObservationFile() {
 		// Ignore "spuhs" and slashes
 		if (!commonName || commonName.includes('sp.') || commonName.includes('/')) continue;
 
+		// Deduplication: Ensuring each species is counted only once per checklist
+		const dedupKey = `${sid}|${commonName}`;
+		if (checklistSpeciesSeen.has(dedupKey)) continue;
+		checklistSpeciesSeen.add(dedupKey);
+
 		// --- Update All-Time Stats ---
 		// We know locId exists in hotspotAllTimeSpecies because we initialized it in Pass 1
 		hotspotAllTimeSpecies.get(locId).add(commonName);
 		regionAllTimeSpecies.add(commonName);
 		// -----------------------------
+
+		if (locId === 'L208776' && season === 'spring') {
+			// Debug for Black-throated Green Warbler at Sharp's Ridge
+			/* 
+			const targetSpecies = 'Black-throated Green Warbler';
+			if (commonName === targetSpecies) {
+				console.log(`DEBUG: Found ${targetSpecies} at Sharp's Ridge (SID: ${sid})`);
+			}
+			*/
+		}
 
 		// 1. Region Count
 		const sMap = regionSpeciesCounts[season];
@@ -240,6 +275,7 @@ async function processObservationFile() {
 				winter: new Map()
 			});
 		}
+
 		const hSeasonMap = hotspotSpeciesCounts.get(locId)[season];
 		hSeasonMap.set(commonName, (hSeasonMap.get(commonName) || 0) + 1);
 
@@ -388,13 +424,77 @@ function calculateNotableSpecies() {
 	return result;
 }
 
+function generateSpeciesLocations() {
+	console.log('Generating Species Locations Map...');
+	const result = {};
+	const seasons = ['spring', 'summer', 'fall', 'winter'];
+
+	for (const species of regionAllTimeSpecies) {
+		// Use the map populated from taxonomy fetch
+		const code = speciesCodeMap.get(species) || '';
+
+		result[species] = {
+			code: code,
+			seasons: {
+				spring: [],
+				summer: [],
+				fall: [],
+				winter: []
+			}
+		};
+
+		for (const seas of seasons) {
+			const hotspotsForSeason = [];
+
+			// Find all hotspots that have data for this season
+			for (const [locId, seasonCounts] of hotspotChecklistsPerSeason.entries()) {
+				const totalChecklists = seasonCounts[seas];
+				if (totalChecklists < MIN_COMPLETE_CHECKLISTS) continue;
+
+				// Check if species was seen here
+				const countMap = hotspotSpeciesCounts.get(locId)?.[seas];
+				const count = countMap?.get(species);
+
+				if (count) {
+					const frequency = count / totalChecklists;
+					hotspotsForSeason.push({
+						id: locId,
+						name: hotspotNames.get(locId),
+						frequency: parseFloat(frequency.toFixed(4)) // Keep precision reasonable
+					});
+				}
+			}
+
+			// Sort by frequency descending
+			hotspotsForSeason.sort((a, b) => b.frequency - a.frequency);
+
+			// Keep top 5
+			result[species].seasons[seas] = hotspotsForSeason.slice(0, 5);
+		}
+	}
+
+	// Filter out species with NO data across all seasons to save space?
+	// The regionAllTimeSpecies only includes species seen at least once, but maybe not in a hotspot meeting MIN_COMPLETE_CHECKLISTS.
+	for (const species of Object.keys(result)) {
+		const hasData = seasons.some((seas) => result[species].seasons[seas].length > 0);
+		if (!hasData) {
+			delete result[species];
+		}
+	}
+
+	return result;
+}
+
 // --- Run ---
+let speciesCodeMap = new Map();
 
 (async () => {
 	try {
+		speciesCodeMap = await fetchTaxonomy();
 		await processSamplingFile();
 		await processObservationFile();
 		const seasonalData = calculateNotableSpecies();
+		const speciesLocations = generateSpeciesLocations();
 
 		// Ensure output dir exists
 		const outDir = path.dirname(OUTPUT_FILE);
@@ -438,6 +538,10 @@ function calculateNotableSpecies() {
 		};
 		fs.writeFileSync(STATS_OUTPUT_FILE, JSON.stringify(stats, null, 2));
 		console.log(`Success! Stats written to ${STATS_OUTPUT_FILE}`);
+
+		// 4. Species Locations (New)
+		fs.writeFileSync(SPECIES_LOCATIONS_FILE, JSON.stringify(speciesLocations, null, 2));
+		console.log(`Success! Species locations written to ${SPECIES_LOCATIONS_FILE}`);
 	} catch (err) {
 		console.error('Error processing data:', err);
 	}

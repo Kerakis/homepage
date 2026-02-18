@@ -16,7 +16,7 @@ const OUTPUT_FILE = path.join(PHOTOS_DIR, 'photos.json');
 const LOG_FILE = path.join(process.cwd(), 'photo-processing.log');
 const INATURALIST_API_BASE = 'https://api.inaturalist.org/v1';
 const RATE_LIMIT_DELAY_MS = 1000; // 1 second between requests (60/minute max)
-const INATURALIST_CACHE_FILE = path.join(process.cwd(), 'inaturalist-cache.json');
+const INATURALIST_CACHE_FILE = path.join(process.cwd(), 'src/lib/data/inaturalist-cache.json');
 const THUMBNAIL_WIDTH = 600;
 const MAX_LONG_EDGE = 1800;
 
