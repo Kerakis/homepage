@@ -191,6 +191,11 @@
 	<!-- Top Birding Locations -->
 	<section class="scroll-mt-24 space-y-6" id="top-locations">
 		<h2 class="text-accent text-3xl font-bold">Top Overall Birding Locations</h2>
+		<p class="text-base text-black dark:text-white">
+			Use these hotspots to find the richest species diversity overall. Be sure to compare with the
+			seasonal lists below to find out which locations are best for finding migrants alongside
+			year-round residents.
+		</p>
 		<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
 			{#if data?.hotspots && data.hotspots.length > 0}
 				{#each data.hotspots as hotspot (hotspot.id)}
