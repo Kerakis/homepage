@@ -560,7 +560,7 @@
 {#if showBackToTop}
 	<button
 		on:click={scrollToTop}
-		class="text-accent fixed right-6 bottom-6 z-50 rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+		class="fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center border-2 border-black bg-white text-black shadow-lg transition-colors hover:bg-black hover:text-white dark:border-white dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
 		aria-label="Back to top"
 	>
 		<svg
