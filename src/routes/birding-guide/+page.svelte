@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import WeeklyBarChart from '$lib/components/WeeklyBarChart.svelte';
 
 	export let data;
@@ -50,6 +51,7 @@
 	}
 
 	let showBackToTop = false;
+	let activeSeasonInfo: string | null = null;
 	let innerHeight = 0;
 	let scrollY = 0;
 
@@ -256,12 +258,54 @@
 					winter: 'December - February'
 				}[typedSeason]}
 				<div>
-					<h3 class="text-accent mb-4 text-2xl font-bold capitalize">
-						{seasonKey}
-						<span class="ml-2 text-lg font-normal text-gray-500 dark:text-gray-400"
-							>({seasonDates})</span
-						>
-					</h3>
+					<div
+						class="mb-4 flex items-center justify-between border-b border-gray-200 pb-2 dark:border-gray-700"
+					>
+						<h3 class="text-accent text-2xl font-bold capitalize">
+							{seasonKey}
+							<span class="ml-2 text-lg font-normal text-gray-500 dark:text-gray-400"
+								>({seasonDates})</span
+							>
+						</h3>
+						<div class="relative">
+							<button
+								class="flex h-4 w-4 items-center justify-center rounded-full bg-gray-200 font-serif text-[10px] font-bold text-gray-500 italic transition-all hover:bg-gray-300 hover:text-gray-700 focus:bg-gray-300 focus:text-gray-700 focus:outline-none dark:bg-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-600 dark:hover:text-zinc-200 dark:focus:bg-zinc-600 dark:focus:text-zinc-200"
+								on:mouseenter={() => (activeSeasonInfo = seasonKey)}
+								on:mouseleave={(e) => {
+									activeSeasonInfo = null;
+									e.currentTarget.blur();
+								}}
+								on:focus={() => (activeSeasonInfo = seasonKey)}
+								on:blur={() => (activeSeasonInfo = null)}
+								on:click={(e) => e.currentTarget.focus()}
+								aria-label="How to read seasonal hotspots"
+							>
+								i
+							</button>
+							{#if activeSeasonInfo === seasonKey}
+								<div
+									transition:fade={{ duration: 150 }}
+									class="absolute top-full right-0 z-30 mt-2 w-64 rounded bg-white p-4 shadow-xl ring-1 ring-black/5 dark:bg-zinc-800 dark:ring-white/10"
+								>
+									<div class="space-y-3 text-xs text-gray-600 dark:text-gray-300">
+										<p>
+											<strong class="text-gray-900 dark:text-white">Seasonal Species:</strong>
+											These are the number of birds that you can reasonably expect to see at this hotspot
+											during this season.
+										</p>
+										<p>
+											<strong class="text-gray-900 dark:text-white"
+												>Notable Species (X/Y years):</strong
+											>
+											Indicates consistency. "Seen in 8/10 years" means the species was recorded during
+											this season in 8 of the last 10 years. The total years (Y) may vary if a hotspot
+											lacks data for some years or if the current season hasn't occurred yet.
+										</p>
+									</div>
+								</div>
+							{/if}
+						</div>
+					</div>
 					<div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 						{#each seasonData as hotspot (hotspot.hotspotId)}
 							<div
