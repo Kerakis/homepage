@@ -4,6 +4,7 @@
 
 	const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
 	let showInfo = false;
+	let activeWeek: number | null = null;
 </script>
 
 <div class="group/chart relative mb-8 w-full select-none">
@@ -66,21 +67,39 @@
                 Using aria-label for accessibility. 
                 Week index i is 0-52 (53 weeks).
             -->
-			<div
-				class="group/bar relative flex-1 rounded-[1px] bg-red-500/80 transition-colors hover:bg-red-700 dark:bg-red-500/60 dark:hover:bg-red-300"
+			<button
+				type="button"
+				class="group/bar relative flex-1 rounded-[1px] bg-red-500/80 transition-colors hover:bg-red-700 focus:outline-none dark:bg-red-500/60 dark:hover:bg-red-300 {activeWeek ===
+				i
+					? 'z-10 bg-red-700 dark:bg-red-300'
+					: ''}"
 				style:height="{height}%"
-				role="img"
 				aria-label="Week {i + 1}: {pct.toFixed(1)}% frequency"
+				on:mouseenter={() => (activeWeek = i)}
+				on:mouseleave={(e) => {
+					activeWeek = null;
+					e.currentTarget.blur();
+				}}
+				on:focus={() => (activeWeek = i)}
+				on:blur={() => (activeWeek = null)}
+				on:click={() => (activeWeek = activeWeek === i ? null : i)}
 			>
 				<!-- Tooltip -->
-				<div
-					class="pointer-events-none absolute bottom-[calc(100%+4px)] left-1/2 z-10 hidden -translate-x-1/2 rounded bg-zinc-800 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg group-hover/bar:block dark:bg-zinc-100 dark:text-zinc-900"
-				>
-					<span class="font-mono font-bold">Week {i + 1}</span>
-					<span class="mx-1 text-red-300 dark:text-red-600">|</span>
-					<span>{(freq * 100).toFixed(1)}%</span>
-				</div>
-			</div>
+				{#if activeWeek === i}
+					<div
+						transition:fade={{ duration: 100 }}
+						class="pointer-events-none absolute bottom-[calc(100%+4px)] left-1/2 z-50 -translate-x-1/2 rounded bg-zinc-800 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg dark:bg-zinc-100 dark:text-zinc-900"
+					>
+						<span class="font-mono font-bold">Week {i + 1}</span>
+						<span class="mx-1 text-red-300 dark:text-red-600">|</span>
+						<span>{(freq * 100).toFixed(1)}%</span>
+						<!-- Triangle -->
+						<div
+							class="absolute top-full left-1/2 -mt-px -ml-1 border-4 border-transparent border-t-zinc-800 dark:border-t-zinc-100"
+						></div>
+					</div>
+				{/if}
+			</button>
 		{/each}
 	</div>
 
