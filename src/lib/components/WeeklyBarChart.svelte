@@ -10,11 +10,15 @@
 	<!-- Info Icon -->
 	<div class="absolute -top-6 -right-2 z-20">
 		<button
-			class="focus:ring-accent flex h-4 w-4 items-center justify-center rounded-full bg-gray-200 font-serif text-[10px] font-bold text-gray-500 italic transition-all hover:bg-gray-300 hover:text-gray-700 focus:ring-2 focus:outline-none dark:bg-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-600 dark:hover:text-zinc-200"
+			class="flex h-4 w-4 items-center justify-center rounded-full bg-gray-200 font-serif text-[10px] font-bold text-gray-500 italic transition-all hover:bg-gray-300 hover:text-gray-700 focus:bg-gray-300 focus:text-gray-700 focus:outline-none dark:bg-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-600 dark:hover:text-zinc-200 dark:focus:bg-zinc-600 dark:focus:text-zinc-200"
 			on:mouseenter={() => (showInfo = true)}
-			on:mouseleave={() => (showInfo = false)}
+			on:mouseleave={(e) => {
+				showInfo = false;
+				e.currentTarget.blur();
+			}}
 			on:focus={() => (showInfo = true)}
 			on:blur={() => (showInfo = false)}
+			on:click={(e) => e.currentTarget.focus()}
 			aria-label="Chart Information"
 		>
 			i
