@@ -70,15 +70,41 @@ function getYear(dateStr) {
 	return parseInt(dateStr.split('-')[0], 10);
 }
 
+function getWeek(dateStr) {
+	if (!dateStr) return 0;
+	// Use UTC to avoid timezone shifts affecting date
+	const d = new Date(dateStr);
+	// Adjust to ensure we're looking at the right day regardless of local time interpretation of YYYY-MM-DD
+	// But simple string parsing is safer for simple YYYY-MM-DD
+	const parts = dateStr.split('-');
+	const year = parseInt(parts[0], 10);
+	const month = parseInt(parts[1], 10); // 1-12
+	const day = parseInt(parts[2], 10);
+
+	const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+	const daysInMonth = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+	let dayOfYear = 0;
+	for (let i = 0; i < month - 1; i++) {
+		dayOfYear += daysInMonth[i];
+	}
+	dayOfYear += day;
+
+	// Week 1-53
+	return Math.ceil(dayOfYear / 7);
+}
+
 // --- Data Structures ---
 
 // Pass 1: Sampling Data
-// Map<SamplingEventID, { locId: string, season: string, year: number }>
+// Map<SamplingEventID, { locId: string, season: string, year: number, week: number }>
 const validChecklists = new Map();
 
 // Stats for Denominators
 // Map<Season, TotalRegionChecklists>
 const regionChecklistsPerSeason = { spring: 0, summer: 0, fall: 0, winter: 0 };
+// Map<Week, TotalRegionChecklists>
+const regionChecklistsPerWeek = new Map();
 
 // Map<LocId, Map<Season, count>>
 const hotspotChecklistsPerSeason = new Map();
@@ -106,6 +132,9 @@ const regionSpeciesCounts = {
 	fall: new Map(),
 	winter: new Map()
 };
+
+// Map<Species, Map<Week, Count>>
+const regionSpeciesWeeklyCounts = new Map();
 
 // Map<LocId, Map<Season, Map<Species, Count>>>
 const hotspotSpeciesCounts = new Map();
@@ -160,12 +189,14 @@ async function processSamplingFile() {
 		if (restrictedTerms.some((term) => locName.toLowerCase().includes(term))) continue;
 
 		const season = getSeason(dateStr);
+		const week = getWeek(dateStr);
 
 		// Store valid checklist
-		validChecklists.set(sid, { locId, season, year });
+		validChecklists.set(sid, { locId, season, year, week });
 
 		// Update Region Totals
 		regionChecklistsPerSeason[season]++;
+		regionChecklistsPerWeek.set(week, (regionChecklistsPerWeek.get(week) || 0) + 1);
 
 		// Update Hotspot Totals
 		if (!hotspotChecklistsPerSeason.has(locId)) {
@@ -229,7 +260,7 @@ async function processObservationFile() {
 		const checklistInfo = validChecklists.get(sid);
 		if (!checklistInfo) continue;
 
-		const { locId, season, year } = checklistInfo;
+		const { locId, season, year, week } = checklistInfo;
 		const commonName = columns[headerMap.get('COMMON NAME')];
 
 		// Ignore "spuhs" and slashes
@@ -245,6 +276,13 @@ async function processObservationFile() {
 		hotspotAllTimeSpecies.get(locId).add(commonName);
 		regionAllTimeSpecies.add(commonName);
 		// -----------------------------
+
+		// 0. Weekly Region Stats
+		if (!regionSpeciesWeeklyCounts.has(commonName)) {
+			regionSpeciesWeeklyCounts.set(commonName, new Map());
+		}
+		const wMap = regionSpeciesWeeklyCounts.get(commonName);
+		wMap.set(week, (wMap.get(week) || 0) + 1);
 
 		if (locId === 'L208776' && season === 'spring') {
 			// Debug for Black-throated Green Warbler at Sharp's Ridge
@@ -430,11 +468,22 @@ function generateSpeciesLocations() {
 	const seasons = ['spring', 'summer', 'fall', 'winter'];
 
 	for (const species of regionAllTimeSpecies) {
-		// Use the map populated from taxonomy fetch
 		const code = speciesCodeMap.get(species) || '';
+
+		const weeklyStats = [];
+		for (let w = 1; w <= 53; w++) {
+			const total = regionChecklistsPerWeek.get(w) || 0;
+			if (total === 0) {
+				weeklyStats.push(0);
+				continue;
+			}
+			const count = regionSpeciesWeeklyCounts.get(species)?.get(w) || 0;
+			weeklyStats.push(parseFloat((count / total).toFixed(4)));
+		}
 
 		result[species] = {
 			code: code,
+			weeklyStats: weeklyStats,
 			seasons: {
 				spring: [],
 				summer: [],

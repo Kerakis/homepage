@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
+	import WeeklyBarChart from '$lib/components/WeeklyBarChart.svelte';
 
 	export let data;
 
@@ -285,11 +286,28 @@
 									<p class="font-semibold">Notable Species:</p>
 									<ul class="space-y-0.5 pl-2">
 										{#each hotspot.notableSpecies as species}
-											<li
-												class="truncate"
-												title="{species.name} (Seen in {species.yearsPresent}/{species.yearsTotal} years)"
-											>
-												• {species.name}
+											<li class="relative">
+												<button
+													class="group block w-full cursor-help truncate text-left focus:outline-none"
+													on:mouseleave={(e) => e.currentTarget.blur()}
+													on:click={(e) => e.currentTarget.focus()}
+												>
+													<span class="block truncate">• {species.name}</span>
+													<!-- Tooltip -->
+													<div
+														class="invisible absolute bottom-full left-1/2 z-20 mb-1 w-max min-w-37.5 -translate-x-1/2 rounded bg-gray-900 px-2 py-1 text-center text-xs text-white opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100"
+													>
+														{species.name}
+														<br />
+														<span class="text-gray-300"
+															>(Seen in {species.yearsPresent}/{species.yearsTotal} years)</span
+														>
+														<!-- Triangle -->
+														<div
+															class="absolute top-full left-1/2 -mt-px -ml-1 border-4 border-transparent border-t-gray-900"
+														></div>
+													</div>
+												</button>
 											</li>
 										{/each}
 									</ul>
@@ -300,14 +318,33 @@
 										<p class="font-semibold">Regional Rarities:</p>
 										<ul class="space-y-0.5 pl-2 text-gray-600 italic dark:text-gray-400">
 											{#each hotspot.rareSpecies as species}
-												<li
-													class="truncate"
-													title="{species.name} (Observations: {species.obsCount}, Last Observed: {species.lastSeenYear})"
-												>
-													• {species.name}
-													<span class="text-[10px] not-italic opacity-70"
-														>({species.lastSeenYear})</span
+												<li class="relative">
+													<button
+														class="group block w-full cursor-help truncate text-left focus:outline-none"
+														on:mouseleave={(e) => e.currentTarget.blur()}
+														on:click={(e) => e.currentTarget.focus()}
 													>
+														<span class="block truncate">
+															• {species.name}
+															<span class="text-[10px] not-italic opacity-70"
+																>({species.lastSeenYear})</span
+															>
+														</span>
+														<!-- Tooltip -->
+														<div
+															class="invisible absolute bottom-full left-1/2 z-20 mb-1 w-max min-w-50 -translate-x-1/2 rounded bg-gray-900 px-2 py-1 text-center text-xs text-white not-italic opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100"
+														>
+															{species.name}
+															<br />
+															<span class="text-gray-300"
+																>(Observations: {species.obsCount}, Last Observed: {species.lastSeenYear})</span
+															>
+															<!-- Triangle -->
+															<div
+																class="absolute top-full left-1/2 -mt-px -ml-1 border-4 border-transparent border-t-gray-900"
+															></div>
+														</div>
+													</button>
 												</li>
 											{/each}
 										</ul>
@@ -416,6 +453,10 @@
 								</span>
 							{/if}
 						</div>
+
+						{#if speciesData.weeklyStats}
+							<WeeklyBarChart weeklyStats={speciesData.weeklyStats} />
+						{/if}
 
 						<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
 							{#each ['spring', 'summer', 'fall', 'winter'] as season}
